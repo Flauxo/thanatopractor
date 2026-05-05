@@ -183,6 +183,14 @@ const Engine = (() => {
             }
         }
 
+        // Auto-cremate if 800C
+        if (state.cremaTemp >= 800 && hasUpgrade('crematorium')) {
+            const readyForCrema = state.families.find(f => f.active && f.embalmed && f.wantsCremation && !f.cremated && (f.viewed || f.cooldownDone));
+            if (readyForCrema && typeof Rooms !== 'undefined' && Rooms.doCremation) {
+                Rooms.doCremation(readyForCrema.id);
+            }
+        }
+
         // Paperwork task spawn - higher chance during dead time
         if (activeFams === 0 && waitingFams === 0 && !state.activePaperwork && Math.random() < 0.01 * state.speed && typeof DATA !== 'undefined' && DATA.paperworkTasks) {
             state.activePaperwork = DATA.paperworkTasks[Math.floor(Math.random() * DATA.paperworkTasks.length)];

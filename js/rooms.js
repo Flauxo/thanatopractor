@@ -728,6 +728,12 @@ const Rooms = (() => {
         const needsChapel = family.wantsChapel && Engine.hasUpgrade('chapel') && !family.chapelDone;
         const needsCremation = family.wantsCremation && Engine.hasUpgrade('crematorium') && !family.cremated;
 
+        if (needsCremation && family.embalmed && (family.viewed || family.cooldownDone) && !family.cremationWaitingNotified) {
+            Engine.showToast(`🔥 La familia ${family.deceasedName} está esperando la cremación.`, 'warning');
+            family.cremationWaitingNotified = true;
+            Engine.Notifications.addBadge('crematorium');
+        }
+
         if (!needsViewing && !needsCooldown && !needsChapel && !needsCremation && family.embalmed) {
             if (!family.waitingForTransport) {
                 family.waitingForTransport = true;

@@ -158,7 +158,7 @@ const Engine = (() => {
 
         // Room Badges and Reception Action Alerts
         const activeFams = state.families.filter(f => f.active).length;
-        const waitingFams = state.families.filter(f => f.waitingForTransport).length;
+        const waitingFams = state.families.filter(f => f.active && f.waitingForTransport).length;
         const canReceive = activeFams < state.viewingRooms;
 
         // Hub Badge for Reception

@@ -17,6 +17,34 @@ const Icons = (() => {
     // 12x12 grid definitions for all icons
     const grids = {
         // UI Icons
+        speaker: [
+            "            ",
+            "   PP       ",
+            "   PPP      ",
+            "   PPPP     ",
+            "   PPPPP P  ",
+            "   PPPPP PP ",
+            "   PPPPP P  ",
+            "   PPPP     ",
+            "   PPP      ",
+            "   PP       ",
+            "            ",
+            "            "
+        ],
+        speaker_off: [
+            "            ",
+            "   PP       ",
+            "   PPP    R ",
+            "   PPPP  R  ",
+            "   PPPPP R  ",
+            "   PPPPP  R ",
+            "   PPPPP R  ",
+            "   PPPP  R  ",
+            "   PPP    R ",
+            "   PP       ",
+            "            ",
+            "            "
+        ],
         bell: [
             "            ",
             "            ",

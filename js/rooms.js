@@ -157,19 +157,18 @@ const Rooms = (() => {
                 Audio8Bit.SFX.click();
                 showEmbalming();
             };
-
-                const doneCount = Object.values(embalmTasks).filter(v => v).length;
-                const penalty = (4 - doneCount) * -3;
-                const rollBtn = document.getElementById('btn-embalm-roll');
-                
-                if (doneCount > 0) {
-                    rollBtn.style.display = 'block';
-                    rollBtn.textContent = `🎲 FINISH & ROLL ${penalty < 0 ? `(${penalty} Penalty)` : '(No Penalty)'}`;
-                } else {
-                    rollBtn.style.display = 'none';
-                }
-            };
         });
+
+        const doneCount = Object.values(embalmTasks).filter(v => v).length;
+        const penalty = (4 - doneCount) * -3;
+        const rollBtn = document.getElementById('btn-embalm-roll');
+        
+        if (doneCount > 0) {
+            rollBtn.style.display = 'block';
+            rollBtn.textContent = `🎲 FINISH & ROLL ${penalty < 0 ? `(${penalty} Penalty)` : '(No Penalty)'}`;
+        } else {
+            rollBtn.style.display = 'none';
+        }
 
         // Buy supplies
         document.getElementById('btn-buy-supplies').onclick = () => {

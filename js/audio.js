@@ -61,13 +61,13 @@ const Audio8Bit = (() => {
             osc.frequency.exponentialRampToValueAtTime(0.01, t + 0.1);
             g.gain.setValueAtTime(0.6, t);
             g.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
-            osc.connect(g); g.connect(musicGain);
+            osc.connect(g); g.connect(currentGainNode);
             osc.start(t); osc.stop(t + 0.1);
         } else if (type === 's') { // Snare
-            playNote(800 + Math.random()*200, 0.1, 'square', musicGain, t, 0.2);
-            playNote(200, 0.1, 'sawtooth', musicGain, t, 0.2);
+            playNote(800 + Math.random()*200, 0.1, 'square', currentGainNode, t, 0.2);
+            playNote(200, 0.1, 'sawtooth', currentGainNode, t, 0.2);
         } else if (type === 'h') { // Hihat
-            playNote(1200 + Math.random()*200, 0.03, 'square', musicGain, t, 0.05);
+            playNote(1200 + Math.random()*200, 0.03, 'square', currentGainNode, t, 0.05);
         }
     }
 

@@ -593,12 +593,21 @@ html, body {
 
 /* Audio Toggle */
 .audio-toggle {
-    position: fixed; top: 80px; right: 8px; z-index: 50;
-    font-size: 20px; background: var(--bg-panel);
-    border: 2px solid var(--bg-panel-border);
-    padding: 4px 8px; cursor: pointer; opacity: 0.6;
+    position: fixed; bottom: 12px; right: 12px;
+    background: none; border: none;
+    cursor: pointer; z-index: 1000;
+    transition: transform 0.2s;
+    display: flex; align-items: center; justify-content: center;
 }
-.audio-toggle:hover { opacity: 1; border-color: var(--accent-pink); }
+.audio-toggle:hover { transform: scale(1.1); }
+.audio-toggle:active { transform: scale(0.9); }
+
+/* Hide audio toggle on intro screens */
+#title-screen.active ~ .audio-toggle,
+#name-screen.active ~ .audio-toggle,
+#welcome-screen.active ~ .audio-toggle {
+    display: none !important;
+}
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }

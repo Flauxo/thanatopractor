@@ -1,0 +1,82 @@
+/* ===== THANATOPRACTOR - Animations ===== */
+
+@keyframes badge-pulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.3); }
+}
+
+@keyframes dice-spin {
+    0% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(90deg) scale(1.1); }
+    50% { transform: rotate(180deg) scale(1); }
+    75% { transform: rotate(270deg) scale(1.1); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes toast-in {
+    0% { transform: translateY(-20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes toast-out {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-20px); opacity: 0; }
+}
+
+@keyframes screen-fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes skull-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 5px #d4609a44; }
+    50% { box-shadow: 0 0 20px #d4609a88; }
+}
+
+@keyframes fire-flicker {
+    0%, 100% { opacity: 0.8; transform: scaleY(1); }
+    25% { opacity: 1; transform: scaleY(1.05); }
+    50% { opacity: 0.9; transform: scaleY(0.95); }
+    75% { opacity: 1; transform: scaleY(1.02); }
+}
+
+@keyframes text-typewriter {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
+@keyframes money-pop {
+    0% { transform: scale(1); color: var(--text-primary); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.money-gain { animation: money-pop 0.4s ease-out; color: var(--success) !important; }
+.money-loss { animation: money-pop 0.4s ease-out; color: var(--danger) !important; }
+.rep-gain { animation: money-pop 0.4s ease-out; color: var(--gold) !important; }
+.rep-loss { animation: money-pop 0.4s ease-out; color: var(--danger) !important; }
+
+.screen.active { animation: screen-fade-in 0.25s ease-out; }
+.title-skull { animation: skull-float 3s ease-in-out infinite; }
+.furnace-fire { animation: fire-flicker 0.5s ease-in-out infinite; }
+.pixel-btn.pink-btn { animation: glow-pulse 2s ease-in-out infinite; }
+
+/* Dice result animations */
+.dice-crit-fail { animation: shake 0.3s ease-in-out 3; color: var(--danger); }
+.dice-crit-success { animation: money-pop 0.5s ease-out 2; color: var(--gold); }

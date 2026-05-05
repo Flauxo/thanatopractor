@@ -36,6 +36,16 @@ const Audio8Bit = (() => {
         sfxGain.gain.value = 0.5;
         sfxGain.connect(masterGain);
         initialized = true;
+
+        // Mute when tab is hidden, restore when visible
+        document.addEventListener('visibilitychange', () => {
+            if (!ctx || !masterGain) return;
+            if (document.hidden) {
+                masterGain.gain.setTargetAtTime(0, ctx.currentTime, 0.1);
+            } else if (!muted) {
+                masterGain.gain.setTargetAtTime(0.4, ctx.currentTime, 0.3);
+            }
+        });
     }
 
     function playNote(freq, duration, type, gainNode, startTime, vol) {

@@ -11,6 +11,7 @@ const Icons = (() => {
         'R': 'var(--accent-pink)',  // #d4609a
         'G': 'var(--accent-bright)',// Neon Pink
         'M': 'var(--bg-medium)',    // #2d1b4e
+        'C': '#ffffff',             // White
         ' ': 'transparent'
     };
 
@@ -32,15 +33,15 @@ const Icons = (() => {
             "            "
         ],
         speaker_off: [
-            "         R  ",
-            "   PP   R   ",
-            "   PPP R    ",
-            "   PPPRP    ",
-            "   PPRPPP   ",
-            "   PRPPPP   ",
-            "   RPPPPP   ",
-            "   PP PPP   ",
-            "   PP  PP   ",
+            "            ",
+            "   PP       ",
+            "   PPP  C C ",
+            "   PPPP  C  ",
+            "   PPPPP C  ",
+            "   PPPPP  C ",
+            "   PPPPP C  ",
+            "   PPPP  C  ",
+            "   PPP  C C ",
             "   PP       ",
             "            ",
             "            "

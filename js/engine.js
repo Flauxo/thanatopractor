@@ -161,6 +161,7 @@ const Engine = (() => {
             } else {
                 triggerRandomEvent();
             }
+        }
         // Random event chance - only after 12:00 PM (2 mins real time) and during dead time
         if (activeFams === 0 && waitingFams === 0 && state.time > 720 && Math.random() < 0.01 * state.speed) {
             triggerRandomEvent();

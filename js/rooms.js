@@ -73,8 +73,12 @@ const Rooms = (() => {
                         document.getElementById('btn-paperwork').innerHTML = Icons.getHTML('paperwork') + ' PAPERWORK';
                     });
                 }},
-                { text: DATA.paperworkExcuses[Math.floor(Math.random() * DATA.paperworkExcuses.length)] + ' (X)', action: () => {
-                    // Do nothing, leaves the paperwork task active
+                { text: DATA.paperworkExcuses[Math.floor(Math.random() * DATA.paperworkExcuses.length)] + ' (Decline)', action: () => {
+                    // Dismiss the paperwork task completely
+                    s.activePaperwork = null;
+                    Engine.Notifications.clearBadge('reception');
+                    document.getElementById('btn-paperwork').style.opacity = '0.5';
+                    Engine.showToast('📝 Paperwork discarded.', '');
                 }}
             ]);
         };

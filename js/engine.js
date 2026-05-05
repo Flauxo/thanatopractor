@@ -219,9 +219,15 @@ const Engine = (() => {
         state.schedule.forEach(event => {
             if (!event.triggered && currentMin >= event.time) {
                 event.triggered = true;
-                showToast(`📋 ${event.desc}`, '');
                 Audio8Bit.SFX.notification();
-                if (event.room) Notifications.addBadge(event.room);
+                if (event.type === 'paperwork' && event.task) {
+                    state.activePaperwork = event.task;
+                    showToast('📝 New paperwork on your desk!', '');
+                    Notifications.addBadge('reception');
+                } else {
+                    showToast(`📋 ${event.desc}`, '');
+                    if (event.room) Notifications.addBadge(event.room);
+                }
             }
         });
     }
@@ -240,6 +246,18 @@ const Engine = (() => {
                 room: 'reception'
             });
         }
+
+        // Schedule a paperwork task mid-morning
+        const pwTime = 570 + Math.floor(Math.random() * 90); // 9:30-11:00 AM
+        const pwTask = DATA.paperworkTasks[Math.floor(Math.random() * DATA.paperworkTasks.length)];
+        state.schedule.push({
+            time: pwTime,
+            type: 'paperwork',
+            desc: 'New paperwork on your desk!',
+            triggered: false,
+            room: null,
+            task: pwTask
+        });
     }
 
     // ===== RANDOM EVENTS =====

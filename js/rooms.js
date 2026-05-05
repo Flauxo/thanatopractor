@@ -9,10 +9,16 @@ const Rooms = (() => {
     // ===== RECEPTION =====
     function initReception() {
         document.getElementById('btn-new-arrival').onclick = () => {
+            const s = Engine.getState();
+            if ((s.pendingArrivals || 0) <= 0) {
+                Engine.showToast('No families are waiting right now.', 'warning');
+                return;
+            }
+            s.pendingArrivals--;
             Audio8Bit.SFX.bell();
             const family = Families.generate();
             Families.addFamily(family);
-            Engine.getState().activeFamilyId = family.id;
+            s.activeFamilyId = family.id;
             Dialogue.playArrivalSequence(family);
             Engine.Notifications.clearBadge('arrival');
         };

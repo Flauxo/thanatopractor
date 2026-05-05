@@ -25,6 +25,7 @@ const Engine = (() => {
         speed: 1, // 0=pause, 1=normal, 2=fast
         gameOver: false,
         activePaperwork: null,
+        pendingArrivals: 0,
         stats: { familiesServed: 0, totalEarnings: 0, diceRolls: 0, bestRoll: 0, worstDay: null }
     });
 
@@ -231,7 +232,10 @@ const Engine = (() => {
                     showToast(`📋 ${event.desc}`, '');
                     if (event.room) {
                         Notifications.addBadge(event.room);
-                        if (event.type === 'arrival') Notifications.addBadge('arrival');
+                        if (event.type === 'arrival') {
+                            state.pendingArrivals = (state.pendingArrivals || 0) + 1;
+                            Notifications.addBadge('arrival');
+                        }
                     }
                 }
             }

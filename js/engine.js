@@ -57,15 +57,17 @@ const Engine = (() => {
     }
 
     // ===== MONEY =====
-    function addMoney(amount, reason) {
+    function addMoney(amount, reason, silent = false) {
         state.money += amount;
         if (amount > 0) state.stats.totalEarnings += amount;
         updateHUD();
-        if (amount > 0) {
+        if (amount > 0 && !silent) {
             Audio8Bit.SFX.money();
             showToast(`+$${amount} — ${reason}`, 'success');
             animateHUD('hud-money', 'money-gain');
-        } else {
+        } else if (amount > 0 && silent) {
+            Audio8Bit.SFX.money();
+        } else if (amount < 0 && !silent) {
             showToast(`-$${Math.abs(amount)} — ${reason}`, 'warning');
             animateHUD('hud-money', 'money-loss');
         }
@@ -73,15 +75,17 @@ const Engine = (() => {
     }
 
     // ===== REPUTATION =====
-    function addReputation(amount, reason) {
+    function addReputation(amount, reason, silent = false) {
         state.reputation = Math.max(0, Math.min(100, state.reputation + amount));
         updateHUD();
-        if (amount > 0) {
-            showToast(`+${amount} REP — ${reason}`, 'success');
-            animateHUD('hud-rep', 'rep-gain');
-        } else {
-            showToast(`${amount} REP — ${reason}`, 'danger');
-            animateHUD('hud-rep', 'rep-loss');
+        if (!silent) {
+            if (amount > 0) {
+                showToast(`+${amount} REP — ${reason}`, 'success');
+                animateHUD('hud-rep', 'rep-gain');
+            } else if (amount < 0) {
+                showToast(`${amount} REP — ${reason}`, 'danger');
+                animateHUD('hud-rep', 'rep-loss');
+            }
         }
         checkGameOver();
     }

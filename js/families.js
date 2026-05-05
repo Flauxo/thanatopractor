@@ -66,7 +66,7 @@ const Families = (() => {
         f.rating = rating;
 
         const repChange = rating - 5; // 5 is neutral
-        Engine.addReputation(repChange, `${f.deceasedName}'s family rated you ${rating}/10`);
+        Engine.addReputation(repChange, `${f.deceasedName}'s family rated you ${rating}/10`, true);
         Engine.addXP(100 + rating * 20);
         Engine.getState().stats.familiesServed++;
 
@@ -79,12 +79,12 @@ const Families = (() => {
         }
         if (!f.wantsCremation && !Engine.hasUpgrade('hearse')) {
             total -= DATA.serviceBasePrices.hearseRental; // hearse rental cost
-            Engine.addMoney(-DATA.serviceBasePrices.hearseRental, 'External hearse rental');
+            Engine.addMoney(-DATA.serviceBasePrices.hearseRental, 'External hearse rental', true);
             const quote = DATA.hearseDriverQuotes[Math.floor(Math.random() * DATA.hearseDriverQuotes.length)];
-            Engine.showToast(`🚗 Hearse driver: ${quote}`, '');
+            // Engine.showToast(`🚗 Hearse driver: ${quote}`, ''); // Suppress toast here too
         }
         
-        Engine.addMoney(total, `Service for ${f.deceasedName}`);
+        Engine.addMoney(total, `Service for ${f.deceasedName}`, true);
         f.totalCharged = total;
         Engine.save();
 

@@ -306,7 +306,8 @@ const Audio8Bit = (() => {
         if (!musicPlaying || !ctx || currentTrackName !== name) return;
         const track = TRACKS[name];
         if (!track) return;
-        const beatDur = 60 / track.bpm;
+        const speedMultiplier = (typeof Engine !== 'undefined') ? Math.max(1, Engine.getState().speed) : 1;
+        const beatDur = 60 / (track.bpm * speedMultiplier);
         let t = ctx.currentTime + 0.1;
 
         // Melody
@@ -399,8 +400,14 @@ const Audio8Bit = (() => {
         return muted;
     }
 
+    function updateSpeed() {
+        if (musicPlaying && currentTrackName) {
+            playTrack(currentTrackName);
+        }
+    }
+
     return {
-        init, SFX, playTrack, stopMusic, nextTrack, toggleMute,
+        init, SFX, playTrack, stopMusic, nextTrack, toggleMute, updateSpeed,
         get muted() { return muted; },
         get initialized() { return initialized; }
     };

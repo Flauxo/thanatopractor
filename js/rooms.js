@@ -122,7 +122,7 @@ const Rooms = (() => {
         if (sched.length === 0) {
             list.innerHTML = '<p class="dim-text">No appointments today</p>';
         } else {
-            list.innerHTML = sched.map(s => {
+            list.innerHTML = sched.slice().sort((a, b) => a.time - b.time).map(s => {
                 const h = Math.floor(s.time / 60), m = s.time % 60;
                 return `<div class="schedule-item"><span>${h}:${m.toString().padStart(2,'0')}</span><span>${s.desc}</span><span>${s.triggered ? '✓' : '⏳'}</span></div>`;
             }).join('');

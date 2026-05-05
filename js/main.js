@@ -68,9 +68,12 @@ window.Main = (() => {
         };
 
         document.getElementById('btn-credits').onclick = () => {
+            Audio8Bit.init();
+            Audio8Bit.SFX.click();
             document.getElementById('credits-overlay').style.display = 'flex';
         };
         document.getElementById('btn-close-credits').onclick = () => {
+            Audio8Bit.SFX.click();
             document.getElementById('credits-overlay').style.display = 'none';
         };
 

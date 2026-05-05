@@ -4,6 +4,7 @@ const Rooms = (() => {
 
     function updateActiveRoom() {
         if (activeRoom === 'crematorium') updateCrematorium();
+        if (activeRoom === 'cafeteria') showCafeteria();
     }
 
     // ===== RECEPTION =====
@@ -390,14 +391,18 @@ const Rooms = (() => {
             return;
         }
 
+        const servedIndices = s.cafeOrders.map((o, i) => o.served ? i : -1).filter(i => i !== -1).slice(-3);
+
         orderList.innerHTML = s.cafeOrders.map((o, i) => {
+            if (o.served && !servedIndices.includes(i)) return null;
+            
             const iconHTML = o.type === 'alcohol' ? Icons.getHTML('🍺') : Icons.getHTML(o.item.icon);
             if (o.served) return `<div class="action-btn" style="opacity:0.4">${iconHTML} ${o.type === 'alcohol' ? 'Alcohol request' : o.item.item} — ✓ Served</div>`;
             if (o.type === 'alcohol') {
                 return `<div class="action-btn" style="border-color:var(--warning)" onclick="Rooms.handleAlcohol(${i})">${iconHTML} Alcohol Request</div>`;
             }
             return `<div class="action-btn" onclick="Rooms.serveOrder(${i})">${iconHTML} ${o.item.item} — $${o.item.price}</div>`;
-        }).join('');
+        }).filter(h => h !== null).join('');
 
         updateCafeSatisfaction();
     }

@@ -51,6 +51,10 @@ const Rooms = (() => {
                     Engine.addMoney(-cost, `Ordered ${waitingFams.length} Hearse Transfer(s)`);
                     waitingFams.forEach(f => {
                         f.transportOrdered = true;
+                        // Find the original transport task and update it
+                        const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
+                        if (task) task.desc = `📦 (Coche pedido en camino) - ${f.deceasedName}`;
+                        
                         s.schedule.push({
                             time: s.time + 60,
                             type: 'hearse_arrival',
@@ -59,8 +63,8 @@ const Rooms = (() => {
                             triggered: false
                         });
                     });
-                    Engine.showToast(`Hearses ordered. They will arrive in 1 hour to take ${waitingFams.length} families.`, 'success');
-                    Engine.Notifications.clearBadge('phone');
+                    Engine.Notifications.clearBadge('reception');
+                    Engine.showToast('Hearse(s) ordered. Expect them in 1 hour.', 'success');
                 }},
                 { text: 'Order Flowers ($50)', action: () => {
                     const s = Engine.getState();
@@ -735,6 +739,14 @@ const Rooms = (() => {
                 family.waitingForTransport = true;
                 Engine.showToast(`All services for ${family.deceasedName} are complete. Go to Reception and call a hearse for transfer.`, 'success');
                 Engine.Notifications.addBadge('reception');
+                
+                Engine.getState().schedule.push({
+                    time: Engine.getState().time,
+                    type: 'transport_ready',
+                    familyId: family.id,
+                    desc: `🚐 Transferir a ${family.deceasedName}`,
+                    triggered: true
+                });
             }
         }
     }

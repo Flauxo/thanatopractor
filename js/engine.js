@@ -228,9 +228,13 @@ const Engine = (() => {
                     state.activePaperwork = event.task;
                     showToast('📝 New paperwork on your desk!', '');
                     Notifications.addBadge('reception');
+                    Notifications.addBadge('paperwork');
                 } else {
                     showToast(`📋 ${event.desc}`, '');
-                    if (event.room) Notifications.addBadge(event.room);
+                    if (event.room) {
+                        Notifications.addBadge(event.room);
+                        if (event.type === 'arrival') Notifications.addBadge('arrival');
+                    }
                 }
             }
         });

@@ -14,7 +14,7 @@ const Rooms = (() => {
             Families.addFamily(family);
             Engine.getState().activeFamilyId = family.id;
             Dialogue.playArrivalSequence(family);
-            Engine.Notifications.clearBadge('reception');
+            Engine.Notifications.clearBadge('arrival');
         };
         document.getElementById('btn-phone-call').onclick = () => {
             Audio8Bit.SFX.click();
@@ -52,6 +52,7 @@ const Rooms = (() => {
         };
         document.getElementById('btn-paperwork').onclick = () => {
             Audio8Bit.SFX.click();
+            Engine.Notifications.clearBadge('paperwork');
             const s = Engine.getState();
             if (!s.activePaperwork) {
                 Engine.showToast('📝 No paperwork right now. Enjoy the quiet.', '');

@@ -135,7 +135,9 @@ window.Main = (() => {
         document.getElementById('audio-toggle').onclick = () => {
             Audio8Bit.init();
             const muted = Audio8Bit.toggleMute();
-            document.getElementById('audio-toggle').innerHTML = Icons.getHTML(muted ? 'speaker_off' : 'speaker');
+            const iconName = muted ? 'speaker_off' : 'speaker';
+            document.getElementById('audio-toggle').innerHTML =
+                `<span class="custom-icon" data-icon="${iconName}" style="width:28px;height:28px;display:block;flex-shrink:0">${Icons.getHTML(iconName)}</span>`;
         };
 
         // ===== GAME OVER =====

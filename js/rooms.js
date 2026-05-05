@@ -554,8 +554,8 @@ const Rooms = (() => {
             Audio8Bit.SFX.fail();
         }
 
-        Dialogue.show('🎤 IVÁN SPEAKS', sermon, [
-            { text: isCorrect ? 'Beautiful ceremony, Iván.' : 'Oh no...', action: () => {
+        Dialogue.show('🎤 IVAN SPEAKS', sermon, [
+            { text: isCorrect ? 'Beautiful ceremony, Ivan.' : 'Oh no...', action: () => {
                 chapelFamily.chapelDone = true;
                 chapelFamily.services.push('chapel');
                 document.getElementById('chapel-sermon-select').style.display = 'none';

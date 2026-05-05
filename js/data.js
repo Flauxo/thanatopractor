@@ -2,10 +2,10 @@
 const DATA = {
     // ===== NAME GENERATION =====
     firstNames: {
-        male: ["Roberto","Carlos","Fernando","Miguel","Arturo","Ernesto","Salvador","Demetrio","Gonzalo","Patricio","Ambrosio","Teobaldo","Augusto","Clemente","Herminio","Celestino","Eugenio","Baldomero","Wenceslao","Crispin"],
-        female: ["Dolores","Esperanza","Consuelo","Mercedes","Encarnación","Purificación","Remedios","Angustias","Soledad","Asunción","Perpetua","Inmaculada","Milagros","Nieves","Amparo","Rosario","Paloma","Concepción","Trinidad","Visitación"]
+        male: ["Reginald","Cornelius","Mortimer","Barnaby","Ignatius","Archibald","Thaddeus","Alistair","Percival","Montague","Horatio","Clarence","Aubrey","Crispin","Sylvester","Algernon","Ambrose","Humphrey","Alistair","Phineas"],
+        female: ["Mildred","Ethel","Constance","Prudence","Patience","Gertrude","Agatha","Millicent","Dorothea","Harriet","Perpetua","Winifred","Beatrice","Lavinia","Hildegard","Brunhilde","Morticia","Wilhelmina","Cordelia","Eunice"]
     },
-    lastNames: ["Muerte","Vida","Santos","Huesos","Delgado","Sepulcro","Descansa","Flores","Ceniza","Espíritu","Olvido","Eterno","Silencio","Oscuro","Sombra","Último","Reposo","Ciprés","Mármol","Polvo"],
+    lastNames: ["Death","Graves","Hollow","Bones","Gloom","Tombstone","Shroud","Ash","Dust","Spirit","Forgotten","Eternal","Silence","Darkness","Shadow","Repose","Cypress","Marble","Cinder","Cobwebb"],
     
     religions: [
         { id: "pastafarian", name: "Pastafarian", icon: "🍝" },
@@ -129,7 +129,7 @@ const DATA = {
         { text: "\"Let me offer you our 'Comfort Blend' instead. Extra strong coffee.\"", rep: 1, money: 2, satisfaction: 5 }
     ],
 
-    // ===== CHAPEL - IVÁN'S SERMONS =====
+    // ===== CHAPEL - IVAN'S SERMONS =====
     sermons: {
         caffeinated: {
             correct: [
@@ -300,25 +300,25 @@ const DATA = {
 
     // ===== PAPERWORK TASKS =====
     paperworkTasks: [
-        { text: "Intentar no pagar a la floristería por el pedido erróneo.", dc: 12, reward: 100, penalty: -50 },
-        { text: "Cobrar el gasto del orador Iván a la compañía de seguros.", dc: 15, reward: 200, penalty: 0 },
-        { text: "Usar el coche particular de tu sobrina como coche fúnebre para ahorrar.", dc: 10, reward: 150, penalty: -100 },
-        { text: "Avisar a un equipo de limpieza nuevo, aunque parezcan ser menores de edad.", dc: 8, reward: 50, penalty: -150 },
-        { text: "Contratar un coro gregoriano sin leer la letra pequeña del contrato.", dc: 14, reward: 80, penalty: -80 },
-        { text: "Firmar todos los papeles que hay sobre la mesa sin mirar.", dc: 5, reward: 50, penalty: -200 },
-        { text: "Convencer al proveedor de formol de que ya le pagaste el mes pasado.", dc: 16, reward: 120, penalty: 0 },
-        { text: "Vender la urna más cara a una familia afirmando que está bañada en oro.", dc: 13, reward: 250, penalty: -150 }
+        { text: "Try to avoid paying the florist for the wrong order.", dc: 12, reward: 100, penalty: -50 },
+        { text: "Bill speaker Ivan's expenses to the insurance company.", dc: 15, reward: 200, penalty: 0 },
+        { text: "Use your niece's car as a hearse to save money.", dc: 10, reward: 150, penalty: -100 },
+        { text: "Hire a cleaning crew that looks suspiciously underage.", dc: 8, reward: 50, penalty: -150 },
+        { text: "Hire a Gregorian choir without reading the fine print.", dc: 14, reward: 80, penalty: -80 },
+        { text: "Sign all the papers on the desk without reading them.", dc: 5, reward: 50, penalty: -200 },
+        { text: "Convince the formaldehyde supplier you already paid last month.", dc: 16, reward: 120, penalty: 0 },
+        { text: "Sell the most expensive urn by claiming it is gold-plated.", dc: 13, reward: 250, penalty: -150 }
     ],
 
     paperworkExcuses: [
-        "Mejor en otro momento...",
-        "Ahora mismo no me atrevo.",
-        "Esto es demasiado arriesgado.",
-        "A mi madre no le gustaría esto.",
-        "No quiero ir al infierno por esto.",
-        "Tal vez si cierro los ojos desaparezca.",
-        "Mi abogado me ha dicho que no hable.",
-        "No tengo el pulso para esto hoy."
+        "Maybe another time...",
+        "I don't have the nerve for this right now.",
+        "This is way too risky.",
+        "My mother would not approve of this.",
+        "I don't want to go to hell for this.",
+        "Maybe if I close my eyes it'll disappear.",
+        "My lawyer told me not to comment.",
+        "I don't have steady enough hands for this today."
     ],
 
     // ===== UPGRADES =====

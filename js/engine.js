@@ -135,31 +135,31 @@ const Engine = (() => {
             state.cremaTemp = Math.max(20, state.cremaTemp - 1 * state.speed);
         }
 
+        // Room Badges and Reception Action Alerts
+        const activeFams = state.families.filter(f => f.active).length;
+        const waitingFams = state.families.filter(f => f.active && f.waitingForTransport).length;
+        const canReceive = activeFams < state.viewingRooms;
+
         // Check scheduled events
         checkSchedule();
 
-        // Random event chance - only after 12:00 PM (2 mins real time)
-        if (state.time > 720 && Math.random() < 0.002 * state.speed) {
+        // Random event chance - only after 12:00 PM (2 mins real time) and during dead time
+        if (activeFams === 0 && waitingFams === 0 && state.time > 720 && Math.random() < 0.005 * state.speed) {
             triggerRandomEvent();
         }
 
         // Cafe orders
-        if (hasUpgrade('cafeteria') && state.families.some(f => f.active) && Math.random() < 0.005 * state.speed) {
+        if (hasUpgrade('cafeteria') && activeFams > 0 && Math.random() < 0.005 * state.speed) {
             Notifications.addBadge('cafeteria');
         }
 
-        // Paperwork task spawn
-        if (!state.activePaperwork && Math.random() < 0.003 * state.speed && typeof DATA !== 'undefined' && DATA.paperworkTasks) {
+        // Paperwork task spawn - higher chance during dead time
+        if (activeFams === 0 && waitingFams === 0 && !state.activePaperwork && Math.random() < 0.005 * state.speed && typeof DATA !== 'undefined' && DATA.paperworkTasks) {
             state.activePaperwork = DATA.paperworkTasks[Math.floor(Math.random() * DATA.paperworkTasks.length)];
             showToast(`📝 New paperwork at ${getTimeString()}`, '');
             Notifications.addBadge('reception');
             Notifications.addBadge('paperwork');
         }
-
-        // Room Badges and Reception Action Alerts
-        const activeFams = state.families.filter(f => f.active).length;
-        const waitingFams = state.families.filter(f => f.active && f.waitingForTransport).length;
-        const canReceive = activeFams < state.viewingRooms;
 
         // Hub Badge for Reception
         if (waitingFams > 0 || state.activePaperwork) {
@@ -234,11 +234,15 @@ const Engine = (() => {
     }
 
     function generateDailySchedule() {
-        // Generate 1-3 family arrivals based on level
-        const numArrivals = Math.min(1 + Math.floor(state.level / 2), 4);
+        // Scale arrivals with level and viewing rooms. Max 8 families per day.
+        const numArrivals = Math.min(state.viewingRooms + Math.floor(state.level / 2), 8);
+        const interval = GAME_MINUTES_PER_DAY / numArrivals;
+        
         for (let i = 0; i < numArrivals; i++) {
-            // First arrival ~8:15 AM (~8 seconds real), subsequent ones every 2+ min
-            const arrivalTime = 495 + i * 240 + Math.floor(Math.random() * 60);
+            // Distribute arrivals evenly across the day with some random jitter
+            const jitter = Math.floor(Math.random() * (interval * 0.6));
+            const arrivalTime = Math.floor(480 + (i * interval) + 15 + jitter);
+            
             state.schedule.push({
                 time: arrivalTime,
                 type: 'arrival',

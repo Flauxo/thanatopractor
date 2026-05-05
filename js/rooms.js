@@ -36,16 +36,23 @@ const Rooms = (() => {
                     const s = Engine.getState();
                     if (s.money < 150) { Engine.showToast('Not enough money!', 'danger'); return; }
                     
-                    const waiting = s.families.find(f => f.active && f.waitingForTransport);
-                    if (waiting) {
-                        Engine.addMoney(-150, 'Ordered Hearse Transfer');
-                        Engine.showToast(`The hearse has arrived to take ${waiting.deceasedName} to the cemetery.`, 'success');
-                        Families.completeFamily(waiting.id);
-                        Engine.Notifications.clearBadge('phone');
-                    } else {
+                    const waitingFams = s.families.filter(f => f.active && f.waitingForTransport);
+                    if (waitingFams.length === 0) {
+                        if (s.money < 150) { Engine.showToast('Not enough money!', 'danger'); return; }
                         Engine.addMoney(-150, 'Ordered Hearse');
                         Engine.showToast('Hearse ordered. The driver says he\'ll be there "eventually".', 'success');
+                        return;
                     }
+                    
+                    const cost = waitingFams.length * 150;
+                    if (s.money < cost) { Engine.showToast(`Need $${cost} for ${waitingFams.length} hearses!`, 'danger'); return; }
+                    
+                    Engine.addMoney(-cost, `Ordered ${waitingFams.length} Hearse Transfer(s)`);
+                    waitingFams.forEach(f => {
+                        Families.completeFamily(f.id);
+                    });
+                    Engine.showToast(`Hearses arrived to take ${waitingFams.length} families.`, 'success');
+                    Engine.Notifications.clearBadge('phone');
                 }},
                 { text: 'Order Flowers ($50)', action: () => {
                     const s = Engine.getState();

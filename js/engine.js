@@ -27,6 +27,7 @@ const Engine = (() => {
         activePaperwork: null,
         pendingArrivals: 0,
         dayEndPrompted: false,
+        lastActivityTime: 480,
         stats: { familiesServed: 0, totalEarnings: 0, diceRolls: 0, bestRoll: 0, worstDay: null }
     });
 
@@ -145,22 +146,40 @@ const Engine = (() => {
         // Check scheduled events
         checkSchedule();
 
+        // Forced event/paperwork if an hour of dead time passes
+        if (activeFams === 0 && waitingFams === 0 && (state.time - state.lastActivityTime) >= 60) {
+            state.lastActivityTime = state.time;
+            if (!state.activePaperwork && Math.random() > 0.5) {
+                // Spawn paperwork
+                if (typeof DATA !== 'undefined' && DATA.paperworkTasks) {
+                    state.activePaperwork = DATA.paperworkTasks[Math.floor(Math.random() * DATA.paperworkTasks.length)];
+                    showToast(`📝 New paperwork at ${getTimeString()}`, '');
+                    Notifications.addBadge('reception');
+                    Notifications.addBadge('paperwork');
+                }
+            } else {
+                triggerRandomEvent();
+            }
+        }
+
         // Random event chance - only after 12:00 PM (2 mins real time) and during dead time
-        if (activeFams === 0 && waitingFams === 0 && state.time > 720 && Math.random() < 0.005 * state.speed) {
+        if (activeFams === 0 && waitingFams === 0 && state.time > 720 && Math.random() < 0.01 * state.speed) {
             triggerRandomEvent();
         }
 
         // Cafe orders
-        if (hasUpgrade('cafeteria') && activeFams > 0 && Math.random() < 0.005 * state.speed) {
+        if (hasUpgrade('cafeteria') && activeFams > 0 && Math.random() < 0.01 * state.speed) {
             Notifications.addBadge('cafeteria');
+            state.lastActivityTime = state.time;
         }
 
         // Paperwork task spawn - higher chance during dead time
-        if (activeFams === 0 && waitingFams === 0 && !state.activePaperwork && Math.random() < 0.005 * state.speed && typeof DATA !== 'undefined' && DATA.paperworkTasks) {
+        if (activeFams === 0 && waitingFams === 0 && !state.activePaperwork && Math.random() < 0.01 * state.speed && typeof DATA !== 'undefined' && DATA.paperworkTasks) {
             state.activePaperwork = DATA.paperworkTasks[Math.floor(Math.random() * DATA.paperworkTasks.length)];
             showToast(`📝 New paperwork at ${getTimeString()}`, '');
             Notifications.addBadge('reception');
             Notifications.addBadge('paperwork');
+            state.lastActivityTime = state.time;
         }
 
         // Hub Badge for Reception
@@ -206,6 +225,7 @@ const Engine = (() => {
         state.schedule = [];
         state.dayEvents = [];
         state.dayEndPrompted = false;
+        state.lastActivityTime = 480;
         
         // Daily costs
         const dailyCost = 100 + (state.upgrades.length * 20);
@@ -247,6 +267,7 @@ const Engine = (() => {
                         if (event.type === 'arrival') {
                             state.pendingArrivals = (state.pendingArrivals || 0) + 1;
                             Notifications.addBadge('arrival');
+                            state.lastActivityTime = state.time;
                         }
                     }
                 }
@@ -288,6 +309,8 @@ const Engine = (() => {
 
     // ===== RANDOM EVENTS =====
     function triggerRandomEvent() {
+        if (!DATA.randomEvents) return;
+        state.lastActivityTime = state.time;
         const event = DATA.randomEvents[Math.floor(Math.random() * DATA.randomEvents.length)];
         if (state.dayEvents.includes(event.type)) return;
         state.dayEvents.push(event.type);

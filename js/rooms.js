@@ -477,10 +477,11 @@ const Rooms = (() => {
             schedList.innerHTML = '<p class="dim-text">No cremations scheduled</p>';
         } else {
             schedList.innerHTML = active.map(f => {
-                const ready = Engine.getState().cremaTemp >= 750;
+                const ready = Engine.getState().cremaTemp >= 800;
+                const starting = f.cremationStarted;
                 return `<div class="schedule-item">
                     <span>${f.deceasedName}</span>
-                    <span>${ready ? '<button class="action-btn pink-btn" style="padding:4px 8px;width:auto" onclick="Rooms.doCremation(${f.id})">CREMATE</button>' : '⏳ Need 800°C'}</span>
+                    <span>${starting ? '🔥 INCINERATING...' : (ready ? `<button class="action-btn pink-btn" style="padding:4px 8px;width:auto" onclick="Rooms.doCremation(${f.id})">CREMATE</button>` : '⏳ Need 800°C')}</span>
                 </div>`;
             }).join('');
         }
@@ -502,31 +503,21 @@ const Rooms = (() => {
     function doCremation(familyId) {
         const f = Families.getById(familyId);
         const s = Engine.getState();
-        if (!f || f.cremated) return;
+        if (!f || f.cremated || f.cremationStarted) return;
 
-        let msg, satChange;
-        if (s.cremaTemp >= 780 && s.cremaTemp <= 850) {
-            msg = `✨ Perfect cremation! ${f.deceasedName}'s ashes are clean and pure. The family will be pleased.`;
-            satChange = 15;
-        } else if (s.cremaTemp >= 700) {
-            msg = `👍 Decent cremation. Some larger fragments remain, but overall acceptable.`;
-            satChange = 5;
-        } else if (s.cremaTemp >= 500) {
-            msg = `😬 Medium rare. The ashes are... chunky. The family got some unexpected "souvenirs."`;
-            satChange = -15;
-        } else {
-            msg = `🔥 The body is barely singed. These "ashes" are basically jerky. This is a disaster.`;
-            satChange = -30;
-        }
-
-        f.cremated = true;
-        f.services.push('cremation');
-        Families.updateSatisfaction(familyId, satChange, `Cremation at ${Math.round(s.cremaTemp)}°C`);
-        Engine.showToast(msg, satChange > 0 ? 'success' : 'danger');
+        f.cremationStarted = true;
+        Engine.showToast(`🔥 ${f.deceasedName} se está haciendo cenizas... Tardará 1 hora.`, 'success');
         Audio8Bit.SFX.fire();
 
-        // Check if service complete
-        checkServiceComplete(f);
+        s.schedule.push({
+            time: s.time + 60,
+            type: 'cremation_done',
+            familyId: f.id,
+            desc: `La cremación de ${f.deceasedName} ha finalizado.`,
+            triggered: false,
+            temp: s.cremaTemp
+        });
+        
         showCrematorium();
     }
 

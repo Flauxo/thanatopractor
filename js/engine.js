@@ -183,14 +183,6 @@ const Engine = (() => {
             }
         }
 
-        // Auto-cremate if 800C
-        if (state.cremaTemp >= 800 && hasUpgrade('crematorium')) {
-            const readyForCrema = state.families.find(f => f.active && f.embalmed && f.wantsCremation && !f.cremated && (f.viewed || f.cooldownDone));
-            if (readyForCrema && typeof Rooms !== 'undefined' && Rooms.doCremation) {
-                Rooms.doCremation(readyForCrema.id);
-            }
-        }
-
         // Paperwork task spawn - higher chance during dead time
         if (activeFams === 0 && waitingFams === 0 && !state.activePaperwork && Math.random() < 0.01 * state.speed && typeof DATA !== 'undefined' && DATA.paperworkTasks) {
             state.activePaperwork = DATA.paperworkTasks[Math.floor(Math.random() * DATA.paperworkTasks.length)];
@@ -278,6 +270,27 @@ const Engine = (() => {
                     }
                 } else if (event.type === 'hearse_arrival') {
                     if (typeof Families !== 'undefined') Families.completeFamily(event.familyId);
+                } else if (event.type === 'cremation_done') {
+                    const fam = typeof Families !== 'undefined' ? Families.getById(event.familyId) : null;
+                    if (fam) {
+                        fam.cremated = true;
+                        fam.services.push('cremation');
+                        let msg, satChange;
+                        const temp = event.temp || 800;
+                        if (temp >= 780 && temp <= 850) {
+                            msg = `✨ Perfect cremation! ${fam.deceasedName}'s ashes are clean and pure.`;
+                            satChange = 15;
+                        } else if (temp >= 700) {
+                            msg = `👍 Decent cremation. Some fragments remain, but acceptable.`;
+                            satChange = 5;
+                        } else {
+                            msg = `😬 Bad cremation. The results are... suboptimal. The family is not happy.`;
+                            satChange = -20;
+                        }
+                        Families.updateSatisfaction(fam.id, satChange, `Cremation at ${Math.round(temp)}°C`);
+                        showToast(msg, satChange > 0 ? 'success' : 'danger');
+                        if (typeof Rooms !== 'undefined') Rooms.checkServiceComplete(fam);
+                    }
                 } else {
                     showToast(`📋 ${event.desc}`, '');
                     if (event.room) {

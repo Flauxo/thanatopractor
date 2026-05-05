@@ -232,6 +232,13 @@ const Rooms = (() => {
                 resetEmbalmTasks();
                 document.getElementById('btn-embalm-roll').style.display = 'none';
                 Engine.save();
+
+                // Check if another family still needs embalming
+                const remaining = Families.getActive().filter(f => f.arrived && !f.embalmed);
+                if (remaining.length > 0) {
+                    Engine.Notifications.addBadge('embalming');
+                    Engine.showToast(`🧪 ${remaining[0].deceasedName} still needs embalming!`, '');
+                }
             });
         };
     }

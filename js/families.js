@@ -88,7 +88,30 @@ const Families = (() => {
         f.totalCharged = total;
         Engine.save();
 
-        Engine.showToast(`📋 Service complete for ${f.deceasedName}. Rating: ${'⭐'.repeat(Math.max(1, Math.round(rating/2)))}`, rating >= 6 ? 'success' : 'warning');
+        // Show completion summary overlay
+        const stars = '⭐'.repeat(Math.max(1, Math.round(rating / 2)));
+        const transport = f.wantsCremation ? '🔥 Cremated on-site' : '🚗 Transferred by hearse';
+        const services = [
+            f.services.includes('embalming') ? '✓ Embalmed' : '✗ Not embalmed',
+            f.services.includes('viewing') ? '✓ Viewing done' : '',
+            f.services.includes('chapel') ? '✓ Chapel service' : '',
+            f.services.includes('cremation') ? '✓ Cremated' : ''
+        ].filter(Boolean).join('<br>');
+
+        document.getElementById('comp-title').textContent = `☠ ${f.deceasedName} — DEPARTED`;
+        document.getElementById('comp-body').innerHTML = `
+            <div class="comp-row"><span class="comp-label">Rating</span><span class="comp-stars">${stars} (${rating}/10)</span></div>
+            <div class="comp-row"><span class="comp-label">Satisfaction</span><span class="comp-value">${f.satisfaction}%</span></div>
+            <div class="comp-row"><span class="comp-label">Transport</span><span class="comp-value">${transport}</span></div>
+            <div class="comp-row"><span class="comp-label">Services</span><span class="comp-value" style="font-size:14px;font-family:var(--font-vt)">${services || 'Basic only'}</span></div>
+            <div class="comp-row"><span class="comp-label">Earned</span><span class="comp-value">$${total}</span></div>
+            <div class="comp-row"><span class="comp-label">Reputation</span><span class="comp-value">${repChange >= 0 ? '+' : ''}${repChange} REP</span></div>
+        `;
+        document.getElementById('completion-overlay').style.display = 'flex';
+        document.getElementById('btn-comp-dismiss').onclick = () => {
+            document.getElementById('completion-overlay').style.display = 'none';
+        };
+
         updateFamiliesLog();
     }
 

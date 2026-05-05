@@ -467,6 +467,35 @@ html, body {
 .family-status.active { background: var(--accent-pink); color: #fff; }
 .family-status.completed { background: var(--success); color: #000; }
 
+/* Family Completion Summary */
+.completion-panel {
+    background: rgba(10, 6, 16, 0.75);
+    border: 2px solid var(--bg-panel-border);
+    backdrop-filter: blur(6px);
+    padding: 24px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+.completion-panel h2 {
+    font-family: var(--font-pixel); font-size: 10px;
+    color: var(--accent-bright); margin-bottom: 16px;
+    text-shadow: 0 0 12px var(--accent-bright);
+}
+.comp-body {
+    font-family: var(--font-vt); font-size: 20px;
+    color: var(--text-primary); line-height: 1.8;
+    text-align: left; margin-bottom: 20px;
+}
+.comp-body .comp-row {
+    display: flex; justify-content: space-between;
+    padding: 4px 0; border-bottom: 1px solid var(--bg-panel-border);
+}
+.comp-body .comp-row:last-child { border-bottom: none; }
+.comp-label { color: var(--text-dim); }
+.comp-value { color: var(--accent-bright); font-family: var(--font-pixel); font-size: 9px; }
+.comp-stars { color: var(--gold); font-size: 20px; }
+
 /* Game Over */
 #gameover-screen {
     background: url('../assets/scenes/title.png') center/cover no-repeat;

@@ -151,6 +151,7 @@ const Engine = (() => {
         // Paperwork task spawn
         if (!state.activePaperwork && Math.random() < 0.003 * state.speed && typeof DATA !== 'undefined' && DATA.paperworkTasks) {
             state.activePaperwork = DATA.paperworkTasks[Math.floor(Math.random() * DATA.paperworkTasks.length)];
+            showToast(`📝 New paperwork at ${getTimeString()}`, '');
             Notifications.addBadge('reception');
             Notifications.addBadge('paperwork');
         }
@@ -207,7 +208,7 @@ const Engine = (() => {
                 Audio8Bit.SFX.notification();
                 if (event.type === 'paperwork' && event.task) {
                     state.activePaperwork = event.task;
-                    showToast('📝 New paperwork on your desk!', '');
+                    showToast(`📝 New paperwork at ${getTimeString()}`, '');
                     Notifications.addBadge('reception');
                     Notifications.addBadge('paperwork');
                 } else if (event.type === 'cooldown_done') {

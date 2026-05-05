@@ -131,7 +131,7 @@ const Families = (() => {
             list.innerHTML = '<p class="dim-text">No families yet. Death takes a day off?</p>';
             return;
         }
-        list.innerHTML = families.slice().reverse().map(f => `
+        list.innerHTML = families.slice(-3).reverse().map(f => `
             <div class="family-card">
                 <div class="family-name">${Icons.getHTML(f.mood.icon)} ${f.deceasedName}</div>
                 <div class="family-details">

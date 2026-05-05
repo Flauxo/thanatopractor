@@ -41,6 +41,7 @@ const Rooms = (() => {
                         Engine.addMoney(-150, 'Ordered Hearse Transfer');
                         Engine.showToast(`The hearse has arrived to take ${waiting.deceasedName} to the cemetery.`, 'success');
                         Families.completeFamily(waiting.id);
+                        Engine.Notifications.clearBadge('phone');
                     } else {
                         Engine.addMoney(-150, 'Ordered Hearse');
                         Engine.showToast('Hearse ordered. The driver says he\'ll be there "eventually".', 'success');
@@ -79,6 +80,8 @@ const Rooms = (() => {
                         }
                         s.activePaperwork = null;
                         document.getElementById('btn-paperwork').style.opacity = '1';
+                        Engine.Notifications.clearBadge('paperwork');
+                        Engine.Notifications.clearBadge('reception');
                     });
                 }},
                 { text: DATA.paperworkExcuses[Math.floor(Math.random() * DATA.paperworkExcuses.length)] + ' (Decline)', action: () => {

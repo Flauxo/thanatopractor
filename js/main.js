@@ -132,12 +132,12 @@ window.Main = (() => {
         document.getElementById('btn-fast').onclick = () => { Engine.setSpeed(2); Audio8Bit.SFX.click(); };
 
         // ===== AUDIO TOGGLE =====
-        document.getElementById('audio-toggle').onclick = () => {
+        const audioToggle = document.getElementById('audio-toggle');
+        audioToggle.innerHTML = Icons.getHTML('speaker'); // init icon
+        audioToggle.onclick = () => {
             Audio8Bit.init();
             const muted = Audio8Bit.toggleMute();
-            const iconName = muted ? 'speaker_off' : 'speaker';
-            document.getElementById('audio-toggle').innerHTML =
-                `<span class="custom-icon" data-icon="${iconName}" style="width:28px;height:28px;display:block;flex-shrink:0">${Icons.getHTML(iconName)}</span>`;
+            audioToggle.innerHTML = Icons.getHTML(muted ? 'speaker_off' : 'speaker');
         };
 
         // ===== GAME OVER =====

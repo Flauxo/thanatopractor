@@ -635,6 +635,7 @@ html, body {
     width: 28px !important;
     height: 28px !important;
     flex-shrink: 0;
+    display: block !important;
 }
 
 /* Hide audio toggle on intro screens */

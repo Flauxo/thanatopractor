@@ -163,28 +163,7 @@ const Engine = (() => {
             Notifications.addBadge('reception');
         }
 
-        // Action Button Alerts in Reception
-        if (typeof document !== 'undefined') {
-            const btnArrival = document.getElementById('btn-new-arrival');
-            if (btnArrival) {
-                const hasExcl = btnArrival.innerHTML.includes('!');
-                if (canReceive && !hasExcl) {
-                    btnArrival.innerHTML = Icons.getHTML('skull') + ' NEW ARRIVAL <span style="color:var(--accent-bright)">!</span>';
-                } else if (!canReceive && hasExcl) {
-                    btnArrival.innerHTML = Icons.getHTML('skull') + ' NEW ARRIVAL';
-                }
-            }
 
-            const btnPaper = document.getElementById('btn-paperwork');
-            if (btnPaper) {
-                const hasExcl = btnPaper.innerHTML.includes('!');
-                if (state.activePaperwork && !hasExcl) {
-                    btnPaper.innerHTML = Icons.getHTML('paperwork') + ' PAPERWORK <span style="color:var(--accent-bright)">!</span>';
-                } else if (!state.activePaperwork && hasExcl) {
-                    btnPaper.innerHTML = Icons.getHTML('paperwork') + ' PAPERWORK';
-                }
-            }
-        }
 
         // End of day
         if (state.time >= 1320) { // 22:00

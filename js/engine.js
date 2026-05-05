@@ -238,6 +238,8 @@ const Engine = (() => {
                         if (event.room) Notifications.addBadge(event.room);
                         if (typeof Rooms !== 'undefined') Rooms.checkServiceComplete(fam);
                     }
+                } else if (event.type === 'hearse_arrival') {
+                    if (typeof Families !== 'undefined') Families.completeFamily(event.familyId);
                 } else {
                     showToast(`📋 ${event.desc}`, '');
                     if (event.room) {
@@ -247,8 +249,6 @@ const Engine = (() => {
                             Notifications.addBadge('arrival');
                         }
                     }
-                } else if (event.type === 'hearse_arrival') {
-                    if (typeof Families !== 'undefined') Families.completeFamily(event.familyId);
                 }
             }
         });

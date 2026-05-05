@@ -26,6 +26,7 @@ const Engine = (() => {
         gameOver: false,
         activePaperwork: null,
         pendingArrivals: 0,
+        dayEndPrompted: false,
         stats: { familiesServed: 0, totalEarnings: 0, diceRolls: 0, bestRoll: 0, worstDay: null }
     });
 
@@ -169,6 +170,22 @@ const Engine = (() => {
 
 
 
+        // Prompt for early sleep if all tasks done
+        if (!state.dayEndPrompted && state.time >= 1020) { // After 5:00 PM
+            const remainingArrivals = state.schedule.filter(s => s.type === 'arrival' && !s.triggered).length;
+            if (remainingArrivals === 0 && activeFams === 0 && waitingFams === 0 && !state.activePaperwork) {
+                state.dayEndPrompted = true;
+                if (typeof Dialogue !== 'undefined') {
+                    Dialogue.show('🛌 END OF DAY', "It seems there are no more tasks for today. Do you want to go to sleep?", [
+                        { text: "YES, GO TO SLEEP", action: () => endDay() },
+                        { text: "NOT YET", action: () => { 
+                            showToast("You decided to stay up a bit longer.", "");
+                        } }
+                    ]);
+                }
+            }
+        }
+
         // End of day
         if (state.time >= 1320) { // 22:00
             endDay();
@@ -187,6 +204,7 @@ const Engine = (() => {
         state.cremaIgnited = false;
         state.schedule = [];
         state.dayEvents = [];
+        state.dayEndPrompted = false;
         
         // Daily costs
         const dailyCost = 100 + (state.upgrades.length * 20);

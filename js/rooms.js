@@ -226,8 +226,21 @@ const Rooms = (() => {
                 Engine.showToast(msgs[quality], quality === 'good' || quality === 'excellent' ? 'success' : 'warning');
                 Families.updateSatisfaction(embalmTarget.id, quality === 'excellent' ? 20 : quality === 'good' ? 10 : quality === 'mediocre' ? 0 : quality === 'bad' ? -15 : -30, `Embalming: ${quality}`);
 
-                if (embalmTarget.wantsViewing) Engine.Notifications.addBadge('viewing');
-                if (embalmTarget.wantsChapel && Engine.hasUpgrade('chapel')) Engine.Notifications.addBadge('chapel');
+                if (embalmTarget.wantsViewing) {
+                    Engine.Notifications.addBadge('viewing');
+                } else {
+                    const s = Engine.getState();
+                    s.schedule.push({
+                        time: s.time + 180,
+                        type: 'cooldown_done',
+                        familyId: embalmTarget.id,
+                        desc: (embalmTarget.wantsCremation && Engine.hasUpgrade('crematorium')) 
+                                ? `${embalmTarget.deceasedName} is ready for cremation.`
+                                : `Family of ${embalmTarget.deceasedName} arrived for pick-up.`,
+                        triggered: false,
+                        room: (embalmTarget.wantsCremation && Engine.hasUpgrade('crematorium')) ? 'crematorium' : 'reception'
+                    });
+                }
 
                 resetEmbalmTasks();
                 document.getElementById('btn-embalm-roll').style.display = 'none';
@@ -450,7 +463,7 @@ const Rooms = (() => {
 
         // Schedule list
         const schedList = document.getElementById('crema-schedule-list');
-        const active = Families.getActive().filter(f => f.embalmed && f.wantsCremation && !f.cremated);
+        const active = Families.getActive().filter(f => f.embalmed && f.wantsCremation && !f.cremated && (f.wantsViewing || f.cooldownDone));
         if (active.length === 0) {
             schedList.innerHTML = '<p class="dim-text">No cremations scheduled</p>';
         } else {
@@ -616,7 +629,7 @@ const Rooms = (() => {
         const ivanQuote = DATA.ivanQuotes[Math.floor(Math.random() * DATA.ivanQuotes.length)];
         document.getElementById('ivan-speech').textContent = ivanQuote;
 
-        const active = Families.getActive().filter(f => f.embalmed && f.wantsChapel && !f.chapelDone);
+        const active = Families.getActive().filter(f => f.embalmed && f.wantsChapel && !f.chapelDone && (f.wantsViewing || f.cooldownDone));
         if (active.length === 0) {
             document.getElementById('chapel-service-info').innerHTML = '<p class="dim-text">No service scheduled</p>';
             document.getElementById('chapel-sermon-select').style.display = 'none';
@@ -707,10 +720,11 @@ const Rooms = (() => {
     function checkServiceComplete(family) {
         if (!family.active) return;
         const needsViewing = family.wantsViewing && !family.viewed;
+        const needsCooldown = !family.wantsViewing && !family.cooldownDone;
         const needsChapel = family.wantsChapel && Engine.hasUpgrade('chapel') && !family.chapelDone;
         const needsCremation = family.wantsCremation && Engine.hasUpgrade('crematorium') && !family.cremated;
 
-        if (!needsViewing && !needsChapel && !needsCremation && family.embalmed) {
+        if (!needsViewing && !needsCooldown && !needsChapel && !needsCremation && family.embalmed) {
             if (!family.waitingForTransport) {
                 family.waitingForTransport = true;
                 Engine.showToast(`All services for ${family.deceasedName} are complete. Go to Reception and call a hearse for transfer.`, 'success');

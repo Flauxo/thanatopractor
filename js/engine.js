@@ -207,6 +207,14 @@ const Engine = (() => {
                     showToast('📝 New paperwork on your desk!', '');
                     Notifications.addBadge('reception');
                     Notifications.addBadge('paperwork');
+                } else if (event.type === 'cooldown_done') {
+                    const fam = typeof Families !== 'undefined' ? Families.getById(event.familyId) : null;
+                    if (fam) {
+                        fam.cooldownDone = true;
+                        showToast(`📋 ${event.desc}`, '');
+                        if (event.room) Notifications.addBadge(event.room);
+                        if (typeof Rooms !== 'undefined') Rooms.checkServiceComplete(fam);
+                    }
                 } else {
                     showToast(`📋 ${event.desc}`, '');
                     if (event.room) {

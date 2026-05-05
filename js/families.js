@@ -37,6 +37,7 @@ const Families = (() => {
             services: [],
             totalCharged: 0,
             satisfaction: 70,
+            cooldownDone: false,
             notes: []
         };
         return family;

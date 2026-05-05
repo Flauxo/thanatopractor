@@ -152,7 +152,7 @@
     <div class="screen room-screen" id="reception-screen">
         <div class="room-header">
             <button class="back-btn" data-back="hub">◀</button>
-            <h2><span class="custom-icon" data-icon="reception"></span> RECEPTION</h2>
+            <h2>RECEPTION</h2>
         </div>
         <div class="room-status-bar" id="reception-status"></div>
         <div class="room-content">
@@ -165,7 +165,10 @@
                     <span class="custom-icon" data-icon="skull"></span> NEW ARRIVAL
                     <span class="nav-badge" id="badge-arrival" style="display:none">!</span>
                 </button>
-                <button class="action-btn" id="btn-phone-call"><span class="custom-icon" data-icon="phone"></span> PHONE CALL</button>
+                <button class="action-btn" id="btn-phone-call" style="position:relative">
+                    <span class="custom-icon" data-icon="phone"></span> PHONE CALL
+                    <span class="nav-badge" id="badge-phone" style="display:none">!</span>
+                </button>
                 <button class="action-btn" id="btn-paperwork" style="position:relative">
                     <span class="custom-icon" data-icon="paperwork"></span> PAPERWORK
                     <span class="nav-badge" id="badge-paperwork" style="display:none">!</span>
@@ -385,7 +388,7 @@
     <div id="families-screen" class="screen room-screen">
         <div class="room-header">
             <button class="back-btn" data-back="hub">◀</button>
-            <h2><span class="custom-icon" data-icon="families"></span> FAMILIES LOG</h2>
+            <h2>FAMILIES LOG</h2>
             <span class="room-subtitle">Those we've served.</span>
         </div>
         <div class="room-content" id="families-content">

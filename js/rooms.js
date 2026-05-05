@@ -24,6 +24,7 @@ const Rooms = (() => {
         };
         document.getElementById('btn-phone-call').onclick = () => {
             Audio8Bit.SFX.click();
+            Engine.Notifications.clearBadge('phone');
             Dialogue.show('📞 PHONE MENU', 'Who would you like to call today?', [
                 { text: 'Job Interview ($50)', action: () => {
                     const s = Engine.getState();

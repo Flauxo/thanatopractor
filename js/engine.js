@@ -151,6 +151,8 @@ const Engine = (() => {
         // Paperwork task spawn
         if (!state.activePaperwork && Math.random() < 0.003 * state.speed && typeof DATA !== 'undefined' && DATA.paperworkTasks) {
             state.activePaperwork = DATA.paperworkTasks[Math.floor(Math.random() * DATA.paperworkTasks.length)];
+            Notifications.addBadge('reception');
+            Notifications.addBadge('paperwork');
         }
 
         // Room Badges and Reception Action Alerts
@@ -161,6 +163,7 @@ const Engine = (() => {
         // Hub Badge for Reception
         if (waitingFams > 0 || state.activePaperwork) {
             Notifications.addBadge('reception');
+            if (waitingFams > 0) Notifications.addBadge('phone');
         }
 
 

@@ -5,7 +5,7 @@ const Engine = (() => {
         playerName: '',
         day: 1,
         time: 480, // minutes from midnight (8:00 = 480)
-        money: 5000,
+        money: 50000,
         reputation: 50,
         xp: 0,
         level: 1,

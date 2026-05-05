@@ -486,6 +486,22 @@ const Engine = (() => {
         document.querySelectorAll('.rs-day').forEach(el => el.textContent = s.day);
         document.querySelectorAll('.rs-time').forEach(el => el.textContent = getTimeString());
         document.querySelectorAll('.rs-money').forEach(el => el.textContent = s.money);
+
+        // Crema nav bar
+        const cremaBar = document.getElementById('nav-crema-temp-bar');
+        if (cremaBar) {
+            if (hasUpgrade('crematorium')) {
+                cremaBar.style.display = 'flex';
+                const fill = document.getElementById('nav-crema-temp-fill');
+                const perc = Math.max(0, Math.min(100, (s.cremaTemp - 20) / (1100 - 20) * 100));
+                fill.style.height = perc + '%';
+                if (perc > 80) fill.style.background = 'var(--danger)';
+                else if (perc > 40) fill.style.background = '#ff8800';
+                else fill.style.background = '#ffcc00';
+            } else {
+                cremaBar.style.display = 'none';
+            }
+        }
     }
 
     function animateHUD(id, cls) {

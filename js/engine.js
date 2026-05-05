@@ -99,6 +99,7 @@ const Engine = (() => {
         if (newLevel > state.level) {
             state.level = newLevel;
             showToast(`🎉 LEVEL UP! You are now Level ${newLevel}!`, 'success');
+            addMoney(10000, 'HQ Level Up Bonus');
             Audio8Bit.SFX.success();
         }
     }

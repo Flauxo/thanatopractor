@@ -49,9 +49,16 @@ const Rooms = (() => {
                     
                     Engine.addMoney(-cost, `Ordered ${waitingFams.length} Hearse Transfer(s)`);
                     waitingFams.forEach(f => {
-                        Families.completeFamily(f.id);
+                        f.transportOrdered = true;
+                        s.schedule.push({
+                            time: s.time + 60,
+                            type: 'hearse_arrival',
+                            familyId: f.id,
+                            desc: `Hearse is picking up ${f.deceasedName}'s family.`,
+                            triggered: false
+                        });
                     });
-                    Engine.showToast(`Hearses arrived to take ${waitingFams.length} families.`, 'success');
+                    Engine.showToast(`Hearses ordered. They will arrive in 1 hour to take ${waitingFams.length} families.`, 'success');
                     Engine.Notifications.clearBadge('phone');
                 }},
                 { text: 'Order Flowers ($50)', action: () => {
@@ -242,7 +249,7 @@ const Rooms = (() => {
                 } else {
                     const s = Engine.getState();
                     s.schedule.push({
-                        time: s.time + 180,
+                        time: s.time + 60,
                         type: 'cooldown_done',
                         familyId: embalmTarget.id,
                         desc: (embalmTarget.wantsCremation && Engine.hasUpgrade('crematorium')) 

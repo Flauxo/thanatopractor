@@ -138,7 +138,7 @@ const Engine = (() => {
 
         // Room Badges and Reception Action Alerts
         const activeFams = state.families.filter(f => f.active).length;
-        const waitingFams = state.families.filter(f => f.active && f.waitingForTransport).length;
+        const waitingFams = state.families.filter(f => f.active && f.waitingForTransport && !f.transportOrdered).length;
         const canReceive = activeFams < state.viewingRooms;
 
         // Check scheduled events
@@ -246,6 +246,8 @@ const Engine = (() => {
                             Notifications.addBadge('arrival');
                         }
                     }
+                } else if (event.type === 'hearse_arrival') {
+                    if (typeof Families !== 'undefined') Families.completeFamily(event.familyId);
                 }
             }
         });

@@ -158,10 +158,8 @@ const Engine = (() => {
         const canReceive = activeFams < state.viewingRooms;
 
         // Hub Badge for Reception
-        if (waitingFams > 0 || canReceive || state.activePaperwork) {
+        if (waitingFams > 0 || state.activePaperwork) {
             Notifications.addBadge('reception');
-        } else {
-            Notifications.clearBadge('reception');
         }
 
         // Action Button Alerts in Reception
@@ -244,8 +242,8 @@ const Engine = (() => {
         // Generate 1-3 family arrivals based on level
         const numArrivals = Math.min(1 + Math.floor(state.level / 2), 4);
         for (let i = 0; i < numArrivals; i++) {
-            // First arrival ~10:00 AM (~1.5 min real), subsequent ones every 2+ min
-            const arrivalTime = 660 + i * 240 + Math.floor(Math.random() * 60);
+            // First arrival ~8:15 AM (~8 seconds real), subsequent ones every 2+ min
+            const arrivalTime = 495 + i * 240 + Math.floor(Math.random() * 60);
             state.schedule.push({
                 time: arrivalTime,
                 type: 'arrival',

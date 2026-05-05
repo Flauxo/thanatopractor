@@ -71,14 +71,15 @@ const Rooms = (() => {
                             Engine.showToast(`Failure! You lost $${Math.abs(task.penalty)}.`, 'danger');
                         }
                         s.activePaperwork = null;
-                        document.getElementById('btn-paperwork').innerHTML = Icons.getHTML('paperwork') + ' PAPERWORK';
+                        document.getElementById('btn-paperwork').style.opacity = '1';
                     });
                 }},
                 { text: DATA.paperworkExcuses[Math.floor(Math.random() * DATA.paperworkExcuses.length)] + ' (Decline)', action: () => {
                     // Dismiss the paperwork task completely
                     s.activePaperwork = null;
                     Engine.Notifications.clearBadge('reception');
-                    document.getElementById('btn-paperwork').style.opacity = '0.5';
+                    Engine.Notifications.clearBadge('paperwork');
+                    document.getElementById('btn-paperwork').style.opacity = '1';
                     Engine.showToast('📝 Paperwork discarded.', '');
                 }}
             ]);

@@ -12,10 +12,16 @@ const Families = (() => {
         const mood = DATA.familyMoods[Math.floor(Math.random() * DATA.familyMoods.length)];
         const cause = DATA.deathCauses[Math.floor(Math.random() * DATA.deathCauses.length)];
         
+        const s = typeof Engine !== 'undefined' ? Engine.getState() : null;
+        
         // Only ask for services the player actually has
-        const wantsCremation = typeof Engine !== 'undefined' && Engine.hasUpgrade('crematorium') ? Math.random() > 0.5 : false;
+        let wantsCremation = s && s.upgrades.includes('crematorium') ? Math.random() < 0.5 : false;
+        if (s && s.forcedCremation > 0) {
+            wantsCremation = true;
+            s.forcedCremation--;
+        }
         const wantsViewing = Math.random() > 0.3; // Base viewing room is unlocked
-        const wantsChapel = typeof Engine !== 'undefined' && Engine.hasUpgrade('chapel') ? Math.random() > 0.4 : false;
+        const wantsChapel = s && s.upgrades.includes('chapel') ? Math.random() > 0.4 : false;
         
         const budget = ['low','medium','high','unlimited'][Math.floor(Math.random() * 4)];
 

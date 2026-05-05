@@ -21,6 +21,7 @@ const Engine = (() => {
         notifications: [],
         dayEvents: [],
         cafeSatisfaction: 100,
+        cafeOrders: [],
         viewingRooms: 1,
         speed: 1, // 0=pause, 1=normal, 2=fast
         gameOver: false,
@@ -160,8 +161,6 @@ const Engine = (() => {
             } else {
                 triggerRandomEvent();
             }
-        }
-
         // Random event chance - only after 12:00 PM (2 mins real time) and during dead time
         if (activeFams === 0 && waitingFams === 0 && state.time > 720 && Math.random() < 0.01 * state.speed) {
             triggerRandomEvent();
@@ -169,8 +168,19 @@ const Engine = (() => {
 
         // Cafe orders
         if (hasUpgrade('cafeteria') && activeFams > 0 && Math.random() < 0.01 * state.speed) {
-            Notifications.addBadge('cafeteria');
-            state.lastActivityTime = state.time;
+            const active = state.families.filter(f => f.active && f.arrived);
+            if (active.length > 0 && typeof DATA !== 'undefined' && DATA.cafeOrders) {
+                const family = active[Math.floor(Math.random() * active.length)];
+                const isAlcohol = Math.random() < 0.2;
+                if (isAlcohol) {
+                    state.cafeOrders.push({ type: 'alcohol', familyId: family.id, served: false });
+                } else {
+                    const item = DATA.cafeOrders[Math.floor(Math.random() * DATA.cafeOrders.length)];
+                    state.cafeOrders.push({ type: 'food', item, familyId: family.id, served: false });
+                }
+                Notifications.addBadge('cafeteria');
+                state.lastActivityTime = state.time;
+            }
         }
 
         // Paperwork task spawn - higher chance during dead time
@@ -266,6 +276,9 @@ const Engine = (() => {
                         Notifications.addBadge(event.room);
                         if (event.type === 'arrival') {
                             state.pendingArrivals = (state.pendingArrivals || 0) + 1;
+                            if (event.forceCremation) {
+                                state.forcedCremation = (state.forcedCremation || 0) + 1;
+                            }
                             Notifications.addBadge('arrival');
                             state.lastActivityTime = state.time;
                         }
@@ -363,6 +376,16 @@ const Engine = (() => {
         }
         if (id === 'viewing2') state.viewingRooms = 2;
         if (id === 'viewing3') state.viewingRooms = 3;
+        if (id === 'crematorium') {
+            state.schedule.push({
+                time: state.time + 1,
+                type: 'arrival',
+                desc: 'A family is here for a cremation service.',
+                triggered: false,
+                room: 'reception',
+                forceCremation: true
+            });
+        }
         
         Audio8Bit.SFX.success();
         return true;

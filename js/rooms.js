@@ -379,58 +379,43 @@ const Rooms = (() => {
         });
     }
 
-    // ===== CAFETERIA =====
-    let cafeOrders = [];
-
     function showCafeteria() {
         activeRoom = 'cafeteria';
         Engine.Notifications.clearBadge('cafeteria');
         const orderList = document.getElementById('cafe-order-list');
-        const active = Families.getActive();
+        const s = Engine.getState();
 
-        if (active.length === 0) {
-            orderList.innerHTML = '<p class="dim-text">No customers today</p>';
+        if (s.cafeOrders.length === 0) {
+            orderList.innerHTML = '<p class="dim-text">No active orders right now.</p>';
             return;
         }
 
-        // Generate random orders if none exist
-        if (cafeOrders.length === 0 && active.length > 0) {
-            const numOrders = 1 + Math.floor(Math.random() * 3);
-            for (let i = 0; i < numOrders; i++) {
-                const isAlcohol = Math.random() < 0.2;
-                if (isAlcohol) {
-                    cafeOrders.push({ type: 'alcohol', family: active[0], served: false });
-                } else {
-                    const item = DATA.cafeOrders[Math.floor(Math.random() * DATA.cafeOrders.length)];
-                    cafeOrders.push({ type: 'food', item, family: active[0], served: false });
-                }
-            }
-        }
-
-        orderList.innerHTML = cafeOrders.map((o, i) => {
+        orderList.innerHTML = s.cafeOrders.map((o, i) => {
             const iconHTML = o.type === 'alcohol' ? Icons.getHTML('🍺') : Icons.getHTML(o.item.icon);
             if (o.served) return `<div class="action-btn" style="opacity:0.4">${iconHTML} ${o.type === 'alcohol' ? 'Alcohol request' : o.item.item} — ✓ Served</div>`;
             if (o.type === 'alcohol') {
-                return `<div class="action-btn" style="border-color:var(--warning)" onclick="Rooms.handleAlcohol(${i})">${iconHTML} ${DATA.cafeAlcoholRequests[Math.floor(Math.random() * DATA.cafeAlcoholRequests.length)]}</div>`;
+                return `<div class="action-btn" style="border-color:var(--warning)" onclick="Rooms.handleAlcohol(${i})">${iconHTML} Alcohol Request</div>`;
             }
-            return `<div class="action-btn" onclick="Rooms.serveOrder(${i})">${iconHTML} ${o.item.item} — $${o.item.price} <span style="color:var(--text-dim)">${o.item.humor}</span></div>`;
+            return `<div class="action-btn" onclick="Rooms.serveOrder(${i})">${iconHTML} ${o.item.item} — $${o.item.price}</div>`;
         }).join('');
 
         updateCafeSatisfaction();
     }
 
     function serveOrder(idx) {
-        const order = cafeOrders[idx];
+        const s = Engine.getState();
+        const order = s.cafeOrders[idx];
         if (!order || order.served) return;
         order.served = true;
         Engine.addMoney(order.item.price, `Sold ${order.item.item}`);
-        Families.updateSatisfaction(order.family.id, 3, 'Cafeteria service');
+        Families.updateSatisfaction(order.familyId, 3, 'Cafeteria service');
         Audio8Bit.SFX.success();
         showCafeteria();
     }
 
     function handleAlcohol(idx) {
-        const order = cafeOrders[idx];
+        const s = Engine.getState();
+        const order = s.cafeOrders[idx];
         if (!order || order.served) return;
         Dialogue.show('🍺 ALCOHOL REQUEST', DATA.cafeAlcoholRequests[Math.floor(Math.random() * DATA.cafeAlcoholRequests.length)],
             DATA.cafeAlcoholChoices.map(c => ({
@@ -438,7 +423,7 @@ const Rooms = (() => {
                 action: () => {
                     if (c.rep) Engine.addReputation(c.rep, c.rep > 0 ? 'Handled alcohol request well' : 'Served alcohol illegally');
                     if (c.money) Engine.addMoney(c.money, 'Alcohol-related');
-                    if (c.satisfaction) Families.updateSatisfaction(order.family.id, c.satisfaction, c.satisfaction > 0 ? 'Got what they wanted' : 'Denied alcohol');
+                    if (c.satisfaction) Families.updateSatisfaction(order.familyId, c.satisfaction, c.satisfaction > 0 ? 'Got what they wanted' : 'Denied alcohol');
                     order.served = true;
                     showCafeteria();
                 }
@@ -447,7 +432,8 @@ const Rooms = (() => {
     }
 
     function updateCafeSatisfaction() {
-        const served = cafeOrders.filter(o => o.served).length;
+        const s = Engine.getState();
+        const served = s.cafeOrders.filter(o => o.served).length;
         const total = cafeOrders.length || 1;
         const pct = Math.round((served / total) * 100);
         document.getElementById('cafe-sat-fill').style.width = pct + '%';

@@ -298,6 +298,16 @@ html, body {
     background: #ffcc00;
     transition: height 0.3s ease, background 0.3s ease;
 }
+.cafe-order-dot {
+    position: absolute;
+    width: 8px; height: 8px;
+    background: #ff4444;
+    border-radius: 50%;
+    right: 12px; top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 8px rgba(255, 68, 68, 0.6);
+    animation: badge-pulse 0.6s infinite alternate;
+}
 
 /* Time Controls */
 .time-controls {

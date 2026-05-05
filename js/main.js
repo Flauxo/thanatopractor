@@ -109,7 +109,7 @@ window.Main = (() => {
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.onclick = () => {
                 if (btn.classList.contains('locked')) {
-                    Engine.showToast('🔒 Buy this room in the Office!', 'warning');
+                    Engine.showToast('🔒 Buy this room in the Upgrades menu!', 'warning');
                     return;
                 }
                 Audio8Bit.SFX.click();

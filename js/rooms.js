@@ -174,16 +174,8 @@ const Rooms = (() => {
             rollBtn.style.display = 'none';
         }
 
-        // Buy supplies
-        document.getElementById('btn-buy-supplies').onclick = () => {
-            if (s.money < 200) { Engine.showToast('Not enough money!', 'danger'); return; }
-            Engine.addMoney(-200, 'Embalming supplies');
-            s.supplies.formaldehyde += 5;
-            s.supplies.humectant += 4;
-            s.supplies.dye += 3;
-            s.supplies.outfits += 2;
-            showEmbalming();
-        };
+        // Buy supplies — open the shop
+        document.getElementById('btn-buy-supplies').onclick = () => openSuppliesShop();
 
         // Roll button
         document.getElementById('btn-embalm-roll').onclick = () => {
@@ -240,6 +232,103 @@ const Rooms = (() => {
                     Engine.showToast(`🧪 ${remaining[0].deceasedName} still needs embalming!`, '');
                 }
             });
+        };
+    }
+
+    // ===== SUPPLIES SHOP =====
+    const SUPPLY_BASE = {
+        formaldehyde: { label: 'Formaldehyde', base: 18, unit: 'vials', key: 'formaldehyde' },
+        humectant:    { label: 'Humectant',    base: 14, unit: 'jars',  key: 'humectant' },
+        dye:          { label: 'Cosmetic Dye', base: 10, unit: 'tubes', key: 'dye' },
+        outfits:      { label: 'Burial Outfit',base: 55, unit: 'sets',  key: 'outfits' }
+    };
+
+    function openSuppliesShop() {
+        const s = Engine.getState();
+        const overlay = document.getElementById('supplies-overlay');
+
+        // Generate fluctuating prices fresh each visit
+        const prices = {};
+        let marketMood = '';
+        const roll = Math.random();
+        if (roll < 0.15) { marketMood = '📉 Supplier clearance! Prices low.'; }
+        else if (roll < 0.6) { marketMood = '📦 Normal market conditions.'; }
+        else if (roll < 0.85) { marketMood = '📈 High demand. Prices elevated.'; }
+        else { marketMood = '💀 Critical shortage. Prices through the roof!'; }
+
+        document.getElementById('shop-subtitle').textContent = marketMood;
+
+        const quantities = {};
+        Object.keys(SUPPLY_BASE).forEach(key => {
+            const item = SUPPLY_BASE[key];
+            // Price multiplier: 0.5x to 5x depending on market
+            let mult;
+            if (roll < 0.15)      mult = 0.4 + Math.random() * 0.4;   // 0.4–0.8x cheap
+            else if (roll < 0.6)  mult = 0.8 + Math.random() * 0.6;   // 0.8–1.4x normal
+            else if (roll < 0.85) mult = 1.5 + Math.random() * 1.5;   // 1.5–3x expensive
+            else                  mult = 3.0 + Math.random() * 2.5;   // 3–5.5x extortionate
+
+            prices[key] = Math.ceil(item.base * mult);
+            quantities[key] = 0;
+        });
+
+        function priceClass(key) {
+            const ratio = prices[key] / SUPPLY_BASE[key].base;
+            if (ratio < 0.8) return 'price-cheap';
+            if (ratio < 1.5) return 'price-normal';
+            if (ratio < 3.0) return 'price-expensive';
+            return 'price-extortionate';
+        }
+
+        function renderShop() {
+            let total = 0;
+            Object.keys(SUPPLY_BASE).forEach(k => total += prices[k] * quantities[k]);
+            document.getElementById('shop-total').textContent = total;
+
+            document.getElementById('shop-items').innerHTML = Object.keys(SUPPLY_BASE).map(key => {
+                const item = SUPPLY_BASE[key];
+                const cls = priceClass(key);
+                const stock = s.supplies[key];
+                return `
+                    <div class="shop-item">
+                        <div class="shop-item-name">${item.label}<br><span class="shop-item-stock">In stock: ${stock} ${item.unit}</span></div>
+                        <div class="shop-item-price ${cls}">$${prices[key]}/ea</div>
+                        <div class="shop-qty">
+                            <button class="qty-btn" data-key="${key}" data-dir="-1">−</button>
+                            <span class="qty-val" id="qty-${key}">${quantities[key]}</span>
+                            <button class="qty-btn" data-key="${key}" data-dir="1">+</button>
+                        </div>
+                    </div>`;
+            }).join('');
+
+            // Attach qty button handlers
+            document.querySelectorAll('.qty-btn').forEach(btn => {
+                btn.onclick = () => {
+                    const key = btn.dataset.key;
+                    const dir = parseInt(btn.dataset.dir);
+                    quantities[key] = Math.max(0, Math.min(20, quantities[key] + dir));
+                    renderShop();
+                };
+            });
+        }
+
+        renderShop();
+        overlay.style.display = 'flex';
+
+        document.getElementById('btn-shop-cancel').onclick = () => {
+            overlay.style.display = 'none';
+        };
+
+        document.getElementById('btn-shop-buy').onclick = () => {
+            const total = Object.keys(SUPPLY_BASE).reduce((sum, k) => sum + prices[k] * quantities[k], 0);
+            if (total === 0) { Engine.showToast('Select at least one item!', 'warning'); return; }
+            if (s.money < total) { Engine.showToast(`Not enough money! Need $${total}.`, 'danger'); return; }
+
+            Engine.addMoney(-total, 'Supply purchase');
+            Object.keys(SUPPLY_BASE).forEach(k => { s.supplies[k] += quantities[k]; });
+            overlay.style.display = 'none';
+            showEmbalming();
+            Engine.showToast('📦 Supplies delivered!', 'success');
         };
     }
 

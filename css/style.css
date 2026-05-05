@@ -496,6 +496,65 @@ html, body {
 .comp-value { color: var(--accent-bright); font-family: var(--font-pixel); font-size: 9px; }
 .comp-stars { color: var(--gold); font-size: 20px; }
 
+/* Supplies Shop */
+.supplies-shop {
+    background: rgba(10, 6, 16, 0.85);
+    border: 2px solid var(--bg-panel-border);
+    backdrop-filter: blur(8px);
+    padding: 20px; max-width: 420px; width: 100%;
+}
+.shop-title {
+    font-family: var(--font-pixel); font-size: 10px;
+    color: var(--accent-bright); text-align: center;
+    margin-bottom: 4px;
+    text-shadow: 0 0 10px var(--accent-bright);
+}
+.shop-subtitle {
+    font-family: var(--font-vt); font-size: 16px;
+    color: var(--text-dim); text-align: center; margin-bottom: 16px;
+}
+.shop-items { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.shop-item {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(30,20,51,0.5); border: 1px solid var(--bg-panel-border);
+    padding: 10px 12px;
+}
+.shop-item-name {
+    font-family: var(--font-pixel); font-size: 8px;
+    color: var(--text-primary); flex: 1;
+}
+.shop-item-stock { font-family: var(--font-vt); font-size: 16px; color: var(--text-dim); }
+.shop-item-price {
+    font-family: var(--font-pixel); font-size: 8px;
+    min-width: 60px; text-align: right;
+}
+.price-cheap { color: var(--success); }
+.price-normal { color: var(--gold); }
+.price-expensive { color: var(--warning); }
+.price-extortionate { color: var(--danger); }
+.shop-qty {
+    display: flex; align-items: center; gap: 4px;
+}
+.qty-btn {
+    font-family: var(--font-pixel); font-size: 10px;
+    background: var(--bg-panel); border: 1px solid var(--bg-panel-border);
+    color: var(--text-primary); width: 22px; height: 22px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.qty-btn:hover { border-color: var(--accent-pink); color: var(--accent-bright); }
+.qty-val {
+    font-family: var(--font-pixel); font-size: 9px;
+    color: var(--accent-bright); min-width: 20px; text-align: center;
+}
+.shop-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--bg-panel-border); padding-top: 12px;
+}
+.shop-total {
+    font-family: var(--font-pixel); font-size: 9px; color: var(--gold);
+}
+.shop-actions { display: flex; gap: 8px; }
+
 /* Game Over */
 #gameover-screen {
     background: url('../assets/scenes/title.png') center/cover no-repeat;

@@ -123,7 +123,7 @@ const Engine = (() => {
     }
     function setSpeed(s) {
         if (s === 0) state.speed = 0;
-        else if (s === 1) state.speed = 4; // Normal is now 4x
+        else if (s === 1) state.speed = 2; // Normal is now 2x
         else if (s === 2) state.speed = 4; // Fast is now 4x
         
         document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));

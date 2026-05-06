@@ -358,7 +358,7 @@ const DATA_ES = {
     ],
 
     paperworkTasks: [
-        { text: "Intenta evitar pagarle al florista por el pedido equivocado.", dc: 12, reward: 100, penalty: -50 },
+        { text: "Intentar pagarle al florista menos dinero de la cuenta.", dc: 12, reward: 100, penalty: -50 },
         { text: "Carga los gastos del orador Iván a la aseguradora.", dc: 15, reward: 200, penalty: 0 },
         { text: "Usa el coche de tu sobrina como coche fúnebre para ahorrar.", dc: 10, reward: 150, penalty: -100, repPenalty: -5 },
         { text: "Contrata a un equipo de limpieza que parece sospechosamente menor de edad.", dc: 8, reward: 50, penalty: -150, repPenalty: -10 },

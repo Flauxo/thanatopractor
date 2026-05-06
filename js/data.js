@@ -365,7 +365,7 @@ const DATA = {
 
     // ===== PAPERWORK TASKS =====
     paperworkTasks: [
-        { text: "Try to avoid paying the florist for the wrong order.", dc: 12, reward: 100, penalty: -50 },
+        { text: "Try to pay the florist less money than the actual bill.", dc: 12, reward: 100, penalty: -50 },
         { text: "Bill speaker Ivan's expenses to the insurance company.", dc: 15, reward: 200, penalty: 0 },
         { text: "Use your niece's car as a hearse to save money.", dc: 10, reward: 150, penalty: -100, repPenalty: -5 },
         { text: "Hire a cleaning crew that looks suspiciously underage.", dc: 8, reward: 50, penalty: -150, repPenalty: -10 },

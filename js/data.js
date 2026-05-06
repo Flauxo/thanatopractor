@@ -125,7 +125,7 @@ const DATA = {
     ],
     cafeAlcoholChoices: [
         { text: "\"I'm sorry, alcohol is not permitted on the premises.\"", rep: 1, money: 0, satisfaction: -5 },
-        { text: "\"I happen to have some 'herbal tea' under the counter... [Bribe: ${bribe}]\"", rep: -5, money: 0, satisfaction: 25, isBribe: true },
+        { text: "\"But for {bribe} coins, I can serve it to you...\"", rep: -5, money: 0, satisfaction: 25, isBribe: true },
         { text: "\"Let me offer you our 'Comfort Blend' instead. Extra strong coffee.\"", rep: 1, money: 2, satisfaction: 5 }
     ],
 

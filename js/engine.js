@@ -189,6 +189,11 @@ const Engine = (() => {
             triggerRandomEvent();
         }
 
+        // Bad Luck event chance (Level 10+)
+        if (getLevel() >= 10 && (state.time - state.lastRandomEventTime) >= cooldown && Math.random() < 0.01 * state.speed) {
+            triggerBadLuckEvent();
+        }
+
         // Cafe orders
         const pendingCafe = state.cafeOrders.filter(o => !o.served).length;
         if (hasUpgrade('cafeteria') && activeFams > 0 && pendingCafe < 3 && Math.random() < 0.05 * state.speed) {
@@ -437,6 +442,23 @@ const Engine = (() => {
                 showToast(I18n.T('shop.delivered'), 'success');
             }
         }
+    }
+
+    function triggerBadLuckEvent() {
+        state.lastRandomEventTime = state.time; // Share cooldown with random events
+        if (!DATA.badLuckEvents) return;
+        const event = DATA.badLuckEvents[Math.floor(Math.random() * DATA.badLuckEvents.length)];
+        
+        if (typeof Dialogue !== 'undefined') {
+            Dialogue.show(I18n.T('dlg.bad_luck'), I18n.T(event.textKey), [{
+                text: "OK",
+                action: () => {
+                    if (event.rep) addReputation(event.rep, I18n.T('dlg.bad_luck'));
+                    if (event.money) addMoney(event.money, I18n.T('dlg.bad_luck'));
+                }
+            }]);
+        }
+        if (typeof Audio8Bit !== 'undefined') Audio8Bit.SFX.fail();
     }
 
     // ===== UPGRADES =====

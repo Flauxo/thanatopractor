@@ -434,6 +434,19 @@ const DATA = {
         ]}
     ],
 
+    badLuckEvents: [
+        { id: "roof_rats", textKey: "bad.roof_rats", rep: -10, money: -300 },
+        { id: "broken_lighter", textKey: "bad.broken_lighter", rep: 0, money: -200 },
+        { id: "coffee_explosion", textKey: "bad.coffee_explosion", rep: -15, money: 0 },
+        { id: "termite_coffin", textKey: "bad.termite_coffin", rep: 0, money: -400 },
+        { id: "wrong_air", textKey: "bad.wrong_air", rep: -5, money: 0 },
+        { id: "ghost_complaint", textKey: "bad.ghost_complaint", rep: -8, money: 0 },
+        { id: "tax_error", textKey: "bad.tax_error", rep: 0, money: -500 },
+        { id: "slip_fall", textKey: "bad.slip_fall", rep: -20, money: -150 },
+        { id: "stolen_urn", textKey: "bad.stolen_urn", rep: -12, money: 0 },
+        { id: "cursed_phone", textKey: "bad.cursed_phone", rep: -5, money: 0 }
+    ],
+
     // ===== HEARSE DRIVER =====
     hearseDriverQuotes: [
         "\"Buckle up! Wait, wrong audience. The cargo doesn't buckle.\"",

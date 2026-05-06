@@ -221,7 +221,7 @@ I18n.register('es', {
 'ov.shop_title': '🛒 MERCADO DE SUMINISTROS',
 'ov.shop_subtitle': 'Los precios fluctúan a diario. Compra con cabeza.',
 'ov.shop_cancel': 'CANCELAR',
-'ov.shop_buy': 'COMPRAR TODO',
+'ov.shop_buy': 'COMPRAR',
 'ov.shop_select': '¡Selecciona al menos un artículo!', 'ov.shop_no_money': '¡No hay suficiente dinero! Necesitas ${0}.',
 'ov.shop_delivered': '📦 ¡Suministros entregados!',
 'shop.mood_clearance': '📉 ¡Liquidación del proveedor! Precios bajos.',

@@ -214,7 +214,7 @@ I18n.register('en', {
 'ov.shop_title': '🛒 SUPPLY MARKET',
 'ov.shop_subtitle': 'Prices fluctuate daily. Buy wisely.',
 'ov.shop_cancel': 'CANCEL',
-'ov.shop_buy': 'BUY ALL',
+'ov.shop_buy': 'BUY',
 'ov.shop_select': 'Select at least one item!', 'ov.shop_no_money': 'Not enough money! Need ${0}.',
 'ov.shop_delivered': '📦 Supplies delivered!',
 'shop.mood_clearance': '📉 Supplier clearance! Prices low.',

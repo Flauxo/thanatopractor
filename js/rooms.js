@@ -475,7 +475,7 @@ const Rooms = (() => {
         };
 
         document.getElementById('btn-shop-buy').onclick = () => {
-            const total = Object.keys(SUPPLY_BASE).reduce((sum, k) => sum + prices[k] * quantities[k], 0);
+            const total = Object.keys(supplies).reduce((sum, k) => sum + prices[k] * quantities[k], 0);
             if (total === 0) { Engine.showToast(I18n.T('shop.select_item'), 'warning'); return; }
             if (s.money < total) { Engine.showToast(I18n.T('shop.no_money', total), 'danger'); return; }
 

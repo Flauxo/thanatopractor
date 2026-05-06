@@ -131,7 +131,7 @@ html, body {
 }
 .game-title .pink { color: var(--accent-bright); }
 .tagline {
-    font-family: var(--font-pixel); font-size: clamp(7px, 2vw, 10px);
+    font-family: var(--font-pixel); font-size: clamp(10px, 2.5vw, 14px);
     color: var(--text-dim); margin-bottom: 60px;
     line-height: 2; /* Increased line-height to prevent overlapping */
     text-shadow: 2px 2px 2px #000;

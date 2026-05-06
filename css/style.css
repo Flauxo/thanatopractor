@@ -357,7 +357,7 @@ html, body {
 
 /* ===== ROOM SCREENS ===== */
 .room-screen { background: var(--bg-darkest); }
-#reception-screen { background: url('../assets/scenes/reception.png') center/cover no-repeat; image-rendering: pixelated; }
+#reception-screen { background: url('../assets/scenes/title.png') center/cover no-repeat; image-rendering: pixelated; }
 #embalming-screen { background: url('../assets/scenes/embalming.png') center/cover no-repeat; image-rendering: pixelated; }
 #cafeteria-screen { background: url('../assets/scenes/cafeteria.png') center/cover no-repeat; image-rendering: pixelated; }
 #crematorium-screen { background: url('../assets/scenes/crematorium.png') center/cover no-repeat; image-rendering: pixelated; }

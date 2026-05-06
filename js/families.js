@@ -134,18 +134,18 @@ const Families = (() => {
         if (!list) return;
         const families = Engine.getState().families;
         if (families.length === 0) {
-            list.innerHTML = '<p class="dim-text">No families yet. Death takes a day off?</p>';
+            list.innerHTML = `<p class="dim-text">${I18n.T('ov.no_families')}</p>`;
             return;
         }
         list.innerHTML = families.slice(-3).reverse().map(f => `
             <div class="family-card">
                 <div class="family-name">${Icons.getHTML(f.mood.icon)} ${f.deceasedName}</div>
                 <div class="family-details">
-                    Age ${f.age} | ${f.sex} | ${Icons.getHTML(f.religion.icon)} ${f.religion.name}<br>
-                    Cause: ${f.cause}<br>
-                    ${f.wantsCremation ? Icons.getHTML('crematorium') + ' Cremation' : Icons.getHTML('coffin') + ' Burial'} 
-                    ${f.wantsViewing ? '| ' + Icons.getHTML('viewing') + ' Viewing' : ''} 
-                    ${f.wantsChapel ? '| ' + Icons.getHTML('chapel') + ' Chapel' : ''}
+                    ${I18n.T('dlg.age')} ${f.age} | ${I18n.T('dlg.' + f.sex)} | ${Icons.getHTML(f.religion.icon)} ${f.religion.name}<br>
+                    ${I18n.T('dlg.cause')} ${f.cause}<br>
+                    ${f.wantsCremation ? Icons.getHTML('crematorium') + ' ' + I18n.T('dlg.cremation') : Icons.getHTML('coffin') + ' ' + I18n.T('dlg.burial')} 
+                    ${f.wantsViewing ? '| ' + Icons.getHTML('viewing') + ' ' + I18n.T('dlg.viewing_req') : ''} 
+                    ${f.wantsChapel ? '| ' + Icons.getHTML('chapel') + ' ' + I18n.T('dlg.chapel_req') : ''}
                 </div>
                 ${f.rating !== null ? `<div class="family-rating">${Icons.getHTML('star').repeat(Math.max(1, Math.round(f.rating/2)))} (${f.rating}/10) — $${f.totalCharged}</div>` : ''}
                 <span class="family-status ${f.active ? (f.waitingForTransport ? 'warning' : 'active') : 'completed'}">

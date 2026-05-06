@@ -82,24 +82,23 @@ const Dialogue = (() => {
             }
         }));
 
-        // Show intro first, then dialogue
-        enqueue(`${family.mood.icon} NEW ARRIVAL`, `${intro}\n\n${family.mood.desc}`, null, () => {});
-        enqueue(`${family.mood.icon} ${family.deceasedName}'s Family`, text, choices, () => {
+        enqueue(`${family.mood.icon} ${I18n.T('dlg.new_arrival')}`, `${intro}\n\n${family.mood.desc}`, null, () => {});
+        enqueue(`${family.mood.icon} ${I18n.T('dlg.family_title', family.deceasedName)}`, text, choices, () => {
             // After dialogue, show service summary
             const serviceInfo = `
-                <strong>Deceased:</strong> ${family.deceasedName}<br>
-                <strong>Age:</strong> ${family.age} | <strong>Sex:</strong> ${family.sex}<br>
-                <strong>Religion:</strong> ${family.religion.icon} ${family.religion.name}<br>
-                <strong>Cause:</strong> ${family.cause}<br>
-                <strong>Service:</strong> ${family.wantsCremation ? '🔥 Cremation' : '⚰️ Burial'}<br>
-                ${family.wantsViewing ? '👁️ Viewing requested' : ''}<br>
-                ${family.wantsChapel ? '⛪ Chapel service requested' : ''}
+                <strong>${I18n.T('dlg.deceased')}</strong> ${family.deceasedName}<br>
+                <strong>${I18n.T('dlg.age')}</strong> ${family.age} | <strong>${I18n.T('dlg.sex')}</strong> ${I18n.T('dlg.' + family.sex)}<br>
+                <strong>${I18n.T('dlg.religion')}</strong> ${family.religion.icon} ${family.religion.name}<br>
+                <strong>${I18n.T('dlg.cause')}</strong> ${family.cause}<br>
+                <strong>${I18n.T('dlg.service')}</strong> ${family.wantsCremation ? I18n.T('dlg.cremation') : I18n.T('dlg.burial')}<br>
+                ${family.wantsViewing ? I18n.T('dlg.viewing_req') : ''}<br>
+                ${family.wantsChapel ? I18n.T('dlg.chapel_req') : ''}
             `;
-            show('📋 FAMILY REGISTERED', serviceInfo, [
-                { text: 'UNDERSTOOD, PROCEED', action: () => {
+            show(I18n.T('dlg.family_registered'), serviceInfo, [
+                { text: I18n.T('dlg.understood'), action: () => {
                     family.arrived = true;
                     Engine.Notifications.addBadge('embalming');
-                    Engine.showToast(`🧪 ${family.deceasedName} needs embalming!`, '');
+                    Engine.showToast(I18n.T('dlg.needs_embalming', family.deceasedName), '');
                     Families.updateFamiliesLog();
                     Engine.save();
                     if (window.Main && window.Main.showScreen) {

@@ -383,7 +383,7 @@ const Engine = (() => {
         state.dayEvents.push(event.type);
         
         if (event.choices) {
-            Dialogue.show('📢 RANDOM EVENT', event.text, event.choices.map(c => ({
+            Dialogue.show(I18n.T('dlg.random_event'), event.text, event.choices.map(c => ({
                 text: c.text,
                 action: () => {
                     if (c.rep) addReputation(c.rep, c.text);

@@ -238,4 +238,7 @@ I18n.register('en', {
 'cafe.inspector_title': '🚨 HEALTH INSPECTOR',
 'cafe.inspector_msg': 'Stop right there! I am a secret health inspector. You have been caught serving illegal alcohol multiple times today. This establishment is closed until further notice!',
 'cafe.inspector_ok': 'UNDERSTOOD',
+'dlg.male': 'Male', 'dlg.female': 'Female',
+'dlg.needs_embalming': '🧪 {0} needs embalming!',
+'dlg.family_title': "Family of {0}",
 });

@@ -324,13 +324,16 @@ const Rooms = (() => {
                 qText.textContent = quality.toUpperCase();
 
                 const msgs = {
-                    catastrophic: I18n.T('emb.q_catastrophic', embalmTarget.deceasedName),
-                    bad: I18n.T('emb.q_bad', embalmTarget.deceasedName),
-                    mediocre: I18n.T('emb.q_mediocre', embalmTarget.deceasedName),
-                    good: I18n.T('emb.q_good', embalmTarget.deceasedName),
-                    excellent: I18n.T('emb.q_excellent', embalmTarget.deceasedName)
+                    catastrophic: I18n.T('emb.catastrophic'),
+                    bad: I18n.T('emb.bad'),
+                    mediocre: I18n.T('emb.mediocre'),
+                    good: I18n.T('emb.good'),
+                    excellent: I18n.T('emb.excellent')
                 };
                 Engine.showToast(msgs[quality], quality === 'good' || quality === 'excellent' ? 'success' : 'warning');
+                Dialogue.show(I18n.T('emb.quality_title', I18n.T('dice.' + quality)), msgs[quality], [
+                    { text: I18n.T('ov.dismiss'), action: () => showEmbalming() }
+                ]);
                 Families.updateSatisfaction(embalmTarget.id, quality === 'excellent' ? 20 : quality === 'good' ? 10 : quality === 'mediocre' ? 0 : quality === 'bad' ? -15 : -30, `Embalming: ${quality}`);
 
                 if (embalmTarget.wantsViewing) {
@@ -846,7 +849,7 @@ const Rooms = (() => {
         const needsCremation = family.wantsCremation && Engine.hasUpgrade('crematorium') && !family.cremated;
 
         if (needsCremation && family.embalmed && (family.viewed || family.cooldownDone) && !family.cremationWaitingNotified) {
-            Engine.showToast(T('crema.waiting', family.deceasedName), 'warning');
+            Engine.showToast(I18n.T('crema.waiting_toast', family.deceasedName), 'warning');
             family.cremationWaitingNotified = true;
             Engine.Notifications.addBadge('crematorium');
         }
@@ -854,14 +857,14 @@ const Rooms = (() => {
         if (!needsViewing && !needsCooldown && !needsChapel && !needsCremation && family.embalmed) {
             if (!family.waitingForTransport) {
                 family.waitingForTransport = true;
-                Engine.showToast(`All services for ${family.deceasedName} are complete. Go to Reception and call a hearse for transfer.`, 'success');
+                Engine.showToast(I18n.T('rec.services_complete', family.deceasedName), 'success');
                 Engine.Notifications.addBadge('reception');
                 
                 Engine.getState().schedule.push({
                     time: Math.round(Engine.getState().time),
                     type: 'transport_ready',
                     familyId: family.id,
-                    desc: `🚐 Transferir a ${family.deceasedName}`,
+                    desc: I18n.T('rec.transfer_ready', family.deceasedName),
                     triggered: true
                 });
             }

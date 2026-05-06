@@ -321,7 +321,7 @@ const Audio8Bit = (() => {
         if (!musicPlaying || !ctx || currentTrackName !== name) return;
         const track = TRACKS[name];
         if (!track) return;
-        const speedMultiplier = 1;
+        const speedMultiplier = 2;
         const beatDur = 60 / (track.bpm * speedMultiplier);
         let t = ctx.currentTime + 0.1;
 

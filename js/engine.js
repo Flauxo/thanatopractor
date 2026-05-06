@@ -148,13 +148,13 @@ const Engine = (() => {
         // Check scheduled events
         checkSchedule();
 
-        // Forced event if an hour of dead time passes
-        if (activeFams === 0 && waitingFams === 0 && (state.time - state.lastActivityTime) >= 60) {
+        // Forced event if two hours of dead time passes
+        if (activeFams === 0 && waitingFams === 0 && (state.time - state.lastActivityTime) >= 120) {
             state.lastActivityTime = state.time;
             triggerRandomEvent();
         }
-        // Random event chance - during dead time
-        if (activeFams === 0 && waitingFams === 0 && Math.random() < 0.04 * state.speed) {
+        // Random event chance - during dead time (approx 1 every 2 hours)
+        if (activeFams === 0 && waitingFams === 0 && Math.random() < 0.008 * state.speed) {
             triggerRandomEvent();
         }
 

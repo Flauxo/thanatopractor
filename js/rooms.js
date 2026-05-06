@@ -612,24 +612,7 @@ const Rooms = (() => {
             s.cremaIgnited = true;
             Audio8Bit.SFX.fire();
             Engine.showToast(I18n.T('crema.ignited'), '');
-            updateCrematorium();
-        };
-
-        // Schedule list
-        const schedList = document.getElementById('crema-schedule-list');
-        const active = Families.getActive().filter(f => f.embalmed && f.wantsCremation && !f.cremated && (f.wantsViewing || f.cooldownDone));
-        if (active.length === 0) {
-            schedList.innerHTML = `<p class="dim-text">${I18n.T('crema.no_scheduled')}</p>`;
-        } else {
-            schedList.innerHTML = active.map(f => {
-                const ready = Engine.getState().cremaTemp >= 800;
-                const starting = f.cremationStarted;
-                return `<div class="schedule-item">
-                    <span>${f.deceasedName}</span>
-                    <span>${starting ? I18n.T('crema.incinerating') : (ready ? `<button class="action-btn pink-btn" style="padding:4px 8px;width:auto" onclick="Rooms.doCremation(${f.id})">${I18n.T('crema.btn_cremate')}</button>` : I18n.T('crema.need_800'))}</span>
-                </div>`;
-            }).join('');
-        }
+        updateCrematorium();
     }
 
     function updateCrematorium() {
@@ -639,10 +622,28 @@ const Rooms = (() => {
         document.getElementById('crema-fuel').textContent = `${s.cremaFuel.toFixed(1)}/10`;
         document.getElementById('crema-fuel-fill').style.width = (s.cremaFuel / 10 * 100) + '%';
         const fireEl = document.getElementById('furnace-fire');
-        fireEl.style.height = Math.min(100, (s.cremaTemp / 1000) * 100) + '%';
+        if (fireEl) fireEl.style.height = Math.min(100, (s.cremaTemp / 1100) * 100) + '%';
 
         const eff = s.cremaTemp >= 780 && s.cremaTemp <= 820 ? I18n.T('crema.eff_perfect') : s.cremaTemp >= 600 ? I18n.T('crema.eff_heating') : s.cremaTemp > 100 ? I18n.T('crema.eff_warming') : '—';
         document.getElementById('crema-efficiency').textContent = eff;
+
+        // Schedule list update
+        const schedList = document.getElementById('crema-schedule-list');
+        if (schedList) {
+            const active = Families.getActive().filter(f => f.embalmed && f.wantsCremation && !f.cremated && (f.wantsViewing || f.cooldownDone));
+            if (active.length === 0) {
+                schedList.innerHTML = `<p class="dim-text">${I18n.T('crema.no_scheduled')}</p>`;
+            } else {
+                schedList.innerHTML = active.map(f => {
+                    const ready = s.cremaTemp >= 800;
+                    const starting = f.cremationStarted;
+                    return `<div class="schedule-item">
+                        <span>${f.deceasedName}</span>
+                        <span>${starting ? I18n.T('crema.incinerating') : (ready ? `<button class="action-btn pink-btn" style="padding:4px 8px;width:auto" onclick="Rooms.doCremation(${f.id})">${I18n.T('crema.btn_cremate')}</button>` : I18n.T('crema.need_800'))}</span>
+                    </div>`;
+                }).join('');
+            }
+        }
     }
 
     function doCremation(familyId) {

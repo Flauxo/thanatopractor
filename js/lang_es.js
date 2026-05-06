@@ -127,6 +127,7 @@ I18n.register('es', {
 'chapel.correct': 'Bella ceremonia, Iván.', 'chapel.wrong': 'Oh no...',
 'chapel.ivan_speaks': '🎤 IVÁN HABLA',
 'chapel.ceremony_for': 'Ceremonia para:', 'chapel.religion': 'Religión:',
+'chapel.waiting_toast': '🎤 ¡{0} está esperando para la ceremonia en la Capilla!',
 // Office
 'office.title': 'MEJORAS', 'office.subtitle': 'Invierte en la muerte.',
 // Families

@@ -119,6 +119,7 @@ I18n.register('en', {
 'chapel.correct': 'Beautiful ceremony, Ivan.', 'chapel.wrong': 'Oh no...',
 'chapel.ivan_speaks': '🎤 IVAN SPEAKS',
 'chapel.ceremony_for': 'Ceremony for:', 'chapel.religion': 'Religion:',
+'chapel.waiting_toast': '🎤 {0} is waiting for the ceremony in the Chapel!',
 // Office
 'office.title': 'UPGRADES', 'office.subtitle': 'Invest in death.',
 // Families

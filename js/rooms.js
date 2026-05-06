@@ -781,7 +781,6 @@ const Rooms = (() => {
         chapelFamily = active[0];
         document.getElementById('chapel-service-info').innerHTML = `
             <div>${I18n.T('chapel.ceremony_for')} <strong>${chapelFamily.deceasedName}</strong></div>
-            <div>${I18n.T('chapel.religion')} ${Icons.getHTML(chapelFamily.religion.icon)} ${chapelFamily.religion.name}</div>
             <div style="margin-top:8px"><button class="action-btn pink-btn" onclick="Rooms.startSermon()"><span class="custom-icon" data-icon="music"></span> ${I18n.T('chapel.begin')}</button></div>
         `;
     }
@@ -870,6 +869,12 @@ const Rooms = (() => {
             Engine.showToast(I18n.T('crema.waiting_toast', family.deceasedName), 'warning');
             family.cremationWaitingNotified = true;
             Engine.Notifications.addBadge('crematorium');
+        }
+
+        if (needsChapel && family.embalmed && (family.viewed || family.cooldownDone) && !family.chapelWaitingNotified) {
+            Engine.showToast(I18n.T('chapel.waiting_toast', family.deceasedName), 'warning');
+            family.chapelWaitingNotified = true;
+            Engine.Notifications.addBadge('chapel');
         }
 
         if (!needsViewing && !needsCooldown && !needsChapel && !needsCremation && family.embalmed) {

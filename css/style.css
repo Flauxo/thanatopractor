@@ -87,12 +87,14 @@ html, body {
     background: var(--accent-pink);
     border-color: var(--accent-bright);
     color: #fff;
+    box-shadow: 0 0 10px rgba(224, 43, 182, 0.5);
 }
 .pink-btn:hover, .pink-btn:active {
     background: var(--accent-hot);
     border-color: #fff;
+    box-shadow: 0 0 20px rgba(224, 43, 182, 0.8);
 }
-.dim-btn { opacity: 0.6; }
+.dim-btn { opacity: 1; }
 .dim-btn:hover { opacity: 1; }
 
 .action-btn {

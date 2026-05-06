@@ -22,6 +22,7 @@ const Engine = (() => {
         dayEvents: [],
         cafeSatisfaction: 100,
         cafeOrders: [],
+        alcoholServedToday: 0,
         viewingRooms: 1,
         speed: 1, // 0=pause, 1=normal, 2=fast
         gameOver: false,
@@ -244,6 +245,7 @@ const Engine = (() => {
         state.dayEvents = [];
         state.dayEndPrompted = false;
         state.lastActivityTime = 480;
+        state.alcoholServedToday = 0;
         
         // Daily costs
         const dailyCost = 100 + (state.upgrades.length * 20);

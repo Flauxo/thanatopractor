@@ -242,4 +242,7 @@ I18n.register('es', {
 'rec.niece_desc': '🚗 Tu sobrina puede llevarse un cuerpo gratis.',
 'crema.ready_desc': '{0} está listo para la incineración.',
 'rec.arrival_pickup': 'La familia de {0} ha llegado para la recogida.',
+'cafe.inspector_title': '🚨 INSPECTOR DE SANIDAD',
+'cafe.inspector_msg': '¡Alto ahí! Soy un inspector secreto de sanidad. Se le ha pillado sirviendo alcohol ilegal varias veces hoy. ¡Este establecimiento queda cerrado hasta nuevo aviso!',
+'cafe.inspector_ok': 'ENTENDIDO',
 });

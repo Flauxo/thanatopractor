@@ -525,6 +525,31 @@ const Rooms = (() => {
                     if (c.rep) Engine.addReputation(c.rep, c.rep > 0 ? 'Handled alcohol request well' : 'Served alcohol illegally');
                     if (c.money) Engine.addMoney(c.money, 'Alcohol-related');
                     if (c.satisfaction) Families.updateSatisfaction(order.familyId, c.satisfaction, c.satisfaction > 0 ? 'Got what they wanted' : 'Denied alcohol');
+                    
+                    // Secret inspector logic: if rep is negative, it's alcohol
+                    if (c.rep < 0) {
+                        s.alcoholServedToday++;
+                        if (s.alcoholServedToday >= 3) {
+                            // CLOSE CAFETERIA
+                            s.upgrades = s.upgrades.filter(u => u !== 'cafeteria');
+                            s.cafeOrders = [];
+                            s.alcoholServedToday = 0;
+                            Dialogue.show(I18n.T('cafe.inspector_title'), I18n.T('cafe.inspector_msg'), [
+                                { text: I18n.T('cafe.inspector_ok'), action: () => {
+                                    Main.showScreen('hub');
+                                    // Lock the nav again
+                                    const nav = document.getElementById('nav-cafeteria');
+                                    if (nav) {
+                                        nav.classList.add('locked');
+                                        const lock = nav.querySelector('.nav-lock');
+                                        if (lock) lock.style.display = 'block';
+                                    }
+                                }}
+                            ]);
+                            return;
+                        }
+                    }
+                    
                     order.served = true;
                     showCafeteria();
                 }

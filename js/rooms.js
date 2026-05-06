@@ -615,7 +615,8 @@ const Rooms = (() => {
             s.cremaIgnited = true;
             Audio8Bit.SFX.fire();
             Engine.showToast(I18n.T('crema.ignited'), '');
-        updateCrematorium();
+            updateCrematorium();
+        };
     }
 
     function updateCrematorium() {

@@ -200,7 +200,8 @@ const Rooms = (() => {
 
     function showReception() {
         activeRoom = 'reception';
-        Engine.Notifications.clearBadge('reception');
+        // Removed auto-clear of reception badge. Now it clears only when sub-badges are empty.
+        Engine.Notifications.updateReceptionBadge(); 
         const list = document.getElementById('appointment-list');
         const sched = Engine.getState().schedule;
         if (sched.length === 0) {

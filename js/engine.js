@@ -494,10 +494,30 @@ const Engine = (() => {
                 badge.style.display = 'flex';
                 if (!silent) Audio8Bit.SFX.notification();
             }
+            if (['arrival', 'phone', 'paperwork'].includes(room)) {
+                this.addBadge('reception', true);
+            }
         },
         clearBadge(room) {
             const badge = document.getElementById(`badge-${room}`);
             if (badge) badge.style.display = 'none';
+            if (['arrival', 'phone', 'paperwork'].includes(room)) {
+                this.updateReceptionBadge();
+            }
+        },
+        updateReceptionBadge() {
+            const arrival = document.getElementById('badge-arrival');
+            const phone = document.getElementById('badge-phone');
+            const paperwork = document.getElementById('badge-paperwork');
+            
+            const anyActive = (arrival && arrival.style.display === 'flex') ||
+                              (phone && phone.style.display === 'flex') ||
+                              (paperwork && paperwork.style.display === 'flex');
+            
+            const mainBadge = document.getElementById('badge-reception');
+            if (mainBadge) {
+                mainBadge.style.display = anyActive ? 'flex' : 'none';
+            }
         }
     };
 

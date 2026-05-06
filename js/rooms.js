@@ -597,6 +597,17 @@ const Rooms = (() => {
     function showCrematorium() {
         activeRoom = 'crematorium';
         Engine.Notifications.clearBadge('crematorium');
+
+        // One-time tutorial
+        const s = Engine.getState();
+        if (!s.cremaTutorialShown) {
+            s.cremaTutorialShown = true;
+            Engine.save();
+            Dialogue.show(I18n.T('crema.tutorial_title'), I18n.T('crema.tutorial_text'), [
+                { text: I18n.T('crema.tutorial_ok') }
+            ]);
+        }
+
         updateCrematorium();
 
         document.getElementById('btn-add-fuel').onclick = () => {

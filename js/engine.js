@@ -32,6 +32,7 @@ const Engine = (() => {
         lastActivityTime: 480,
         lastRandomEventTime: 0,
         chapelTutorialShown: false,
+        cremaTutorialShown: false,
         stats: { familiesServed: 0, totalEarnings: 0, diceRolls: 0, bestRoll: 0, worstDay: null }
     });
 

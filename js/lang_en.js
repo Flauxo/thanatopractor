@@ -101,6 +101,10 @@ I18n.register('en', {
 'crema.perfect_msg': '✨ Perfect cremation! {0}\'s ashes are clean and pure.',
 'crema.decent_msg': '👍 Decent cremation. Some fragments remain, but acceptable.',
 'crema.bad_msg': '😬 Bad cremation. The results are... suboptimal. The family is not happy.',
+// Crematorium tutorial
+'crema.tutorial_title': '🔥 FIRST TIME IN THE CREMATORIUM',
+'crema.tutorial_text': 'The furnace takes time to heat up. Once cremation begins, it must stay lit for 1 hour to produce good, clean ashes. If the temperature drops below 700°C during the process... let\'s just say the family won\'t be pleased.',
+'crema.tutorial_ok': 'Understood, keep the fire burning',
 // Viewing
 'view.title': 'VIEWING ROOM', 'view.subtitle': 'A final goodbye.',
 'view.mood': '👨‍👩‍👧 FAMILY MOOD', 'view.requests': '📋 REQUESTS',

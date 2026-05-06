@@ -135,6 +135,10 @@ I18n.register('es', {
 'chapel.ivan_speaks': '🎤 IVÁN HABLA',
 'chapel.ceremony_for': 'Ceremonia para:', 'chapel.religion': 'Religión:',
 'chapel.waiting_toast': '🎤 ¡{0} está esperando para la ceremonia en la Capilla!',
+// Tutorial capilla
+'chapel.tutorial_title': '⛪ PRIMERA VEZ EN LA CAPILLA',
+'chapel.tutorial_text': 'Asegúrate de la creencia religiosa de la familia en el menú Familias, antes de abrir el pico. Elegir el sermón equivocado puede ser... catastrófico.',
+'chapel.tutorial_ok': 'Entendido, miraré primero',
 // Violín
 'chapel.violin_offer_title': '🎻 ACOMPAÑAMIENTO MUSICAL',
 'chapel.violin_offer_text': 'La legendaria, incomparable, devastadoramente talentosa violinista Aida está disponible hoy. ¿Quieres ofrecer a la familia una actuación de violín en directo durante la ceremonia? (Coste para la familia: $40)',

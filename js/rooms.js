@@ -832,6 +832,17 @@ const Rooms = (() => {
     function showChapel() {
         activeRoom = 'chapel';
         updateChapelBadge();
+
+        // One-time tutorial
+        const s = Engine.getState();
+        if (!s.chapelTutorialShown) {
+            s.chapelTutorialShown = true;
+            Engine.save();
+            Dialogue.show(I18n.T('chapel.tutorial_title'), I18n.T('chapel.tutorial_text'), [
+                { text: I18n.T('chapel.tutorial_ok') }
+            ]);
+        }
+
         const ivanQuote = DATA.ivanQuotes[Math.floor(Math.random() * DATA.ivanQuotes.length)];
         document.getElementById('ivan-speech').textContent = ivanQuote;
 

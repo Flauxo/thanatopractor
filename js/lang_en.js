@@ -128,6 +128,10 @@ I18n.register('en', {
 'chapel.ivan_speaks': '🎤 IVAN SPEAKS',
 'chapel.ceremony_for': 'Ceremony for:', 'chapel.religion': 'Religion:',
 'chapel.waiting_toast': '🎤 {0} is waiting for the ceremony in the Chapel!',
+// Chapel tutorial
+'chapel.tutorial_title': '⛪ FIRST TIME IN THE CHAPEL',
+'chapel.tutorial_text': 'Make sure to check the family\'s religious belief in the Families menu before opening your mouth. Choosing the wrong sermon can be... catastrophic.',
+'chapel.tutorial_ok': 'Got it, I\'ll check first',
 // Violin music
 'chapel.violin_offer_title': '🎻 MUSICAL ACCOMPANIMENT',
 'chapel.violin_offer_text': 'The legendary, incomparable, devastatingly talented violinist Aida is available today. Would you like to offer the family a live violin performance during the ceremony? (Cost to the family: $40)',
@@ -141,11 +145,11 @@ I18n.register('en', {
 'chapel.aida_quote_1': 'Aida, the prodigious, the sublime, the one-and-only violinist who once made a statue cry, plays a melody so beautiful that even the deceased seems to smile. Several family members are weeping. One is recording it on their phone.',
 'chapel.aida_quote_2': 'Aida, virtuoso extraordinaire and self-proclaimed "angel of strings", begins a delicate adagio. A fly in the chapel stops mid-air to listen. Truly, she is a gift to the mortal realm.',
 'chapel.aida_quote_3': 'Aida, whose talent has been described as "alarming" by at least three orchestras, performs a hauntingly beautiful piece. The family is deeply moved. Someone whispers: "Can she play at MY funeral too?"',
-'chapel.aida_quote_4': 'The magnificent Aida, who claims to have studied under a ghost in Vienna, fills the chapel with notes so pure they could resurrect the dead. They don\\'t, of course. That would be a liability issue.',
-'chapel.aida_quote_5': 'Aida, legend of the strings, rumored to tune her violin with tears of joy, plays a piece that makes everyone forget they\\'re in a funeral home. For about 4 minutes, anyway.',
+'chapel.aida_quote_4': 'The magnificent Aida, who claims to have studied under a ghost in Vienna, fills the chapel with notes so pure they could resurrect the dead. They don\'t, of course. That would be a liability issue.',
+'chapel.aida_quote_5': 'Aida, legend of the strings, rumored to tune her violin with tears of joy, plays a piece that makes everyone forget they\'re in a funeral home. For about 4 minutes, anyway.',
 'chapel.violin_reject_1': 'The family politely declines. "Thank you, but uncle Jorge always said violins sounded like angry cats." Fair enough.',
-'chapel.violin_reject_2': 'The family says no. "We appreciate it, but the deceased specifically requested silence. And a kazoo, but we\\'re ignoring that part."',
-'chapel.violin_reject_3': '"No thank you. Last time we had live music at a funeral, grandma started dancing. She wasn\\'t the deceased."',
+'chapel.violin_reject_2': 'The family says no. "We appreciate it, but the deceased specifically requested silence. And a kazoo, but we\'re ignoring that part."',
+'chapel.violin_reject_3': '"No thank you. Last time we had live music at a funeral, grandma started dancing. She wasn\'t the deceased."',
 // Office
 'office.title': 'UPGRADES', 'office.subtitle': 'Invest in death.',
 // Families

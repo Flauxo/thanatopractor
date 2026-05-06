@@ -31,6 +31,7 @@ const Engine = (() => {
         dayEndPrompted: false,
         lastActivityTime: 480,
         lastRandomEventTime: 0,
+        chapelTutorialShown: false,
         stats: { familiesServed: 0, totalEarnings: 0, diceRolls: 0, bestRoll: 0, worstDay: null }
     });
 

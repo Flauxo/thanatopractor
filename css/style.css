@@ -435,7 +435,7 @@ html, body {
 #chapel-screen .room-content, 
 #cafeteria-screen .room-content {
     flex: 0 1 auto;
-    margin: auto !important;
+    margin: 10px auto auto auto !important; /* Top margin, then pushes space to the bottom */
     width: 95%;
     max-width: 420px;
     display: flex;

@@ -229,9 +229,9 @@ window.Main = (() => {
         });
 
         // ===== TIME CONTROLS =====
-        document.getElementById('btn-pause').onclick = () => { Engine.setSpeed(0); Audio8Bit.SFX.click(); Audio8Bit.updateSpeed(); };
-        document.getElementById('btn-play').onclick = () => { Engine.setSpeed(1); Audio8Bit.SFX.click(); Audio8Bit.updateSpeed(); };
-        document.getElementById('btn-fast').onclick = () => { Engine.setSpeed(1.5); Audio8Bit.SFX.click(); Audio8Bit.updateSpeed(); };
+        document.getElementById('btn-pause').onclick = () => { Engine.setSpeed(0); Audio8Bit.SFX.click(); };
+        document.getElementById('btn-play').onclick = () => { Engine.setSpeed(1); Audio8Bit.SFX.click(); };
+        document.getElementById('btn-fast').onclick = () => { Engine.setSpeed(2); Audio8Bit.SFX.click(); };
 
         // ===== AUDIO TOGGLE =====
         const audioToggle = document.getElementById('audio-toggle');

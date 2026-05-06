@@ -333,7 +333,9 @@ const Audio8Bit = (() => {
         if (!musicPlaying || !ctx || currentTrackName !== name) return;
         const track = TRACKS[name];
         if (!track) return;
-        const speedMultiplier = (typeof Engine !== 'undefined') ? Math.max(1, Engine.getState().speed) : 2;
+        const s = (typeof Engine !== 'undefined') ? Engine.getState().speed : 1;
+        if (s <= 0) return; // Don't schedule if paused
+        const speedMultiplier = s;
         const beatDur = 60 / (track.bpm * speedMultiplier);
         let t = ctx.currentTime + 0.1;
 
@@ -434,25 +436,42 @@ const Audio8Bit = (() => {
         if (!ctx || !initialized || !musicPlaying || !currentTrackName) return;
         
         const t = ctx.currentTime;
-        // Stop ONLY the oscillators currently playing in the active node
-        // but don't do a full crossfade, just a quick fade out and restart
+        const s = (typeof Engine !== 'undefined') ? Engine.getState().speed : 1;
+
+        // Stop ALL current oscillators immediately
+        trackOscillators.forEach(item => { try { item.osc.stop(); } catch(e){} });
+        trackOscillators = [];
+        
+        if (trackTimeout) clearTimeout(trackTimeout);
+
+        if (s <= 0) {
+            // If paused, just fade out and wait
+            if (currentGainNode) {
+                currentGainNode.gain.cancelScheduledValues(t);
+                currentGainNode.gain.linearRampToValueAtTime(0, t + 0.1);
+            }
+            return;
+        }
+        
+        // Quick fade out of current node
         if (currentGainNode) {
             currentGainNode.gain.cancelScheduledValues(t);
             currentGainNode.gain.linearRampToValueAtTime(0, t + 0.1);
         }
         
-        if (trackTimeout) clearTimeout(trackTimeout);
-        
-        // Wait 100ms for the quick fade then restart with new speed
+        // Wait 120ms for the quick fade then restart with new speed
         setTimeout(() => {
             if (musicPlaying && currentTrackName) {
+                const sNow = (typeof Engine !== 'undefined') ? Engine.getState().speed : 1;
+                if (sNow <= 0) return;
+
                 if (currentGainNode) {
                     currentGainNode.gain.setValueAtTime(0, ctx.currentTime);
                     currentGainNode.gain.linearRampToValueAtTime(0.25, ctx.currentTime + 0.1);
                 }
                 scheduleTrack(currentTrackName, currentGainNode);
             }
-        }, 110);
+        }, 120);
     }
 
     return {

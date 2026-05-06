@@ -429,11 +429,17 @@ html, body {
     backdrop-filter: blur(2px); 
 }
 
-#reception-screen .room-content, #embalming-content, #crematorium-content, #chapel-content, #cafeteria-content {
+#reception-screen .room-content, 
+#embalming-screen .room-content, 
+#crematorium-screen .room-content, 
+#chapel-screen .room-content, 
+#cafeteria-screen .room-content {
     flex: 0 1 auto;
-    margin: auto;
+    margin: auto !important;
     width: 95%;
     max-width: 420px;
+    display: flex;
+    flex-direction: column;
 }
 .embalming-tasks h3 {
     grid-column: span 2;

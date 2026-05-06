@@ -185,15 +185,6 @@ const Engine = (() => {
             }
         }
 
-        // Paperwork task spawn - higher chance during dead time
-        if (activeFams === 0 && waitingFams === 0 && !state.activePaperwork && Math.random() < 0.01 * state.speed && typeof DATA !== 'undefined' && DATA.paperworkTasks) {
-            state.activePaperwork = DATA.paperworkTasks[Math.floor(Math.random() * DATA.paperworkTasks.length)];
-            showToast(I18n.T('eng.new_pw', getTimeString()), '');
-            Notifications.addBadge('reception');
-            Notifications.addBadge('paperwork');
-            state.lastActivityTime = state.time;
-        }
-
         // Hub Badge for Reception
         if (waitingFams > 0 || state.activePaperwork) {
             Notifications.addBadge('reception', true);

@@ -282,7 +282,7 @@ const Audio8Bit = (() => {
 
 
     function stopMusic() {
-        trackOscillators.forEach(o => { try { o.stop(); } catch(e){} });
+        trackOscillators.forEach(item => { try { item.osc.stop(); } catch(e){} });
         trackOscillators = [];
         if (trackTimeout) clearTimeout(trackTimeout);
         musicPlaying = false;
@@ -296,12 +296,25 @@ const Audio8Bit = (() => {
         
         // Fade out current node
         if (currentGainNode) {
+            currentGainNode.gain.cancelScheduledValues(t);
             currentGainNode.gain.linearRampToValueAtTime(0, t + fadeTime);
         }
 
         // Switch to the other gain node for the new track
         activeGain = activeGain === 'A' ? 'B' : 'A';
-        currentGainNode = activeGain === 'A' ? musicGainA : musicGainB;
+        const newNode = activeGain === 'A' ? musicGainA : musicGainB;
+        
+        // IMPORTANT: Stop any oscillators already connected to THIS node 
+        // to prevent overlapping when switching back and forth quickly.
+        trackOscillators = trackOscillators.filter(item => {
+            if (item.node === newNode) {
+                try { item.osc.stop(); } catch(e) {}
+                return false;
+            }
+            return true;
+        });
+
+        currentGainNode = newNode;
         
         // Prepare new gain node
         currentGainNode.gain.cancelScheduledValues(t);
@@ -310,7 +323,6 @@ const Audio8Bit = (() => {
 
         // Reset tracking
         if (trackTimeout) clearTimeout(trackTimeout);
-        trackOscillators = [];
         
         currentTrackName = name;
         musicPlaying = true;
@@ -338,7 +350,7 @@ const Audio8Bit = (() => {
                 g.gain.exponentialRampToValueAtTime(0.001, t + dur * 0.9);
                 osc.connect(g); g.connect(gainNode);
                 osc.start(t); osc.stop(t + dur);
-                trackOscillators.push(osc);
+                trackOscillators.push({ osc, node: gainNode });
             }
             t += dur;
         });
@@ -358,7 +370,7 @@ const Audio8Bit = (() => {
                 g.gain.exponentialRampToValueAtTime(0.001, tb + dur * 0.9);
                 osc.connect(g); g.connect(gainNode);
                 osc.start(tb); osc.stop(tb + dur);
-                trackOscillators.push(osc);
+                trackOscillators.push({ osc, node: gainNode });
             }
             tb += dur;
         });
@@ -377,18 +389,21 @@ const Audio8Bit = (() => {
                     g.gain.exponentialRampToValueAtTime(0.01, td + 0.1);
                     osc.connect(g); g.connect(gainNode);
                     osc.start(td); osc.stop(td + 0.1);
+                    trackOscillators.push({ osc, node: gainNode });
                 } else if (type === 's') {
                     const osc1 = ctx.createOscillator(); const g1 = ctx.createGain();
                     osc1.frequency.value = 800 + Math.random()*200;
                     g1.gain.setValueAtTime(0.2, td); g1.gain.exponentialRampToValueAtTime(0.001, td + 0.1);
                     osc1.connect(g1); g1.connect(gainNode);
                     osc1.start(td); osc1.stop(td + 0.1);
+                    trackOscillators.push({ osc: osc1, node: gainNode });
                 } else if (type === 'h') {
                     const osc = ctx.createOscillator(); const g = ctx.createGain();
                     osc.frequency.value = 1200 + Math.random()*200;
                     g.gain.setValueAtTime(0.05, td); g.gain.exponentialRampToValueAtTime(0.001, td + 0.03);
                     osc.connect(g); g.connect(gainNode);
                     osc.start(td); osc.stop(td + 0.03);
+                    trackOscillators.push({ osc, node: gainNode });
                 }
             });
             td += dur;

@@ -1,6 +1,8 @@
 /* ===== THANATOPRACTOR - i18n System ===== */
 const I18n = (() => {
-    let lang = localStorage.getItem('thanatopractor_lang') || 'en';
+    // Auto-detect browser language on first visit; respect manual choice if saved
+    const savedLang = localStorage.getItem('thanatopractor_lang');
+    let lang = savedLang || ((navigator.language || navigator.userLanguage || 'en').startsWith('es') ? 'es' : 'en');
     const strings = { en: {}, es: {} };
 
     function T(key, ...args) {

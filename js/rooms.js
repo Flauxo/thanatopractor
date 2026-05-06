@@ -113,6 +113,7 @@ const Rooms = (() => {
                         // Use the car for ONE family
                         const f = waitingFams[0];
                         
+                        if (hasPermanentHearse) {
                             // Permanent Hearse - Randomized behavior (1-3h wait + extra cooldown)
                             const hours = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3h
                             f.transportOrdered = true;

@@ -18,7 +18,7 @@ const Audio8Bit = (() => {
         if (initialized) return;
         ctx = new (window.AudioContext || window.webkitAudioContext)();
         masterGain = ctx.createGain();
-        masterGain.gain.value = 0.4;
+        masterGain.gain.value = 0.6;
         masterGain.connect(ctx.destination);
         
         musicGainA = ctx.createGain();
@@ -43,7 +43,7 @@ const Audio8Bit = (() => {
             if (document.hidden) {
                 masterGain.gain.setTargetAtTime(0, ctx.currentTime, 0.1);
             } else if (!muted) {
-                masterGain.gain.setTargetAtTime(0.4, ctx.currentTime, 0.3);
+                masterGain.gain.setTargetAtTime(0.6, ctx.currentTime, 0.3);
             }
         });
     }
@@ -396,7 +396,7 @@ const Audio8Bit = (() => {
     function toggleMute() {
         if (!ctx) return;
         muted = !muted;
-        masterGain.gain.value = muted ? 0 : 0.4;
+        masterGain.gain.value = muted ? 0 : 0.6;
         return muted;
     }
 

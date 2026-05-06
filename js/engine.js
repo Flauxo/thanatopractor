@@ -327,8 +327,8 @@ const Engine = (() => {
     }
 
     function generateDailySchedule() {
-        // Scale arrivals more aggressively with viewing rooms. Max 10 families per day.
-        const numArrivals = Math.min(state.viewingRooms * 2 + Math.floor(state.level / 3), 10);
+        // Scale arrivals more aggressively with viewing rooms. Max 8 families per day.
+        const numArrivals = Math.min(state.viewingRooms * 2 + Math.floor(state.level / 3), 8);
         const interval = GAME_MINUTES_PER_DAY / numArrivals;
         
         for (let i = 0; i < numArrivals; i++) {

@@ -160,5 +160,11 @@ const Families = (() => {
         `).join('');
     }
 
-    return { generate, getActive, getById, addFamily, completeFamily, updateSatisfaction, updateFamiliesLog };
+    function reset() {
+        nextId = 1;
+    }
+
+    return {
+        generate, getActive, getById, addFamily, completeFamily, updateSatisfaction, updateFamiliesLog, reset
+    };
 })();

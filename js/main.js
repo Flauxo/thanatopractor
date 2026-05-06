@@ -191,7 +191,10 @@ window.Main = (() => {
                 return;
             }
             Audio8Bit.SFX.success();
+            localStorage.removeItem('thanatopractor_save');
             Engine.resetState();
+            Families.reset();
+            resetHub();
             Engine.getState().playerName = name;
             showScreen('welcome');
         };
@@ -253,6 +256,8 @@ window.Main = (() => {
         document.getElementById('btn-restart').onclick = () => {
             localStorage.removeItem('thanatopractor_save');
             Engine.resetState();
+            Families.reset();
+            resetHub();
             showScreen('title');
         };
 
@@ -262,6 +267,15 @@ window.Main = (() => {
                 Engine.save();
             }
         }, 15000);
+    }
+
+    function resetHub() {
+        document.querySelectorAll('.nav-btn').forEach(nav => {
+            if (nav.id === 'nav-reception') return; // Reception is always open
+            nav.classList.add('locked');
+            const lock = nav.querySelector('.nav-lock');
+            if (lock) lock.style.display = 'flex';
+        });
     }
 
     function startGameplay() {

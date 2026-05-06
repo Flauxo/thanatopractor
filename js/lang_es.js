@@ -4,7 +4,7 @@ I18n.register('es', {
 'splash.loading': 'Cargando gusanos...',
 'title.tagline': 'Un RPG de Gestión Sobre la Vida en un Tanatorio',
 'title.quote': '"No salvas vidas, ayudas a terminar con ellas... profesionalmente."',
-'title.new_game': 'NUEVA PARTIDA', 'title.continue': 'CONTINUAR', 'title.credits': 'CRÉDITOS',
+'title.new_game': 'NUEVA PARTIDA', 'title.continue': 'CARGAR PARTIDA', 'title.resume': 'CONTINUAR', 'title.credits': 'CRÉDITOS',
 'title.save': 'GUARDAR', 'title.exit': 'SALIR',
 'title.exit_confirm': '¿Estás seguro de que quieres salir? Se perderá el progreso no guardado.',
 'title.footer': 'DISEÑO Y CONCEPTO POR K. ARLÓN<br>COLOR DEL HUMOR: NEGRO — CLASIFICADO POR DEATH INC.',

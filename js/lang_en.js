@@ -4,7 +4,7 @@ I18n.register('en', {
 'splash.loading': 'Loading worms...',
 'title.tagline': 'A Management RPG About Life in a Funeral House',
 'title.quote': '"You don\'t save lives. You help end them... professionally."',
-'title.new_game': 'NEW GAME', 'title.continue': 'CONTINUE', 'title.credits': 'CREDITS',
+'title.new_game': 'NEW GAME', 'title.continue': 'LOAD GAME', 'title.resume': 'RESUME', 'title.credits': 'CREDITS',
 'title.save': 'SAVE', 'title.exit': 'EXIT',
 'title.exit_confirm': 'Are you sure you want to exit? Unsaved progress will be lost.',
 'title.footer': 'GAME DESIGN & CONCEPT BY K. ARLÓN<br>DARK HUMOR CONTENT — RATED BY DEATH INC.',

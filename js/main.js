@@ -10,14 +10,27 @@ window.Main = (() => {
             currentScreen = name;
         }
 
-        // Show/hide save button on title screen
+        // Show/hide buttons on title screen
         const saveBtn = document.getElementById('btn-save-game');
-        if (saveBtn) {
-            if (name === 'title' && Engine.getState().playerName) {
-                saveBtn.style.display = 'block';
+        const resumeBtn = document.getElementById('btn-resume-game');
+        const newGameBtn = document.getElementById('btn-new-game');
+        const continueBtn = document.getElementById('btn-continue');
+        
+        if (name === 'title') {
+            if (Engine.getState().playerName) {
+                if (saveBtn) saveBtn.style.display = 'block';
+                if (resumeBtn) resumeBtn.style.display = 'block';
+                if (newGameBtn) newGameBtn.style.display = 'none';
+                if (continueBtn) continueBtn.style.display = 'none';
             } else {
-                saveBtn.style.display = 'none';
+                if (saveBtn) saveBtn.style.display = 'none';
+                if (resumeBtn) resumeBtn.style.display = 'none';
+                if (newGameBtn) newGameBtn.style.display = 'block';
+                if (continueBtn) continueBtn.style.display = Engine.hasSave() ? 'block' : 'none';
             }
+        } else {
+            if (saveBtn) saveBtn.style.display = 'none';
+            if (resumeBtn) resumeBtn.style.display = 'none';
         }
 
         // Init room when shown
@@ -117,6 +130,11 @@ window.Main = (() => {
         if (Engine.hasSave()) {
             document.getElementById('btn-continue').style.display = 'block';
         }
+
+        document.getElementById('btn-resume-game').onclick = () => {
+            Audio8Bit.SFX.click();
+            showScreen('hub');
+        };
 
         document.getElementById('btn-new-game').onclick = () => {
             Audio8Bit.init();

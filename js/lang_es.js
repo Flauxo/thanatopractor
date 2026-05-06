@@ -34,7 +34,7 @@ I18n.register('es', {
 'hub.eternal_rest': 'TANATORIO', 'hub.funeral_house': 'DESCANSO ETERNO',
 'hub.motto': '"Cuidamos de ellos hasta el final"',
 'hub.no_appointments': 'No hay citas para hoy.',
-'hub.locked': '🔒 ¡Compra esta sala en el menú de Mejoras!',
+'hub.locked': '🔒 Desbloquea esta mejora en el menú mejoras.',
 'hub.welcome': '☠ Bienvenido, {0}. Los muertos te esperan.',
 // Nav
 'nav.reception': 'Recepción', 'nav.embalming': 'Embalsamar', 'nav.cafeteria': 'Cafetería',

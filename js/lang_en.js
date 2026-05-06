@@ -31,7 +31,7 @@ I18n.register('en', {
 'hub.no_appointments': 'No appointments yet...', 'hub.eternal_rest': 'ETERNAL REST',
 'hub.funeral_house': 'FUNERAL HOUSE', 'hub.motto': '"We care to the end"',
 'hub.welcome': '☠ Welcome, {0}. The dead await.',
-'hub.locked': '🔒 Buy this room in the Upgrades menu!',
+'hub.locked': '🔒 Unlock this improvement in the Upgrades menu!',
 // Nav
 'nav.reception': 'Reception', 'nav.embalming': 'Embalming', 'nav.cafeteria': 'Cafeteria',
 'nav.crematorium': 'Cremator.', 'nav.viewing': 'Viewing', 'nav.chapel': 'Chapel',

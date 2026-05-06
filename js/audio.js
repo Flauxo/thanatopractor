@@ -150,26 +150,17 @@ const Audio8Bit = (() => {
         grave() {
             if (!ctx) return;
             const t = ctx.currentTime;
-            // Stone grinding (noise)
-            const buffer = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
-            const data = buffer.getChannelData(0);
-            for (let i = 0; i < buffer.length; i++) data[i] = Math.random() * 2 - 1;
-            const noise = ctx.createBufferSource();
-            noise.buffer = buffer;
-            const filter = ctx.createBiquadFilter();
-            filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(400, t);
-            filter.frequency.exponentialRampToValueAtTime(100, t + 1.5);
-            const g = ctx.createGain();
-            g.gain.setValueAtTime(0, t);
-            g.gain.linearRampToValueAtTime(0.3, t + 0.1);
-            g.gain.exponentialRampToValueAtTime(0.01, t + 1.5);
-            noise.connect(filter); filter.connect(g); g.connect(sfxGain);
-            noise.start(t);
             
-            // Low thud
-            playNote(60, 0.5, 'sine', sfxGain, t + 1.2, 0.5);
-            playNote(40, 0.8, 'sine', sfxGain, t + 1.3, 0.3);
+            // Grinding effect (low frequency sawtooth with jitter)
+            for (let i = 0; i < 15; i++) {
+                const dur = 0.15;
+                const start = t + i * 0.08;
+                playNote(40 + Math.random() * 40, dur, 'sawtooth', sfxGain, start, 0.3);
+            }
+            
+            // Final heavy thud
+            playNote(50, 0.6, 'sine', sfxGain, t + 1.2, 0.7);
+            playNote(30, 0.8, 'sine', sfxGain, t + 1.3, 0.5);
         },
         gameOver() {
             if (!ctx) return;

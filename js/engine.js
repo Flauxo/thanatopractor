@@ -100,8 +100,8 @@ const Engine = (() => {
         const newLevel = getLevel();
         if (newLevel > state.level) {
             state.level = newLevel;
-            showToast(`🎉 LEVEL UP! You are now Level ${newLevel}!`, 'success');
-            addMoney(10000, 'HQ Level Up Bonus');
+            showToast(I18n.T('eng.level_up', newLevel), 'success');
+            addMoney(10000, I18n.T('eng.level_bonus'));
             Audio8Bit.SFX.success();
         }
     }
@@ -133,7 +133,7 @@ const Engine = (() => {
             state.cremaFuel = Math.max(0, state.cremaFuel - 0.02 * state.speed);
             if (state.cremaFuel <= 0) {
                 state.cremaIgnited = false;
-                showToast('🔥 Crematorium fuel depleted!', 'warning');
+                showToast(I18n.T('crema.fuel_depleted'), 'warning');
             }
         } else if (state.cremaTemp > 20) {
             state.cremaTemp = Math.max(20, state.cremaTemp - 1 * state.speed);
@@ -154,7 +154,7 @@ const Engine = (() => {
                 // Spawn paperwork
                 if (typeof DATA !== 'undefined' && DATA.paperworkTasks) {
                     state.activePaperwork = DATA.paperworkTasks[Math.floor(Math.random() * DATA.paperworkTasks.length)];
-                    showToast(`📝 New paperwork at ${getTimeString()}`, '');
+                    showToast(I18n.T('eng.new_pw', getTimeString()), '');
                     Notifications.addBadge('reception');
                     Notifications.addBadge('paperwork');
                 }
@@ -187,7 +187,7 @@ const Engine = (() => {
         // Paperwork task spawn - higher chance during dead time
         if (activeFams === 0 && waitingFams === 0 && !state.activePaperwork && Math.random() < 0.01 * state.speed && typeof DATA !== 'undefined' && DATA.paperworkTasks) {
             state.activePaperwork = DATA.paperworkTasks[Math.floor(Math.random() * DATA.paperworkTasks.length)];
-            showToast(`📝 New paperwork at ${getTimeString()}`, '');
+            showToast(I18n.T('eng.new_pw', getTimeString()), '');
             Notifications.addBadge('reception');
             Notifications.addBadge('paperwork');
             state.lastActivityTime = state.time;
@@ -207,10 +207,10 @@ const Engine = (() => {
             if (remainingArrivals === 0 && activeFams === 0 && waitingFams === 0 && !state.activePaperwork) {
                 state.dayEndPrompted = true;
                 if (typeof Dialogue !== 'undefined') {
-                    Dialogue.show('🛌 END OF DAY', "It seems there are no more tasks for today. Do you want to go to sleep?", [
-                        { text: "YES, GO TO SLEEP", action: () => endDay() },
-                        { text: "NOT YET", action: () => { 
-                            showToast("You decided to stay up a bit longer.", "");
+                    Dialogue.show(I18n.T('eng.end_title'), I18n.T('eng.end_text'), [
+                        { text: I18n.T('eng.end_yes'), action: () => endDay() },
+                        { text: I18n.T('eng.end_no'), action: () => { 
+                            showToast(I18n.T('eng.end_stay'), "");
                         } }
                     ]);
                 }
@@ -218,12 +218,19 @@ const Engine = (() => {
         }
 
         // End of day
-        if (state.time >= 1320) { // 22:00
+        if (state.time >= 1200) { // 20:00
             endDay();
         }
 
         updateHUD();
         if (typeof Rooms !== 'undefined' && Rooms.updateActiveRoom) Rooms.updateActiveRoom();
+        
+        // Refresh Hub/Reception schedules if active
+        if (typeof Main !== 'undefined' && Main.currentScreen === 'hub') {
+            if (typeof Main.updateHubSchedule === 'function') Main.updateHubSchedule();
+        } else if (typeof Rooms !== 'undefined' && Rooms.activeRoom === 'reception') {
+            if (typeof Rooms.showReception === 'function') Rooms.showReception();
+        }
     }
 
     function endDay() {
@@ -240,14 +247,31 @@ const Engine = (() => {
         
         // Daily costs
         const dailyCost = 100 + (state.upgrades.length * 20);
-        addMoney(-dailyCost, `Daily expenses (Day ${state.day - 1})`);
+        addMoney(-dailyCost, I18n.T('eng.daily_expenses', state.day - 1));
 
-        showToast(`🌙 Day ${state.day - 1} ended. A new day dawns at Eternal Rest.`, '');
-        
-        setTimeout(() => {
-            startTime();
+        // Transition Overlay
+        const overlay = document.getElementById('day-transition-overlay');
+        const text = document.getElementById('day-text');
+        if (overlay && text) {
+            text.textContent = `${I18n.T('hub.day')} ${state.day}`;
+            overlay.style.display = 'flex';
+            
+            // Reset animation
+            text.style.animation = 'none';
+            text.offsetHeight; // trigger reflow
+            text.style.animation = null;
+
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                if (typeof Main !== 'undefined') Main.showScreen('hub');
+                generateDailySchedule();
+                startTime();
+            }, 3000);
+        } else {
+            if (typeof Main !== 'undefined') Main.showScreen('hub');
             generateDailySchedule();
-        }, 1500);
+            startTime();
+        }
     }
 
     function checkSchedule() {
@@ -258,7 +282,7 @@ const Engine = (() => {
                 Audio8Bit.SFX.notification();
                 if (event.type === 'paperwork' && event.task) {
                     state.activePaperwork = event.task;
-                    showToast(`📝 New paperwork at ${getTimeString()}`, '');
+                    showToast(I18n.T('eng.new_pw', getTimeString()), '');
                     Notifications.addBadge('reception');
                     Notifications.addBadge('paperwork');
                 } else if (event.type === 'cooldown_done') {
@@ -285,13 +309,13 @@ const Engine = (() => {
                         let msg, satChange;
                         const temp = event.temp || 800;
                         if (temp >= 780 && temp <= 850) {
-                            msg = `✨ Perfect cremation! ${fam.deceasedName}'s ashes are clean and pure.`;
+                            msg = I18n.T('crema.perfect_msg', fam.deceasedName);
                             satChange = 15;
                         } else if (temp >= 700) {
-                            msg = `👍 Decent cremation. Some fragments remain, but acceptable.`;
+                            msg = I18n.T('crema.decent_msg', fam.deceasedName);
                             satChange = 5;
                         } else {
-                            msg = `😬 Bad cremation. The results are... suboptimal. The family is not happy.`;
+                            msg = I18n.T('crema.bad_msg', fam.deceasedName);
                             satChange = -20;
                         }
                         Families.updateSatisfaction(fam.id, satChange, `Cremation at ${Math.round(temp)}°C`);
@@ -329,7 +353,7 @@ const Engine = (() => {
             state.schedule.push({
                 time: arrivalTime,
                 type: 'arrival',
-                desc: `New family arriving at ${Math.floor(arrivalTime/60)}:${(arrivalTime%60).toString().padStart(2,'0')}`,
+                desc: I18n.T('eng.arrival_desc', `${Math.floor(arrivalTime/60)}:${(arrivalTime%60).toString().padStart(2,'0')}`),
                 triggered: false,
                 room: 'reception'
             });
@@ -341,7 +365,7 @@ const Engine = (() => {
         state.schedule.push({
             time: pwTime,
             type: 'paperwork',
-            desc: 'New paperwork on your desk!',
+            desc: I18n.T('eng.pw_desk'),
             triggered: false,
             room: null,
             task: pwTask
@@ -371,7 +395,7 @@ const Engine = (() => {
             } else if (event.effect === 'supplies') {
                 state.supplies.formaldehyde += 5;
                 state.supplies.humectant += 4;
-                showToast('📦 Supplies restocked!', 'success');
+                showToast(I18n.T('shop.delivered'), 'success');
             }
         }
     }
@@ -383,14 +407,14 @@ const Engine = (() => {
         if (!upg) return false;
         if (upg.repeatable) {
             if (id === 'embalm_train' && state.embalmTrainCount >= (upg.maxRepeats || 5)) {
-                showToast('Max training reached!', 'warning');
+                showToast(I18n.T('eng.max_training'), 'warning');
                 return false;
             }
         } else if (hasUpgrade(id)) return false;
-        if (state.level < upg.level) { showToast(`Need Level ${upg.level}!`, 'warning'); return false; }
-        if (state.money < upg.cost) { showToast('Not enough money!', 'danger'); return false; }
+        if (state.level < upg.level) { showToast(I18n.T('eng.need_level', upg.level), 'warning'); return false; }
+        if (state.money < upg.cost) { showToast(I18n.T('eng.not_enough'), 'danger'); return false; }
         
-        addMoney(-upg.cost, `Purchased: ${upg.name}`);
+        addMoney(-upg.cost, `${I18n.T('office.title')}: ${upg.name}`);
         if (upg.repeatable) {
             state.embalmTrainCount++;
         } else {
@@ -408,7 +432,7 @@ const Engine = (() => {
             state.schedule.push({
                 time: Math.round(state.time) + 1,
                 type: 'arrival',
-                desc: 'A family is here for a cremation service.',
+                desc: I18n.T('eng.cremation_family'),
                 triggered: false,
                 room: 'reception',
                 forceCremation: true
@@ -430,7 +454,7 @@ const Engine = (() => {
         const closeBtn = document.getElementById('btn-dice-close');
 
         overlay.style.display = 'flex';
-        resultEl.textContent = `Modifier: ${modifier >= 0 ? '+' : ''}${modifier}`;
+        resultEl.textContent = I18n.T('dice.modifier', modifier >= 0 ? '+' + modifier : modifier);
         resultEl.className = 'dice-result';
         rollBtn.style.display = 'block';
         closeBtn.style.display = 'none';
@@ -453,15 +477,15 @@ const Engine = (() => {
                     if (roll > state.stats.bestRoll) state.stats.bestRoll = roll;
 
                     let result, cls;
-                    if (roll === 1) { result = '💀 CRITICAL FAIL!'; cls = 'crit-fail'; }
-                    else if (total <= 4) { result = '🔥 Catastrophic!'; cls = 'crit-fail'; }
-                    else if (total <= 8) { result = '😬 Bad...'; cls = 'bad'; }
-                    else if (total <= 12) { result = '😐 Mediocre'; cls = 'bad'; }
-                    else if (total <= 16) { result = '👍 Good!'; cls = 'good'; }
-                    else if (total <= 19) { result = '✨ Great!'; cls = 'good'; }
-                    else { result = '💀✨ CRITICAL SUCCESS!'; cls = 'crit-success'; }
+                    if (roll === 1) { result = I18n.T('dice.crit_fail'); cls = 'crit-fail'; }
+                    else if (total <= 4) { result = I18n.T('dice.catastrophic'); cls = 'crit-fail'; }
+                    else if (total <= 8) { result = I18n.T('dice.bad'); cls = 'bad'; }
+                    else if (total <= 12) { result = I18n.T('dice.mediocre'); cls = 'bad'; }
+                    else if (total <= 16) { result = I18n.T('dice.good'); cls = 'good'; }
+                    else if (total <= 19) { result = I18n.T('dice.great'); cls = 'good'; }
+                    else { result = I18n.T('dice.crit_success'); cls = 'crit-success'; }
 
-                    resultEl.textContent = `Rolled ${roll}${modifier ? ` + ${modifier}` : ''} = ${total} — ${result}`;
+                    resultEl.textContent = I18n.T('dice.result', roll + (modifier ? (modifier > 0 ? ' + ' + modifier : ' ' + modifier) : ''), total, result);
                     resultEl.className = `dice-result ${cls}`;
                     Audio8Bit.SFX.diceResult(total > 12);
                     closeBtn.style.display = 'block';
@@ -569,16 +593,16 @@ const Engine = (() => {
             state.gameOver = true;
             stopTime();
             const quote = DATA.gameOverMoney[Math.floor(Math.random() * DATA.gameOverMoney.length)];
-            showGameOver('BANKRUPT', 'You ran out of money. Even death costs money, apparently.', quote);
+            showGameOver(I18n.T('go.bankrupt_title'), I18n.T('go.bankrupt_reason'), quote);
         } else if (state.reputation <= 0) {
             state.gameOver = true;
             stopTime();
             const quote = DATA.gameOverRep[Math.floor(Math.random() * DATA.gameOverRep.length)];
-            showGameOver('DISGRACED', 'Your reputation hit rock bottom. Nobody trusts you with their dead.', quote);
+            showGameOver(I18n.T('go.disgraced_title'), I18n.T('go.disgraced_reason'), quote);
         } else if (state.money <= 500) {
-            showToast('⚠️ WARNING: Money running low! ($' + state.money + ')', 'danger');
+            showToast(I18n.T('go.money_warning', state.money), 'danger');
         } else if (state.reputation <= 15) {
-            showToast('⚠️ WARNING: Reputation dangerously low!', 'danger');
+            showToast(I18n.T('go.rep_warning'), 'danger');
         }
     }
 
@@ -589,11 +613,11 @@ const Engine = (() => {
         document.getElementById('gameover-reason').textContent = reason;
         document.getElementById('gameover-quote').textContent = quote;
         document.getElementById('gameover-stats').innerHTML = `
-            Days survived: ${state.day}<br>
-            Families served: ${state.stats.familiesServed}<br>
-            Total earnings: $${state.stats.totalEarnings}<br>
-            Best dice roll: ${state.stats.bestRoll}<br>
-            Level reached: ${state.level}
+            ${I18n.T('go.days')} ${state.day}<br>
+            ${I18n.T('go.served')} ${state.stats.familiesServed}<br>
+            ${I18n.T('go.earnings')} $${state.stats.totalEarnings}<br>
+            ${I18n.T('go.best_roll')} ${state.stats.bestRoll}<br>
+            ${I18n.T('go.level')} ${state.level}
         `;
         Main.showScreen('gameover');
     }

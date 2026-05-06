@@ -23,24 +23,22 @@
 
             <p class="title-quote" data-i18n="title.quote">"You don't save lives. You help end them... professionally."</p>
             <div class="title-menu">
-                <div class="lang-selector" style="margin-bottom: 12px; display: flex; gap: 8px;">
-                    <button class="pixel-btn lang-btn" data-lang="en" style="min-width:auto; padding: 8px; display:flex; align-items:center; gap: 6px;">
-                        <svg width="16" height="11" viewBox="0 0 16 11" xmlns="http://www.w3.org/2000/svg" style="image-rendering: pixelated;">
+                <div class="lang-selector" style="margin-bottom: 24px; display: flex; gap: 16px; justify-content: center;">
+                    <button class="lang-btn" data-lang="en" title="English">
+                        <svg width="24" height="16" viewBox="0 0 16 11" xmlns="http://www.w3.org/2000/svg">
                             <rect width="16" height="11" fill="#012169"/>
                             <path d="M0,0 L16,11 M16,0 L0,11" stroke="#fff" stroke-width="2"/>
                             <path d="M0,0 L16,11 M16,0 L0,11" stroke="#C8102E" stroke-width="1"/>
                             <path d="M8,0 L8,11 M0,5.5 L16,5.5" stroke="#fff" stroke-width="3"/>
                             <path d="M8,0 L8,11 M0,5.5 L16,5.5" stroke="#C8102E" stroke-width="2"/>
                         </svg>
-                        EN
                     </button>
-                    <button class="pixel-btn lang-btn" data-lang="es" style="min-width:auto; padding: 8px; display:flex; align-items:center; gap: 6px;">
-                        <svg width="16" height="11" viewBox="0 0 16 11" xmlns="http://www.w3.org/2000/svg" style="image-rendering: pixelated;">
+                    <button class="lang-btn" data-lang="es" title="Español">
+                        <svg width="24" height="16" viewBox="0 0 16 11" xmlns="http://www.w3.org/2000/svg">
                             <rect width="16" height="3" y="0" fill="#AA151B"/>
                             <rect width="16" height="5" y="3" fill="#F1BF00"/>
                             <rect width="16" height="3" y="8" fill="#AA151B"/>
                         </svg>
-                        ES
                     </button>
                 </div>
                 <button id="btn-new-game" class="pixel-btn pink-btn"><span class="custom-icon" data-icon="skull" style="width:12px;height:12px"></span> <span data-i18n="title.new_game">NEW GAME</span></button>
@@ -54,11 +52,11 @@
     <!-- ===== NAME INPUT SCREEN ===== -->
     <div id="name-screen" class="screen">
         <div class="screen-panel centered-panel">
-            <h2>WHO DARES RUN A FUNERAL HOME?</h2>
-            <p class="vt-text">Enter your name, future undertaker:</p>
-            <input type="text" id="player-name-input" class="pixel-input" placeholder="Your name..." maxlength="16" autocomplete="off">
+            <h2 data-i18n="name.title">WHO DARES RUN A FUNERAL HOME?</h2>
+            <p class="vt-text" data-i18n="name.subtitle">Enter your name, future undertaker:</p>
+            <input type="text" id="player-name-input" class="pixel-input" data-i18n="name.placeholder" placeholder="Your name..." maxlength="16" autocomplete="off">
             <p class="vt-text dim" id="name-flavor">"Every great mortician started somewhere."</p>
-            <button id="btn-start-game" class="pixel-btn pink-btn">BEGIN YOUR CAREER <span class="custom-icon" data-icon="skull" style="width:12px;height:12px"></span></button>
+            <button id="btn-start-game" class="pixel-btn pink-btn"><span data-i18n="name.begin">BEGIN YOUR CAREER</span> <span class="custom-icon" data-icon="skull" style="width:12px;height:12px"></span></button>
         </div>
     </div>
     
@@ -69,13 +67,13 @@
             <div class="cemetery-silhouette"></div>
         </div>
         <div class="screen-panel centered-panel" style="max-width: 450px; text-align: center;">
-            <h2>WELCOME TO THANATOPRACTOR</h2>
+            <h2 data-i18n="welcome.title">WELCOME TO THANATOPRACTOR</h2>
             <div class="vt-text" style="line-height:1.5; margin: 20px 0; font-size: 19px; text-align: center;">
-                <p>Here we don't save lives, we just tie them up with a bow. Your job is simple: make up the dead so they look alive, burn them if the family doesn't want to see them anymore, and above all, don't ask questions about the strange stains.</p>
+                <p data-i18n="welcome.p1">Here we don't save lives, we just tie them up with a bow. Your job is simple: make up the dead so they look alive, burn them if the family doesn't want to see them anymore, and above all, don't ask questions about the strange stains.</p>
                 <br>
-                <p>By clicking below, you accept that formaldehyde is your new favorite cologne, that ghosts don't pay rent, and that we are not responsible for recurring nightmares or the sudden loss of your own soul.</p>
+                <p data-i18n="welcome.p2">By clicking below, you accept that formaldehyde is your new favorite cologne, that ghosts don't pay rent, and that we are not responsible for recurring nightmares or the sudden loss of your own soul.</p>
             </div>
-            <button id="btn-accept-terms" class="pixel-btn pink-btn">I ACCEPT THE TERMS <span class="custom-icon" data-icon="paperwork" style="width:12px;height:12px"></span></button>
+            <button id="btn-accept-terms" class="pixel-btn pink-btn"><span data-i18n="welcome.accept">I ACCEPT THE TERMS</span> <span class="custom-icon" data-icon="paperwork" style="width:12px;height:12px"></span></button>
         </div>
     </div>
 
@@ -83,14 +81,14 @@
     <div id="hub-screen" class="screen">
         <!-- Top Status Bar -->
         <div class="status-bar">
-            <div class="status-item"><span class="custom-icon" data-icon="calendar"></span> DAY <span id="hud-day">1</span></div>
+            <div class="status-item"><span class="custom-icon" data-icon="calendar"></span> <span data-i18n="hub.day">DAY</span> <span id="hud-day">1</span></div>
             <div class="status-item"><span class="custom-icon" data-icon="clock"></span> <span id="hud-time">08:00</span></div>
             <div class="status-item"><span class="custom-icon" data-icon="people"></span> <span id="hud-families">0</span></div>
             <div class="status-item"><span class="custom-icon" data-icon="money"></span>$<span id="hud-money">5000</span></div>
         </div>
         <!-- Reputation Bar -->
         <div class="rep-bar">
-            <span class="rep-label"><span class="custom-icon" data-icon="star" style="width:10px;height:10px"></span> REPUTATION</span>
+            <span class="rep-label"><span class="custom-icon" data-icon="star" style="width:10px;height:10px"></span> <span data-i18n="hub.reputation">REPUTATION</span></span>
             <div class="rep-meter"><div class="rep-fill" id="hud-rep-fill" style="width:50%"></div></div>
             <span class="rep-value" id="hud-rep">50</span>
         </div>
@@ -98,19 +96,20 @@
         <!-- Hub Scene -->
         <div class="hub-scene">
             <div class="hub-building">
-                <div class="hub-sign">ETERNAL REST<br><span>FUNERAL HOUSE</span></div>
+                <div class="hub-sign" data-i18n="hub.eternal_rest">ETERNAL REST</div>
+                <div class="hub-sign" style="font-size: 10px; margin-top: -8px;" data-i18n="hub.funeral_house">FUNERAL HOUSE</div>
                 <div class="hub-desk">
                     <div class="hub-character" id="hub-player-char"><span class="custom-icon" data-icon="skull" style="width:32px;height:32px"></span></div>
                     <div class="hub-coffee"><span class="custom-icon" data-icon="cafeteria" style="width:32px;height:32px"></span></div>
                     <div class="hub-bell"><span class="custom-icon" data-icon="bell" style="width:32px;height:32px"></span></div>
                 </div>
-                <p class="hub-motto">"We care to the end"</p>
+                <p class="hub-motto" data-i18n="hub.motto">"We care to the end"</p>
             </div>
             <!-- Today's Schedule -->
             <div class="hub-schedule" id="hub-schedule">
-                <h3>📋 TODAY'S SCHEDULE</h3>
+                <h3 data-i18n="hub.schedule">📋 TODAY'S SCHEDULE</h3>
                 <div id="schedule-list" class="schedule-list">
-                    <p class="dim-text">No appointments yet...</p>
+                    <p class="dim-text" data-i18n="hub.no_appointments">No appointments yet...</p>
                 </div>
             </div>
         </div>
@@ -119,19 +118,19 @@
         <div class="hub-nav">
             <div class="nav-btn" data-room="reception">
                 <span class="custom-icon" data-icon="reception"></span>
-                <span class="nav-label">Reception</span>
+                <span class="nav-label" data-i18n="nav.reception">Reception</span>
                 <span class="nav-badge" id="badge-reception" style="display:none">!</span>
             </div>
             <div class="nav-btn" data-room="embalming" id="nav-embalming">
                 <span class="custom-icon" data-icon="embalming"></span>
-                <span class="nav-label">Embalming</span>
+                <span class="nav-label" data-i18n="nav.embalming">Embalming</span>
                 <span class="nav-badge" id="badge-embalming" style="display:none">!</span>
             </div>
             <div class="nav-btn locked" id="nav-cafeteria" data-room="cafeteria">
                 <span class="nav-lock">🔒</span>
                 <span class="custom-icon" data-icon="cafeteria"></span>
                 <div class="cafe-order-dot" id="cafe-order-dot" style="display:none"></div>
-                <span class="nav-label">Cafeteria</span>
+                <span class="nav-label" data-i18n="nav.cafeteria">Cafeteria</span>
                 <span class="nav-badge" id="badge-cafeteria" style="display:none">!</span>
             </div>
             <div class="nav-btn locked" id="nav-crematorium" data-room="crematorium">
@@ -140,27 +139,27 @@
                 <div class="nav-temp-bar" id="nav-crema-temp-bar" style="display:none">
                     <div class="nav-temp-fill" id="nav-crema-temp-fill"></div>
                 </div>
-                <span class="nav-label">Cremator.</span>
+                <span class="nav-label" data-i18n="nav.crematorium">Cremator.</span>
                 <span class="nav-badge" id="badge-crematorium" style="display:none">!</span>
             </div>
             <button class="nav-btn" data-room="viewing" id="nav-viewing">
                 <span class="custom-icon" data-icon="viewing"></span>
-                <span class="nav-label">Viewing</span>
+                <span class="nav-label" data-i18n="nav.viewing">Viewing</span>
                 <span class="nav-badge" id="badge-viewing" style="display:none">!</span>
             </button>
             <div class="nav-btn locked" id="nav-chapel" data-room="chapel">
                 <span class="nav-lock">🔒</span>
                 <span class="custom-icon" data-icon="chapel"></span>
-                <span class="nav-label">Chapel</span>
+                <span class="nav-label" data-i18n="nav.chapel">Chapel</span>
                 <span class="nav-badge" id="badge-chapel" style="display:none">!</span>
             </div>
             <div class="nav-btn" data-room="office">
                 <span class="custom-icon" data-icon="office"></span>
-                <span class="nav-label">Upgrades</span>
+                <span class="nav-label" data-i18n="nav.upgrades">Upgrades</span>
             </div>
             <div class="nav-btn" data-room="families">
                 <span class="custom-icon" data-icon="families"></span>
-                <span class="nav-label">Families</span>
+                <span class="nav-label" data-i18n="nav.families">Families</span>
             </div>
         </div>
 
@@ -176,31 +175,31 @@
     <div class="screen room-screen" id="reception-screen">
         <div class="room-header">
             <button class="back-btn" data-back="hub">◀</button>
-            <h2>RECEPTION</h2>
+            <h2 data-i18n="rec.title">RECEPTION</h2>
         </div>
         <div class="room-status-bar" id="reception-status"></div>
         <div class="room-content">
             <div class="reception-desk-scene">
-                <div class="reception-sign">ETERNAL REST<br>FUNERAL HOUSE</div>
+                <div class="reception-sign" data-i18n="hub.eternal_rest">ETERNAL REST</div><div class="reception-sign" style="font-size:12px; margin-top:-5px;" data-i18n="hub.funeral_house">FUNERAL HOUSE</div>
                 <div class="reception-character"><span class="custom-icon" data-icon="skull" style="width:48px;height:48px;"></span></div>
             </div>
             <div class="reception-actions">
                 <button class="action-btn" id="btn-new-arrival" style="position:relative">
-                    <span class="custom-icon" data-icon="skull"></span> NEW ARRIVAL
+                    <span class="custom-icon" data-icon="skull"></span> <span data-i18n="rec.new_arrival">NEW ARRIVAL</span>
                     <span class="nav-badge" id="badge-arrival" style="display:none">!</span>
                 </button>
                 <button class="action-btn" id="btn-phone-call" style="position:relative">
-                    <span class="custom-icon" data-icon="phone"></span> PHONE CALL
+                    <span class="custom-icon" data-icon="phone"></span> <span data-i18n="rec.phone">PHONE CALL</span>
                     <span class="nav-badge" id="badge-phone" style="display:none">!</span>
                 </button>
                 <button class="action-btn" id="btn-paperwork" style="position:relative">
-                    <span class="custom-icon" data-icon="paperwork"></span> PAPERWORK
+                    <span class="custom-icon" data-icon="paperwork"></span> <span data-i18n="rec.paperwork">PAPERWORK</span>
                     <span class="nav-badge" id="badge-paperwork" style="display:none">!</span>
                 </button>
-                <button class="action-btn" id="btn-upgrades-shortcut"><span class="custom-icon" data-icon="upgrades"></span> UPGRADES</button>
+                <button class="action-btn" id="btn-upgrades-shortcut"><span class="custom-icon" data-icon="upgrades"></span> <span data-i18n="nav.upgrades">UPGRADES</span></button>
             </div>
             <div class="reception-appointments" id="reception-appointments">
-                <h3>📋 TODAY'S APPOINTMENTS</h3>
+                <h3 data-i18n="rec.appointments">📋 TODAY'S APPOINTMENTS</h3>
                 <div id="appointment-list"></div>
             </div>
         </div>
@@ -210,42 +209,42 @@
     <div id="embalming-screen" class="screen room-screen">
         <div class="room-header">
             <button class="back-btn" data-back="hub">◀</button>
-            <h2>EMBALMING ROOM</h2>
-            <span class="room-subtitle">Preserve dignity.</span>
+            <h2 data-i18n="emb.title">EMBALMING ROOM</h2>
+            <span class="room-subtitle" data-i18n="emb.subtitle">Preserve dignity.</span>
         </div>
         <div class="room-status-bar">
-            <span>📅 DAY <span class="rs-day">1</span></span>
+            <span>📅 <span data-i18n="hub.day">DAY</span> <span class="rs-day">1</span></span>
             <span>🕐 <span class="rs-time">08:00</span></span>
             <span>💰 $<span class="rs-money">5000</span></span>
         </div>
         <div class="room-content" id="embalming-content">
             <div class="embalming-body-area">
                 <div class="embalming-table"><span class="custom-icon" data-icon="coffin" style="width:40px;height:40px"></span></div>
-                <div class="embalming-status" id="embalm-status">No body to prepare</div>
+                <div class="embalming-status" id="embalm-status" data-i18n="emb.no_body">No body to prepare</div>
             </div>
             <div class="embalming-tasks" id="embalm-tasks">
-                <h3>TASKS</h3>
-                <div class="task-item" data-task="clean"><span class="task-check">☐</span> Clean</div>
-                <div class="task-item" data-task="treat"><span class="task-check">☐</span> Treat</div>
-                <div class="task-item" data-task="dress"><span class="task-check">☐</span> Dress</div>
-                <div class="task-item" data-task="prepare"><span class="task-check">☐</span> Prepare</div>
+                <h3 data-i18n="emb.tasks">TASKS</h3>
+                <div class="task-item" data-task="clean"><span class="task-check">☐</span> <span data-i18n="emb.clean">Clean</span></div>
+                <div class="task-item" data-task="treat"><span class="task-check">☐</span> <span data-i18n="emb.treat">Treat</span></div>
+                <div class="task-item" data-task="dress"><span class="task-check">☐</span> <span data-i18n="emb.dress">Dress</span></div>
+                <div class="task-item" data-task="prepare"><span class="task-check">☐</span> <span data-i18n="emb.prepare">Prepare</span></div>
             </div>
             <div class="embalming-supplies">
-                <h3>SUPPLIES</h3>
+                <h3 data-i18n="emb.supplies">SUPPLIES</h3>
                 <div class="supply-grid" id="supply-grid">
-                    <div class="supply-item"><span class="custom-icon" data-icon="embalming"></span> Formaldehyde: <span id="supply-formal">10</span></div>
-                    <div class="supply-item"><span class="custom-icon" data-icon="water"></span> Humectant: <span id="supply-humect">8</span></div>
-                    <div class="supply-item"><span class="custom-icon" data-icon="flowers"></span> Dye: <span id="supply-dye">6</span></div>
-                    <div class="supply-item"><span class="custom-icon" data-icon="cross"></span> Outfits: <span id="supply-outfits">4</span></div>
+                    <div class="supply-item"><span class="custom-icon" data-icon="embalming"></span> <span data-i18n="shop.formaldehyde">Formaldehyde</span>: <span id="supply-formal">10</span></div>
+                    <div class="supply-item"><span class="custom-icon" data-icon="water"></span> <span data-i18n="shop.humectant">Humectant</span>: <span id="supply-humect">8</span></div>
+                    <div class="supply-item"><span class="custom-icon" data-icon="flowers"></span> <span data-i18n="shop.dye">Dye</span>: <span id="supply-dye">6</span></div>
+                    <div class="supply-item"><span class="custom-icon" data-icon="cross"></span> <span data-i18n="shop.outfit">Outfits</span>: <span id="supply-outfits">4</span></div>
                 </div>
-                <button class="action-btn" id="btn-buy-supplies">🛒 BUY SUPPLIES</button>
+                <button class="action-btn" id="btn-buy-supplies" data-i18n="emb.buy">🛒 BUY SUPPLIES</button>
             </div>
             <div class="embalming-quality">
-                <h3>QUALITY</h3>
+                <h3 data-i18n="emb.quality">QUALITY</h3>
                 <div class="quality-bar"><div class="quality-fill" id="embalm-quality-fill"></div></div>
                 <span id="embalm-quality-text">—</span>
             </div>
-            <button class="action-btn pink-btn" id="btn-embalm-roll" style="display:none"><span class="custom-icon" data-icon="d20"></span> ROLL D20 — EMBALM!</button>
+            <button class="action-btn pink-btn" id="btn-embalm-roll" style="display:none"><span class="custom-icon" data-icon="d20"></span> <span data-i18n="emb.roll">ROLL D20 — EMBALM!</span></button>
         </div>
     </div>
 
@@ -253,8 +252,8 @@
     <div id="cafeteria-screen" class="screen room-screen">
         <div class="room-header">
             <button class="back-btn" data-back="hub">◀</button>
-            <h2>CAFETERIA</h2>
-            <span class="room-subtitle">For the living, too.</span>
+            <h2 data-i18n="cafe.title">CAFETERIA</h2>
+            <span class="room-subtitle" data-i18n="cafe.subtitle">For the living, too.</span>
         </div>
         <div class="room-status-bar">
             <span>📅 DAY <span class="rs-day">1</span></span>
@@ -263,7 +262,7 @@
         </div>
         <div class="room-content" id="cafeteria-content">
             <div class="cafe-menu-board">
-                <h3>☕ DEADLY GOOD MENU</h3>
+                <h3 data-i18n="cafe.menu">☕ DEADLY GOOD MENU</h3>
                 <div class="menu-items">
                     <div>Coffee.........$2</div>
                     <div>Tea............$2</div>
@@ -272,11 +271,11 @@
                 </div>
             </div>
             <div class="cafe-orders" id="cafe-orders">
-                <h3>📝 ORDERS</h3>
-                <div id="cafe-order-list"><p class="dim-text">No orders yet</p></div>
+                <h3 data-i18n="cafe.orders">📝 ORDERS</h3>
+                <div id="cafe-order-list"><p class="dim-text" data-i18n="cafe.no_orders_yet">No orders yet</p></div>
             </div>
             <div class="cafe-satisfaction">
-                <h3>😊 SATISFACTION</h3>
+                <h3 data-i18n="cafe.satisfaction">😊 SATISFACTION</h3>
                 <div class="satisfaction-bar"><div class="satisfaction-fill" id="cafe-sat-fill" style="width:100%"></div></div>
             </div>
         </div>
@@ -286,8 +285,8 @@
     <div id="crematorium-screen" class="screen room-screen">
         <div class="room-header">
             <button class="back-btn" data-back="hub">◀</button>
-            <h2>CREMATORIUM</h2>
-            <span class="room-subtitle">Reduction to essentials.</span>
+            <h2 data-i18n="crema.title">CREMATORIUM</h2>
+            <span class="room-subtitle" data-i18n="crema.subtitle">Reduction to essentials.</span>
         </div>
         <div class="room-status-bar">
             <span>📅 DAY <span class="rs-day">1</span></span>
@@ -302,26 +301,26 @@
             </div>
             <div class="crema-stats">
                 <div class="crema-stat">
-                    <span>🌡️ TEMPERATURE</span>
+                    <span data-i18n="crema.temp">🌡️ TEMPERATURE</span>
                     <span class="stat-value" id="crema-temp">20°C</span>
                 </div>
                 <div class="crema-stat">
-                    <span>⛽ FUEL</span>
+                    <span data-i18n="crema.fuel">⛽ FUEL</span>
                     <div class="fuel-bar"><div class="fuel-fill" id="crema-fuel-fill" style="width:0%"></div></div>
                     <span class="stat-value" id="crema-fuel">0/10</span>
                 </div>
                 <div class="crema-stat">
-                    <span>📊 EFFICIENCY</span>
+                    <span data-i18n="crema.efficiency">📊 EFFICIENCY</span>
                     <span class="stat-value" id="crema-efficiency">—</span>
                 </div>
             </div>
             <div class="crema-schedule" id="crema-schedule">
-                <h3>TODAY'S SCHEDULE</h3>
-                <div id="crema-schedule-list"><p class="dim-text">No cremations scheduled</p></div>
+                <h3 data-i18n="crema.schedule">TODAY'S SCHEDULE</h3>
+                <div id="crema-schedule-list"><p class="dim-text" data-i18n="crema.no_scheduled">No cremations scheduled</p></div>
             </div>
             <div class="crema-controls">
-                <button class="action-btn" id="btn-add-fuel">⛽ ADD FUEL ($50)</button>
-                <button class="action-btn pink-btn" id="btn-ignite">🔥 IGNITE</button>
+                <button class="action-btn" id="btn-add-fuel" data-i18n="crema.add_fuel">⛽ ADD FUEL ($50)</button>
+                <button class="action-btn pink-btn" id="btn-ignite" data-i18n="crema.ignite">🔥 IGNITE</button>
             </div>
         </div>
     </div>
@@ -330,8 +329,8 @@
     <div id="viewing-screen" class="screen room-screen">
         <div class="room-header">
             <button class="back-btn" data-back="hub">◀</button>
-            <h2>VIEWING ROOM</h2>
-            <span class="room-subtitle">A final goodbye.</span>
+            <h2 data-i18n="view.title">VIEWING ROOM</h2>
+            <span class="room-subtitle" data-i18n="view.subtitle">A final goodbye.</span>
         </div>
         <div class="room-status-bar">
             <span>📅 DAY <span class="rs-day">1</span></span>
@@ -340,19 +339,19 @@
         </div>
         <div class="room-content" id="viewing-content">
             <div class="viewing-family-mood">
-                <h3>👨‍👩‍👧 FAMILY MOOD</h3>
+                <h3 data-i18n="view.mood">👨‍👩‍👧 FAMILY MOOD</h3>
                 <div class="mood-bar"><div class="mood-fill" id="view-mood-fill" style="width:65%"></div></div>
                 <span id="view-mood-val">65%</span>
             </div>
             <div class="viewing-requests" id="viewing-requests">
-                <h3>📋 REQUESTS</h3>
-                <div id="view-request-list"><p class="dim-text">No active viewing</p></div>
+                <h3 data-i18n="view.requests">📋 REQUESTS</h3>
+                <div id="view-request-list"><p class="dim-text" data-i18n="view.no_active">No active viewing</p></div>
             </div>
             <div class="viewing-controls" id="viewing-controls" style="display:none">
-                <button class="action-btn pink-btn" id="btn-view-body"><span class="custom-icon" data-icon="viewing"></span> SHOW BODY</button>
-                <button class="action-btn pink-btn" id="btn-view-water"><span class="custom-icon" data-icon="water"></span> BRING WATER</button>
-                <button class="action-btn pink-btn" id="btn-view-temp"><span class="custom-icon" data-icon="ac"></span> ADJUST TEMP</button>
-                <button class="action-btn pink-btn" id="btn-view-firstaid"><span class="custom-icon" data-icon="firstaid"></span> FIRST AID</button>
+                <button class="action-btn pink-btn" id="btn-view-body"><span class="custom-icon" data-icon="viewing"></span> <span data-i18n="view.show_body">SHOW BODY</span></button>
+                <button class="action-btn pink-btn" id="btn-view-water"><span class="custom-icon" data-icon="water"></span> <span data-i18n="view.water">BRING WATER</span></button>
+                <button class="action-btn pink-btn" id="btn-view-temp"><span class="custom-icon" data-icon="ac"></span> <span data-i18n="view.temp">ADJUST TEMP</span></button>
+                <button class="action-btn pink-btn" id="btn-view-firstaid"><span class="custom-icon" data-icon="firstaid"></span> <span data-i18n="view.firstaid">FIRST AID</span></button>
             </div>
         </div>
     </div>
@@ -361,8 +360,8 @@
     <div id="chapel-screen" class="screen room-screen">
         <div class="room-header">
             <button class="back-btn" data-back="hub">◀</button>
-            <h2>THE CHAPEL</h2>
-            <span class="room-subtitle">Faith. Ritual. Comfort.</span>
+            <h2 data-i18n="chapel.title">THE CHAPEL</h2>
+            <span class="room-subtitle" data-i18n="chapel.subtitle">Faith. Ritual. Comfort.</span>
         </div>
         <div class="room-status-bar">
             <span>📅 DAY <span class="rs-day">1</span></span>
@@ -372,19 +371,19 @@
         <div class="room-content" id="chapel-content">
             <div class="chapel-orator">
                 <div class="orator-avatar"><span class="custom-icon" data-icon="music" style="width:40px;height:40px"></span></div>
-                <div class="orator-name">Iván — The Orator</div>
+                <div class="orator-name" data-i18n="chapel.ivan">Iván — The Orator</div>
                 <div class="orator-speech" id="ivan-speech">"I'm here whenever you need me. Death waits for no one, but I do."</div>
             </div>
             <div class="chapel-service" id="chapel-service-area">
-                <h3>🕯️ SERVICE TYPE</h3>
-                <div id="chapel-service-info"><p class="dim-text">No service scheduled</p></div>
+                <h3 data-i18n="chapel.service">🕯️ SERVICE TYPE</h3>
+                <div id="chapel-service-info"><p class="dim-text" data-i18n="chapel.no_service">No service scheduled</p></div>
             </div>
             <div class="chapel-sermon-select" id="chapel-sermon-select" style="display:none">
-                <h3>📜 SELECT SERMON</h3>
+                <h3 data-i18n="chapel.select_sermon">📜 SELECT SERMON</h3>
                 <div id="sermon-options"></div>
             </div>
             <div class="chapel-comfort">
-                <span>COMFORT</span>
+                <span data-i18n="chapel.comfort">COMFORT</span>
                 <div class="comfort-bar"><div class="comfort-fill" id="chapel-comfort-fill" style="width:78%"></div></div>
                 <span id="chapel-comfort-val">78%</span>
             </div>
@@ -395,8 +394,8 @@
     <div id="office-screen" class="screen room-screen">
         <div class="room-header">
             <button class="back-btn" data-back="hub">◀</button>
-            <h2>UPGRADES</h2>
-            <span class="room-subtitle">Invest in death.</span>
+            <h2 data-i18n="office.title">UPGRADES</h2>
+            <span class="room-subtitle" data-i18n="office.subtitle">Invest in death.</span>
         </div>
         <div class="room-status-bar">
             <span>📅 DAY <span class="rs-day">1</span></span>
@@ -412,12 +411,12 @@
     <div id="families-screen" class="screen room-screen">
         <div class="room-header">
             <button class="back-btn" data-back="hub">◀</button>
-            <h2>FAMILIES LOG</h2>
-            <span class="room-subtitle">Those we've served.</span>
+            <h2 data-i18n="fam.title">FAMILIES LOG</h2>
+            <span class="room-subtitle" data-i18n="fam.subtitle">Those we've served.</span>
         </div>
         <div class="room-content" id="families-content">
             <div id="families-list" class="families-list">
-                <p class="dim-text">No families yet. Death takes a day off?</p>
+                <p class="dim-text" data-i18n="fam.no_families">No families yet. Death takes a day off?</p>
             </div>
         </div>
     </div>
@@ -425,12 +424,12 @@
     <!-- ===== GAME OVER SCREEN ===== -->
     <div id="gameover-screen" class="screen">
         <div class="screen-panel centered-panel">
-            <h2 id="gameover-title">GAME OVER</h2>
+            <h2 id="gameover-title" data-i18n="go.title">GAME OVER</h2>
             <div class="gameover-skull"><span class="custom-icon" data-icon="skull" style="width:80px;height:80px"></span></div>
             <p class="vt-text" id="gameover-reason"></p>
             <div class="gameover-stats" id="gameover-stats"></div>
             <p class="title-quote" id="gameover-quote"></p>
-            <button class="pixel-btn pink-btn" id="btn-restart">TRY AGAIN <span class="custom-icon" data-icon="skull" style="width:12px;height:12px"></span></button>
+            <button class="pixel-btn pink-btn" id="btn-restart"><span data-i18n="go.try_again">TRY AGAIN</span> <span class="custom-icon" data-icon="skull" style="width:12px;height:12px"></span></button>
         </div>
     </div>
 
@@ -451,7 +450,7 @@
                 <span id="d20-value">?</span>
             </div>
             <div class="dice-result" id="dice-result"></div>
-            <button class="pixel-btn pink-btn" id="btn-dice-roll"><span class="custom-icon" data-icon="d20" style="width:12px;height:12px"></span> ROLL!</button>
+            <button class="pixel-btn pink-btn" id="btn-dice-roll"><span class="custom-icon" data-icon="d20" style="width:12px;height:12px"></span> <span data-i18n="ov.roll">ROLL!</span></button>
             <button class="pixel-btn" id="btn-dice-close" style="display:none">OK</button>
         </div>
     </div>
@@ -459,23 +458,23 @@
     <!-- Family Completion Summary Overlay -->
     <div id="completion-overlay" class="overlay" style="display:none">
         <div class="completion-panel">
-            <h2 id="comp-title">☠ SERVICE COMPLETE</h2>
+            <h2 id="comp-title" data-i18n="ov.service_complete">☠ SERVICE COMPLETE</h2>
             <div id="comp-body" class="comp-body"></div>
-            <button class="pixel-btn pink-btn" id="btn-comp-dismiss">DISMISS</button>
+            <button class="pixel-btn pink-btn" id="btn-comp-dismiss" data-i18n="ov.dismiss">DISMISS</button>
         </div>
     </div>
 
     <!-- Supplies Shop Overlay -->
     <div id="supplies-overlay" class="overlay" style="display:none">
         <div class="supplies-shop">
-            <h2 class="shop-title">🛒 SUPPLY MARKET</h2>
-            <p class="shop-subtitle" id="shop-subtitle">Prices fluctuate daily. Buy wisely.</p>
+            <h2 class="shop-title" data-i18n="ov.shop_title">🛒 SUPPLY MARKET</h2>
+            <p class="shop-subtitle" id="shop-subtitle" data-i18n="ov.shop_subtitle">Prices fluctuate daily. Buy wisely.</p>
             <div id="shop-items" class="shop-items"></div>
             <div class="shop-footer">
                 <div class="shop-total">TOTAL: $<span id="shop-total">0</span></div>
                 <div class="shop-actions">
-                    <button class="pixel-btn" id="btn-shop-cancel">CANCEL</button>
-                    <button class="pixel-btn pink-btn" id="btn-shop-buy">BUY ALL</button>
+                    <button class="pixel-btn" id="btn-shop-cancel" data-i18n="ov.shop_cancel">CANCEL</button>
+                    <button class="pixel-btn pink-btn" id="btn-shop-buy" data-i18n="ov.shop_buy">BUY ALL</button>
                 </div>
             </div>
         </div>
@@ -501,6 +500,13 @@
     <button id="audio-toggle" class="audio-toggle" title="Toggle audio"></button>
 
     <!-- Scripts (loaded in dependency order) -->
+    <!-- Day Transition Overlay -->
+    <div id="day-transition-overlay" class="overlay" style="background: black; z-index: 10000; display: none;">
+        <div id="day-text" style="color: #bc4a9c; font-size: 48px; font-family: var(--font-press-start); text-align: center; animation: fadeInOut 3s forwards;">
+            DAY 1
+        </div>
+    </div>
+
     <script src="js/i18n.js"></script>
     <script src="js/lang_en.js"></script>
     <script src="js/lang_es.js"></script>

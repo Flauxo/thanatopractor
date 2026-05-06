@@ -33,10 +33,13 @@ window.Main = (() => {
         const list = document.getElementById('schedule-list');
         if (!list) return;
         if (sched.length === 0) {
-            list.innerHTML = '<p class="dim-text">No appointments yet...</p>';
+            list.innerHTML = `<p class="dim-text">${I18n.T('hub.no_appointments')}</p>`;
         } else {
-            // Sort by time descending (most recent first)
-            const sorted = sched.slice().sort((a, b) => b.time - a.time);
+            // Sort: Future tasks first (earliest to latest), then Past tasks (latest to earliest)
+            const sorted = sched.slice().sort((a, b) => {
+                if (a.triggered !== b.triggered) return a.triggered ? 1 : -1;
+                return a.triggered ? b.time - a.time : a.time - b.time;
+            });
             // Only show up to 3 completed tasks
             let completedCount = 0;
             const filtered = sorted.filter(s => {
@@ -79,10 +82,23 @@ window.Main = (() => {
         };
 
         // Language selector
+        function updateLangButtons() {
+            const current = I18n.getLanguage();
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === current);
+            });
+        }
+        updateLangButtons();
+
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.onclick = (e) => {
+                const l = e.currentTarget.dataset.lang;
                 Audio8Bit.SFX.click();
-                I18n.setLanguage(e.target.dataset.lang);
+                I18n.setLanguage(l);
+                updateLangButtons();
+                // Update dynamic text
+                if (typeof Rooms !== 'undefined' && Rooms.updateActiveRoom) Rooms.updateActiveRoom();
+                Engine.updateHUD();
             };
         });
 
@@ -99,11 +115,7 @@ window.Main = (() => {
         // ===== NAME SCREEN =====
         const nameInput = document.getElementById('player-name-input');
         const flavors = [
-            '"Every great mortician started somewhere."',
-            '"Death is just the beginning... of your career."',
-            '"Your mother must be so proud."',
-            '"Hopefully you spell it right on the tombstones."',
-            '"The dead can\'t judge your name. The living will."'
+            I18n.T('name.f1'), I18n.T('name.f2'), I18n.T('name.f3'), I18n.T('name.f4'), I18n.T('name.f5')
         ];
         nameInput.oninput = () => {
             document.getElementById('name-flavor').textContent = flavors[Math.floor(Math.random() * flavors.length)];
@@ -113,7 +125,7 @@ window.Main = (() => {
         document.getElementById('btn-start-game').onclick = () => {
             const name = nameInput.value.trim();
             if (!name) {
-                Engine.showToast('Enter a name! Even the dead have names.', 'warning');
+                Engine.showToast(I18n.T('name.error'), 'warning');
                 return;
             }
             Audio8Bit.SFX.success();
@@ -131,7 +143,7 @@ window.Main = (() => {
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.onclick = () => {
                 if (btn.classList.contains('locked')) {
-                    Engine.showToast('🔒 Buy this room in the Upgrades menu!', 'warning');
+                    Engine.showToast(I18n.T('hub.locked'), 'warning');
                     return;
                 }
                 Audio8Bit.SFX.click();
@@ -210,11 +222,11 @@ window.Main = (() => {
         }, 60000);
 
         // Welcome toast
-        Engine.showToast(`☠ Welcome, ${s.playerName}. The dead await.`, '');
+        Engine.showToast(I18n.T('hub.welcome', s.playerName), '');
     }
 
     // Init on load
     document.addEventListener('DOMContentLoaded', initGame);
 
-    return { showScreen, get currentScreen() { return currentScreen; } };
+    return { showScreen, updateHubSchedule, get currentScreen() { return currentScreen; } };
 })();

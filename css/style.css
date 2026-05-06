@@ -42,6 +42,31 @@ html, body {
 }
 .screen.active { display: flex; }
 
+.lang-btn {
+    background: none !important;
+    border: none !important;
+    padding: 4px !important;
+    box-shadow: none !important;
+    opacity: 0.6;
+    transition: opacity 0.2s, transform 0.2s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.lang-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+.lang-btn.active {
+    opacity: 1;
+    filter: drop-shadow(0 0 5px var(--accent-bright));
+}
+.lang-btn svg {
+    display: block;
+    image-rendering: pixelated;
+}
+
 /* ===== BUTTONS ===== */
 .pixel-btn {
     font-family: var(--font-pixel); font-size: 10px;
@@ -108,7 +133,7 @@ html, body {
 .tagline {
     font-family: var(--font-pixel); font-size: clamp(7px, 2vw, 10px);
     color: var(--text-dim); margin-bottom: 60px;
-    line-height: 24px;
+    line-height: 2; /* Increased line-height to prevent overlapping */
     text-shadow: 2px 2px 2px #000;
 }
 .title-skull { font-size: 64px; margin: 16px 0; }
@@ -225,9 +250,9 @@ html, body {
 .hub-building { text-align: center; margin-bottom: 16px; position: relative; z-index: 1; }
 .hub-sign {
     font-family: var(--font-pixel); font-size: 12px;
-    color: var(--accent-bright); margin-bottom: 12px;
+    color: var(--accent-bright); margin-bottom: 4px;
     text-shadow: 0 0 10px #d4609a66;
-    line-height: 1.6;
+    line-height: 1.4;
 }
 .hub-sign span { font-size: 8px; color: var(--text-dim); }
 .hub-desk {
@@ -754,4 +779,18 @@ html, body {
     .hub-nav { grid-template-columns: repeat(4, 1fr); max-width: 500px; margin: 0 auto; }
     .room-content { max-width: 500px; margin: 0 auto; }
     .status-bar { max-width: 500px; margin: 0 auto; }
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: scale(0.9); }
+    20% { opacity: 1; transform: scale(1); }
+    80% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.1); }
+}
+
+#day-transition-overlay {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

@@ -12,7 +12,7 @@ const Rooms = (() => {
         document.getElementById('btn-new-arrival').onclick = () => {
             const s = Engine.getState();
             if ((s.pendingArrivals || 0) <= 0) {
-                Engine.showToast('No families are waiting right now.', 'warning');
+                Engine.showToast(I18n.T('rec.no_waiting'), 'warning');
                 return;
             }
             s.pendingArrivals--;
@@ -29,41 +29,48 @@ const Rooms = (() => {
             const s = Engine.getState();
             
             const phoneChoices = [
-                { text: 'Job Interview ($50)', action: () => {
-                    if (s.money < 50) { Engine.showToast('Not enough money!', 'danger'); return; }
+                { text: I18n.T('rec.job_interview'), action: () => {
+                    if (s.money < 50) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }
                     Engine.addMoney(-50, 'Job Interview Call');
-                    Engine.showToast('You called a candidate. They heard screaming in the background and hung up.', 'warning');
+                    Engine.showToast(I18n.T('rec.job_result'), 'warning');
                 }},
-                { text: 'Order Hearse ($150)', action: () => {
-                    if (s.money < 150) { Engine.showToast('Not enough money!', 'danger'); return; }
+                { text: I18n.T('rec.order_hearse'), action: () => {
+                    if (s.money < 150) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }
                     
                     const waitingFams = s.families.filter(f => f.active && f.waitingForTransport && !f.transportOrdered);
                     if (waitingFams.length === 0) {
                         Engine.addMoney(-150, 'Ordered Hearse');
-                        Engine.showToast('Hearse ordered. The driver says he\'ll be there "eventually".', 'success');
+                        Engine.showToast(I18n.T('rec.hearse_ordered'), 'success');
                         return;
                     }
                     
                     const cost = waitingFams.length * 150;
-                    if (s.money < cost) { Engine.showToast(`Need $${cost} for ${waitingFams.length} hearses!`, 'danger'); return; }
+                    if (s.money < cost) { Engine.showToast(I18n.T('rec.need_money_hearse', cost, waitingFams.length), 'danger'); return; }
                     
                     Engine.addMoney(-cost, `Ordered ${waitingFams.length} Hearse Transfer(s)`);
                     waitingFams.forEach(f => {
                         f.transportOrdered = true;
                         const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
-                        if (task) task.desc = `📦 (Coche pedido en camino) - ${f.deceasedName}`;
+                        if (task) task.desc = `${I18n.T('rec.car_ordered', f.deceasedName)}`;
                         
                         s.schedule.push({
                             time: Math.round(s.time + 60),
                             type: 'hearse_arrival',
                             familyId: f.id,
-                            desc: `Hearse is picking up ${f.deceasedName}'s family.`,
+                            desc: I18n.T('rec.hearse_picking', f.deceasedName),
                             triggered: false
                         });
                     });
                     Engine.Notifications.clearBadge('reception');
-                    Engine.showToast('Hearse(s) ordered. Expect them in 1 hour.', 'success');
-                }}
+                    Engine.showToast(I18n.T('rec.hearse_multi'), 'success');
+                }},
+                { text: I18n.T('rec.order_flowers'), action: () => {
+                    if (s.money < 50) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }
+                    Engine.addMoney(-50, 'Ordered Flowers');
+                    Engine.showToast(I18n.T('rec.flowers_result'), 'success');
+                    Engine.addReputation(2, 'Beautiful fresh flowers');
+                }},
+                { text: I18n.T('rec.nevermind'), action: () => {} }
             ];
 
             const hasPermanentHearse = Engine.hasUpgrade('hearse');
@@ -117,34 +124,24 @@ const Rooms = (() => {
                 });
             }
 
-            phoneChoices.push(
-                { text: 'Order Flowers ($50)', action: () => {
-                    if (s.money < 50) { Engine.showToast('Not enough money!', 'danger'); return; }
-                    Engine.addMoney(-50, 'Ordered Flowers');
-                    Engine.showToast('Fresh flowers delivered! The viewing room smells slightly less like formaldehyde.', 'success');
-                    Engine.addReputation(2, 'Beautiful fresh flowers');
-                }},
-                { text: 'Nevermind', action: () => {} }
-            );
-
-            Dialogue.show('📞 PHONE MENU', 'Who would you like to call today?', phoneChoices);
+            Dialogue.show(I18n.T('rec.phone_title'), I18n.T('rec.phone_subtitle'), phoneChoices);
         };
         document.getElementById('btn-paperwork').onclick = () => {
             Audio8Bit.SFX.click();
             Engine.Notifications.clearBadge('paperwork');
             const s = Engine.getState();
             if (!s.activePaperwork) {
-                Engine.showToast('📝 No paperwork right now. Enjoy the quiet.', '');
+                Engine.showToast(I18n.T('rec.no_paperwork'), '');
                 return;
             }
 
             const task = s.activePaperwork;
-            Dialogue.show('📝 PAPERWORK', `${task.text}\n\nDifficulty (DC): ${task.dc}`, [
-                { text: 'Roll D20', action: () => {
+            Dialogue.show(I18n.T('rec.pw_title'), `${task.text}\n\nDifficulty (DC): ${task.dc}`, [
+                { text: I18n.T('rec.pw_roll'), action: () => {
                     Engine.rollD20(0, (roll, total, result) => {
                         if (total >= task.dc) {
                             Engine.addMoney(task.reward, 'Paperwork success');
-                            Engine.showToast(`Success! You earned $${task.reward}.`, 'success');
+                            Engine.showToast(I18n.T('rec.pw_success', task.reward), 'success');
                             
                             // Check if this was the niece's car paperwork
                             if (task.text.includes('sobrina') || task.text.includes('niece')) {
@@ -153,7 +150,7 @@ const Rooms = (() => {
                             }
                         } else {
                             Engine.addMoney(task.penalty, 'Paperwork failed');
-                            Engine.showToast(`Failure! You lost $${Math.abs(task.penalty)}.`, 'danger');
+                            Engine.showToast(I18n.T('rec.pw_fail', Math.abs(task.penalty)), 'danger');
                         }
                         s.activePaperwork = null;
                         document.getElementById('btn-paperwork').style.opacity = '1';
@@ -161,13 +158,13 @@ const Rooms = (() => {
                         Engine.Notifications.clearBadge('reception');
                     });
                 }},
-                { text: DATA.paperworkExcuses[Math.floor(Math.random() * DATA.paperworkExcuses.length)] + ' (Decline)', action: () => {
+                { text: DATA.paperworkExcuses[Math.floor(Math.random() * DATA.paperworkExcuses.length)] + ` ${I18n.T('rec.pw_decline')}`, action: () => {
                     // Dismiss the paperwork task completely
                     s.activePaperwork = null;
                     Engine.Notifications.clearBadge('reception');
                     Engine.Notifications.clearBadge('paperwork');
                     document.getElementById('btn-paperwork').style.opacity = '1';
-                    Engine.showToast('📝 Paperwork discarded.', '');
+                    Engine.showToast(I18n.T('rec.pw_discarded'), '');
                 }}
             ]);
         };
@@ -183,10 +180,13 @@ const Rooms = (() => {
         const list = document.getElementById('appointment-list');
         const sched = Engine.getState().schedule;
         if (sched.length === 0) {
-            list.innerHTML = '<p class="dim-text">No appointments today</p>';
+            list.innerHTML = `<p class="dim-text">${I18n.T('rec.no_appointments')}</p>`;
         } else {
-            // Sort by time descending (most recent first)
-            const sorted = sched.slice().sort((a, b) => b.time - a.time);
+            // Sort: Future tasks first (earliest to latest), then Past tasks (latest to earliest)
+            const sorted = sched.slice().sort((a, b) => {
+                if (a.triggered !== b.triggered) return a.triggered ? 1 : -1;
+                return a.triggered ? b.time - a.time : a.time - b.time;
+            });
             // Only show up to 3 completed tasks
             let completedCount = 0;
             const filtered = sorted.filter(s => {
@@ -214,14 +214,14 @@ const Rooms = (() => {
         const active = Families.getActive().filter(f => f.arrived && !f.embalmed);
 
         if (active.length === 0) {
-            document.getElementById('embalm-status').textContent = 'No body to prepare';
+            document.getElementById('embalm-status').textContent = I18n.T('emb.no_body');
             document.getElementById('btn-embalm-roll').style.display = 'none';
             resetEmbalmTasks();
             return;
         }
 
         embalmTarget = active[0];
-        document.getElementById('embalm-status').textContent = `Preparing: ${embalmTarget.deceasedName}`;
+        document.getElementById('embalm-status').textContent = I18n.T('emb.preparing', embalmTarget.deceasedName);
 
         // Update supplies display
         document.getElementById('supply-formal').textContent = s.supplies.formaldehyde;
@@ -246,11 +246,11 @@ const Rooms = (() => {
 
                 // Tick
                 if (task === 'treat' && (s.supplies.formaldehyde < 2 || s.supplies.humectant < 2)) {
-                    Engine.showToast('⚠️ Not enough chemicals!', 'warning');
+                    Engine.showToast(I18n.T('emb.no_chemicals'), 'warning');
                     return;
                 }
                 if (task === 'dress' && s.supplies.outfits < 1) {
-                    Engine.showToast('⚠️ No outfits left!', 'warning');
+                    Engine.showToast(I18n.T('emb.no_outfits'), 'warning');
                     return;
                 }
                 
@@ -269,7 +269,7 @@ const Rooms = (() => {
         
         if (doneCount > 0) {
             rollBtn.style.display = 'block';
-            rollBtn.textContent = `🎲 FINISH & ROLL ${penalty < 0 ? `(${penalty} Penalty)` : '(No Penalty)'}`;
+            rollBtn.textContent = I18n.T('emb.finish', penalty < 0 ? `(${penalty} Penalty)` : '(No Penalty)');
         } else {
             rollBtn.style.display = 'none';
         }
@@ -309,11 +309,11 @@ const Rooms = (() => {
                 qText.textContent = quality.toUpperCase();
 
                 const msgs = {
-                    catastrophic: `💀 Oh no. ${embalmTarget.deceasedName} looks like a haunted wax figure. This will NOT end well.`,
-                    bad: `😬 ${embalmTarget.deceasedName} looks... off. Like they're judging you from beyond.`,
-                    mediocre: `😐 ${embalmTarget.deceasedName} looks acceptable. Not great, not terrible. Like a 3.6.`,
-                    good: `👍 ${embalmTarget.deceasedName} looks peaceful. Good job!`,
-                    excellent: `✨ ${embalmTarget.deceasedName} looks better dead than most people alive. Masterwork!`
+                    catastrophic: I18n.T('emb.q_catastrophic', embalmTarget.deceasedName),
+                    bad: I18n.T('emb.q_bad', embalmTarget.deceasedName),
+                    mediocre: I18n.T('emb.q_mediocre', embalmTarget.deceasedName),
+                    good: I18n.T('emb.q_good', embalmTarget.deceasedName),
+                    excellent: I18n.T('emb.q_excellent', embalmTarget.deceasedName)
                 };
                 Engine.showToast(msgs[quality], quality === 'good' || quality === 'excellent' ? 'success' : 'warning');
                 Families.updateSatisfaction(embalmTarget.id, quality === 'excellent' ? 20 : quality === 'good' ? 10 : quality === 'mediocre' ? 0 : quality === 'bad' ? -15 : -30, `Embalming: ${quality}`);
@@ -342,7 +342,7 @@ const Rooms = (() => {
                 const remaining = Families.getActive().filter(f => f.arrived && !f.embalmed);
                 if (remaining.length > 0) {
                     Engine.Notifications.addBadge('embalming');
-                    Engine.showToast(`🧪 ${remaining[0].deceasedName} still needs embalming!`, '');
+                    Engine.showToast(I18n.T('emb.still_needs', remaining[0].deceasedName), '');
                 }
             });
         };
@@ -364,10 +364,10 @@ const Rooms = (() => {
         const prices = {};
         let marketMood = '';
         const roll = Math.random();
-        if (roll < 0.15) { marketMood = '📉 Supplier clearance! Prices low.'; }
-        else if (roll < 0.6) { marketMood = '📦 Normal market conditions.'; }
-        else if (roll < 0.85) { marketMood = '📈 High demand. Prices elevated.'; }
-        else { marketMood = '💀 Critical shortage. Prices through the roof!'; }
+        if (roll < 0.15) { marketMood = I18n.T('shop.mood_clearance'); }
+        else if (roll < 0.6) { marketMood = I18n.T('shop.mood_normal'); }
+        else if (roll < 0.85) { marketMood = I18n.T('shop.mood_high'); }
+        else { marketMood = I18n.T('shop.mood_shortage'); }
 
         document.getElementById('shop-subtitle').textContent = marketMood;
 
@@ -404,8 +404,8 @@ const Rooms = (() => {
                 const stock = s.supplies[key];
                 return `
                     <div class="shop-item">
-                        <div class="shop-item-name">${item.label}<br><span class="shop-item-stock">In stock: ${stock} ${item.unit}</span></div>
-                        <div class="shop-item-price ${cls}">$${prices[key]}/ea</div>
+                        <div class="shop-item-name">${item.label}<br><span class="shop-item-stock">${I18n.T('shop.in_stock', stock, item.unit)}</span></div>
+                        <div class="shop-item-price ${cls}">$${prices[key]}/${I18n.T('shop.ea')}</div>
                         <div class="shop-qty">
                             <button class="qty-btn" data-key="${key}" data-dir="-1">−</button>
                             <span class="qty-val" id="qty-${key}">${quantities[key]}</span>
@@ -434,8 +434,8 @@ const Rooms = (() => {
 
         document.getElementById('btn-shop-buy').onclick = () => {
             const total = Object.keys(SUPPLY_BASE).reduce((sum, k) => sum + prices[k] * quantities[k], 0);
-            if (total === 0) { Engine.showToast(typeof I18n !== 'undefined' ? I18n.T('ov.shop_select') : 'Select at least one item!', 'warning'); return; }
-            if (s.money < total) { Engine.showToast(typeof I18n !== 'undefined' ? I18n.T('ov.shop_no_money', total) : `Not enough money! Need $${total}.`, 'danger'); return; }
+            if (total === 0) { Engine.showToast(I18n.T('shop.select_item'), 'warning'); return; }
+            if (s.money < total) { Engine.showToast(I18n.T('shop.no_money', total), 'danger'); return; }
 
             Engine.addMoney(-total, 'Supply purchase');
             
@@ -444,12 +444,12 @@ const Rooms = (() => {
                 type: 'supplies_delivery',
                 supplies: quantities,
                 triggered: false,
-                desc: '📦 Supplies Delivery'
+                desc: I18n.T('shop.delivery_desc')
             });
 
             overlay.style.display = 'none';
             showEmbalming();
-            Engine.showToast('📦 Supplies ordered. Delivery in 1h.', 'success');
+            Engine.showToast(I18n.T('shop.delivered'), 'success');
         };
     }
 
@@ -468,7 +468,7 @@ const Rooms = (() => {
         const s = Engine.getState();
 
         if (s.cafeOrders.length === 0) {
-            orderList.innerHTML = '<p class="dim-text">No active orders right now.</p>';
+            orderList.innerHTML = `<p class="dim-text">${I18n.T('cafe.no_orders')}</p>`;
             return;
         }
 
@@ -478,9 +478,9 @@ const Rooms = (() => {
             if (o.served && !servedIndices.includes(i)) return null;
             
             const iconHTML = o.type === 'alcohol' ? Icons.getHTML('🍺') : Icons.getHTML(o.item.icon);
-            if (o.served) return `<div class="action-btn" style="opacity:0.4">${iconHTML} ${o.type === 'alcohol' ? 'Alcohol request' : o.item.item} — ✓ Served</div>`;
+            if (o.served) return `<div class="action-btn" style="opacity:0.4">${iconHTML} ${o.type === 'alcohol' ? I18n.T('cafe.alcohol_request') : o.item.item} — ✓ ${I18n.T('cafe.served')}</div>`;
             if (o.type === 'alcohol') {
-                return `<div class="action-btn" style="border-color:var(--warning)" onclick="Rooms.handleAlcohol(${i})">${iconHTML} Alcohol Request</div>`;
+                return `<div class="action-btn" style="border-color:var(--warning)" onclick="Rooms.handleAlcohol(${i})">${iconHTML} ${I18n.T('cafe.alcohol_request')}</div>`;
             }
             return `<div class="action-btn" onclick="Rooms.serveOrder(${i})">${iconHTML} ${o.item.item} — $${o.item.price}</div>`;
         }).filter(h => h !== null).join('');
@@ -503,7 +503,7 @@ const Rooms = (() => {
         const s = Engine.getState();
         const order = s.cafeOrders[idx];
         if (!order || order.served) return;
-        Dialogue.show('🍺 ALCOHOL REQUEST', DATA.cafeAlcoholRequests[Math.floor(Math.random() * DATA.cafeAlcoholRequests.length)],
+        Dialogue.show(I18n.T('cafe.alcohol_title'), DATA.cafeAlcoholRequests[Math.floor(Math.random() * DATA.cafeAlcoholRequests.length)],
             DATA.cafeAlcoholChoices.map(c => ({
                 text: c.text,
                 action: () => {
@@ -520,7 +520,7 @@ const Rooms = (() => {
     function updateCafeSatisfaction() {
         const s = Engine.getState();
         const served = s.cafeOrders.filter(o => o.served).length;
-        const total = cafeOrders.length || 1;
+        const total = s.cafeOrders.length || 1;
         const pct = Math.round((served / total) * 100);
         document.getElementById('cafe-sat-fill').style.width = pct + '%';
     }
@@ -533,8 +533,8 @@ const Rooms = (() => {
 
         document.getElementById('btn-add-fuel').onclick = () => {
             const s = Engine.getState();
-            if (s.money < 50) { Engine.showToast('Not enough money for fuel!', 'danger'); return; }
-            if (s.cremaFuel >= 10) { Engine.showToast('Fuel tank is full!', 'warning'); return; }
+            if (s.money < 50) { Engine.showToast(I18n.T('crema.no_money_fuel'), 'danger'); return; }
+            if (s.cremaFuel >= 10) { Engine.showToast(I18n.T('crema.fuel_full'), 'warning'); return; }
             Engine.addMoney(-50, 'Crematorium fuel');
             s.cremaFuel = Math.min(10, s.cremaFuel + 2);
             Audio8Bit.SFX.fire();
@@ -543,11 +543,11 @@ const Rooms = (() => {
 
         document.getElementById('btn-ignite').onclick = () => {
             const s = Engine.getState();
-            if (s.cremaFuel <= 0) { Engine.showToast('Add fuel first!', 'warning'); return; }
-            if (s.cremaIgnited) { Engine.showToast('Already burning!', 'warning'); return; }
+            if (s.cremaFuel <= 0) { Engine.showToast(I18n.T('crema.add_fuel_first'), 'warning'); return; }
+            if (s.cremaIgnited) { Engine.showToast(I18n.T('crema.already_burning'), 'warning'); return; }
             s.cremaIgnited = true;
             Audio8Bit.SFX.fire();
-            Engine.showToast('🔥 Crematorium ignited! Temperature rising...', '');
+            Engine.showToast(I18n.T('crema.ignited'), '');
             updateCrematorium();
         };
 
@@ -555,14 +555,14 @@ const Rooms = (() => {
         const schedList = document.getElementById('crema-schedule-list');
         const active = Families.getActive().filter(f => f.embalmed && f.wantsCremation && !f.cremated && (f.wantsViewing || f.cooldownDone));
         if (active.length === 0) {
-            schedList.innerHTML = '<p class="dim-text">No cremations scheduled</p>';
+            schedList.innerHTML = `<p class="dim-text">${I18n.T('crema.no_scheduled')}</p>`;
         } else {
             schedList.innerHTML = active.map(f => {
                 const ready = Engine.getState().cremaTemp >= 800;
                 const starting = f.cremationStarted;
                 return `<div class="schedule-item">
                     <span>${f.deceasedName}</span>
-                    <span>${starting ? '🔥 INCINERATING...' : (ready ? `<button class="action-btn pink-btn" style="padding:4px 8px;width:auto" onclick="Rooms.doCremation(${f.id})">CREMATE</button>` : '⏳ Need 800°C')}</span>
+                    <span>${starting ? I18n.T('crema.incinerating') : (ready ? `<button class="action-btn pink-btn" style="padding:4px 8px;width:auto" onclick="Rooms.doCremation(${f.id})">${I18n.T('crema.btn_cremate')}</button>` : I18n.T('crema.need_800'))}</span>
                 </div>`;
             }).join('');
         }
@@ -577,7 +577,7 @@ const Rooms = (() => {
         const fireEl = document.getElementById('furnace-fire');
         fireEl.style.height = Math.min(100, (s.cremaTemp / 1000) * 100) + '%';
 
-        const eff = s.cremaTemp >= 780 && s.cremaTemp <= 820 ? 'Perfect!' : s.cremaTemp >= 600 ? 'Heating...' : s.cremaTemp > 100 ? 'Warming up' : '—';
+        const eff = s.cremaTemp >= 780 && s.cremaTemp <= 820 ? I18n.T('crema.eff_perfect') : s.cremaTemp >= 600 ? I18n.T('crema.eff_heating') : s.cremaTemp > 100 ? I18n.T('crema.eff_warming') : '—';
         document.getElementById('crema-efficiency').textContent = eff;
     }
 
@@ -587,14 +587,14 @@ const Rooms = (() => {
         if (!f || f.cremated || f.cremationStarted) return;
 
         f.cremationStarted = true;
-        Engine.showToast(T('crema.cremating', f.deceasedName), 'success');
+        Engine.showToast(I18n.T('crema.cremating', f.deceasedName), 'success');
         Audio8Bit.SFX.fire();
 
         s.schedule.push({
             time: Math.round(s.time + 60),
             type: 'cremation_done',
             familyId: f.id,
-            desc: T('crema.done_desc', f.deceasedName),
+            desc: I18n.T('crema.done_desc', f.deceasedName),
             triggered: false,
             temp: s.cremaTemp
         });
@@ -611,7 +611,7 @@ const Rooms = (() => {
         const active = Families.getActive().filter(f => f.embalmed && f.wantsViewing && !f.viewed);
 
         if (active.length === 0) {
-            document.getElementById('view-request-list').innerHTML = '<p class="dim-text">No active viewing</p>';
+            document.getElementById('view-request-list').innerHTML = `<p class="dim-text">${I18n.T('view.no_active')}</p>`;
             document.getElementById('viewing-controls').style.display = 'none';
             return;
         }
@@ -648,17 +648,17 @@ const Rooms = (() => {
         btnWater.onclick = () => {
             Audio8Bit.SFX.click();
             Families.updateSatisfaction(viewingFamily.id, 5, 'Brought water');
-            Engine.showToast('💧 Water served. Small gestures matter.', 'success');
+            Engine.showToast(I18n.T('view.water_served'), 'success');
             updateViewingMood();
             btnWater.style.display = 'none';
         };
         btnTemp.onclick = () => {
             if (Engine.hasUpgrade('ac_system')) {
                 Families.updateSatisfaction(viewingFamily.id, 5, 'Temperature adjusted');
-                Engine.showToast('❄️ Temperature adjusted. Much better.', 'success');
+                Engine.showToast(I18n.T('view.temp_adjusted'), 'success');
                 btnTemp.style.display = 'none';
             } else {
-                Engine.showToast('⚠️ No A/C system! Buy it in Upgrades.', 'warning');
+                Engine.showToast(I18n.T('view.no_ac'), 'warning');
                 Families.updateSatisfaction(viewingFamily.id, -5, 'No A/C');
             }
             updateViewingMood();
@@ -667,10 +667,10 @@ const Rooms = (() => {
             if (Engine.hasUpgrade('firstaid')) {
                 Audio8Bit.SFX.success();
                 Families.updateSatisfaction(viewingFamily.id, 10, 'First aid administered');
-                Engine.showToast('🩹 First aid administered. Crisis averted!', 'success');
+                Engine.showToast(I18n.T('view.firstaid_done'), 'success');
                 btnFirstAid.style.display = 'none';
             } else {
-                Engine.showToast('⚠️ No First Aid Kit! Someone is still on the floor!', 'danger');
+                Engine.showToast(I18n.T('view.no_firstaid'), 'danger');
                 Families.updateSatisfaction(viewingFamily.id, -10, 'No first aid available');
             }
             updateViewingMood();
@@ -686,8 +686,8 @@ const Rooms = (() => {
         const satMap = { excellent: 15, good: 8, mediocre: 0, bad: -20, catastrophic: -35 };
         Families.updateSatisfaction(viewingFamily.id, satMap[q], `Saw body (${q})`);
 
-        Dialogue.show(`👁️ VIEWING — ${viewingFamily.deceasedName}`, reaction, [
-            { text: q === 'bad' || q === 'catastrophic' ? 'I... I\'m so sorry.' : 'I\'m glad you could say goodbye.', action: () => {
+        Dialogue.show(I18n.T('view.body_title', viewingFamily.deceasedName), reaction, [
+            { text: q === 'bad' || q === 'catastrophic' ? I18n.T('view.sorry') : I18n.T('view.glad_goodbye'), action: () => {
                 viewingFamily.viewed = true;
                 checkServiceComplete(viewingFamily);
                 updateViewingMood();
@@ -712,16 +712,16 @@ const Rooms = (() => {
 
         const active = Families.getActive().filter(f => f.embalmed && f.wantsChapel && !f.chapelDone && (f.wantsViewing || f.cooldownDone));
         if (active.length === 0) {
-            document.getElementById('chapel-service-info').innerHTML = '<p class="dim-text">No service scheduled</p>';
+            document.getElementById('chapel-service-info').innerHTML = `<p class="dim-text">${I18n.T('chapel.no_service')}</p>`;
             document.getElementById('chapel-sermon-select').style.display = 'none';
             return;
         }
 
         chapelFamily = active[0];
         document.getElementById('chapel-service-info').innerHTML = `
-            <div>Ceremony for: <strong>${chapelFamily.deceasedName}</strong></div>
-            <div>Religion: ${Icons.getHTML(chapelFamily.religion.icon)} ${chapelFamily.religion.name}</div>
-            <div style="margin-top:8px"><button class="action-btn pink-btn" onclick="Rooms.startSermon()"><span class="custom-icon" data-icon="music"></span> BEGIN CEREMONY</button></div>
+            <div>${I18n.T('chapel.ceremony_for')} <strong>${chapelFamily.deceasedName}</strong></div>
+            <div>${I18n.T('chapel.religion')} ${Icons.getHTML(chapelFamily.religion.icon)} ${chapelFamily.religion.name}</div>
+            <div style="margin-top:8px"><button class="action-btn pink-btn" onclick="Rooms.startSermon()"><span class="custom-icon" data-icon="music"></span> ${I18n.T('chapel.begin')}</button></div>
         `;
     }
 
@@ -756,8 +756,8 @@ const Rooms = (() => {
             Audio8Bit.SFX.fail();
         }
 
-        Dialogue.show('🎤 IVAN SPEAKS', sermon, [
-            { text: isCorrect ? 'Beautiful ceremony, Ivan.' : 'Oh no...', action: () => {
+        Dialogue.show(I18n.T('chapel.ivan_speaks'), sermon, [
+            { text: isCorrect ? I18n.T('chapel.correct') : I18n.T('chapel.wrong'), action: () => {
                 chapelFamily.chapelDone = true;
                 chapelFamily.services.push('chapel');
                 document.getElementById('chapel-sermon-select').style.display = 'none';
@@ -782,7 +782,7 @@ const Rooms = (() => {
                 <div class="upgrade-info">
                     <div class="upgrade-name">${u.name} ${owned ? '✓' : ''} ${maxed ? '(MAX)' : ''}</div>
                     <div class="upgrade-desc">${u.desc}</div>
-                    ${locked ? `<div class="upgrade-desc">Requires Level ${u.level}</div>` : ''}
+                    ${locked ? `<div class="upgrade-desc">${I18n.T('eng.need_level', u.level)}</div>` : ''}
                     ${u.repeatable ? `<div class="upgrade-desc">Trained: ${s.embalmTrainCount}/${u.maxRepeats || 5}</div>` : ''}
                 </div>
                 <div>

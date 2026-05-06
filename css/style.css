@@ -749,7 +749,7 @@ html, body {
 
 /* Audio Toggle */
 .audio-toggle {
-    position: fixed; bottom: 12px; right: 12px;
+    position: fixed; bottom: 3px; right: 12px;
     background: none; border: none;
     cursor: pointer; z-index: 1000;
     display: flex; align-items: center; justify-content: center;
@@ -767,7 +767,7 @@ html, body {
 
 /* Menu Toggle */
 .menu-toggle {
-    position: fixed; bottom: 12px; left: 12px;
+    position: fixed; bottom: 3px; left: 12px;
     background: none; border: none;
     cursor: pointer; z-index: 1000;
     display: flex; align-items: center; justify-content: center;

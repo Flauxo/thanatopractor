@@ -1,6 +1,7 @@
 /* ===== Spanish Strings ===== */
 I18n.register('es', {
 // Title
+'splash.loading': 'Cargando gusanos...',
 'title.tagline': 'Un RPG de Gestión Sobre la Vida en un Tanatorio',
 'title.quote': '"No salvas vidas, ayudas a terminar con ellas... profesionalmente."',
 'title.new_game': 'NUEVA PARTIDA', 'title.continue': 'CONTINUAR', 'title.credits': 'CRÉDITOS',

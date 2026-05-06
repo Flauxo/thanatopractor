@@ -64,6 +64,44 @@ window.Main = (() => {
             Icons.initDOM();
         }
 
+        // ===== SPLASH SCREEN LOGIC =====
+        const splash = document.getElementById('splash-screen');
+        if (splash) {
+            const hint = document.createElement('p');
+            hint.className = 'vt-text dim';
+            hint.style.position = 'absolute';
+            hint.style.bottom = '40px';
+            hint.style.width = '100%';
+            hint.style.textAlign = 'center';
+            hint.textContent = '[ CLICK TO ENTER THE CRYPT ]';
+            splash.appendChild(hint);
+
+            const startSplash = () => {
+                document.removeEventListener('click', startSplash);
+                hint.style.display = 'none';
+                
+                if (typeof Audio8Bit !== 'undefined') {
+                    Audio8Bit.init();
+                    Audio8Bit.SFX.grave();
+                }
+                
+                setTimeout(() => {
+                    const lid = document.getElementById('grave-lid');
+                    if (lid) lid.classList.add('open');
+                }, 1200);
+
+                setTimeout(() => {
+                    splash.style.transition = 'opacity 1s ease-in-out';
+                    splash.style.opacity = '0';
+                    setTimeout(() => {
+                        splash.style.display = 'none';
+                        showScreen('title');
+                    }, 1000);
+                }, 4000);
+            };
+            document.addEventListener('click', startSplash);
+        }
+
         // ===== TITLE SCREEN =====
         if (Engine.hasSave()) {
             document.getElementById('btn-continue').style.display = 'block';

@@ -1,6 +1,7 @@
 /* ===== English Strings ===== */
 I18n.register('en', {
 // Title
+'splash.loading': 'Loading worms...',
 'title.tagline': 'A Management RPG About Life in a Funeral House',
 'title.quote': '"You don\'t save lives. You help end them... professionally."',
 'title.new_game': 'NEW GAME', 'title.continue': 'CONTINUE', 'title.credits': 'CREDITS',

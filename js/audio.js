@@ -147,6 +147,30 @@ const Audio8Bit = (() => {
                 playNote(80 + Math.random() * 120, 0.1, 'sawtooth', sfxGain, t + i * 0.08, 0.1);
             }
         },
+        grave() {
+            if (!ctx) return;
+            const t = ctx.currentTime;
+            // Stone grinding (noise)
+            const buffer = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < buffer.length; i++) data[i] = Math.random() * 2 - 1;
+            const noise = ctx.createBufferSource();
+            noise.buffer = buffer;
+            const filter = ctx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(400, t);
+            filter.frequency.exponentialRampToValueAtTime(100, t + 1.5);
+            const g = ctx.createGain();
+            g.gain.setValueAtTime(0, t);
+            g.gain.linearRampToValueAtTime(0.3, t + 0.1);
+            g.gain.exponentialRampToValueAtTime(0.01, t + 1.5);
+            noise.connect(filter); filter.connect(g); g.connect(sfxGain);
+            noise.start(t);
+            
+            // Low thud
+            playNote(60, 0.5, 'sine', sfxGain, t + 1.2, 0.5);
+            playNote(40, 0.8, 'sine', sfxGain, t + 1.3, 0.3);
+        },
         gameOver() {
             if (!ctx) return;
             const t = ctx.currentTime;

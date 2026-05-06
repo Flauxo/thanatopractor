@@ -377,12 +377,14 @@ const Rooms = (() => {
     }
 
     // ===== SUPPLIES SHOP =====
-    const SUPPLY_BASE = {
-        formaldehyde: { label: I18n.T('shop.formaldehyde'), base: 18, unit: I18n.T('shop.vials'), key: 'formaldehyde' },
-        humectant:    { label: I18n.T('shop.humectant'),    base: 14, unit: I18n.T('shop.jars'),  key: 'humectant' },
-        dye:          { label: I18n.T('shop.dye'),          base: 10, unit: I18n.T('shop.tubes'), key: 'dye' },
-        outfits:      { label: I18n.T('shop.outfit'),       base: 55, unit: I18n.T('shop.sets'),  key: 'outfits' }
-    };
+    function getSupplyBase() {
+        return {
+            formaldehyde: { label: I18n.T('shop.formaldehyde'), base: 18, unit: I18n.T('shop.vials'), key: 'formaldehyde' },
+            humectant:    { label: I18n.T('shop.humectant'),    base: 14, unit: I18n.T('shop.jars'),  key: 'humectant' },
+            dye:          { label: I18n.T('shop.dye'),          base: 10, unit: I18n.T('shop.tubes'), key: 'dye' },
+            outfits:      { label: I18n.T('shop.outfit'),       base: 55, unit: I18n.T('shop.sets'),  key: 'outfits' }
+        };
+    }
 
     function openSuppliesShop() {
         const s = Engine.getState();
@@ -399,35 +401,36 @@ const Rooms = (() => {
 
         document.getElementById('shop-subtitle').textContent = marketMood;
 
+        const supplies = getSupplyBase();
         const quantities = {};
-        Object.keys(SUPPLY_BASE).forEach(key => {
-            const item = SUPPLY_BASE[key];
+        Object.keys(supplies).forEach(key => {
+            const item = supplies[key];
             // Price multiplier: 0.5x to 5x depending on market
             let mult;
             if (roll < 0.15)      mult = 0.4 + Math.random() * 0.4;   // 0.4–0.8x cheap
             else if (roll < 0.6)  mult = 0.8 + Math.random() * 0.6;   // 0.8–1.4x normal
             else if (roll < 0.85) mult = 1.5 + Math.random() * 1.5;   // 1.5–3x expensive
             else                  mult = 3.0 + Math.random() * 2.5;   // 3–5.5x extortionate
-
+ 
             prices[key] = Math.ceil(item.base * mult);
             quantities[key] = 0;
         });
-
+ 
         function priceClass(key) {
-            const ratio = prices[key] / SUPPLY_BASE[key].base;
+            const ratio = prices[key] / supplies[key].base;
             if (ratio < 0.8) return 'price-cheap';
             if (ratio < 1.5) return 'price-normal';
             if (ratio < 3.0) return 'price-expensive';
             return 'price-extortionate';
         }
-
+ 
         function renderShop() {
             let total = 0;
-            Object.keys(SUPPLY_BASE).forEach(k => total += prices[k] * quantities[k]);
+            Object.keys(supplies).forEach(k => total += prices[k] * quantities[k]);
             document.getElementById('shop-total').textContent = total;
-
-            document.getElementById('shop-items').innerHTML = Object.keys(SUPPLY_BASE).map(key => {
-                const item = SUPPLY_BASE[key];
+ 
+            document.getElementById('shop-items').innerHTML = Object.keys(supplies).map(key => {
+                const item = supplies[key];
                 const cls = priceClass(key);
                 const stock = s.supplies[key];
                 return `
@@ -637,9 +640,19 @@ const Rooms = (() => {
                 schedList.innerHTML = active.map(f => {
                     const ready = s.cremaTemp >= 800;
                     const starting = f.cremationStarted;
+                    let statusHTML = '';
+                    if (starting && !f.cremated) {
+                        const timeLeft = Math.max(0, Math.round(f.cremationEndTime - s.time));
+                        statusHTML = `<span class="warning">${I18n.T('crema.incinerating')} (${timeLeft}m)</span>`;
+                    } else if (ready) {
+                        statusHTML = `<button class="action-btn pink-btn" style="padding:4px 8px;width:auto" onclick="Rooms.doCremation(${f.id})">${I18n.T('crema.btn_cremate')}</button>`;
+                    } else {
+                        statusHTML = `<span>${I18n.T('crema.need_800')}</span>`;
+                    }
+
                     return `<div class="schedule-item">
                         <span>${f.deceasedName}</span>
-                        <span>${starting ? I18n.T('crema.incinerating') : (ready ? `<button class="action-btn pink-btn" style="padding:4px 8px;width:auto" onclick="Rooms.doCremation(${f.id})">${I18n.T('crema.btn_cremate')}</button>` : I18n.T('crema.need_800'))}</span>
+                        <span>${statusHTML}</span>
                     </div>`;
                 }).join('');
             }
@@ -652,6 +665,9 @@ const Rooms = (() => {
         if (!f || f.cremated || f.cremationStarted) return;
 
         f.cremationStarted = true;
+        f.cremationEndTime = s.time + 60;
+        f.cremationTempFailure = false; 
+
         Engine.showToast(I18n.T('crema.cremating', f.deceasedName), 'success');
         Audio8Bit.SFX.fire();
 
@@ -660,8 +676,7 @@ const Rooms = (() => {
             type: 'cremation_done',
             familyId: f.id,
             desc: I18n.T('crema.done_desc', f.deceasedName),
-            triggered: false,
-            temp: s.cremaTemp
+            triggered: false
         });
         
         showCrematorium();

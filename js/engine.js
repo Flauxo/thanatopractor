@@ -142,6 +142,15 @@ const Engine = (() => {
             state.cremaTemp = Math.max(20, state.cremaTemp - 1 * state.speed);
         }
 
+        // Monitor active cremations
+        state.families.forEach(f => {
+            if (f.active && f.cremationStarted && !f.cremated) {
+                if (!state.cremaIgnited || state.cremaTemp < 700) {
+                    f.cremationTempFailure = true;
+                }
+            }
+        });
+
         // Room Badges and Reception Action Alerts
         const activeFams = state.families.filter(f => f.active).length;
         const waitingFams = state.families.filter(f => f.active && f.waitingForTransport && !f.transportOrdered).length;
@@ -293,19 +302,17 @@ const Engine = (() => {
                         fam.cremated = true;
                         fam.services.push('cremation');
                         let msg, satChange;
-                        const temp = event.temp || 800;
-                        if (temp >= 780 && temp <= 850) {
+                        
+                        if (fam.cremationTempFailure) {
+                            msg = I18n.T('crema.bad_msg', fam.deceasedName);
+                            satChange = -25;
+                        } else {
                             msg = I18n.T('crema.perfect_msg', fam.deceasedName);
                             satChange = 15;
-                        } else if (temp >= 700) {
-                            msg = I18n.T('crema.decent_msg', fam.deceasedName);
-                            satChange = 5;
-                        } else {
-                            msg = I18n.T('crema.bad_msg', fam.deceasedName);
-                            satChange = -20;
                         }
-                        Families.updateSatisfaction(fam.id, satChange, `Cremation at ${Math.round(temp)}°C`);
-                        showToast(msg, satChange > 0 ? 'success' : 'danger');
+
+                        showToast(msg, fam.cremationTempFailure ? 'danger' : 'success');
+                        if (typeof Families !== 'undefined') Families.updateSatisfaction(fam.id, satChange, 'Cremation quality');
                         if (typeof Rooms !== 'undefined') Rooms.checkServiceComplete(fam);
                     }
                 } else {

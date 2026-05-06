@@ -30,6 +30,7 @@ const Engine = (() => {
         pendingArrivals: 0,
         dayEndPrompted: false,
         lastActivityTime: 480,
+        lastRandomEventTime: 0,
         stats: { familiesServed: 0, totalEarnings: 0, diceRolls: 0, bestRoll: 0, worstDay: null }
     });
 
@@ -149,12 +150,12 @@ const Engine = (() => {
         checkSchedule();
 
         // Forced event if two hours of dead time passes
-        if (activeFams === 0 && waitingFams === 0 && (state.time - state.lastActivityTime) >= 120) {
+        if (activeFams === 0 && waitingFams === 0 && (state.time - state.lastActivityTime) >= 120 && (state.time - state.lastRandomEventTime) >= 60) {
             state.lastActivityTime = state.time;
             triggerRandomEvent();
         }
         // Random event chance - during dead time (approx 1 every 2 hours)
-        if (activeFams === 0 && waitingFams === 0 && Math.random() < 0.008 * state.speed) {
+        if (activeFams === 0 && waitingFams === 0 && (state.time - state.lastRandomEventTime) >= 60 && Math.random() < 0.008 * state.speed) {
             triggerRandomEvent();
         }
 
@@ -357,6 +358,7 @@ const Engine = (() => {
 
     // ===== RANDOM EVENTS =====
     function triggerRandomEvent() {
+        state.lastRandomEventTime = state.time;
         if (!DATA.randomEvents) return;
         state.lastActivityTime = state.time;
         const event = DATA.randomEvents[Math.floor(Math.random() * DATA.randomEvents.length)];

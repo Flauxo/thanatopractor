@@ -126,6 +126,7 @@ const Engine = (() => {
 
     function tick() {
         if (state.speed === 0 || state.gameOver) return;
+        if (typeof window.Main !== 'undefined' && window.Main.currentScreen === 'title') return;
         const advance = MINUTES_PER_TICK * state.speed;
         state.time += advance;
 

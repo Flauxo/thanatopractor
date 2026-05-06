@@ -71,10 +71,12 @@ const Dialogue = (() => {
         // Replace {name} with deceased name, {relation} with random relation
         const relations = ['father', 'mother', 'uncle', 'aunt', 'grandmother', 'grandfather', 'cousin', 'spouse', 'friend'];
         const relation = relations[Math.floor(Math.random() * relations.length)];
-        const text = dialogue.text.replace(/\{name\}/g, family.deceasedName).replace(/\{relation\}/g, relation);
+        
+        let text = dialogue.textKey ? I18n.T(dialogue.textKey) : dialogue.text;
+        text = text.replace(/\{name\}/g, family.deceasedName).replace(/\{relation\}/g, relation);
 
         const choices = dialogue.choices.map(c => ({
-            text: c.text.replace(/\{name\}/g, family.deceasedName),
+            text: (c.textKey ? I18n.T(c.textKey) : c.text).replace(/\{name\}/g, family.deceasedName),
             rep: c.rep,
             money: c.money,
             action: () => {
@@ -82,7 +84,10 @@ const Dialogue = (() => {
             }
         }));
 
-        enqueue(`${family.mood.icon} ${I18n.T('dlg.new_arrival')}`, `${intro}\n\n${family.mood.desc}`, null, () => {});
+        const moodName = I18n.T(`mood.${family.mood.id}.name`) || family.mood.name;
+        const moodDesc = I18n.T(`mood.${family.mood.id}.desc`) || family.mood.desc;
+
+        enqueue(`${family.mood.icon} ${I18n.T('dlg.new_arrival')}`, `${intro}\n\n<strong>${moodName}</strong>: ${moodDesc}`, null, () => {});
         enqueue(`${family.mood.icon} ${I18n.T('dlg.family_title', family.deceasedName)}`, text, choices, () => {
             // After dialogue, show service summary
             const serviceInfo = `

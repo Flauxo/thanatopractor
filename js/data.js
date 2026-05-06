@@ -26,7 +26,17 @@ const DATA = {
         { id: "arguing", name: "Fighting", icon: "😡", desc: "The inheritance discussion started in the parking lot." },
         { id: "flirty", name: "Flirtatious", icon: "😏", desc: "Someone is definitely hitting on you. At their relative's funeral intake." },
         { id: "paranoid", name: "Suspicious", icon: "🤨", desc: "They keep asking if you're SURE their relative is dead." },
-        { id: "cheerful", name: "Relieved", icon: "😌", desc: "\"To be honest, Uncle was kind of a jerk.\"" }
+        { id: "cheerful", name: "Relieved", icon: "😌", desc: "\"To be honest, Uncle was kind of a jerk.\"" },
+        { id: "vampire", name: "Gothic", icon: "🧛", desc: "They seem to be waiting for the deceased to wake up." },
+        { id: "alien", name: "Extraterrestrial", icon: "👽", desc: "They suspect the deceased was a cosmic observer." },
+        { id: "influencer", name: "Trending", icon: "📸", desc: "Everything is a photo opportunity. Even this." },
+        { id: "gamer", name: "Gamer", icon: "🎮", desc: "They keep looking for the 'respawn' button." },
+        { id: "clone", name: "Suspicious", icon: "👥", desc: "They are convinced this body is a government clone." },
+        { id: "tax", name: "Scheming", icon: "💼", desc: "They need one last 'signature' from the deceased." },
+        { id: "steampunk", name: "Mechanized", icon: "⚙️", desc: "They want to add brass gears to the coffin." },
+        { id: "reality", name: "Dramatic", icon: "📺", desc: "They are treating this like a season finale." },
+        { id: "coupon", name: "Frugal", icon: "🎫", desc: "They brought a stack of expired coupons." },
+        { id: "traveler", name: "Temporal", icon: "⏳", desc: "They claim the deceased will revive in a week." }
     ],
 
     // ===== ARRIVAL DIALOGUES =====
@@ -97,6 +107,76 @@ const DATA = {
                 { text: "\"94 and bacon daily? We should study that man's arteries.\"", rep: 0, money: 0 },
                 { text: "\"Three wives? We can arrange separate viewing times. Trust me, we've dealt with this.\"", rep: 1, money: 50 }
             ]},
+        ],
+        vampire: [
+            { textKey: "dlg.vampire.text", choices: [
+                { textKey: "dlg.vampire.c1", rep: 2, money: 0 },
+                { textKey: "dlg.vampire.c2", rep: 0, money: 150 },
+                { textKey: "dlg.vampire.c3", rep: -3, money: 0 }
+            ]}
+        ],
+        alien: [
+            { textKey: "dlg.alien.text", choices: [
+                { textKey: "dlg.alien.c1", rep: 2, money: 0 },
+                { textKey: "dlg.alien.c2", rep: -5, money: 400 },
+                { textKey: "dlg.alien.c3", rep: 1, money: 0 }
+            ]}
+        ],
+        influencer: [
+            { textKey: "dlg.influencer.text", choices: [
+                { textKey: "dlg.influencer.c1", rep: 5, money: 0 },
+                { textKey: "dlg.influencer.c2", rep: 0, money: 200 },
+                { textKey: "dlg.influencer.c3", rep: -10, money: 0 }
+            ]}
+        ],
+        gamer: [
+            { textKey: "dlg.gamer.text", choices: [
+                { textKey: "dlg.gamer.c1", rep: 2, money: 0 },
+                { textKey: "dlg.gamer.c2", rep: 1, money: 0 },
+                { textKey: "dlg.gamer.c3", rep: -2, money: 0 }
+            ]}
+        ],
+        clone: [
+            { textKey: "dlg.clone.text", choices: [
+                { textKey: "dlg.clone.c1", rep: 2, money: 0 },
+                { textKey: "dlg.clone.c2", rep: 5, money: 0 },
+                { textKey: "dlg.clone.c3", rep: -3, money: 0 }
+            ]}
+        ],
+        tax: [
+            { textKey: "dlg.tax.text", choices: [
+                { textKey: "dlg.tax.c1", rep: 1, money: 0 },
+                { textKey: "dlg.tax.c2", rep: -15, money: 500 },
+                { textKey: "dlg.tax.c3", rep: -5, money: 0 }
+            ]}
+        ],
+        steampunk: [
+            { textKey: "dlg.steampunk.text", choices: [
+                { textKey: "dlg.steampunk.c1", rep: 0, money: 300 },
+                { textKey: "dlg.steampunk.c2", rep: 2, money: 0 },
+                { textKey: "dlg.steampunk.c3", rep: -2, money: 0 }
+            ]}
+        ],
+        reality: [
+            { textKey: "dlg.reality.text", choices: [
+                { textKey: "dlg.reality.c1", rep: 2, money: 0 },
+                { textKey: "dlg.reality.c2", rep: 1, money: 0 },
+                { textKey: "dlg.reality.c3", rep: 5, money: 0 }
+            ]}
+        ],
+        coupon: [
+            { textKey: "dlg.coupon.text", choices: [
+                { textKey: "dlg.coupon.c1", rep: 1, money: -50 },
+                { textKey: "dlg.coupon.c2", rep: -2, money: 0 },
+                { textKey: "dlg.coupon.c3", rep: -5, money: 0 }
+            ]}
+        ],
+        traveler: [
+            { textKey: "dlg.traveler.text", choices: [
+                { textKey: "dlg.traveler.c1", rep: 2, money: 0 },
+                { textKey: "dlg.traveler.c2", rep: 10, money: -500 },
+                { textKey: "dlg.traveler.c3", rep: 1, money: 0 }
+            ]}
         ]
     },
 

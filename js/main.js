@@ -237,12 +237,6 @@ window.Main = (() => {
             Audio8Bit.SFX.success();
             Engine.showToast(I18n.T('ov.saved'), 'success');
         };
-        document.getElementById('btn-exit-game').onclick = () => {
-            Audio8Bit.SFX.click();
-            if (confirm(I18n.T('title.exit_confirm'))) {
-                window.location.reload();
-            }
-        };
 
         // ===== GAME OVER =====
         document.getElementById('btn-restart').onclick = () => {

@@ -89,7 +89,7 @@ window.Main = (() => {
             hint.style.bottom = '40px';
             hint.style.width = '100%';
             hint.style.textAlign = 'center';
-            hint.textContent = '[ CLICK TO ENTER THE CRYPT ]';
+            hint.textContent = I18n.T('spl.click_to_enter');
             splash.appendChild(hint);
 
             const startSplash = () => {

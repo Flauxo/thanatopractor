@@ -380,4 +380,5 @@ I18n.register('es', {
 'bad.slip_fall': '🚑 Un inspector se ha resbalado con un charco de formaldehído. Demanda en camino.',
 'bad.stolen_urn': '🐦 Un cuervo se ha llevado una urna pensando que era un nido brillante.',
 'bad.cursed_phone': '📞 El teléfono de recepción no deja de sonar con psicofonías de gente pidiendo pizza.',
+'spl.click_to_enter': '[ PULSA PARA ENTRAR EN LA CRIPTA ]',
 });

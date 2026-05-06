@@ -364,4 +364,5 @@ I18n.register('en', {
 'bad.slip_fall': '🚑 An inspector slipped on a puddle of formaldehyde. Lawsuit on the way.',
 'bad.stolen_urn': '🐦 A crow has flown off with an urn, thinking it was a shiny nest.',
 'bad.cursed_phone': '📞 The reception phone won\'t stop ringing with EVP recordings of people ordering pizza.',
+'spl.click_to_enter': '[ CLICK TO ENTER THE CRYPT ]',
 });

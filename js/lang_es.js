@@ -58,7 +58,7 @@ I18n.register('es', {
 'rec.personal_hearse': '🚗 Usar Coche Fúnebre Personal (Gratis)',
 'rec.niece_car': '🚗 Usar Coche de la Sobrina (Gratis)',
 'rec.car_cooldown': '🚗 Coche en enfriamiento ({0}h)',
-'rec.car_dispatched': '🚗 Coche enviado para {0}.',
+'rec.car_dispatched': '🚗 Coche enviado para {0}. Estará fuera {1}h.',
 'rec.niece_arrived': '🚗 ¡Tu sobrina ha llegado al instante! La familia de {0} se ha marchado.',
 'rec.car_busy': '¡El coche está haciendo un traslado ahora mismo!',
 'rec.no_family_transport': 'No hay familias esperando transporte.',

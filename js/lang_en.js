@@ -51,7 +51,7 @@ I18n.register('en', {
 'rec.personal_hearse': '🚗 Use Personal Hearse (Free)',
 'rec.niece_car': '🚗 Use Niece\'s Car (Free)',
 'rec.car_cooldown': '🚗 Car on cooldown ({0}h)',
-'rec.car_dispatched': '🚗 Car dispatched for {0}.',
+'rec.car_dispatched': '🚗 Car dispatched for {0}. It will be away for {1}h.',
 'rec.niece_arrived': '🚗 Your niece arrived instantly! {0}\'s family has departed.',
 'rec.car_busy': 'The car is currently out doing a transfer!',
 'rec.no_family_transport': 'No families waiting for transport.',

@@ -113,22 +113,22 @@ const Rooms = (() => {
                         // Use the car for ONE family
                         const f = waitingFams[0];
                         
-                        if (hasPermanentHearse) {
-                            // Permanent Hearse - Standard behavior (1h wait + cooldown)
+                            // Permanent Hearse - Randomized behavior (1-3h wait + extra cooldown)
+                            const hours = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3h
                             f.transportOrdered = true;
-                            s.personalHearseCooldown = s.time + 120; // 2 hour cooldown
+                            s.personalHearseCooldown = s.time + (hours * 60) + 60; // cooldown = travel time + 1h extra
 
                             const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
                             if (task) task.desc = I18n.T('rec.personal_enroute', f.deceasedName);
                             
                             s.schedule.push({
-                                time: Math.round(s.time + 60),
+                                time: Math.round(s.time + (hours * 60)),
                                 type: 'hearse_arrival',
                                 familyId: f.id,
                                 desc: I18n.T('rec.personal_pickup', f.deceasedName),
                                 triggered: false
                             });
-                            Engine.showToast(I18n.T('rec.car_dispatched', f.deceasedName), 'success');
+                            Engine.showToast(I18n.T('rec.car_dispatched', f.deceasedName, hours), 'success');
                         } else {
                             // Niece's Car - IMMEDIATE & SINGLE USE
                             s.temporaryHearseAvailable = false;

@@ -149,7 +149,7 @@ const Audio8Bit = (() => {
         },
         grave() {
             if (!ctx) return;
-            const t = ctx.currentTime;
+            const t = ctx.currentTime + 1.0; // 1 second delay
             
             // Grinding effect (low frequency sawtooth with jitter)
             for (let i = 0; i < 15; i++) {

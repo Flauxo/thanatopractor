@@ -766,6 +766,7 @@ html, body {
 }
 
 /* Hide audio toggle on intro screens */
+#splash-screen.active ~ .audio-toggle,
 #title-screen.active ~ .audio-toggle,
 #name-screen.active ~ .audio-toggle,
 #welcome-screen.active ~ .audio-toggle {

@@ -362,7 +362,7 @@ html, body {
 #cafeteria-screen { background: url('../assets/scenes/cafeteria.png') center/cover no-repeat; image-rendering: pixelated; }
 #crematorium-screen { background: url('../assets/scenes/crematorium.png') center/cover no-repeat; image-rendering: pixelated; }
 #viewing-screen { background: url('../assets/scenes/reception.png') center/cover no-repeat; image-rendering: pixelated; }
-#chapel-screen { background: url('../assets/scenes/reception.png') center/cover no-repeat; image-rendering: pixelated; }
+#chapel-screen { background: url('../assets/scenes/chapel.png') center/cover no-repeat; image-rendering: pixelated; }
 #office-screen { background: url('../assets/scenes/reception.png') center/cover no-repeat; image-rendering: pixelated; }
 .room-header {
     display: flex; align-items: center; gap: 8px;
@@ -434,8 +434,11 @@ html, body {
     backdrop-filter: blur(2px); 
 }
 
-#embalming-content, #crematorium-content, #chapel-content {
+#reception-screen .room-content, #embalming-content, #crematorium-content, #chapel-content {
     flex: 0 1 auto;
+    margin: auto;
+    width: 95%;
+    max-width: 420px;
 }
 .embalming-tasks h3 {
     grid-column: span 2;

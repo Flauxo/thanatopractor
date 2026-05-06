@@ -358,8 +358,7 @@ html, body {
 /* ===== ROOM SCREENS ===== */
 .room-screen { background: var(--bg-darkest); overflow: hidden; }
 #reception-screen { 
-    background: linear-gradient(180deg, transparent 0%, transparent 40%, rgba(10,6,16,0.85) 70%, rgba(10,6,16,0.95) 100%), 
-                url('../assets/scenes/title.png') center/cover no-repeat; 
+    background: url('../assets/scenes/title.png') center/cover no-repeat; 
     image-rendering: pixelated; 
 }
 #embalming-screen { background: url('../assets/scenes/embalming.png') center/cover no-repeat; image-rendering: pixelated; }

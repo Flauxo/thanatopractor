@@ -4,7 +4,7 @@ I18n.register('en', {
 'title.tagline': 'A Management RPG About Life in a Funeral House',
 'title.quote': '"You don\'t save lives. You help end them... professionally."',
 'title.new_game': 'NEW GAME', 'title.continue': 'CONTINUE', 'title.credits': 'CREDITS',
-'title.footer': 'GAME DESIGN & CONCEPT BY K. ARLÓN\nDARK HUMOR CONTENT — RATED BY DEATH INC.',
+'title.footer': 'GAME DESIGN & CONCEPT BY K. ARLÓN<br>DARK HUMOR CONTENT — RATED BY DEATH INC.',
 // Name
 'name.title': 'WHO DARES RUN A FUNERAL HOME?', 'name.subtitle': 'Enter your name, future undertaker:',
 'name.placeholder': 'Your name...', 'name.begin': 'BEGIN YOUR CAREER',

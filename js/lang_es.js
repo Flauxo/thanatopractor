@@ -4,7 +4,7 @@ I18n.register('es', {
 'title.tagline': 'Un RPG de Gestión Sobre la Vida en una Funeraria',
 'title.quote': '"No salvas vidas. Les ayudas a terminar... profesionalmente."',
 'title.new_game': 'NUEVA PARTIDA', 'title.continue': 'CONTINUAR', 'title.credits': 'CRÉDITOS',
-'title.footer': 'DISEÑO Y CONCEPTO POR K. ARLÓN\nHUMOR NEGRO — CLASIFICADO POR DEATH INC.',
+'title.footer': 'DISEÑO Y CONCEPTO POR K. ARLÓN<br>HUMOR NEGRO — CLASIFICADO POR DEATH INC.',
 // Name
 'name.title': '¿QUIÉN SE ATREVE A DIRIGIR UNA FUNERARIA?',
 'name.subtitle': 'Introduce tu nombre, futuro tanatopractor:',

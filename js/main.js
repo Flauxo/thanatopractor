@@ -80,6 +80,9 @@ window.Main = (() => {
             Icons.initDOM();
         }
 
+        // Set initial language and trigger swap events
+        I18n.setLanguage(I18n.getLanguage());
+
         // ===== SPLASH SCREEN LOGIC =====
         const splash = document.getElementById('splash-screen');
         if (splash) {

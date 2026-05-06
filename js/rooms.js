@@ -682,21 +682,20 @@ const Rooms = (() => {
         }
 
         viewingFamily = active[0];
-        document.getElementById('viewing-controls').style.display = 'block';
-        document.getElementById('view-mood-fill').style.width = viewingFamily.satisfaction + '%';
-        document.getElementById('view-mood-val').textContent = viewingFamily.satisfaction + '%';
+        
+        // Initialize requests if not exists
+        if (!viewingFamily.activeRequests) {
+            viewingFamily.activeRequests = [];
+            viewingFamily.activeRequests.push('see_body'); // Primary
+            if (Math.random() > 0.4) viewingFamily.activeRequests.push('water');
+            if (Math.random() > 0.6) viewingFamily.activeRequests.push('temperature');
+            if (Math.random() > 0.8) viewingFamily.activeRequests.push('faint');
+            if (viewingFamily.activeRequests.length === 1) {
+                viewingFamily.activeRequests.push(Math.random() > 0.5 ? 'privacy' : 'flowers');
+            }
+        }
 
-        // Generate requests
-        const requests = [];
-        if (Math.random() > 0.3) requests.push(DATA.viewingRequests[0]); // see body
-        if (Math.random() > 0.5) requests.push(DATA.viewingRequests[1]); // water
-        if (Math.random() > 0.6) requests.push(DATA.viewingRequests[2]); // temperature
-        if (Math.random() > 0.8) requests.push(DATA.viewingRequests[3]); // faint
-        if (requests.length === 0) requests.push(DATA.viewingRequests[6]); // privacy
-
-        document.getElementById('view-request-list').innerHTML = requests.map(r =>
-            `<div class="action-btn" style="pointer-events:none">${Icons.getHTML(r.icon)} ${r.text.replace('{name}', viewingFamily.deceasedName)}</div>`
-        ).join('');
+        updateViewingUI();
 
         // Button handlers
         const btnBody = document.getElementById('btn-view-body');
@@ -709,40 +708,80 @@ const Rooms = (() => {
         btnTemp.style.display = 'inline-block';
         btnFirstAid.style.display = 'inline-block';
 
-        btnBody.onclick = () => { showBody(); btnBody.style.display = 'none'; };
+        btnBody.onclick = () => {
+            if (!viewingFamily.activeRequests.includes('see_body')) {
+                Engine.showToast(I18n.T('view.already_seen'), 'warning');
+                return;
+            }
+            showBody();
+        };
+
         btnWater.onclick = () => {
+            if (!viewingFamily.activeRequests.includes('water')) {
+                Engine.showToast(I18n.T('view.no_water_needed'), 'warning');
+                return;
+            }
             Audio8Bit.SFX.click();
-            Families.updateSatisfaction(viewingFamily.id, 5, 'Brought water');
+            Families.updateSatisfaction(viewingFamily.id, 8, 'Brought water');
             viewingFamily.services.push(I18n.T('view.water'));
             Engine.showToast(I18n.T('view.water_served'), 'success');
-            updateViewingMood();
-            btnWater.style.display = 'none';
+            viewingFamily.activeRequests = viewingFamily.activeRequests.filter(r => r !== 'water');
+            updateViewingUI();
         };
+
         btnTemp.onclick = () => {
+            if (!viewingFamily.activeRequests.includes('temperature')) {
+                Engine.showToast(I18n.T('view.no_temp_needed'), 'warning');
+                return;
+            }
             if (Engine.hasUpgrade('ac_system')) {
-                Families.updateSatisfaction(viewingFamily.id, 5, 'Temperature adjusted');
+                Families.updateSatisfaction(viewingFamily.id, 8, 'Temperature adjusted');
                 viewingFamily.services.push(I18n.T('view.temp'));
                 Engine.showToast(I18n.T('view.temp_adjusted'), 'success');
-                btnTemp.style.display = 'none';
+                viewingFamily.activeRequests = viewingFamily.activeRequests.filter(r => r !== 'temperature');
+                updateViewingUI();
             } else {
                 Engine.showToast(I18n.T('view.no_ac'), 'warning');
                 Families.updateSatisfaction(viewingFamily.id, -5, 'No A/C');
+                updateViewingMood();
             }
-            updateViewingMood();
         };
+
         btnFirstAid.onclick = () => {
+            if (!viewingFamily.activeRequests.includes('faint')) {
+                Engine.showToast(I18n.T('view.no_firstaid_needed'), 'warning');
+                return;
+            }
             if (Engine.hasUpgrade('firstaid')) {
                 Audio8Bit.SFX.success();
-                Families.updateSatisfaction(viewingFamily.id, 10, 'First aid administered');
+                Families.updateSatisfaction(viewingFamily.id, 12, 'First aid administered');
                 viewingFamily.services.push(I18n.T('view.firstaid'));
                 Engine.showToast(I18n.T('view.firstaid_done'), 'success');
-                btnFirstAid.style.display = 'none';
+                viewingFamily.activeRequests = viewingFamily.activeRequests.filter(r => r !== 'faint');
+                updateViewingUI();
             } else {
                 Engine.showToast(I18n.T('view.no_firstaid'), 'danger');
                 Families.updateSatisfaction(viewingFamily.id, -10, 'No first aid available');
+                updateViewingMood();
             }
-            updateViewingMood();
         };
+    }
+
+    function updateViewingUI() {
+        if (!viewingFamily) return;
+        document.getElementById('viewing-controls').style.display = 'block';
+        updateViewingMood();
+
+        const reqList = document.getElementById('view-request-list');
+        if (viewingFamily.activeRequests.length === 0) {
+            reqList.innerHTML = `<p class="dim-text">${I18n.T('view.all_fulfilled')}</p>`;
+        } else {
+            reqList.innerHTML = viewingFamily.activeRequests.map(type => {
+                const r = DATA.viewingRequests.find(req => req.type === type);
+                if (!r) return '';
+                return `<div class="action-btn" style="pointer-events:none">${Icons.getHTML(r.icon)} ${r.text.replace('{name}', viewingFamily.deceasedName)}</div>`;
+            }).join('');
+        }
     }
 
     function showBody() {
@@ -757,8 +796,9 @@ const Rooms = (() => {
         Dialogue.show(I18n.T('view.body_title', viewingFamily.deceasedName), reaction, [
             { text: q === 'bad' || q === 'catastrophic' ? I18n.T('view.sorry') : I18n.T('view.glad_goodbye'), action: () => {
                 viewingFamily.viewed = true;
+                viewingFamily.activeRequests = viewingFamily.activeRequests.filter(r => r !== 'see_body');
                 checkServiceComplete(viewingFamily);
-                updateViewingMood();
+                updateViewingUI();
             }}
         ]);
     }

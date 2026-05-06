@@ -17,6 +17,20 @@ const Icons = (() => {
 
     // 12x12 grid definitions for all icons
     const grids = {
+        menu: [
+            "            ",
+            "  AAAAAAAA  ",
+            "  AAAAAAAA  ",
+            "            ",
+            "  AAAAAAAA  ",
+            "  AAAAAAAA  ",
+            "            ",
+            "  AAAAAAAA  ",
+            "  AAAAAAAA  ",
+            "            ",
+            "            ",
+            "            "
+        ],
         // UI Icons
         speaker: [
             "            ",

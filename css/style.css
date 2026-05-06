@@ -765,11 +765,32 @@ html, body {
     display: block !important;
 }
 
-/* Hide audio toggle on intro screens */
+/* Menu Toggle */
+.menu-toggle {
+    position: fixed; bottom: 12px; left: 12px;
+    background: none; border: none;
+    cursor: pointer; z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px;
+    padding: 0;
+}
+.menu-toggle:hover { opacity: 0.8; }
+.menu-toggle .custom-icon {
+    width: 28px !important;
+    height: 28px !important;
+    flex-shrink: 0;
+    display: block !important;
+}
+
+/* Hide toggles on intro screens */
 #splash-screen.active ~ .audio-toggle,
 #title-screen.active ~ .audio-toggle,
 #name-screen.active ~ .audio-toggle,
-#welcome-screen.active ~ .audio-toggle {
+#welcome-screen.active ~ .audio-toggle,
+#splash-screen.active ~ .menu-toggle,
+#title-screen.active ~ .menu-toggle,
+#name-screen.active ~ .menu-toggle,
+#welcome-screen.active ~ .menu-toggle {
     display: none !important;
 }
 

@@ -10,6 +10,16 @@ window.Main = (() => {
             currentScreen = name;
         }
 
+        // Show/hide save button on title screen
+        const saveBtn = document.getElementById('btn-save-game');
+        if (saveBtn) {
+            if (name === 'title' && Engine.getState().playerName) {
+                saveBtn.style.display = 'block';
+            } else {
+                saveBtn.style.display = 'none';
+            }
+        }
+
         // Init room when shown
         switch (name) {
             case 'reception': Rooms.showReception(); break;
@@ -213,6 +223,25 @@ window.Main = (() => {
             Audio8Bit.init();
             const muted = Audio8Bit.toggleMute();
             audioToggle.innerHTML = Icons.getHTML(muted ? 'speaker_off' : 'speaker');
+        };
+
+        // ===== MAIN MENU TOGGLE =====
+        document.getElementById('btn-main-menu').onclick = () => {
+            Audio8Bit.SFX.click();
+            showScreen('title');
+        };
+
+        // ===== SAVE / EXIT =====
+        document.getElementById('btn-save-game').onclick = () => {
+            Engine.save();
+            Audio8Bit.SFX.success();
+            Engine.showToast(I18n.T('ov.saved'), 'success');
+        };
+        document.getElementById('btn-exit-game').onclick = () => {
+            Audio8Bit.SFX.click();
+            if (confirm(I18n.T('title.exit_confirm'))) {
+                window.location.reload();
+            }
         };
 
         // ===== GAME OVER =====

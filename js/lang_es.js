@@ -83,6 +83,7 @@ I18n.register('es', {
 'emb.q_excellent': '✨ {0} se ve mejor muerto que la mayoría de la gente viva. ¡Obra maestra!',
 'emb.needs_embalming': '🧪 ¡{0} necesita embalsamamiento!',
 'emb.still_needs': '🧪 ¡{0} todavía necesita embalsamamiento!',
+'emb.penalty': '({0} Penalización)', 'emb.no_penalty': '(SIN PENALIZACIÓN)',
 // Cafeteria
 'cafe.title': 'CAFETERÍA', 'cafe.subtitle': 'También para los vivos.',
 'cafe.menu': '☕ MENÚ MORTALMENTE BUENO', 'cafe.orders': '📝 PEDIDOS',

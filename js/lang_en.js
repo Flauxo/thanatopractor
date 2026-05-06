@@ -76,6 +76,7 @@ I18n.register('en', {
 'emb.q_excellent': '✨ {0} looks better dead than most people alive. Masterwork!',
 'emb.needs_embalming': '🧪 {0} needs embalming!',
 'emb.still_needs': '🧪 {0} still needs embalming!',
+'emb.penalty': '({0} Penalty)', 'emb.no_penalty': '(No Penalty)',
 // Cafeteria
 'cafe.title': 'CAFETERIA', 'cafe.subtitle': 'For the living, too.',
 'cafe.menu': '☕ DEADLY GOOD MENU', 'cafe.orders': '📝 ORDERS',

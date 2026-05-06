@@ -773,7 +773,7 @@ const Rooms = (() => {
 
     function showChapel() {
         activeRoom = 'chapel';
-        Engine.Notifications.clearBadge('chapel');
+        updateChapelBadge();
         const ivanQuote = DATA.ivanQuotes[Math.floor(Math.random() * DATA.ivanQuotes.length)];
         document.getElementById('ivan-speech').textContent = ivanQuote;
 
@@ -828,9 +828,20 @@ const Rooms = (() => {
                 chapelFamily.services.push('chapel');
                 document.getElementById('chapel-sermon-select').style.display = 'none';
                 checkServiceComplete(chapelFamily);
+                updateChapelBadge(); // Update badge after completion
                 showChapel();
             }}
         ]);
+    }
+
+    function updateChapelBadge() {
+        const s = Engine.getState();
+        const pending = s.families.filter(f => f.active && f.embalmed && f.wantsChapel && !f.chapelDone && (f.wantsViewing || f.cooldownDone));
+        if (pending.length > 0) {
+            Engine.Notifications.addBadge('chapel', true);
+        } else {
+            Engine.Notifications.clearBadge('chapel');
+        }
     }
 
     // ===== OFFICE =====

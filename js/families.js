@@ -98,12 +98,13 @@ const Families = (() => {
         // Show completion summary overlay
         const stars = '⭐'.repeat(Math.max(1, Math.round(rating / 2)));
         const transport = f.wantsCremation ? I18n.T('ov.summary_cremated_onsite') : I18n.T('ov.summary_hearse_transfer');
-        const services = [
-            f.services.includes('embalming') ? `✓ ${I18n.T('ov.summary_embalmed')}` : `✗ ${I18n.T('ov.summary_not_embalmed')}`,
-            f.services.includes('viewing') ? `✓ ${I18n.T('ov.summary_viewing')}` : '',
-            f.services.includes('chapel') ? `✓ ${I18n.T('ov.summary_chapel')}` : '',
-            f.services.includes('cremation') ? `✓ ${I18n.T('ov.summary_cremated')}` : ''
-        ].filter(Boolean).join('<br>');
+        const services = f.services.map(s => {
+            if (s === 'embalming') return `✓ ${I18n.T('ov.summary_embalmed')}`;
+            if (s === 'viewing') return `✓ ${I18n.T('ov.summary_viewing')}`;
+            if (s === 'chapel') return `✓ ${I18n.T('ov.summary_chapel')}`;
+            if (s === 'cremation') return `✓ ${I18n.T('ov.summary_cremated')}`;
+            return `✓ ${s}`;
+        }).filter(Boolean).join('<br>');
 
         document.getElementById('comp-title').textContent = `☠ ${f.deceasedName} — ${I18n.T('ov.summary_departed')}`;
         document.getElementById('comp-body').innerHTML = `

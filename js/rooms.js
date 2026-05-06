@@ -522,6 +522,10 @@ const Rooms = (() => {
         order.served = true;
         Engine.addMoney(order.item.price, `Sold ${order.item.item}`);
         Families.updateSatisfaction(order.familyId, 3, 'Cafeteria service');
+        
+        const fam = Families.getById(order.familyId);
+        if (fam) fam.services.push(order.item.item);
+        
         Audio8Bit.SFX.success();
         showCafeteria();
     }
@@ -563,6 +567,8 @@ const Rooms = (() => {
                     }
                     
                     order.served = true;
+                    const fam = Families.getById(order.familyId);
+                    if (fam) fam.services.push(I18n.T('cafe.alcohol_request'));
                     showCafeteria();
                 }
             }))
@@ -700,6 +706,7 @@ const Rooms = (() => {
         btnWater.onclick = () => {
             Audio8Bit.SFX.click();
             Families.updateSatisfaction(viewingFamily.id, 5, 'Brought water');
+            viewingFamily.services.push(I18n.T('view.water'));
             Engine.showToast(I18n.T('view.water_served'), 'success');
             updateViewingMood();
             btnWater.style.display = 'none';
@@ -707,6 +714,7 @@ const Rooms = (() => {
         btnTemp.onclick = () => {
             if (Engine.hasUpgrade('ac_system')) {
                 Families.updateSatisfaction(viewingFamily.id, 5, 'Temperature adjusted');
+                viewingFamily.services.push(I18n.T('view.temp'));
                 Engine.showToast(I18n.T('view.temp_adjusted'), 'success');
                 btnTemp.style.display = 'none';
             } else {
@@ -719,6 +727,7 @@ const Rooms = (() => {
             if (Engine.hasUpgrade('firstaid')) {
                 Audio8Bit.SFX.success();
                 Families.updateSatisfaction(viewingFamily.id, 10, 'First aid administered');
+                viewingFamily.services.push(I18n.T('view.firstaid'));
                 Engine.showToast(I18n.T('view.firstaid_done'), 'success');
                 btnFirstAid.style.display = 'none';
             } else {

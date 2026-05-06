@@ -434,7 +434,7 @@ html, body {
     backdrop-filter: blur(2px); 
 }
 
-#embalming-content, #crematorium-content {
+#embalming-content, #crematorium-content, #chapel-content {
     flex: 0 1 auto;
 }
 .embalming-tasks h3 {

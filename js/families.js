@@ -97,22 +97,22 @@ const Families = (() => {
 
         // Show completion summary overlay
         const stars = '⭐'.repeat(Math.max(1, Math.round(rating / 2)));
-        const transport = f.wantsCremation ? '🔥 Cremated on-site' : '🚗 Transferred by hearse';
+        const transport = f.wantsCremation ? I18n.T('ov.summary_cremated_onsite') : I18n.T('ov.summary_hearse_transfer');
         const services = [
-            f.services.includes('embalming') ? '✓ Embalmed' : '✗ Not embalmed',
-            f.services.includes('viewing') ? '✓ Viewing done' : '',
-            f.services.includes('chapel') ? '✓ Chapel service' : '',
-            f.services.includes('cremation') ? '✓ Cremated' : ''
+            f.services.includes('embalming') ? `✓ ${I18n.T('ov.summary_embalmed')}` : `✗ ${I18n.T('ov.summary_not_embalmed')}`,
+            f.services.includes('viewing') ? `✓ ${I18n.T('ov.summary_viewing')}` : '',
+            f.services.includes('chapel') ? `✓ ${I18n.T('ov.summary_chapel')}` : '',
+            f.services.includes('cremation') ? `✓ ${I18n.T('ov.summary_cremated')}` : ''
         ].filter(Boolean).join('<br>');
 
-        document.getElementById('comp-title').textContent = `☠ ${f.deceasedName} — DEPARTED`;
+        document.getElementById('comp-title').textContent = `☠ ${f.deceasedName} — ${I18n.T('ov.summary_departed')}`;
         document.getElementById('comp-body').innerHTML = `
-            <div class="comp-row"><span class="comp-label">Rating</span><span class="comp-stars">${stars} (${rating}/10)</span></div>
-            <div class="comp-row"><span class="comp-label">Satisfaction</span><span class="comp-value">${f.satisfaction}%</span></div>
-            <div class="comp-row"><span class="comp-label">Transport</span><span class="comp-value">${transport}</span></div>
-            <div class="comp-row"><span class="comp-label">Services</span><span class="comp-value" style="font-size:14px;font-family:var(--font-vt)">${services || 'Basic only'}</span></div>
-            <div class="comp-row"><span class="comp-label">Earned</span><span class="comp-value">$${total}</span></div>
-            <div class="comp-row"><span class="comp-label">Reputation</span><span class="comp-value">${repChange >= 0 ? '+' : ''}${repChange} REP</span></div>
+            <div class="comp-row"><span class="comp-label">${I18n.T('ov.summary_rating')}</span><span class="comp-stars">${stars} (${rating}/10)</span></div>
+            <div class="comp-row"><span class="comp-label">${I18n.T('ov.summary_satisfaction')}</span><span class="comp-value">${f.satisfaction}%</span></div>
+            <div class="comp-row"><span class="comp-label">${I18n.T('ov.summary_transport')}</span><span class="comp-value">${transport}</span></div>
+            <div class="comp-row"><span class="comp-label">${I18n.T('ov.summary_services')}</span><span class="comp-value" style="font-size:14px;font-family:var(--font-vt)">${services || I18n.T('ov.summary_basic')}</span></div>
+            <div class="comp-row"><span class="comp-label">${I18n.T('ov.summary_earned')}</span><span class="comp-value">$${total}</span></div>
+            <div class="comp-row"><span class="comp-label">${I18n.T('ov.summary_reputation')}</span><span class="comp-value">${repChange >= 0 ? '+' : ''}${repChange} REP</span></div>
         `;
         document.getElementById('completion-overlay').style.display = 'flex';
         document.getElementById('btn-comp-dismiss').onclick = () => {
@@ -149,7 +149,7 @@ const Families = (() => {
                 </div>
                 ${f.rating !== null ? `<div class="family-rating">${Icons.getHTML('star').repeat(Math.max(1, Math.round(f.rating/2)))} (${f.rating}/10) — $${f.totalCharged}</div>` : ''}
                 <span class="family-status ${f.active ? (f.waitingForTransport ? 'warning' : 'active') : 'completed'}">
-                    ${f.active ? (f.waitingForTransport ? '● WAITING FOR HEARSE' : '● ACTIVE') : '✓ COMPLETED'}
+                    ${f.active ? (f.waitingForTransport ? I18n.T('ov.status_waiting') : I18n.T('ov.status_active')) : I18n.T('ov.status_completed')}
                 </span>
                 ${f.notes.length ? `<div class="family-details" style="margin-top:4px;font-size:14px;">${f.notes.join(' | ')}</div>` : ''}
             </div>

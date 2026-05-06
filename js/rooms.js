@@ -78,48 +78,61 @@ const Rooms = (() => {
             const cooldownOver = s.time >= (s.personalHearseCooldown || 0);
 
             if (hasPermanentHearse || hasTempHearse) {
-                let text = hasPermanentHearse ? '🚗 Use Personal Hearse (Free)' : '🚗 Use Niece\'s Car (Free)';
-                if (!cooldownOver) {
-                    const remaining = Math.ceil((s.personalHearseCooldown - s.time) / 60);
-                    text = `🚗 Car on cooldown (${remaining}h)`;
+                let text = '';
+                let canUse = true;
+
+                if (hasPermanentHearse) {
+                    text = I18n.T('rec.personal_hearse');
+                    if (!cooldownOver) {
+                        const remaining = Math.ceil((s.personalHearseCooldown - s.time) / 60);
+                        text = I18n.T('rec.car_cooldown', remaining);
+                        canUse = false;
+                    }
+                } else {
+                    text = I18n.T('rec.niece_car');
                 }
 
                 phoneChoices.push({
                     text: text,
                     action: () => {
-                        if (!cooldownOver) {
-                            Engine.showToast('The car is currently out doing a transfer!', 'warning');
+                        if (hasPermanentHearse && !canUse) {
+                            Engine.showToast(I18n.T('rec.car_busy'), 'warning');
                             return;
                         }
                         
                         const waitingFams = s.families.filter(f => f.active && f.waitingForTransport && !f.transportOrdered);
                         if (waitingFams.length === 0) {
-                            Engine.showToast('No families waiting for transport.', 'warning');
+                            Engine.showToast(I18n.T('rec.no_family_transport'), 'warning');
                             return;
                         }
 
                         // Use the car for ONE family
                         const f = waitingFams[0];
-                        f.transportOrdered = true;
                         
-                        if (!hasPermanentHearse) {
-                            s.temporaryHearseAvailable = false; // consume single use
-                        }
-                        s.personalHearseCooldown = s.time + 120; // 2 hour cooldown
+                        if (hasPermanentHearse) {
+                            // Permanent Hearse - Standard behavior (1h wait + cooldown)
+                            f.transportOrdered = true;
+                            s.personalHearseCooldown = s.time + 120; // 2 hour cooldown
 
-                        const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
-                        if (task) task.desc = `🚗 (Personal car en route) - ${f.deceasedName}`;
-                        
-                        s.schedule.push({
-                            time: Math.round(s.time + 60),
-                            type: 'hearse_arrival',
-                            familyId: f.id,
-                            desc: `Personal car is picking up ${f.deceasedName}.`,
-                            triggered: false
-                        });
+                            const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
+                            if (task) task.desc = I18n.T('rec.personal_enroute', f.deceasedName);
+                            
+                            s.schedule.push({
+                                time: Math.round(s.time + 60),
+                                type: 'hearse_arrival',
+                                familyId: f.id,
+                                desc: I18n.T('rec.personal_pickup', f.deceasedName),
+                                triggered: false
+                            });
+                            Engine.showToast(I18n.T('rec.car_dispatched', f.deceasedName), 'success');
+                        } else {
+                            // Niece's Car - IMMEDIATE & SINGLE USE
+                            s.temporaryHearseAvailable = false;
+                            Families.completeFamily(f.id);
+                            Engine.showToast(I18n.T('rec.niece_arrived', f.deceasedName), 'success');
+                        }
 
                         Engine.Notifications.clearBadge('reception');
-                        Engine.showToast(`🚗 Car dispatched for ${f.deceasedName}.`, 'success');
                     }
                 });
             }
@@ -136,20 +149,22 @@ const Rooms = (() => {
             }
 
             const task = s.activePaperwork;
-            Dialogue.show(I18n.T('rec.pw_title'), `${task.text}\n\nDifficulty (DC): ${task.dc}`, [
+            Dialogue.show(I18n.T('rec.pw_title'), `${task.text}\n\n${I18n.T('rec.pw_dc', task.dc)}`, [
                 { text: I18n.T('rec.pw_roll'), action: () => {
                     Engine.rollD20(0, (roll, total, result) => {
                         if (total >= task.dc) {
                             Engine.addMoney(task.reward, 'Paperwork success');
+                            if (task.repReward) Engine.addReputation(task.repReward, 'Paperwork success');
                             Engine.showToast(I18n.T('rec.pw_success', task.reward), 'success');
                             
                             // Check if this was the niece's car paperwork
                             if (task.text.includes('sobrina') || task.text.includes('niece')) {
                                 s.temporaryHearseAvailable = true;
-                                Engine.showToast('🚗 You can now use your niece\'s car for a transfer.', 'success');
+                                Engine.showToast(I18n.T('rec.niece_desc'), 'success');
                             }
                         } else {
                             Engine.addMoney(task.penalty, 'Paperwork failed');
+                            if (task.repPenalty) Engine.addReputation(task.repPenalty, 'Paperwork failed');
                             Engine.showToast(I18n.T('rec.pw_fail', Math.abs(task.penalty)), 'danger');
                         }
                         s.activePaperwork = null;
@@ -327,8 +342,8 @@ const Rooms = (() => {
                         type: 'cooldown_done',
                         familyId: embalmTarget.id,
                         desc: (embalmTarget.wantsCremation && Engine.hasUpgrade('crematorium')) 
-                                ? `${embalmTarget.deceasedName} is ready for cremation.`
-                                : `Family of ${embalmTarget.deceasedName} arrived for pick-up.`,
+                                ? I18n.T('crema.ready_desc', embalmTarget.deceasedName)
+                                : I18n.T('rec.arrival_pickup', embalmTarget.deceasedName),
                         triggered: false,
                         room: (embalmTarget.wantsCremation && Engine.hasUpgrade('crematorium')) ? 'crematorium' : 'reception'
                     });
@@ -350,10 +365,10 @@ const Rooms = (() => {
 
     // ===== SUPPLIES SHOP =====
     const SUPPLY_BASE = {
-        formaldehyde: { label: 'Formaldehyde', base: 18, unit: 'vials', key: 'formaldehyde' },
-        humectant:    { label: 'Humectant',    base: 14, unit: 'jars',  key: 'humectant' },
-        dye:          { label: 'Cosmetic Dye', base: 10, unit: 'tubes', key: 'dye' },
-        outfits:      { label: 'Burial Outfit',base: 55, unit: 'sets',  key: 'outfits' }
+        formaldehyde: { label: I18n.T('shop.formaldehyde'), base: 18, unit: I18n.T('shop.vials'), key: 'formaldehyde' },
+        humectant:    { label: I18n.T('shop.humectant'),    base: 14, unit: I18n.T('shop.jars'),  key: 'humectant' },
+        dye:          { label: I18n.T('shop.dye'),          base: 10, unit: I18n.T('shop.tubes'), key: 'dye' },
+        outfits:      { label: I18n.T('shop.outfit'),       base: 55, unit: I18n.T('shop.sets'),  key: 'outfits' }
     };
 
     function openSuppliesShop() {
@@ -783,7 +798,7 @@ const Rooms = (() => {
                     <div class="upgrade-name">${u.name} ${owned ? '✓' : ''} ${maxed ? '(MAX)' : ''}</div>
                     <div class="upgrade-desc">${u.desc}</div>
                     ${locked ? `<div class="upgrade-desc">${I18n.T('eng.need_level', u.level)}</div>` : ''}
-                    ${u.repeatable ? `<div class="upgrade-desc">Trained: ${s.embalmTrainCount}/${u.maxRepeats || 5}</div>` : ''}
+                    ${u.repeatable ? `<div class="upgrade-desc">${I18n.T('off.trained', s.embalmTrainCount, u.maxRepeats || 5)}</div>` : ''}
                 </div>
                 <div>
                     <div class="upgrade-price">$${u.cost}</div>

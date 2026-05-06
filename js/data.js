@@ -286,6 +286,71 @@ const DATA = {
             { text: "Hand out premium scented candles (Costs $100)", rep: 8, money: -100 },
             { text: "Tell Ivan to sing louder to calm them", rep: 0, money: 0 },
             { text: "Use the opportunity to cut the A/C costs", rep: -15, money: 50 }
+        ]},
+        { type: "gold_rush", text: "💍 A valuable gold ring was found in the incinerator filters.", choices: [
+            { text: "Return it to the grieving family", rep: 12, money: 0 },
+            { text: "Sell it to a shady pawn shop downtown", rep: -15, money: 450 },
+            { text: "Use it as a 'decoration' for a budget funeral", rep: -5, money: 100 }
+        ]},
+        { type: "funeral_critic", text: "🧐 A famous 'Funeral Critic' is in town to review your services.", choices: [
+            { text: "Prepare a 'VIP Death Experience' ($600)", rep: 25, money: -600 },
+            { text: "Treat them like anyone else (dead or alive)", rep: 2, money: 0 },
+            { text: "Bribe them with 'complimentary burial plots'", rep: -10, money: -300 }
+        ]},
+        { type: "wrong_urn", text: "⚱️ You realize you just handed the wrong ashes to a family.", choices: [
+            { text: "Run after them and admit the mistake", rep: -25, money: 0 },
+            { text: "Pretend nothing happened. Ashes are ashes.", rep: 5, money: 0 },
+            { text: "Sell them a 'Multicultural Mix' certificate ($200)", rep: -15, money: 200 }
+        ]},
+        { type: "escapee", text: "🏃 A corpse is missing from the table! Wait, it's just Ivan taking a nap.", choices: [
+            { text: "Wake him up and get back to work", rep: 2, money: 0 },
+            { text: "Charge the family for a 'spontaneous resurrection' show", rep: -20, money: 500 },
+            { text: "Let him sleep, he looks peaceful", rep: 0, money: 0 }
+        ]},
+        { type: "mixup", text: "👯 Two families booked the same viewing room. They are starting to argue.", choices: [
+            { text: "Offer a joint 'Double Death' ceremony discount", rep: -10, money: -200 },
+            { text: "Flip a coin to see who gets the room", rep: -5, money: 0 },
+            { text: "Bribe one family with free 'premium' coffee to wait", rep: 5, money: -100 }
+        ]},
+        { type: "tax_audit", text: "⚖️ A tax inspector arrives. He looks like he hasn't smiled since 1994.", choices: [
+            { text: "Show him the (clean) books", rep: 5, money: 0 },
+            { text: "Offer a 'Consultation Fee' to ignore the gold teeth sales", rep: -25, money: -400 },
+            { text: "Claim the corpses are all 'unpaid interns'", rep: -5, money: 100 }
+        ]},
+        { type: "celebrity", text: "📸 A minor local Tik-Tok celebrity has passed away. The press is outside.", choices: [
+            { text: "Keep it private and respectful", rep: 15, money: 0 },
+            { text: "Sell exclusive 'Last Selfie' rights to a tabloid", rep: -40, money: 1500 },
+            { text: "Use it to promote your own social media", rep: -10, money: 200 }
+        ]},
+        { type: "the_will", text: "📜 You found a hidden will in a jacket. It says 'Leave everything to my mortician'.", choices: [
+            { text: "Report it to the authorities immediately", rep: 20, money: 0 },
+            { text: "Cash it in and book a trip to the Bahamas", rep: -60, money: 5000 },
+            { text: "Accidentally drop it into the furnace", rep: -10, money: 0 }
+        ]},
+        { type: "ghost_hunters", text: "🎥 A TV show called 'Ghost Bros' wants to film in your basement.", choices: [
+            { text: "Let them in for a 'location fee' ($500)", rep: -10, money: 500 },
+            { text: "Rig some fishing wire to make it look haunted ($800)", rep: -20, money: 800 },
+            { text: "Refuse. The dead deserve silence.", rep: 10, money: 0 }
+        ]},
+        { type: "pet_cemetery", text: "🐹 A child wants a full funeral for their hamster, Mr. Fluffles.", choices: [
+            { text: "Give Mr. Fluffles a hero's send-off ($100)", rep: 8, money: 100 },
+            { text: "Offer a 'Viking Burial' in the coffee machine", rep: -15, money: 50 },
+            { text: "Explain that this is a humans-only facility", rep: 0, money: 0 }
+        ]},
+        { type: "cryogenics", text: "❄️ A client wants to be frozen in your supply freezer until 2099.", choices: [
+            { text: "Accept the contract and the cash ($1000)", rep: -20, money: 1000 },
+            { text: "Tell them to try the local ice cream shop instead", rep: 2, money: 0 },
+            { text: "Charge them for a 'Pre-Frozen' viewing package", rep: -10, money: 400 }
+        ]},
+        { type: "musical_tribute", text: "🎸 A family wants a 10-piece death metal band to play in the chapel.", choices: [
+            { text: "Let them rock out for a 'Noise Fee' ($300)", rep: -15, money: 300 },
+            { text: "Tell them Ivan will do a 'heavy' acoustic cover instead", rep: 5, money: 0 },
+            { text: "Suggest a more traditional organist", rep: 2, money: 0 }
+        ]},
+        { type: "heirloom", text: "💎 You found a massive diamond inside the deceased's mouth while cleaning.", choices: [
+            { text: "Discreetly return it to the family", rep: 25, money: 0 },
+            { text: "It's finders keepers in this business!", rep: -35, money: 2000 },
+            { text: "Sell it and donate half to 'charity' (yourself)", rep: -15, money: 1000 }
         ]}
     ],
 
@@ -302,12 +367,19 @@ const DATA = {
     paperworkTasks: [
         { text: "Try to avoid paying the florist for the wrong order.", dc: 12, reward: 100, penalty: -50 },
         { text: "Bill speaker Ivan's expenses to the insurance company.", dc: 15, reward: 200, penalty: 0 },
-        { text: "Use your niece's car as a hearse to save money.", dc: 10, reward: 150, penalty: -100 },
-        { text: "Hire a cleaning crew that looks suspiciously underage.", dc: 8, reward: 50, penalty: -150 },
-        { text: "Hire a Gregorian choir without reading the fine print.", dc: 14, reward: 80, penalty: -80 },
-        { text: "Sign all the papers on the desk without reading them.", dc: 5, reward: 50, penalty: -200 },
+        { text: "Use your niece's car as a hearse to save money.", dc: 10, reward: 150, penalty: -100, repPenalty: -5 },
+        { text: "Hire a cleaning crew that looks suspiciously underage.", dc: 8, reward: 50, penalty: -150, repPenalty: -10 },
+        { text: "Sign all the papers on the desk without reading them.", dc: 5, reward: 50, penalty: -200, repPenalty: -20 },
         { text: "Convince the formaldehyde supplier you already paid last month.", dc: 16, reward: 120, penalty: 0 },
-        { text: "Sell the most expensive urn by claiming it is gold-plated.", dc: 13, reward: 250, penalty: -150 }
+        { text: "Sell the most expensive urn by claiming it is gold-plated.", dc: 13, reward: 250, penalty: -150, repPenalty: -15 },
+        // Trade-offs & Random Humor
+        { text: "Extract gold teeth from the incinerator 'for recycling'.", dc: 14, reward: 400, penalty: 0, repReward: -15, repPenalty: -25 },
+        { text: "Water down the formaldehyde chemicals with cheap gin.", dc: 12, reward: 300, penalty: -100, repReward: -10, repPenalty: -15 },
+        { text: "Donate to the 'Widows of Fallen Morticians' charity.", dc: 6, reward: -400, penalty: -500, repReward: 20, repPenalty: 0 },
+        { text: "Organize a 'bring your own body' discount weekend.", dc: 17, reward: 600, penalty: 0, repReward: -30, repPenalty: -15 },
+        { text: "Hire a professional 'hyper-mourner' to boost the atmosphere.", dc: 9, reward: -200, penalty: -300, repReward: 12, repPenalty: -5 },
+        { text: "Recycle the 'single-use' funeral outfits from last week.", dc: 11, reward: 250, penalty: -150, repReward: -15, repPenalty: -25 },
+        { text: "Convince a family that ghosts are actually 'premium features'.", dc: 18, reward: 500, penalty: -200, repReward: -5, repPenalty: -15 }
     ],
 
     paperworkExcuses: [

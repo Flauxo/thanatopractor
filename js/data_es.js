@@ -1,5 +1,12 @@
 /* ===== THANATOPRACTOR - Game Data (Spanish) ===== */
 const DATA_ES = {
+    // ===== GENERACIÓN DE NOMBRES =====
+    firstNames: {
+        male: ["Extinto","Fiambre","Difuntino","Mortis","Lázaro","Casimiro","Agapito","Bernabé","Torcuato","Pancracio","Rigoberto","Telesforo","Eustaquio","Tiburcio","Sinforoso","Apolonio","Heriberto","Desiderio","Anacleto","Celedonio"],
+        female: ["Morticia","Difuntina","Llorona","Angustias","Dolores","Remedios","Visitación","Pura","Encarnación","Resurrección","Tecla","Candelaria","Gertrudis","Filomena","Clotilde","Segismunda","Dorotea","Petronila","Hermenegilda","Primitiva"]
+    },
+    lastNames: ["De la Fosa","Del Hoyo","Calavera","Tiesas","Frías","Del Campo Santo","De la Cruz","De la Sombra","Olvido","Silencio","Mármol","Ceniza","Polvo","Ciprés","Del Valhalla","Mortaja","Espectro","Ánima","Lamento","Tinieblas"],
+
     religions: [
         { id: "pastafarian", name: "Pastafari", icon: "🍝" },
         { id: "satanist", name: "Satanista LaVeyano", icon: "🐐" },
@@ -274,6 +281,71 @@ const DATA_ES = {
             { text: "Repartir velas aromáticas premium (Cuesta $100)", rep: 8, money: -100 },
             { text: "Decirle a Iván que cante más alto para calmarlos", rep: 0, money: 0 },
             { text: "Usar la oportunidad para ahorrar gastos de aire acondicionado", rep: -15, money: 50 }
+        ]},
+        { type: "gold_rush", text: "💍 Se ha encontrado un valioso anillo de oro en los filtros de la incineradora.", choices: [
+            { text: "Devolverlo a la afligida familia", rep: 12, money: 0 },
+            { text: "Venderlo en una casa de empeños de dudosa reputación", rep: -15, money: 450 },
+            { text: "Usarlo como 'decoración' para un funeral de bajo presupuesto", rep: -5, money: 100 }
+        ]},
+        { type: "funeral_critic", text: "🧐 Un famoso 'Crítico de Funerarias' está en la ciudad para evaluar tus servicios.", choices: [
+            { text: "Preparar una 'Experiencia de Muerte VIP' ($600)", rep: 25, money: -600 },
+            { text: "Tratarlo como a cualquier otro (vivo o muerto)", rep: 2, money: 0 },
+            { text: "Sobornarlo con 'parcelas de entierro de cortesía'", rep: -10, money: -300 }
+        ]},
+        { type: "wrong_urn", text: "⚱️ Te das cuenta de que acabas de entregar las cenizas equivocadas a una familia.", choices: [
+            { text: "Correr tras ellos y admitir el error", rep: -25, money: 0 },
+            { text: "Fingir que no ha pasado nada. Cenizas son cenizas.", rep: 5, money: 0 },
+            { text: "Venderles un certificado de 'Mezcla Multicultural' ($200)", rep: -15, money: 200 }
+        ]},
+        { type: "escapee", text: "🏃 ¡Falta un cadáver de la camilla! Ah, no, es solo Iván echándose una siesta.", choices: [
+            { text: "Despertarlo y que vuelva al trabajo", rep: 2, money: 0 },
+            { text: "Cobrar a la familia por un espectáculo de 'resurrección espontánea'", rep: -20, money: 500 },
+            { text: "Dejarlo dormir, se le ve tan en paz", rep: 0, money: 0 }
+        ]},
+        { type: "mixup", text: "👯 Dos familias reservaron la misma sala de velatorio. Estás empezando a discutir.", choices: [
+            { text: "Ofrecer un descuento por ceremonia conjunta 'Muerte Doble'", rep: -10, money: -200 },
+            { text: "Lanzar una moneda para ver quién se queda la sala", rep: -5, money: 0 },
+            { text: "Sobornar a una familia con café 'premium' gratis para que esperen", rep: 5, money: -100 }
+        ]},
+        { type: "tax_audit", text: "⚖️ Llega un inspector de hacienda. Parece que no sonríe desde el Mundial del 94.", choices: [
+            { text: "Enseñarle los libros (los legales)", rep: 5, money: 0 },
+            { text: "Ofrecerle una 'tasa de consulta' para que ignore la venta de dientes de oro", rep: -25, money: -400 },
+            { text: "Afirmar que los cadáveres son todos 'becarios sin sueldo'", rep: -5, money: 100 }
+        ]},
+        { type: "celebrity", text: "📸 Ha muerto una pequeña celebridad local de Tik-Tok. La prensa está fuera.", choices: [
+            { text: "Mantenerlo privado y respetuoso", rep: 15, money: 0 },
+            { text: "Vender los derechos de la 'Última Selfie' a un tabloide", rep: -40, money: 1500 },
+            { text: "Usarlo para promocionar tus propias redes sociales", rep: -10, money: 200 }
+        ]},
+        { type: "the_will", text: "📜 Has encontrado un testamento oculto en una chaqueta. Dice: 'Déjaselo todo a mi funerario'.", choices: [
+            { text: "Informar a las autoridades inmediatamente", rep: 20, money: 0 },
+            { text: "Cobrarlo y reservar un viaje a las Bahamas", rep: -60, money: 5000 },
+            { text: "Dejarlo caer 'accidentalmente' en la incineradora", rep: -10, money: 0 }
+        ]},
+        { type: "ghost_hunters", text: "🎥 Un programa de TV llamado 'Ghost Bros' quiere rodar en tu sótano.", choices: [
+            { text: "Dejarles entrar por una 'tasa de localización' ($500)", rep: -10, money: 500 },
+            { text: "Preparar unos hilos de pescar para que parezca encantado ($800)", rep: -20, money: 800 },
+            { text: "Rechazar. Los muertos merecen silencio.", rep: 10, money: 0 }
+        ]},
+        { type: "pet_cemetery", text: "🐹 Un niño quiere un funeral completo para su hámster, el Sr. Peluquín.", choices: [
+            { text: "Darle al Sr. Peluquín una despedida de héroe ($100)", rep: 8, money: 100 },
+            { text: "Ofrecer un 'Entierro Vikingo' en la máquina de café", rep: -15, money: 50 },
+            { text: "Explicar que estas instalaciones son solo para humanos", rep: 0, money: 0 }
+        ]},
+        { type: "cryogenics", text: "❄️ Un cliente quiere ser congelado en tu nevera de suministros hasta el 2099.", choices: [
+            { text: "Aceptar el contrato y el efectivo ($1000)", rep: -20, money: 1000 },
+            { text: "Decirle que pruebe en la heladería del barrio", rep: 2, money: 0 },
+            { text: "Cobrarle por un paquete de velatorio 'Pre-Congelado'", rep: -10, money: 400 }
+        ]},
+        { type: "musical_tribute", text: "🎸 Una familia quiere que una banda de death metal toque en la capilla.", choices: [
+            { text: "Dejarles tocar por una 'Tasa de Ruido' ($300)", rep: -15, money: 300 },
+            { text: "Decir que Iván hará una versión acústica 'cañera' en su lugar", rep: 5, money: 0 },
+            { text: "Sugerir un organista más tradicional", rep: 2, money: 0 }
+        ]},
+        { type: "heirloom", text: "💎 Has encontrado un diamante enorme dentro de la boca del difunto mientras limpiabas.", choices: [
+            { text: "Devolverlo discretamente a la familia", rep: 25, money: 0 },
+            { text: "¡El que lo encuentra se lo queda!", rep: -35, money: 2000 },
+            { text: "Venderlo y donar la mitad a 'caridad' (a ti mismo)", rep: -15, money: 1000 }
         ]}
     ],
 
@@ -288,12 +360,19 @@ const DATA_ES = {
     paperworkTasks: [
         { text: "Intenta evitar pagarle al florista por el pedido equivocado.", dc: 12, reward: 100, penalty: -50 },
         { text: "Carga los gastos del orador Iván a la aseguradora.", dc: 15, reward: 200, penalty: 0 },
-        { text: "Usa el coche de tu sobrina como coche fúnebre para ahorrar.", dc: 10, reward: 150, penalty: -100 },
-        { text: "Contrata a un equipo de limpieza que parece sospechosamente menor de edad.", dc: 8, reward: 50, penalty: -150 },
-        { text: "Contrata un coro gregoriano sin leer la letra pequeña.", dc: 14, reward: 80, penalty: -80 },
-        { text: "Firma todos los papeles del escritorio sin leerlos.", dc: 5, reward: 50, penalty: -200 },
+        { text: "Usa el coche de tu sobrina como coche fúnebre para ahorrar.", dc: 10, reward: 150, penalty: -100, repPenalty: -5 },
+        { text: "Contrata a un equipo de limpieza que parece sospechosamente menor de edad.", dc: 8, reward: 50, penalty: -150, repPenalty: -10 },
+        { text: "Firma todos los papeles del escritorio sin leerlos.", dc: 5, reward: 50, penalty: -200, repPenalty: -20 },
         { text: "Convence al proveedor de formaldehído de que ya le pagaste el mes pasado.", dc: 16, reward: 120, penalty: 0 },
-        { text: "Vende la urna más cara afirmando que está bañada en oro.", dc: 13, reward: 250, penalty: -150 }
+        { text: "Vende la urna más cara afirmando que está bañada en oro.", dc: 13, reward: 250, penalty: -150, repPenalty: -15 },
+        // Intercambios y humor random
+        { text: "Extrae dientes de oro de la incineradora 'para reciclaje'.", dc: 14, reward: 400, penalty: 0, repReward: -15, repPenalty: -25 },
+        { text: "Rebaja los químicos del formaldehído con ginebra barata.", dc: 12, reward: 300, penalty: -100, repReward: -10, repPenalty: -15 },
+        { text: "Dona a la caridad de 'Viudas de Tanatopractores Caídos'.", dc: 6, reward: -400, penalty: -500, repReward: 20, repPenalty: 0 },
+        { text: "Organiza un fin de semana de descuento 'trae tu propio cuerpo'.", dc: 17, reward: 600, penalty: 0, repReward: -30, repPenalty: -15 },
+        { text: "Contrata a una 'hiper-llorona' profesional para animar el ambiente.", dc: 9, reward: -200, penalty: -300, repReward: 12, repPenalty: -5 },
+        { text: "Recicle los trajes funerarios 'de un solo uso' de la semana pasada.", dc: 11, reward: 250, penalty: -150, repReward: -15, repPenalty: -25 },
+        { text: "Convence a una familia de que los fantasmas son 'servicios premium'.", dc: 18, reward: 500, penalty: -200, repReward: -5, repPenalty: -15 }
     ],
 
     paperworkExcuses: [

@@ -195,8 +195,8 @@ const Engine = (() => {
 
         // Hub Badge for Reception
         if (waitingFams > 0 || state.activePaperwork) {
-            Notifications.addBadge('reception');
-            if (waitingFams > 0) Notifications.addBadge('phone');
+            Notifications.addBadge('reception', true);
+            if (waitingFams > 0) Notifications.addBadge('phone', true);
         }
 
 
@@ -384,8 +384,8 @@ const Engine = (() => {
             Dialogue.show('📢 RANDOM EVENT', event.text, event.choices.map(c => ({
                 text: c.text,
                 action: () => {
-                    if (c.rep) addReputation(c.rep, 'Event outcome');
-                    if (c.money) addMoney(c.money, 'Event outcome');
+                    if (c.rep) addReputation(c.rep, c.text);
+                    if (c.money) addMoney(c.money, c.text);
                 }
             })));
         } else {
@@ -501,11 +501,11 @@ const Engine = (() => {
 
     // ===== NOTIFICATIONS =====
     const Notifications = {
-        addBadge(room) {
+        addBadge(room, silent = false) {
             const badge = document.getElementById(`badge-${room}`);
             if (badge && badge.style.display !== 'flex') {
                 badge.style.display = 'flex';
-                Audio8Bit.SFX.notification();
+                if (!silent) Audio8Bit.SFX.notification();
             }
         },
         clearBadge(room) {
@@ -547,6 +547,7 @@ const Engine = (() => {
     // ===== HUD UPDATE =====
     function updateHUD() {
         const s = state;
+        I18n.applyToDOM();
         // Main hub
         const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
         setText('hud-day', s.day);

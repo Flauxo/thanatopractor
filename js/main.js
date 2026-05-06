@@ -273,11 +273,17 @@ window.Main = (() => {
     }
 
     function resetHub() {
+        const lockedByDefault = ['nav-chapel', 'nav-crematorium', 'nav-cafeteria'];
         document.querySelectorAll('.nav-btn').forEach(nav => {
-            if (nav.id === 'nav-reception') return; // Reception is always open
-            nav.classList.add('locked');
-            const lock = nav.querySelector('.nav-lock');
-            if (lock) lock.style.display = 'flex';
+            if (lockedByDefault.includes(nav.id)) {
+                nav.classList.add('locked');
+                const lock = nav.querySelector('.nav-lock');
+                if (lock) lock.style.display = 'flex';
+            } else {
+                nav.classList.remove('locked');
+                const lock = nav.querySelector('.nav-lock');
+                if (lock) lock.style.display = 'none';
+            }
         });
     }
 

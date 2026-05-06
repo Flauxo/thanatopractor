@@ -82,6 +82,7 @@ window.Main = (() => {
                 
                 if (typeof Audio8Bit !== 'undefined') {
                     Audio8Bit.init();
+                    Audio8Bit.SFX.bell();
                     Audio8Bit.SFX.grave();
                 }
                 

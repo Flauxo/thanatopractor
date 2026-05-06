@@ -237,6 +237,16 @@ const Rooms = (() => {
         activeRoom = 'embalming';
         Engine.Notifications.clearBadge('embalming');
         const s = Engine.getState();
+
+        // One-time tutorial
+        if (!s.embalmTutorialShown) {
+            s.embalmTutorialShown = true;
+            Engine.save();
+            Dialogue.show(I18n.T('emb.tutorial_title'), I18n.T('emb.tutorial_text'), [
+                { text: I18n.T('emb.tutorial_ok') }
+            ]);
+        }
+
         const active = Families.getActive().filter(f => f.arrived && !f.embalmed);
 
         if (active.length === 0) {

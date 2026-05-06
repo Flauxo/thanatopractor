@@ -84,6 +84,10 @@ I18n.register('es', {
 'emb.needs_embalming': '🧪 ¡{0} necesita embalsamamiento!',
 'emb.still_needs': '🧪 ¡{0} todavía necesita embalsamamiento!',
 'emb.penalty': '({0} Penalización)', 'emb.no_penalty': '(SIN PENALIZACIÓN)',
+// Tutorial embalsamar
+'emb.tutorial_title': '🧪 PRIMERA VEZ EN LA SALA DE EMBALSAMAR',
+'emb.tutorial_text': 'Acuérdate de tener los suministros al día, tardan una hora en llegar. Quedarte sin material a mitad de procedimiento es... incómodo.',
+'emb.tutorial_ok': 'Entendido, comprar con antelación',
 // Cafeteria
 'cafe.title': 'CAFETERÍA', 'cafe.subtitle': 'También para los vivos.',
 'cafe.menu': '☕ MENÚ MORTALMENTE BUENO', 'cafe.orders': '📝 PEDIDOS',

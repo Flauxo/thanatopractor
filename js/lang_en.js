@@ -77,6 +77,10 @@ I18n.register('en', {
 'emb.needs_embalming': '🧪 {0} needs embalming!',
 'emb.still_needs': '🧪 {0} still needs embalming!',
 'emb.penalty': '({0} Penalty)', 'emb.no_penalty': '(No Penalty)',
+// Embalming tutorial
+'emb.tutorial_title': '🧪 FIRST TIME IN THE EMBALMING ROOM',
+'emb.tutorial_text': 'Remember to keep your supplies stocked — they take 1 hour to arrive after ordering. Running out mid-procedure is... awkward.',
+'emb.tutorial_ok': 'Got it, stock up early',
 // Cafeteria
 'cafe.title': 'CAFETERIA', 'cafe.subtitle': 'For the living, too.',
 'cafe.menu': '☕ DEADLY GOOD MENU', 'cafe.orders': '📝 ORDERS',

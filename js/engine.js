@@ -33,6 +33,7 @@ const Engine = (() => {
         lastRandomEventTime: 0,
         chapelTutorialShown: false,
         cremaTutorialShown: false,
+        embalmTutorialShown: false,
         stats: { familiesServed: 0, totalEarnings: 0, diceRolls: 0, bestRoll: 0, worstDay: null }
     });
 

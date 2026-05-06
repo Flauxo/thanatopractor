@@ -152,7 +152,10 @@ const Families = (() => {
                 <span class="family-status ${f.active ? (f.waitingForTransport ? 'warning' : 'active') : 'completed'}">
                     ${f.active ? (f.waitingForTransport ? I18n.T('ov.status_waiting') : I18n.T('ov.status_active')) : I18n.T('ov.status_completed')}
                 </span>
-                ${f.notes.length ? `<div class="family-details" style="margin-top:4px;font-size:14px;">${f.notes.join(' | ')}</div>` : ''}
+                <div class="family-details" style="margin-top:4px; font-size:13px; color:var(--pink);">
+                    ${f.services.length ? f.services.join(' • ') : I18n.T('ov.summary_basic')}
+                </div>
+                ${f.notes.length ? `<div class="family-details" style="margin-top:4px;font-size:12px;opacity:0.8;">${f.notes.join(' | ')}</div>` : ''}
             </div>
         `).join('');
     }

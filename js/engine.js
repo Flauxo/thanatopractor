@@ -148,23 +148,13 @@ const Engine = (() => {
         // Check scheduled events
         checkSchedule();
 
-        // Forced event/paperwork if an hour of dead time passes
+        // Forced event if an hour of dead time passes
         if (activeFams === 0 && waitingFams === 0 && (state.time - state.lastActivityTime) >= 60) {
             state.lastActivityTime = state.time;
-            if (!state.activePaperwork && Math.random() > 0.5) {
-                // Spawn paperwork
-                if (typeof DATA !== 'undefined' && DATA.paperworkTasks) {
-                    state.activePaperwork = DATA.paperworkTasks[Math.floor(Math.random() * DATA.paperworkTasks.length)];
-                    showToast(I18n.T('eng.new_pw', getTimeString()), '');
-                    Notifications.addBadge('reception');
-                    Notifications.addBadge('paperwork');
-                }
-            } else {
-                triggerRandomEvent();
-            }
+            triggerRandomEvent();
         }
-        // Random event chance - only after 12:00 PM (2 mins real time) and during dead time
-        if (activeFams === 0 && waitingFams === 0 && state.time > 720 && Math.random() < 0.01 * state.speed) {
+        // Random event chance - during dead time
+        if (activeFams === 0 && waitingFams === 0 && Math.random() < 0.04 * state.speed) {
             triggerRandomEvent();
         }
 

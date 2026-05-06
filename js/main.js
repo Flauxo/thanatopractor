@@ -11,26 +11,19 @@ window.Main = (() => {
         }
 
         // Show/hide buttons on title screen
-        const saveBtn = document.getElementById('btn-save-game');
-        const resumeBtn = document.getElementById('btn-resume-game');
-        const newGameBtn = document.getElementById('btn-new-game');
-        const continueBtn = document.getElementById('btn-continue');
-        
         if (name === 'title') {
-            if (Engine.getState().playerName) {
-                if (saveBtn) saveBtn.style.display = 'block';
-                if (resumeBtn) resumeBtn.style.display = 'block';
-                if (newGameBtn) newGameBtn.style.display = 'none';
-                if (continueBtn) continueBtn.style.display = 'none';
-            } else {
-                if (saveBtn) saveBtn.style.display = 'none';
-                if (resumeBtn) resumeBtn.style.display = 'none';
-                if (newGameBtn) newGameBtn.style.display = 'block';
-                if (continueBtn) continueBtn.style.display = Engine.hasSave() ? 'block' : 'none';
-            }
-        } else {
-            if (saveBtn) saveBtn.style.display = 'none';
-            if (resumeBtn) resumeBtn.style.display = 'none';
+            const state = Engine.getState();
+            const hasActiveGame = state && state.playerName && state.playerName !== '';
+            
+            const btnSave = document.getElementById('btn-save-game');
+            const btnResume = document.getElementById('btn-resume-game');
+            const btnNew = document.getElementById('btn-new-game');
+            const btnContinue = document.getElementById('btn-continue');
+
+            if (btnSave) btnSave.style.display = hasActiveGame ? 'block' : 'none';
+            if (btnResume) btnResume.style.display = hasActiveGame ? 'block' : 'none';
+            if (btnNew) btnNew.style.display = hasActiveGame ? 'none' : 'block';
+            if (btnContinue) btnContinue.style.display = (!hasActiveGame && Engine.hasSave()) ? 'block' : 'none';
         }
 
         // Init room when shown

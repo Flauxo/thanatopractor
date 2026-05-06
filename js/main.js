@@ -176,10 +176,10 @@ window.Main = (() => {
 
         // ===== NAME SCREEN =====
         const nameInput = document.getElementById('player-name-input');
-        const flavors = [
-            I18n.T('name.f1'), I18n.T('name.f2'), I18n.T('name.f3'), I18n.T('name.f4'), I18n.T('name.f5')
-        ];
         nameInput.oninput = () => {
+            const flavors = [
+                I18n.T('name.f1'), I18n.T('name.f2'), I18n.T('name.f3'), I18n.T('name.f4'), I18n.T('name.f5')
+            ];
             document.getElementById('name-flavor').textContent = flavors[Math.floor(Math.random() * flavors.length)];
             Audio8Bit.SFX.typing();
         };

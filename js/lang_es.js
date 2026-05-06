@@ -134,6 +134,10 @@ I18n.register('es', {
 'view.no_firstaid_needed': 'Nadie necesita primeros auxilios.',
 'view.sorry': 'Lo siento mucho...',
 'view.glad_goodbye': 'Adiós, descansa en paz.',
+// Tutorial velatorio
+'view.tutorial_title': '👁️ PRIMERA VEZ EN EL VELATORIO',
+'view.tutorial_text': 'Las familias pueden pedir de todo. Ten todo listo para ganar reputación. Familias contentas significan mejores valoraciones.',
+'view.tutorial_ok': 'Entendido, estar preparado',
 // Chapel
 'chapel.title': 'LA CAPILLA', 'chapel.subtitle': 'Fe. Ritual. Consuelo.',
 'chapel.ivan': 'Iván — El Orador', 'chapel.service': '🕯️ TIPO DE SERVICIO',

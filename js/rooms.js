@@ -711,6 +711,17 @@ const Rooms = (() => {
     function showViewing() {
         activeRoom = 'viewing';
         Engine.Notifications.clearBadge('viewing');
+
+        // One-time tutorial
+        const s = Engine.getState();
+        if (!s.viewingTutorialShown) {
+            s.viewingTutorialShown = true;
+            Engine.save();
+            Dialogue.show(I18n.T('view.tutorial_title'), I18n.T('view.tutorial_text'), [
+                { text: I18n.T('view.tutorial_ok') }
+            ]);
+        }
+
         const active = Families.getActive().filter(f => f.embalmed && f.wantsViewing && !f.viewed);
 
         if (active.length === 0) {

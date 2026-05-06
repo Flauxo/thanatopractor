@@ -127,6 +127,10 @@ I18n.register('en', {
 'view.sorry': 'I am so sorry...',
 'view.glad_goodbye': 'Goodbye, rest in peace.',
 'view.body_title': '👁️ VIEWING — {0}',
+// Viewing tutorial
+'view.tutorial_title': '👁️ FIRST TIME IN THE VIEWING ROOM',
+'view.tutorial_text': 'Families can ask for anything. Have everything ready — water, temperature control, first aid — to earn reputation. Happy families mean better ratings.',
+'view.tutorial_ok': 'Got it, be prepared',
 // Chapel
 'chapel.title': 'THE CHAPEL', 'chapel.subtitle': 'Faith. Ritual. Comfort.',
 'chapel.ivan': 'Iván — The Orator', 'chapel.service': '🕯️ SERVICE TYPE',

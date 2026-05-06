@@ -34,6 +34,7 @@ const Engine = (() => {
         chapelTutorialShown: false,
         cremaTutorialShown: false,
         embalmTutorialShown: false,
+        viewingTutorialShown: false,
         stats: { familiesServed: 0, totalEarnings: 0, diceRolls: 0, bestRoll: 0, worstDay: null }
     });
 

@@ -23,7 +23,7 @@ I18n.register('en', {
 'name.f5': '"The dead can\'t judge your name. The living will."',
 // Welcome
 'welcome.title': 'WELCOME TO THANATOPRACTOR',
-'welcome.p1': 'Here we don\'t save lives, we just tie them up with a bow. Your job is simple: make up the dead so they look alive, burn them if the family doesn\'t want to see them anymore, and above all, don\'t ask questions about the strange stains.',
+'welcome.p1': 'Here we don\'t save lives, we just tie them up with a bow. Your job is simple: make up the dead so they look alive, burn them if the family doesn\'t want to see them anymore, and above all, don\'t get fond of necrophilia.',
 'welcome.p2': 'By clicking below, you accept that formaldehyde is your new favorite cologne, that ghosts don\'t pay rent, and that we are not responsible for recurring nightmares or the sudden loss of your own soul.',
 'welcome.accept': 'I ACCEPT THE TERMS',
 // Hub

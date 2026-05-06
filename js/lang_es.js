@@ -26,7 +26,7 @@ I18n.register('es', {
 'name.f5': '"Los muertos no pueden juzgar tu nombre. Los vivos sí."',
 // Welcome
 'welcome.title': 'BIENVENIDO A THANATOPRACTOR',
-'welcome.p1': 'Aquí no salvamos vidas, solo las envolvemos con un lazo. Tu trabajo es simple: maquillar a los muertos para que parezcan vivos, quemarlos si la familia no quiere verlos más, y sobre todo, no preguntar por las manchas extrañas.',
+'welcome.p1': 'Aquí no salvamos vidas, solo las envolvemos con un lazo. Tu trabajo es simple: maquillar a los muertos para que parezcan vivos, quemarlos si la familia no quiere verlos más, y sobre todo, no aficionarse a la necrofilia.',
 'welcome.p2': 'Al hacer clic abajo, aceptas que el formaldehído es tu nueva colonia favorita, que los fantasmas no pagan alquiler, y que no somos responsables de pesadillas recurrentes ni del tipo de humor con el que te vas a encontrar.',
 'welcome.accept': 'ACEPTO LOS TÉRMINOS',
 // Hub

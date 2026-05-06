@@ -11,6 +11,28 @@ const Rooms = (() => {
         }
     }
 
+    function orderSingleHearse(f) {
+        const s = Engine.getState();
+        if (s.money < 150) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }
+        
+        Engine.addMoney(-150, `Ordered Hearse for ${f.deceasedName}`);
+        f.transportOrdered = true;
+        
+        const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
+        if (task) task.desc = `${I18n.T('rec.car_ordered', f.deceasedName)}`;
+        
+        s.schedule.push({
+            time: Math.round(s.time + 60),
+            type: 'hearse_arrival',
+            familyId: f.id,
+            desc: I18n.T('rec.hearse_picking', f.deceasedName),
+            triggered: false
+        });
+        
+        Engine.showToast(I18n.T('rec.hearse_ordered_for', f.deceasedName), 'success');
+        Engine.Notifications.clearBadge('reception');
+    }
+
     // ===== RECEPTION =====
     function initReception() {
         document.getElementById('btn-new-arrival').onclick = () => {
@@ -39,34 +61,24 @@ const Rooms = (() => {
                     Engine.showToast(I18n.T('rec.job_result'), 'warning');
                 }},
                 { text: I18n.T('rec.order_hearse'), action: () => {
-                    if (s.money < 150) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }
-                    
                     const waitingFams = s.families.filter(f => f.active && f.waitingForTransport && !f.transportOrdered);
+                    
                     if (waitingFams.length === 0) {
-                        Engine.addMoney(-150, 'Ordered Hearse');
-                        Engine.showToast(I18n.T('rec.hearse_ordered'), 'success');
+                        Engine.showToast(I18n.T('rec.no_family_transport'), 'warning');
                         return;
                     }
-                    
-                    const cost = waitingFams.length * 150;
-                    if (s.money < cost) { Engine.showToast(I18n.T('rec.need_money_hearse', cost, waitingFams.length), 'danger'); return; }
-                    
-                    Engine.addMoney(-cost, `Ordered ${waitingFams.length} Hearse Transfer(s)`);
-                    waitingFams.forEach(f => {
-                        f.transportOrdered = true;
-                        const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
-                        if (task) task.desc = `${I18n.T('rec.car_ordered', f.deceasedName)}`;
-                        
-                        s.schedule.push({
-                            time: Math.round(s.time + 60),
-                            type: 'hearse_arrival',
-                            familyId: f.id,
-                            desc: I18n.T('rec.hearse_picking', f.deceasedName),
-                            triggered: false
-                        });
-                    });
-                    Engine.Notifications.clearBadge('reception');
-                    Engine.showToast(I18n.T('rec.hearse_multi'), 'success');
+
+                    if (waitingFams.length === 1) {
+                        orderSingleHearse(waitingFams[0]);
+                    } else {
+                        // Multiple families waiting
+                        const choices = waitingFams.map(f => ({
+                            text: `${f.deceasedName} ($150)`,
+                            action: () => orderSingleHearse(f)
+                        }));
+                        choices.push({ text: I18n.T('rec.nevermind'), action: () => {} });
+                        Dialogue.show(I18n.T('rec.order_hearse'), I18n.T('rec.select_transport'), choices);
+                    }
                 }},
                 { text: I18n.T('rec.order_flowers'), action: () => {
                     if (s.money < 50) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }

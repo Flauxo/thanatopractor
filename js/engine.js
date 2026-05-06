@@ -122,11 +122,16 @@ const Engine = (() => {
         if (tickInterval) { clearInterval(tickInterval); tickInterval = null; }
     }
     function setSpeed(s) {
-        state.speed = s;
+        if (s === 0) state.speed = 0;
+        else if (s === 1) state.speed = 2; // Normal is now 2x
+        else if (s === 2) state.speed = 4; // Fast is now 4x
+        
         document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
         if (s === 0) document.getElementById('btn-pause').classList.add('active');
         else if (s === 1) document.getElementById('btn-play').classList.add('active');
         else document.getElementById('btn-fast').classList.add('active');
+        
+        if (typeof Audio8Bit !== 'undefined') Audio8Bit.updateSpeed();
     }
 
     function tick() {
@@ -247,6 +252,17 @@ const Engine = (() => {
 
     function endDay() {
         stopTime();
+
+        // Disposal logic: bodies left in crematorium (not finished) disappear
+        const discarded = state.families.filter(f => f.active && f.wantsCremation && !f.cremated);
+        if (discarded.length > 0) {
+            discarded.forEach(f => {
+                f.active = false;
+                f.discardedOvernight = true;
+            });
+            Engine.showToast(I18n.T('crema.disposal_warning'), 'danger');
+        }
+
         state.day++;
         state.time = 480;
         state.cremaTemp = 20;

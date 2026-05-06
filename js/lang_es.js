@@ -364,4 +364,9 @@ I18n.register('es', {
 'dlg.traveler.c1': '"Pondré una salida de emergencia por si acaso."',
 'dlg.traveler.c2': '"Dígame el número de la lotería y le regalo el entierro."',
 'dlg.traveler.c3': '"¿Y en el futuro todavía se usa el café de máquina tan malo?"',
+'rec.select_transport': 'Selecciona la familia para el traslado:',
+'rec.hearse_ordered_for': 'Coche fúnebre pedido para la familia de {0}.',
+'rec.no_family_transport': 'No hay familias esperando traslado ahora mismo.',
+'rec.nevermind': 'Olvídalo',
+'crema.disposal_warning': '⚠️ Algunos cuerpos fueron desechados por no haber sido incinerados a tiempo.',
 });

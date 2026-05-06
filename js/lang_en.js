@@ -348,4 +348,9 @@ I18n.register('en', {
 'dlg.traveler.c1': '"I\'ll put an emergency exit just in case."',
 'dlg.traveler.c2': '"Tell me the lottery number and I\'ll give you the funeral for free."',
 'dlg.traveler.c3': '"And in the future, is the machine coffee still this bad?"',
+'rec.select_transport': 'Select family for transport:',
+'rec.hearse_ordered_for': 'Hearse ordered for the family of {0}.',
+'rec.no_family_transport': 'There are no families waiting for transport right now.',
+'rec.nevermind': 'Nevermind',
+'crema.disposal_warning': '⚠️ Some bodies were discarded because they were not cremated on time.',
 });

@@ -169,13 +169,23 @@ const Engine = (() => {
         // Check scheduled events
         checkSchedule();
 
-        // Forced event if two hours of dead time passes
-        if (activeFams === 0 && waitingFams === 0 && (state.time - state.lastActivityTime) >= 120 && (state.time - state.lastRandomEventTime) >= 60) {
+        // Random event chance
+        const isAdvanced = state.day >= 5;
+        const prob = (isAdvanced ? 0.02 : 0.008) * state.speed;
+        const cooldown = isAdvanced ? 30 : 60;
+        const boredTimeout = isAdvanced ? 60 : 120;
+        
+        // Forced event if long dead time passes
+        if (activeFams === 0 && waitingFams === 0 && (state.time - state.lastActivityTime) >= boredTimeout && (state.time - state.lastRandomEventTime) >= cooldown) {
             state.lastActivityTime = state.time;
             triggerRandomEvent();
         }
-        // Random event chance - during dead time (approx 1 every 2 hours)
-        if (activeFams === 0 && waitingFams === 0 && (state.time - state.lastRandomEventTime) >= 60 && Math.random() < 0.008 * state.speed) {
+
+        // Random event chance
+        const isIdle = activeFams === 0 && waitingFams === 0;
+        const canTrigger = isIdle || (isAdvanced && Math.random() < 0.25); // 25% chance to allow even if busy starting day 5
+
+        if (canTrigger && (state.time - state.lastRandomEventTime) >= cooldown && Math.random() < prob) {
             triggerRandomEvent();
         }
 

@@ -433,6 +433,10 @@ html, body {
     padding: 12px; 
     backdrop-filter: blur(2px); 
 }
+
+#embalming-content, #crematorium-content {
+    flex: 0 1 auto;
+}
 .embalming-tasks h3 {
     grid-column: span 2;
     margin-bottom: 4px;

@@ -24,8 +24,8 @@
             <p class="title-quote" data-i18n="title.quote">"You don't save lives. You help end them... professionally."</p>
             <div class="title-menu">
                 <div class="lang-selector" style="margin-bottom: 12px; display: flex; gap: 8px;">
-                    <button class="pixel-btn lang-btn" data-lang="en" style="min-width:auto; padding: 8px;">EN</button>
-                    <button class="pixel-btn lang-btn" data-lang="es" style="min-width:auto; padding: 8px;">ES</button>
+                    <button class="pixel-btn lang-btn" data-lang="en" style="min-width:auto; padding: 8px; display:flex; align-items:center; gap: 6px;"><img src="assets/ui/flag_uk.png" style="width: 16px; height: 11px; image-rendering: pixelated;" alt="UK"> EN</button>
+                    <button class="pixel-btn lang-btn" data-lang="es" style="min-width:auto; padding: 8px; display:flex; align-items:center; gap: 6px;"><img src="assets/ui/flag_es.png" style="width: 16px; height: 11px; image-rendering: pixelated;" alt="ES"> ES</button>
                 </div>
                 <button id="btn-new-game" class="pixel-btn pink-btn"><span class="custom-icon" data-icon="skull" style="width:12px;height:12px"></span> <span data-i18n="title.new_game">NEW GAME</span></button>
                 <button id="btn-continue" class="pixel-btn" style="display:none"><span class="custom-icon" data-icon="coffin" style="width:12px;height:12px"></span> <span data-i18n="title.continue">CONTINUE</span></button>
@@ -471,13 +471,13 @@
     <!-- Credits Overlay -->
     <div id="credits-overlay" class="overlay" style="display:none">
         <div class="screen-panel centered-panel">
-            <h2>♱ CREDITS</h2>
+            <h2 data-i18n="credits.title">♱ CREDITS</h2>
             <p class="vt-text">THANATOPRACTOR</p>
-            <p class="vt-text dim">A game about death, paperwork, and terrible coffee.</p>
-            <p class="vt-text">Game Design & Concept: K. Arlón</p>
-            <p class="vt-text">Orator: Iván (he insisted)</p>
-            <p class="vt-text dim">"Life is temporary. Paperwork is eternal."</p>
-            <button class="pixel-btn" id="btn-close-credits">BACK</button>
+            <p class="vt-text dim" data-i18n="credits.desc">A game about death, paperwork, and terrible coffee.</p>
+            <p class="vt-text" data-i18n="credits.design">Game Design & Concept: K. Arlón</p>
+            <p class="vt-text" data-i18n="credits.orator">Orator: Iván (he insisted)</p>
+            <p class="vt-text dim" data-i18n="credits.quote">"Life is temporary. Paperwork is eternal."</p>
+            <button class="pixel-btn" id="btn-close-credits" data-i18n="credits.back">BACK</button>
         </div>
     </div>
 

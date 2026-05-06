@@ -2,9 +2,15 @@
 I18n.register('es', {
 // Title
 'title.tagline': 'Un RPG de Gestión Sobre la Vida en un Tanatorio',
-'title.quote': '"No salvas vidas. Les ayudas a terminar... profesionalmente."',
+'title.quote': '"No salvas vidas, ayudas a terminar con ellas... profesionalmente."',
 'title.new_game': 'NUEVA PARTIDA', 'title.continue': 'CONTINUAR', 'title.credits': 'CRÉDITOS',
 'title.footer': 'DISEÑO Y CONCEPTO POR K. ARLÓN<br>HUMOR NEGRO — CLASIFICADO POR DEATH INC.',
+'credits.title': '♱ CRÉDITOS',
+'credits.desc': 'Un juego sobre la muerte, el papeleo y un café terrible.',
+'credits.design': 'Diseño y Concepto: K. Arlón',
+'credits.orator': 'Orador: Iván (él insistió)',
+'credits.quote': '"La vida es temporal. El papeleo es eterno."',
+'credits.back': 'VOLVER',
 // Name
 'name.title': '¿QUIÉN SE ATREVE A DIRIGIR UNA FUNERARIA?',
 'name.subtitle': 'Introduce tu nombre, futuro tanatopractor:',

@@ -175,11 +175,16 @@ const Rooms = (() => {
                 }},
                 { text: DATA.paperworkExcuses[Math.floor(Math.random() * DATA.paperworkExcuses.length)] + ` ${I18n.T('rec.pw_decline')}`, action: () => {
                     // Dismiss the paperwork task completely
+                    const activePW = s.activePaperwork;
+                    const schedItem = s.schedule.find(item => item.type === 'paperwork' && item.task === activePW && item.triggered);
+                    if (schedItem) schedItem.rejected = true;
+
                     s.activePaperwork = null;
                     Engine.Notifications.clearBadge('reception');
                     Engine.Notifications.clearBadge('paperwork');
                     document.getElementById('btn-paperwork').style.opacity = '1';
                     Engine.showToast(I18n.T('rec.pw_discarded'), '');
+                    if (typeof Main !== 'undefined') Main.updateHubSchedule();
                 }}
             ]);
         };

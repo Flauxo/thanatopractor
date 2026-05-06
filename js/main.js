@@ -51,7 +51,9 @@ window.Main = (() => {
             });
             list.innerHTML = filtered.map(s => {
                 const t = Math.round(s.time), h = Math.floor(t / 60), m = t % 60;
-                return `<div class="schedule-item${s.triggered ? ' completed' : ''}"><span>${h}:${m.toString().padStart(2, '0')}</span><span>${s.desc}</span><span>${s.triggered ? '✓' : '⏳'}</span></div>`;
+                const icon = s.rejected ? '✘' : (s.triggered ? '✓' : '⏳');
+                const cls = s.rejected ? 'rejected' : (s.triggered ? 'completed' : '');
+                return `<div class="schedule-item ${cls}"><span>${h}:${m.toString().padStart(2, '0')}</span><span>${s.desc}</span><span>${icon}</span></div>`;
             }).join('');
         }
     }

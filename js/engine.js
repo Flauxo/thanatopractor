@@ -130,8 +130,6 @@ const Engine = (() => {
         if (s === 0) document.getElementById('btn-pause').classList.add('active');
         else if (s === 1) document.getElementById('btn-play').classList.add('active');
         else document.getElementById('btn-fast').classList.add('active');
-        
-        if (typeof Audio8Bit !== 'undefined') Audio8Bit.updateSpeed();
     }
 
     function tick() {

@@ -5,6 +5,10 @@ const Rooms = (() => {
     function updateActiveRoom() {
         if (activeRoom === 'crematorium') updateCrematorium();
         if (activeRoom === 'cafeteria') showCafeteria();
+        if (activeRoom === 'embalming') {
+            const active = Families.getActive().filter(f => f.arrived && !f.embalmed);
+            if (!embalmTarget && active.length > 0) showEmbalming();
+        }
     }
 
     // ===== RECEPTION =====

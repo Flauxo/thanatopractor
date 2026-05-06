@@ -534,12 +534,17 @@ const Rooms = (() => {
         const s = Engine.getState();
         const order = s.cafeOrders[idx];
         if (!order || order.served) return;
+        
+        const bribe = 100 + Math.floor(Math.random() * 201);
+        
         Dialogue.show(I18n.T('cafe.alcohol_title'), DATA.cafeAlcoholRequests[Math.floor(Math.random() * DATA.cafeAlcoholRequests.length)],
             DATA.cafeAlcoholChoices.map(c => ({
-                text: c.text,
+                text: c.isBribe ? c.text.replace('{bribe}', bribe) : c.text,
                 action: () => {
+                    if (c.isBribe) Engine.addMoney(bribe, 'Alcohol bribe');
+                    else if (c.money) Engine.addMoney(c.money, 'Alcohol-related');
+
                     if (c.rep) Engine.addReputation(c.rep, c.rep > 0 ? 'Handled alcohol request well' : 'Served alcohol illegally');
-                    if (c.money) Engine.addMoney(c.money, 'Alcohol-related');
                     if (c.satisfaction) Families.updateSatisfaction(order.familyId, c.satisfaction, c.satisfaction > 0 ? 'Got what they wanted' : 'Denied alcohol');
                     
                     // Secret inspector logic: if rep is negative, it's alcohol

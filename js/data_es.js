@@ -124,7 +124,7 @@ const DATA_ES = {
     ],
     cafeAlcoholChoices: [
         { text: "\"Lo siento, no se permite alcohol en las instalaciones.\"", rep: 1, money: 0, satisfaction: -5 },
-        { text: "\"Casualmente tengo algo de 'té de hierbas' bajo el mostrador...\" (es vodka)", rep: -2, money: 15, satisfaction: 20 },
+        { text: "\"Casualmente tengo algo de 'té de hierbas' bajo el mostrador... [Soborno: ${bribe}]\"", rep: -5, money: 0, satisfaction: 25, isBribe: true },
         { text: "\"Permítame ofrecerle nuestra 'Mezcla de Consuelo'. Café extra fuerte.\"", rep: 1, money: 2, satisfaction: 5 }
     ],
 

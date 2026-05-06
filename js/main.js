@@ -35,9 +35,20 @@ window.Main = (() => {
         if (sched.length === 0) {
             list.innerHTML = '<p class="dim-text">No appointments yet...</p>';
         } else {
-            list.innerHTML = sched.map(s => {
-                const h = Math.floor(s.time / 60), m = s.time % 60;
-                return `<div class="schedule-item"><span>${h}:${m.toString().padStart(2, '0')}</span><span>${s.desc}</span><span>${s.triggered ? '✓' : '⏳'}</span></div>`;
+            // Sort by time descending (most recent first)
+            const sorted = sched.slice().sort((a, b) => b.time - a.time);
+            // Only show up to 3 completed tasks
+            let completedCount = 0;
+            const filtered = sorted.filter(s => {
+                if (s.triggered) {
+                    completedCount++;
+                    return completedCount <= 3;
+                }
+                return true;
+            });
+            list.innerHTML = filtered.map(s => {
+                const t = Math.round(s.time), h = Math.floor(t / 60), m = t % 60;
+                return `<div class="schedule-item${s.triggered ? ' completed' : ''}"><span>${h}:${m.toString().padStart(2, '0')}</span><span>${s.desc}</span><span>${s.triggered ? '✓' : '⏳'}</span></div>`;
             }).join('');
         }
     }
@@ -66,6 +77,14 @@ window.Main = (() => {
                 startGameplay();
             }
         };
+
+        // Language selector
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.onclick = (e) => {
+                Audio8Bit.SFX.click();
+                I18n.setLanguage(e.target.dataset.lang);
+            };
+        });
 
         document.getElementById('btn-credits').onclick = () => {
             Audio8Bit.init();

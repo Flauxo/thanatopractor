@@ -23,9 +23,13 @@
 
             <p class="title-quote">"You don't save lives. You help end them... professionally."</p>
             <div class="title-menu">
-                <button id="btn-new-game" class="pixel-btn pink-btn"><span class="custom-icon" data-icon="skull" style="width:12px;height:12px"></span> NEW GAME</button>
-                <button id="btn-continue" class="pixel-btn" style="display:none"><span class="custom-icon" data-icon="coffin" style="width:12px;height:12px"></span> CONTINUE</button>
-                <button id="btn-credits" class="pixel-btn dim-btn"><span class="custom-icon" data-icon="cross" style="width:12px;height:12px"></span> CREDITS</button>
+                <div class="lang-selector" style="margin-bottom: 12px; display: flex; gap: 8px;">
+                    <button class="pixel-btn lang-btn" data-lang="en" style="min-width:auto; padding: 8px;">🇬🇧 EN</button>
+                    <button class="pixel-btn lang-btn" data-lang="es" style="min-width:auto; padding: 8px;">🇪🇸 ES</button>
+                </div>
+                <button id="btn-new-game" class="pixel-btn pink-btn"><span class="custom-icon" data-icon="skull" style="width:12px;height:12px"></span> <span data-i18n="title.new_game">NEW GAME</span></button>
+                <button id="btn-continue" class="pixel-btn" style="display:none"><span class="custom-icon" data-icon="coffin" style="width:12px;height:12px"></span> <span data-i18n="title.continue">CONTINUE</span></button>
+                <button id="btn-credits" class="pixel-btn dim-btn"><span class="custom-icon" data-icon="cross" style="width:12px;height:12px"></span> <span data-i18n="title.credits">CREDITS</span></button>
             </div>
             <p class="title-footer">GAME DESIGN & CONCEPT BY K. ARLÓN<br>DARK HUMOR CONTENT — RATED BY DEATH INC.</p>
         </div>
@@ -481,8 +485,12 @@
     <button id="audio-toggle" class="audio-toggle" title="Toggle audio"></button>
 
     <!-- Scripts (loaded in dependency order) -->
+    <script src="js/i18n.js"></script>
+    <script src="js/lang_en.js"></script>
+    <script src="js/lang_es.js"></script>
     <script src="js/icons.js"></script>
     <script src="js/data.js"></script>
+    <script src="js/data_es.js"></script>
     <script src="js/audio.js"></script>
     <script src="js/engine.js"></script>
     <script src="js/families.js"></script>

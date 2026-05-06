@@ -26,20 +26,19 @@ const Rooms = (() => {
         document.getElementById('btn-phone-call').onclick = () => {
             Audio8Bit.SFX.click();
             Engine.Notifications.clearBadge('phone');
-            Dialogue.show('📞 PHONE MENU', 'Who would you like to call today?', [
+            const s = Engine.getState();
+            
+            const phoneChoices = [
                 { text: 'Job Interview ($50)', action: () => {
-                    const s = Engine.getState();
                     if (s.money < 50) { Engine.showToast('Not enough money!', 'danger'); return; }
                     Engine.addMoney(-50, 'Job Interview Call');
                     Engine.showToast('You called a candidate. They heard screaming in the background and hung up.', 'warning');
                 }},
                 { text: 'Order Hearse ($150)', action: () => {
-                    const s = Engine.getState();
                     if (s.money < 150) { Engine.showToast('Not enough money!', 'danger'); return; }
                     
-                    const waitingFams = s.families.filter(f => f.active && f.waitingForTransport);
+                    const waitingFams = s.families.filter(f => f.active && f.waitingForTransport && !f.transportOrdered);
                     if (waitingFams.length === 0) {
-                        if (s.money < 150) { Engine.showToast('Not enough money!', 'danger'); return; }
                         Engine.addMoney(-150, 'Ordered Hearse');
                         Engine.showToast('Hearse ordered. The driver says he\'ll be there "eventually".', 'success');
                         return;
@@ -51,12 +50,11 @@ const Rooms = (() => {
                     Engine.addMoney(-cost, `Ordered ${waitingFams.length} Hearse Transfer(s)`);
                     waitingFams.forEach(f => {
                         f.transportOrdered = true;
-                        // Find the original transport task and update it
                         const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
                         if (task) task.desc = `📦 (Coche pedido en camino) - ${f.deceasedName}`;
                         
                         s.schedule.push({
-                            time: s.time + 60,
+                            time: Math.round(s.time + 60),
                             type: 'hearse_arrival',
                             familyId: f.id,
                             desc: `Hearse is picking up ${f.deceasedName}'s family.`,
@@ -65,17 +63,71 @@ const Rooms = (() => {
                     });
                     Engine.Notifications.clearBadge('reception');
                     Engine.showToast('Hearse(s) ordered. Expect them in 1 hour.', 'success');
-                }},
+                }}
+            ];
+
+            const hasPermanentHearse = Engine.hasUpgrade('hearse');
+            const hasTempHearse = s.temporaryHearseAvailable;
+            const cooldownOver = s.time >= (s.personalHearseCooldown || 0);
+
+            if (hasPermanentHearse || hasTempHearse) {
+                let text = hasPermanentHearse ? '🚗 Use Personal Hearse (Free)' : '🚗 Use Niece\'s Car (Free)';
+                if (!cooldownOver) {
+                    const remaining = Math.ceil((s.personalHearseCooldown - s.time) / 60);
+                    text = `🚗 Car on cooldown (${remaining}h)`;
+                }
+
+                phoneChoices.push({
+                    text: text,
+                    action: () => {
+                        if (!cooldownOver) {
+                            Engine.showToast('The car is currently out doing a transfer!', 'warning');
+                            return;
+                        }
+                        
+                        const waitingFams = s.families.filter(f => f.active && f.waitingForTransport && !f.transportOrdered);
+                        if (waitingFams.length === 0) {
+                            Engine.showToast('No families waiting for transport.', 'warning');
+                            return;
+                        }
+
+                        // Use the car for ONE family
+                        const f = waitingFams[0];
+                        f.transportOrdered = true;
+                        
+                        if (!hasPermanentHearse) {
+                            s.temporaryHearseAvailable = false; // consume single use
+                        }
+                        s.personalHearseCooldown = s.time + 120; // 2 hour cooldown
+
+                        const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
+                        if (task) task.desc = `🚗 (Personal car en route) - ${f.deceasedName}`;
+                        
+                        s.schedule.push({
+                            time: Math.round(s.time + 60),
+                            type: 'hearse_arrival',
+                            familyId: f.id,
+                            desc: `Personal car is picking up ${f.deceasedName}.`,
+                            triggered: false
+                        });
+
+                        Engine.Notifications.clearBadge('reception');
+                        Engine.showToast(`🚗 Car dispatched for ${f.deceasedName}.`, 'success');
+                    }
+                });
+            }
+
+            phoneChoices.push(
                 { text: 'Order Flowers ($50)', action: () => {
-                    const s = Engine.getState();
                     if (s.money < 50) { Engine.showToast('Not enough money!', 'danger'); return; }
                     Engine.addMoney(-50, 'Ordered Flowers');
                     Engine.showToast('Fresh flowers delivered! The viewing room smells slightly less like formaldehyde.', 'success');
-                    // Give a small rep boost
                     Engine.addReputation(2, 'Beautiful fresh flowers');
                 }},
                 { text: 'Nevermind', action: () => {} }
-            ]);
+            );
+
+            Dialogue.show('📞 PHONE MENU', 'Who would you like to call today?', phoneChoices);
         };
         document.getElementById('btn-paperwork').onclick = () => {
             Audio8Bit.SFX.click();
@@ -93,6 +145,12 @@ const Rooms = (() => {
                         if (total >= task.dc) {
                             Engine.addMoney(task.reward, 'Paperwork success');
                             Engine.showToast(`Success! You earned $${task.reward}.`, 'success');
+                            
+                            // Check if this was the niece's car paperwork
+                            if (task.text.includes('sobrina') || task.text.includes('niece')) {
+                                s.temporaryHearseAvailable = true;
+                                Engine.showToast('🚗 You can now use your niece\'s car for a transfer.', 'success');
+                            }
                         } else {
                             Engine.addMoney(task.penalty, 'Paperwork failed');
                             Engine.showToast(`Failure! You lost $${Math.abs(task.penalty)}.`, 'danger');
@@ -127,9 +185,20 @@ const Rooms = (() => {
         if (sched.length === 0) {
             list.innerHTML = '<p class="dim-text">No appointments today</p>';
         } else {
-            list.innerHTML = sched.slice().sort((a, b) => a.time - b.time).map(s => {
-                const h = Math.floor(s.time / 60), m = s.time % 60;
-                return `<div class="schedule-item"><span>${h}:${m.toString().padStart(2,'0')}</span><span>${s.desc}</span><span>${s.triggered ? '✓' : '⏳'}</span></div>`;
+            // Sort by time descending (most recent first)
+            const sorted = sched.slice().sort((a, b) => b.time - a.time);
+            // Only show up to 3 completed tasks
+            let completedCount = 0;
+            const filtered = sorted.filter(s => {
+                if (s.triggered) {
+                    completedCount++;
+                    return completedCount <= 3;
+                }
+                return true;
+            });
+            list.innerHTML = filtered.map(s => {
+                const t = Math.round(s.time), h = Math.floor(t / 60), m = t % 60;
+                return `<div class="schedule-item${s.triggered ? ' completed' : ''}"><span>${h}:${m.toString().padStart(2,'0')}</span><span>${s.desc}</span><span>${s.triggered ? '✓' : '⏳'}</span></div>`;
             }).join('');
         }
     }
@@ -254,7 +323,7 @@ const Rooms = (() => {
                 } else {
                     const s = Engine.getState();
                     s.schedule.push({
-                        time: s.time + 60,
+                        time: Math.round(s.time + 60),
                         type: 'cooldown_done',
                         familyId: embalmTarget.id,
                         desc: (embalmTarget.wantsCremation && Engine.hasUpgrade('crematorium')) 
@@ -365,14 +434,22 @@ const Rooms = (() => {
 
         document.getElementById('btn-shop-buy').onclick = () => {
             const total = Object.keys(SUPPLY_BASE).reduce((sum, k) => sum + prices[k] * quantities[k], 0);
-            if (total === 0) { Engine.showToast('Select at least one item!', 'warning'); return; }
-            if (s.money < total) { Engine.showToast(`Not enough money! Need $${total}.`, 'danger'); return; }
+            if (total === 0) { Engine.showToast(typeof I18n !== 'undefined' ? I18n.T('ov.shop_select') : 'Select at least one item!', 'warning'); return; }
+            if (s.money < total) { Engine.showToast(typeof I18n !== 'undefined' ? I18n.T('ov.shop_no_money', total) : `Not enough money! Need $${total}.`, 'danger'); return; }
 
             Engine.addMoney(-total, 'Supply purchase');
-            Object.keys(SUPPLY_BASE).forEach(k => { s.supplies[k] += quantities[k]; });
+            
+            s.schedule.push({
+                time: Math.round(s.time + 60),
+                type: 'supplies_delivery',
+                supplies: quantities,
+                triggered: false,
+                desc: '📦 Supplies Delivery'
+            });
+
             overlay.style.display = 'none';
             showEmbalming();
-            Engine.showToast('📦 Supplies delivered!', 'success');
+            Engine.showToast('📦 Supplies ordered. Delivery in 1h.', 'success');
         };
     }
 
@@ -510,14 +587,14 @@ const Rooms = (() => {
         if (!f || f.cremated || f.cremationStarted) return;
 
         f.cremationStarted = true;
-        Engine.showToast(`🔥 ${f.deceasedName} se está haciendo cenizas... Tardará 1 hora.`, 'success');
+        Engine.showToast(T('crema.cremating', f.deceasedName), 'success');
         Audio8Bit.SFX.fire();
 
         s.schedule.push({
-            time: s.time + 60,
+            time: Math.round(s.time + 60),
             type: 'cremation_done',
             familyId: f.id,
-            desc: `La cremación de ${f.deceasedName} ha finalizado.`,
+            desc: T('crema.done_desc', f.deceasedName),
             triggered: false,
             temp: s.cremaTemp
         });
@@ -729,7 +806,7 @@ const Rooms = (() => {
         const needsCremation = family.wantsCremation && Engine.hasUpgrade('crematorium') && !family.cremated;
 
         if (needsCremation && family.embalmed && (family.viewed || family.cooldownDone) && !family.cremationWaitingNotified) {
-            Engine.showToast(`🔥 La familia ${family.deceasedName} está esperando la cremación.`, 'warning');
+            Engine.showToast(T('crema.waiting', family.deceasedName), 'warning');
             family.cremationWaitingNotified = true;
             Engine.Notifications.addBadge('crematorium');
         }
@@ -741,7 +818,7 @@ const Rooms = (() => {
                 Engine.Notifications.addBadge('reception');
                 
                 Engine.getState().schedule.push({
-                    time: Engine.getState().time,
+                    time: Math.round(Engine.getState().time),
                     type: 'transport_ready',
                     familyId: family.id,
                     desc: `🚐 Transferir a ${family.deceasedName}`,

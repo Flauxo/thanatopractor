@@ -129,7 +129,7 @@ const Engine = (() => {
 
         // Crematorium temperature logic
         if (state.cremaIgnited && state.cremaFuel > 0) {
-            state.cremaTemp = Math.min(1100, state.cremaTemp + 2 * state.speed);
+            state.cremaTemp = Math.min(1100, state.cremaTemp + 4 * state.speed);
             state.cremaFuel = Math.max(0, state.cremaFuel - 0.02 * state.speed);
             if (state.cremaFuel <= 0) {
                 state.cremaIgnited = false;
@@ -269,6 +269,12 @@ const Engine = (() => {
                         if (event.room) Notifications.addBadge(event.room);
                         if (typeof Rooms !== 'undefined') Rooms.checkServiceComplete(fam);
                     }
+                } else if (event.type === 'supplies_delivery') {
+                    Object.keys(event.supplies).forEach(k => { state.supplies[k] += event.supplies[k]; });
+                    showToast(typeof I18n !== 'undefined' ? I18n.T('ov.shop_delivered') : '📦 Supplies delivered!', 'success');
+                    if (typeof window.Rooms !== 'undefined' && window.Rooms.getActiveRoom() === 'embalming') {
+                        window.Rooms.showEmbalming();
+                    }
                 } else if (event.type === 'hearse_arrival') {
                     if (typeof Families !== 'undefined') Families.completeFamily(event.familyId);
                 } else if (event.type === 'cremation_done') {
@@ -400,7 +406,7 @@ const Engine = (() => {
         if (id === 'viewing3') state.viewingRooms = 3;
         if (id === 'crematorium') {
             state.schedule.push({
-                time: state.time + 1,
+                time: Math.round(state.time) + 1,
                 type: 'arrival',
                 desc: 'A family is here for a cremation service.',
                 triggered: false,

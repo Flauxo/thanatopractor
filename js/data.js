@@ -187,7 +187,14 @@ const DATA = {
         "complications from an allergic reaction to Mondays",
         "fell off a ladder while changing a lightbulb (the lightbulb survived)",
         "spontaneous combustion (allegedly)", "a disagreement with gravity",
-        "too much excitement at a bingo game"
+        "too much excitement at a bingo game", "miscalculation during a leap of faith",
+        "failed attempt to domesticate a badger with a selfie stick",
+        "shock from seeing the electric bill", "mistook the wrong mushroom for a risotto",
+        "ill-timed sneeze while operating a chainsaw", "bite from a radioactive hamster (allegedly)",
+        "choked trying to say 'supercalifragilisticexpialidocious' underwater",
+        "laughing fit while watching someone else's funeral", "allergic reaction to reality",
+        "got locked in a fridge looking for the last yogurt",
+        "impact from a marble-sized meteorite in the left eye"
     ],
 
     // ===== CAFETERIA =====
@@ -299,24 +306,34 @@ const DATA = {
 
     viewingBodyReactions: {
         excellent: [
-            "\"{name} looks... peaceful. Like they're sleeping. Thank you so much.\"",
-            "\"You've done a beautiful job. {name} would have been pleased. Well... you know what I mean.\""
+            "{name} looks... at peace. Like they're just sleeping. Thank you so much.",
+            "You've done a beautiful job. {name} would have loved it. Well... you know.",
+            "{name} looks ready to party. What a bodywork and paint job!",
+            "Incredible. I swear I saw {name} wink at me. Great job!"
         ],
         good: [
-            "\"{name} looks good. A bit waxy maybe, but good.\"",
-            "\"That's... mostly how I remember them. Close enough.\""
+            "{name} looks good. A bit sallow perhaps, but good.",
+            "That's... more or less how I remember them. Fairly close.",
+            "He looks... acceptable. {name} was never a runway model, but you did what you could.",
+            "Pretty good. At least his jaw doesn't fall off like old man Garcia's."
         ],
         mediocre: [
-            "\"Is {name} supposed to look that... orange?\"",
-            "\"Something seems off. Did {name} always have that expression?\""
+            "Is {name} supposed to be that... orange?",
+            "Something feels off. Did {name} always have that expression?",
+            "Was {name} always this... grayish? He looks like he's out of a 1920s movie.",
+            "Well, at least he's presentable. If you squint really hard, it looks like him."
         ],
         bad: [
-            "\"WHAT HAVE YOU DONE TO {name}?! They look like a haunted doll!\"",
-            "\"I'm going to need therapy after seeing this. A LOT of therapy.\""
+            "WHAT DID YOU DO TO {name}?! They look like a cursed doll!",
+            "I'm going to need therapy after seeing this. A LOT of therapy.",
+            "My goodness! {name} looks like he fought a makeup jar and lost.",
+            "Why does {name} have that sinister smile? It's giving me the creeps."
         ],
         catastrophic: [
-            "\"IS THAT EVEN {name}?! OH GOD!\" *screaming and crying*",
-            "\"I will sue this place into the GROUND. My lawyer is on speed dial!\""
+            "IS THAT EVEN {name}?! OH GOD! *screaming and crying*",
+            "I'm going to sue this place into THE GROUND! I have my lawyer on speed dial!",
+            "WHAT IS THIS?! He looks like a badly made lasagna! Sacrilege!",
+            "Call the exorcist! You've turned {name} into something not of this world!"
         ]
     },
 

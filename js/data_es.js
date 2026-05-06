@@ -106,7 +106,15 @@ const DATA_ES = {
         "complicaciones por una reacción alérgica a los lunes",
         "se cayó de una escalera cambiando una bombilla (la bombilla sobrevivió)",
         "combustión espontánea (supuestamente)", "un desacuerdo con la gravedad",
-        "demasiada emoción en el bingo"
+        "demasiada emoción en el bingo", "error de cálculo en un salto de fe",
+        "intento fallido de domesticar un tejón con un palo de selfie",
+        "shock al ver los precios de la luz", "se confundió de seta en el risotto",
+        "un estornudo inoportuno mientras manejaba una motosierra",
+        "mordedura de hámster radioactivo (supuestamente)",
+        "se atragantó intentando decir 'supercalifragilisticoespialidodoso' bajo el agua",
+        "ataque de risa viendo un funeral ajeno", "reacción alérgica a la realidad",
+        "se quedó encerrado en una nevera buscando el último yogur",
+        "impacto de un meteorito del tamaño de una canica en el ojo izquierdo"
     ],
 
     // ===== CAFETERIA =====
@@ -217,23 +225,33 @@ const DATA_ES = {
     viewingBodyReactions: {
         excellent: [
             "\"{name} se ve... en paz. Como si estuviera durmiendo. Muchas gracias.\"",
-            "\"Habéis hecho un trabajo precioso. A {name} le habría encantado. Bueno... ya me entiendes.\""
+            "\"Habéis hecho un trabajo precioso. A {name} le habría encantado. Bueno... ya me entiendes.\"",
+            "\"{name} parece listo para irse de fiesta. ¡Menudo trabajo de chapa y pintura!\"",
+            "\"Es increíble. Juro que he visto a {name} guiñarme un ojo. ¡Gran trabajo!\""
         ],
         good: [
             "\"{name} se ve bien. Un poco cetrino quizás, pero bien.\"",
-            "\"Así es... más o menos como le recuerdo. Bastante parecido.\""
+            "\"Así es... más o menos como le recuerdo. Bastante parecido.\"",
+            "\"Se ve... aceptable. {name} nunca fue un modelo de pasarela, pero habéis hecho lo que habéis podido.\"",
+            "\"Bastante bien. Al menos no se le cae la mandíbula como al abuelo de los García.\""
         ],
         mediocre: [
             "\"¿Se supone que {name} tiene que estar tan... naranja?\"",
-            "\"Algo parece raro. ¿{name} siempre tuvo esa expresión?\""
+            "\"Algo parece raro. ¿{name} siempre tuvo esa expresión?\"",
+            "\"¿{name} siempre fue tan... grisáceo? Parece que lo habéis sacado de una película de los años 20.\"",
+            "\"Bueno, al menos está presentable. Si cierras mucho los ojos, se parece a él.\""
         ],
         bad: [
             "\"¡¿QUÉ LE HABÉIS HECHO A {name}?! ¡Parece un muñeco maldito!\"",
-            "\"Voy a necesitar terapia después de ver esto. MUCHA terapia.\""
+            "\"Voy a necesitar terapia después de ver esto. MUCHA terapia.\"",
+            "\"¡Madre mía! {name} parece que ha tenido una pelea con un bote de maquillaje y ha perdido.\"",
+            "\"¿Por qué tiene {name} esa sonrisa tan siniestra? Me está dando escalofríos.\""
         ],
         catastrophic: [
             "\"¡¿ESE ES SIQUIERA {name}?! ¡OH DIOS!\" *gritos y lloros*",
-            "\"¡Voy a demandar a este lugar hasta ARRUINAROS! ¡Tengo a mi abogado en marcado rápido!\""
+            "\"¡Voy a demandar a este lugar hasta ARRUINAROS! ¡Tengo a mi abogado en marcado rápido!\"",
+            "\"¡¿PERO QUÉ ES ESTO?! ¡Parece una lasaña mal hecha! ¡Sacrílegos!\"",
+            "\"¡Llamad al exorcista! ¡Habéis convertido a {name} en algo que no es de este mundo!\""
         ]
     },
 

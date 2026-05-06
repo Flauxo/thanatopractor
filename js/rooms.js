@@ -205,40 +205,12 @@ const Rooms = (() => {
                 }}
             ]);
         };
-        document.getElementById('btn-upgrades-shortcut').onclick = () => {
-            Audio8Bit.SFX.click();
-            Main.showScreen('office');
-        };
     }
 
     function showReception() {
         activeRoom = 'reception';
         // Removed auto-clear of reception badge. Now it clears only when sub-badges are empty.
         Engine.Notifications.updateReceptionBadge(); 
-        const list = document.getElementById('appointment-list');
-        const sched = Engine.getState().schedule;
-        if (sched.length === 0) {
-            list.innerHTML = `<p class="dim-text">${I18n.T('rec.no_appointments')}</p>`;
-        } else {
-            // Sort: Future tasks first (earliest to latest), then Past tasks (latest to earliest)
-            const sorted = sched.slice().sort((a, b) => {
-                if (a.triggered !== b.triggered) return a.triggered ? 1 : -1;
-                return a.triggered ? b.time - a.time : a.time - b.time;
-            });
-            // Only show up to 3 completed tasks
-            let completedCount = 0;
-            const filtered = sorted.filter(s => {
-                if (s.triggered) {
-                    completedCount++;
-                    return completedCount <= 3;
-                }
-                return true;
-            });
-            list.innerHTML = filtered.map(s => {
-                const t = Math.round(s.time), h = Math.floor(t / 60), m = t % 60;
-                return `<div class="schedule-item${s.triggered ? ' completed' : ''}"><span>${h}:${m.toString().padStart(2,'0')}</span><span>${s.desc}</span><span>${s.triggered ? '✓' : '⏳'}</span></div>`;
-            }).join('');
-        }
     }
 
     // ===== EMBALMING =====

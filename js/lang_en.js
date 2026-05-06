@@ -286,4 +286,6 @@ I18n.register('en', {
 'dlg.male': 'Male', 'dlg.female': 'Female',
 'dlg.needs_embalming': '🧪 {0} needs embalming!',
 'dlg.family_title': "Family of {0}",
+'eng.alert_18_title': 'ALERT!',
+'eng.alert_18_msg': 'Quick, finish all your tasks, the funeral home closes in 2 hours!',
 });

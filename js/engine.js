@@ -29,6 +29,7 @@ const Engine = (() => {
         activePaperwork: null,
         pendingArrivals: 0,
         dayEndPrompted: false,
+        alert18Shown: false,
         lastActivityTime: 480,
         lastRandomEventTime: 0,
         chapelTutorialShown: false,
@@ -199,6 +200,19 @@ const Engine = (() => {
 
 
 
+        // Daily 18:00h alert
+        const currentTotalMinutes = Math.floor(state.time);
+        if (currentTotalMinutes === 1080 && !state.alert18Shown) {
+            state.alert18Shown = true;
+            if (typeof Dialogue !== 'undefined') {
+                Dialogue.show(
+                    I18n.T('eng.alert_18_title'), 
+                    I18n.T('eng.alert_18_msg'),
+                    [{ text: "OK" }]
+                );
+            }
+        }
+
         // Prompt for early sleep if all tasks done
         if (!state.dayEndPrompted && state.time >= 1020) { // After 5:00 PM
             const remainingArrivals = state.schedule.filter(s => s.type === 'arrival' && !s.triggered).length;
@@ -241,6 +255,7 @@ const Engine = (() => {
         state.schedule = [];
         state.dayEvents = [];
         state.dayEndPrompted = false;
+        state.alert18Shown = false;
         state.lastActivityTime = 480;
         state.alcoholServedToday = 0;
         

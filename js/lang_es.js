@@ -302,4 +302,6 @@ I18n.register('es', {
 'emb.quality_title': 'Calidad del embalsamamiento: {0}',
 'dlg.random_event': '📢 EVENTO ALEATORIO',
 'rec.transfer_ready': '🚐 Transferir a {0}',
+'eng.alert_18_title': '¡ALERTA!',
+'eng.alert_18_msg': '¡Rápido, termina todas tus tareas, el tanatorio cierra en 2 horas!',
 });

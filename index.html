@@ -24,8 +24,24 @@
             <p class="title-quote" data-i18n="title.quote">"You don't save lives. You help end them... professionally."</p>
             <div class="title-menu">
                 <div class="lang-selector" style="margin-bottom: 12px; display: flex; gap: 8px;">
-                    <button class="pixel-btn lang-btn" data-lang="en" style="min-width:auto; padding: 8px; display:flex; align-items:center; gap: 6px;"><img src="assets/ui/flag_uk.png" style="width: 16px; height: 11px; image-rendering: pixelated;" alt="UK"> EN</button>
-                    <button class="pixel-btn lang-btn" data-lang="es" style="min-width:auto; padding: 8px; display:flex; align-items:center; gap: 6px;"><img src="assets/ui/flag_es.png" style="width: 16px; height: 11px; image-rendering: pixelated;" alt="ES"> ES</button>
+                    <button class="pixel-btn lang-btn" data-lang="en" style="min-width:auto; padding: 8px; display:flex; align-items:center; gap: 6px;">
+                        <svg width="16" height="11" viewBox="0 0 16 11" xmlns="http://www.w3.org/2000/svg" style="image-rendering: pixelated;">
+                            <rect width="16" height="11" fill="#012169"/>
+                            <path d="M0,0 L16,11 M16,0 L0,11" stroke="#fff" stroke-width="2"/>
+                            <path d="M0,0 L16,11 M16,0 L0,11" stroke="#C8102E" stroke-width="1"/>
+                            <path d="M8,0 L8,11 M0,5.5 L16,5.5" stroke="#fff" stroke-width="3"/>
+                            <path d="M8,0 L8,11 M0,5.5 L16,5.5" stroke="#C8102E" stroke-width="2"/>
+                        </svg>
+                        EN
+                    </button>
+                    <button class="pixel-btn lang-btn" data-lang="es" style="min-width:auto; padding: 8px; display:flex; align-items:center; gap: 6px;">
+                        <svg width="16" height="11" viewBox="0 0 16 11" xmlns="http://www.w3.org/2000/svg" style="image-rendering: pixelated;">
+                            <rect width="16" height="3" y="0" fill="#AA151B"/>
+                            <rect width="16" height="5" y="3" fill="#F1BF00"/>
+                            <rect width="16" height="3" y="8" fill="#AA151B"/>
+                        </svg>
+                        ES
+                    </button>
                 </div>
                 <button id="btn-new-game" class="pixel-btn pink-btn"><span class="custom-icon" data-icon="skull" style="width:12px;height:12px"></span> <span data-i18n="title.new_game">NEW GAME</span></button>
                 <button id="btn-continue" class="pixel-btn" style="display:none"><span class="custom-icon" data-icon="coffin" style="width:12px;height:12px"></span> <span data-i18n="title.continue">CONTINUE</span></button>

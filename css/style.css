@@ -107,8 +107,8 @@ html, body {
 .game-title .pink { color: var(--accent-bright); }
 .tagline {
     font-family: var(--font-pixel); font-size: clamp(7px, 2vw, 10px);
-    color: var(--text-dim); margin-bottom: 40px;
-    line-height: 1.5;
+    color: var(--text-dim); margin-bottom: 60px;
+    line-height: 24px;
     text-shadow: 2px 2px 2px #000;
 }
 .title-skull { font-size: 64px; margin: 16px 0; }

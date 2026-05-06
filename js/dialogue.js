@@ -98,7 +98,6 @@ const Dialogue = (() => {
                 { text: I18n.T('dlg.understood'), action: () => {
                     family.arrived = true;
                     Engine.Notifications.addBadge('embalming');
-                    Engine.showToast(I18n.T('dlg.needs_embalming', family.deceasedName), '');
                     Families.updateFamiliesLog();
                     Engine.save();
                     if (window.Main && window.Main.showScreen) {

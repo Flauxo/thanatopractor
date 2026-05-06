@@ -356,8 +356,12 @@ html, body {
 .time-btn:hover { color: var(--accent-bright); }
 
 /* ===== ROOM SCREENS ===== */
-.room-screen { background: var(--bg-darkest); }
-#reception-screen { background: url('../assets/scenes/title.png') center/cover no-repeat; image-rendering: pixelated; }
+.room-screen { background: var(--bg-darkest); overflow: hidden; }
+#reception-screen { 
+    background: linear-gradient(180deg, transparent 0%, transparent 40%, rgba(10,6,16,0.85) 70%, rgba(10,6,16,0.95) 100%), 
+                url('../assets/scenes/title.png') center/cover no-repeat; 
+    image-rendering: pixelated; 
+}
 #embalming-screen { background: url('../assets/scenes/embalming.png') center/cover no-repeat; image-rendering: pixelated; }
 #cafeteria-screen { background: url('../assets/scenes/cafeteria.png') center/cover no-repeat; image-rendering: pixelated; }
 #crematorium-screen { background: url('../assets/scenes/crematorium.png') center/cover no-repeat; image-rendering: pixelated; }
@@ -395,15 +399,6 @@ html, body {
     border: 2px solid var(--bg-panel-border);
     border-radius: 12px;
 }
-#cafeteria-content {
-    flex: 0 1 auto;
-    background: rgba(10, 6, 16, 0.45);
-    backdrop-filter: blur(4px);
-    margin: auto;
-    width: 95%;
-    max-width: 420px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-}
 .room-content h3 {
     font-family: var(--font-pixel); font-size: 8px;
     color: var(--accent-pink); margin-bottom: 8px;
@@ -434,7 +429,7 @@ html, body {
     backdrop-filter: blur(2px); 
 }
 
-#reception-screen .room-content, #embalming-content, #crematorium-content, #chapel-content {
+#reception-screen .room-content, #embalming-content, #crematorium-content, #chapel-content, #cafeteria-content {
     flex: 0 1 auto;
     margin: auto;
     width: 95%;

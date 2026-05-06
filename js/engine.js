@@ -524,6 +524,14 @@ const Engine = (() => {
     // ===== TOAST =====
     function showToast(msg, type) {
         const container = document.getElementById('toast-container');
+        if (!container) return;
+
+        // Prevent stacking of identical toasts
+        const existing = Array.from(container.children).find(t => t.querySelector('span')?.innerHTML === msg);
+        if (existing) {
+            existing.remove();
+        }
+
         const toast = document.createElement('div');
         toast.className = `toast ${type || ''}`;
         

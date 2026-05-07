@@ -288,7 +288,7 @@ I18n.register('en', {
 'crema.btn_cremate': '🔥 CREMATE',
 'rec.niece_desc': '🚗 Your niece can take one body for free.',
 'crema.ready_desc': '{0} is ready for cremation.',
-'rec.arrival_pickup': 'Family of {0} arrived for pick-up.',
+'rec.arrival_pickup': 'Request hearse transfer for {0}',
 'cafe.inspector_title': '🚨 HEALTH INSPECTOR',
 'cafe.inspector_msg': 'Stop right there! I am a secret health inspector. You have been caught serving illegal alcohol multiple times today. This establishment is closed until further notice!',
 'cafe.inspector_ok': 'UNDERSTOOD',

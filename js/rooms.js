@@ -542,9 +542,12 @@ const Rooms = (() => {
             Families.updateSatisfaction(order.familyId, satBonus, `Cafeteria: ${order.item.item}`);
             
             const fam = Families.getById(order.familyId);
-            if (fam) fam.services.push(order.item.item);
+            if (fam) {
+                const cafeName = I18n.T('nav.cafeteria');
+                if (!fam.services.includes(cafeName)) fam.services.push(cafeName);
+            }
             
-            if (quality >= 1) Audio8Bit.SFX.success();
+            Audio8Bit.SFX.success();
             showCafeteria();
         });
     }
@@ -576,7 +579,10 @@ const Rooms = (() => {
                             
                             order.served = true;
                             const fam = Families.getById(order.familyId);
-                            if (fam) fam.services.push(I18n.T('cafe.alcohol_request'));
+                            if (fam) {
+                                const cafeName = I18n.T('nav.cafeteria');
+                                if (!fam.services.includes(cafeName)) fam.services.push(cafeName);
+                            }
                             
                             checkInspector(s);
                             showCafeteria();

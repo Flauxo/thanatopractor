@@ -11,7 +11,7 @@ const DATA_ES = {
         { id: "pastafarian", name: "Pastafari", icon: "🍝" },
         { id: "satanist", name: "Satanista LaVeyano", icon: "🐐" },
         { id: "caffeinated", name: "Orden del Cafeinado", icon: "☕" },
-        { id: "rng", name: "Culto al RNG", icon: "🎲" },
+        { id: "rpg", name: "Culto al RPG", icon: "🎲" },
         { id: "nap", name: "Iglesia de la Siesta Final", icon: "⚰" },
         { id: "void", name: "Hijos del Vacío", icon: "💀" },
         { id: "jedi", name: "Orden Jedi", icon: "⚔️" },
@@ -225,12 +225,12 @@ const DATA_ES = {
             ],
             name: "Rito Cafeinado"
         },
-        rng: {
+        rpg: {
             correct: [
                 "\"Por la suerte de los dados, {name} ha sido llamado. Sus HP cayeron a cero y el Clérigo no tenía más hechizos.\"",
-                "\"{name} vivía por la tirada. Por desgracia, su última tirada de salvación fue un 1 natural. Honramos su hoja de personaje.\""
+                "\"| {name} vivía por la tirada. Por desgracia, su última tirada de salvación fue un 1 natural. Honramos su hoja de personaje.\""
             ],
-            name: "Servicio RNG"
+            name: "Servicio RPG"
         },
         nap: {
             correct: [

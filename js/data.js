@@ -11,7 +11,7 @@ const DATA = {
         { id: "pastafarian", name: "Pastafarian", icon: "🍝" },
         { id: "satanist", name: "LaVeyan Satanist", icon: "🐐" },
         { id: "caffeinated", name: "Order of the Caffeinated", icon: "☕" },
-        { id: "rng", name: "Cult of the RNG", icon: "🎲" },
+        { id: "rpg", name: "Cult of the RPG", icon: "🎲" },
         { id: "nap", name: "Church of the Final Nap", icon: "⚰" },
         { id: "void", name: "Children of the Void", icon: "💀" },
         { id: "jedi", name: "Jedi Order", icon: "⚔️" },
@@ -225,12 +225,12 @@ const DATA = {
             ],
             name: "Caffeinated Rite"
         },
-        rng: {
+        rpg: {
             correct: [
                 "\"By the luck of the dice, {name} has been called away. Their HP dropped to zero, and the Cleric was out of spell slots.\"",
                 "\"{name} lived by the roll. Unfortunately, their last saving throw was a natural 1. We honor their character sheet.\""
             ],
-            name: "RNG Service"
+            name: "RPG Service"
         },
         nap: {
             correct: [

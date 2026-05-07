@@ -474,21 +474,36 @@ const DATA = {
 
     // ===== PAPERWORK TASKS =====
     paperworkTasks: [
-        { text: "Try to pay the florist less money than the actual bill.", dc: 12, reward: 100, penalty: -50 },
-        { text: "Bill speaker Ivan's expenses to the insurance company.", dc: 15, reward: 200, penalty: 0 },
-        { text: "Use your niece's car as a hearse to save money.", dc: 10, reward: 150, penalty: -100, repPenalty: -5 },
-        { text: "Hire a cleaning crew that looks suspiciously underage.", dc: 8, reward: 50, penalty: -150, repPenalty: -10 },
-        { text: "Sign all the papers on the desk without reading them.", dc: 5, reward: 50, penalty: -200, repPenalty: -20 },
-        { text: "Convince the formaldehyde supplier you already paid last month.", dc: 16, reward: 120, penalty: 0 },
-        { text: "Sell the most expensive urn by claiming it is gold-plated.", dc: 13, reward: 250, penalty: -150, repPenalty: -15 },
-        // Trade-offs & Random Humor
-        { text: "Extract gold teeth from the incinerator 'for recycling'.", dc: 14, reward: 400, penalty: 0, repReward: -15, repPenalty: -25 },
-        { text: "Water down the formaldehyde chemicals with cheap gin.", dc: 12, reward: 300, penalty: -100, repReward: -10, repPenalty: -15 },
-        { text: "Donate to the 'Widows of Fallen Morticians' charity.", dc: 6, reward: -400, penalty: -500, repReward: 20, repPenalty: 0 },
-        { text: "Organize a 'bring your own body' discount weekend.", dc: 17, reward: 600, penalty: 0, repReward: -30, repPenalty: -15 },
-        { text: "Hire a professional 'hyper-mourner' to boost the atmosphere.", dc: 9, reward: -200, penalty: -300, repReward: 12, repPenalty: -5 },
-        { text: "Recycle the 'single-use' funeral outfits from last week.", dc: 11, reward: 250, penalty: -150, repReward: -15, repPenalty: -25 },
-        { text: "Convince a family that ghosts are actually 'premium features'.", dc: 18, reward: 500, penalty: -200, repReward: -5, repPenalty: -15 }
+        { id: "pw_florist", dc: 12, reward: 100, penalty: -50 },
+        { id: "pw_ivan", dc: 15, reward: 200, penalty: 0 },
+        { id: "pw_niece", dc: 10, reward: 150, penalty: -100, repPenalty: -5 },
+        { id: "pw_cleaning", dc: 8, reward: 50, penalty: -150, repPenalty: -10 },
+        { id: "pw_sign", dc: 5, reward: 50, penalty: -200, repPenalty: -20 },
+        { id: "pw_formal", dc: 16, reward: 120, penalty: 0 },
+        { id: "pw_urn", dc: 13, reward: 250, penalty: -150, repPenalty: -15 },
+        { id: "pw_teeth", dc: 14, reward: 400, penalty: 0, repReward: -15, repPenalty: -25 },
+        { id: "pw_gin", dc: 12, reward: 300, penalty: -100, repReward: -10, repPenalty: -15 },
+        { id: "pw_charity", dc: 6, reward: -400, penalty: -500, repReward: 20, repPenalty: 0 },
+        { id: "pw_weekend", dc: 17, reward: 600, penalty: 0, repReward: -30, repPenalty: -15 },
+        { id: "pw_mourner", dc: 9, reward: -200, penalty: -300, repReward: 12, repPenalty: -5 },
+        { id: "pw_outfits", dc: 11, reward: 250, penalty: -150, repReward: -15, repPenalty: -25 },
+        { id: "pw_ghosts", dc: 18, reward: 500, penalty: -200, repReward: -5, repPenalty: -15 },
+        // NEW TASKS
+        { id: "pw_used_coffin", dc: 12, reward: 300, penalty: -100, repPenalty: -10 },
+        { id: "pw_gym", dc: 10, reward: 100, penalty: -50, repPenalty: -2 },
+        { id: "pw_reggaeton", dc: 16, reward: 150, penalty: -100, repReward: 10, repPenalty: -15 },
+        { id: "pw_scare", dc: 8, reward: 200, penalty: 0, repPenalty: -5 },
+        { id: "pw_celestial", dc: 11, reward: 150, penalty: -50, repPenalty: -12 },
+        { id: "pw_ivan_support", dc: 14, reward: 400, penalty: -200, repPenalty: -5 },
+        { id: "pw_2x1", dc: 15, reward: 500, penalty: 0, repPenalty: -20 },
+        { id: "pw_ganges", dc: 13, reward: 350, penalty: -150, repPenalty: -25 },
+        { id: "pw_youth", dc: 9, reward: 250, penalty: -300, repPenalty: -10 },
+        { id: "pw_fridge", dc: 17, reward: 600, penalty: -100, repPenalty: -15 },
+        { id: "pw_organic", dc: 10, reward: 120, penalty: -50, repPenalty: -5 },
+        { id: "pw_selfie", dc: 12, reward: 180, penalty: -80, repPenalty: -10 },
+        { id: "pw_air", dc: 7, reward: 50, penalty: 0, repPenalty: -2 },
+        { id: "pw_viking", dc: 14, reward: 100, penalty: -200, repPenalty: -15 },
+        { id: "pw_insurance", dc: 18, reward: 800, penalty: -400, repPenalty: -30 }
     ],
 
     paperworkExcuses: [

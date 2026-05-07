@@ -172,7 +172,8 @@ const Rooms = (() => {
             }
 
             const task = s.activePaperwork;
-            Dialogue.show(I18n.T('rec.pw_title'), `${task.text}\n\n${I18n.T('rec.pw_dc', task.dc)}`, [
+            const taskText = I18n.T(task.id);
+            Dialogue.show(I18n.T('rec.pw_title'), `${taskText}\n\n${I18n.T('rec.pw_dc', task.dc)}`, [
                 { text: I18n.T('rec.pw_roll'), action: () => {
                     Engine.rollD20(0, (roll, total, result) => {
                         if (total >= task.dc) {
@@ -181,7 +182,7 @@ const Rooms = (() => {
                             Engine.showToast(I18n.T('rec.pw_success', task.reward), 'success');
                             
                             // Check if this was the niece's car paperwork
-                            if (task.text.includes('sobrina') || task.text.includes('niece')) {
+                            if (task.id === 'pw_niece') {
                                 s.temporaryHearseAvailable = true;
                                 Engine.showToast(I18n.T('rec.niece_desc'), 'success');
                             }

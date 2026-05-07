@@ -242,7 +242,11 @@ const Engine = (() => {
         // Hub Badge for Reception
         if (waitingFams > 0 || state.activePaperwork) {
             Notifications.addBadge('reception', true);
-            if (waitingFams > 0) Notifications.addBadge('phone', true);
+            // Persistent Phone/Hearse badge if transport is needed
+            if (waitingFams > 0) {
+                const badge = document.getElementById('badge-phone');
+                if (badge) badge.style.display = 'flex';
+            }
         }
 
 
@@ -292,8 +296,12 @@ const Engine = (() => {
         }
     }
 
-    function endDay() {
+    async function endDay() {
         stopTime();
+
+        // Music fade out 1s before transition
+        if (typeof Audio8Bit !== 'undefined') Audio8Bit.fadeOut(1.0);
+        await new Promise(r => setTimeout(r, 1000));
 
         // Disposal logic: bodies left in crematorium (not finished) disappear
         const discarded = state.families.filter(f => f.active && f.wantsCremation && !f.cremated);
@@ -304,7 +312,10 @@ const Engine = (() => {
             });
             Engine.showToast(I18n.T('crema.disposal_warning'), 'danger');
         }
+        nextDay();
+    }
 
+    function nextDay() {
         state.day++;
         state.time = 480;
         state.cremaTemp = 20;
@@ -338,11 +349,13 @@ const Engine = (() => {
                 if (typeof Main !== 'undefined') Main.showScreen('hub');
                 generateDailySchedule();
                 startTime();
+                if (typeof Audio8Bit !== 'undefined') Audio8Bit.fadeIn(1.5);
             }, 3000);
         } else {
             if (typeof Main !== 'undefined') Main.showScreen('hub');
             generateDailySchedule();
             startTime();
+            if (typeof Audio8Bit !== 'undefined') Audio8Bit.fadeIn(1.0);
         }
     }
 

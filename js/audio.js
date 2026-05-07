@@ -461,8 +461,24 @@ const Audio8Bit = (() => {
     function toggleMute() {
         if (!ctx) return;
         muted = !muted;
-        masterGain.gain.value = muted ? 0 : 0.6;
+        masterGain.gain.cancelScheduledValues(ctx.currentTime);
+        masterGain.gain.linearRampToValueAtTime(muted ? 0 : 0.6, ctx.currentTime + 0.1);
         return muted;
+    }
+
+    function fadeOut(duration = 1.0) {
+        if (!ctx || !masterGain || muted) return;
+        const t = ctx.currentTime;
+        masterGain.gain.cancelScheduledValues(t);
+        masterGain.gain.linearRampToValueAtTime(0, t + duration);
+    }
+
+    function fadeIn(duration = 1.0) {
+        if (!ctx || !masterGain || muted) return;
+        const t = ctx.currentTime;
+        masterGain.gain.cancelScheduledValues(t);
+        masterGain.gain.setValueAtTime(0, t);
+        masterGain.gain.linearRampToValueAtTime(0.6, t + duration);
     }
 
     function updateSpeed() {
@@ -508,7 +524,7 @@ const Audio8Bit = (() => {
     }
 
     return {
-        init, SFX, playTrack, stopMusic, nextTrack, toggleMute, updateSpeed,
+        init, SFX, playTrack, stopMusic, nextTrack, toggleMute, updateSpeed, fadeOut, fadeIn,
         get muted() { return muted; },
         get initialized() { return initialized; }
     };

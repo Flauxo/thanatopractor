@@ -734,6 +734,10 @@ html, body {
     animation: levelup-pop 0.4s ease-out;
 }
 .cafe-game-panel h2 { font-family: var(--font-pixel); font-size: 14px; margin-bottom: 15px; color: var(--accent-bright); }
+.cafe-tutorial {
+    font-family: var(--font-vt); font-size: 20px; color: var(--text-dim);
+    margin-bottom: 10px; line-height: 1.2;
+}
 #cafe-game-container {
     background: #0f0a1a; border: 2px solid var(--bg-panel-border);
     border-radius: 8px; margin: 15px 0; padding: 20px;

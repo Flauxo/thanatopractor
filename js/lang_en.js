@@ -85,6 +85,11 @@ I18n.register('en', {
 // Cafeteria
 'cafe.title': 'CAFETERIA', 'cafe.subtitle': 'For the living, too.',
 'cafe.menu': '☕ DEADLY GOOD MENU', 'cafe.orders': '📝 ORDERS',
+'cafe.pour': 'POUR', 'cafe.steep': 'STEEP!', 'cafe.preparing': 'PREPARING {0}',
+'cafe.tut_pour': 'Hold to fill the cup. Release in the target zone!',
+'cafe.tut_steep': 'Click when the bag is at the bottom. Do it 3 times!',
+'cafe.tut_assemble': 'Click the ingredients in the correct order!',
+'cafe.tut_decorate': 'Watch the pattern and repeat it!',
 'cafe.satisfaction': '😊 SATISFACTION', 'cafe.no_orders': 'No active orders right now.',
 'cafe.no_orders_yet': 'No orders yet', 'cafe.served': 'Served',
 'cafe.alcohol_title': '🍺 ALCOHOL REQUEST', 'cafe.alcohol_request': 'Alcohol request',

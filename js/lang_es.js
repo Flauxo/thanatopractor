@@ -91,6 +91,11 @@ I18n.register('es', {
 // Cafeteria
 'cafe.title': 'CAFETERÍA', 'cafe.subtitle': 'También para los vivos.',
 'cafe.menu': '☕ MENÚ MORTALMENTE BUENO', 'cafe.orders': '📝 PEDIDOS',
+'cafe.pour': 'Echar', 'cafe.steep': '¡Infusionar!', 'cafe.preparing': 'PREPARANDO {0}',
+'cafe.tut_pour': 'Mantén pulsado para llenar. ¡Suelta en la zona marcada!',
+'cafe.tut_steep': 'Pulsa cuando la bolsa esté en el fondo. ¡Hazlo 3 veces!',
+'cafe.tut_assemble': 'Pulsa los ingredientes en el orden correcto.',
+'cafe.tut_decorate': 'Observa el patrón y repítelo.',
 'cafe.satisfaction': '😊 SATISFACCIÓN', 'cafe.no_orders': 'Sin pedidos activos ahora mismo.',
 'cafe.no_orders_yet': 'Sin pedidos aún', 'cafe.served': 'Servido',
 'cafe.alcohol_title': '🍺 PETICIÓN DE ALCOHOL', 'cafe.alcohol_request': 'Petición de alcohol',

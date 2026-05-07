@@ -26,25 +26,36 @@ const CafeGames = (() => {
         const controls = document.getElementById('cafe-game-controls');
         const feedback = document.getElementById('cafe-game-feedback');
         const closeBtn = document.getElementById('btn-cafe-game-close');
+        const tutorial = document.getElementById('cafe-game-tutorial');
 
         overlay.style.display = 'flex';
         closeBtn.style.display = 'none';
         feedback.textContent = '';
         controls.innerHTML = '';
         container.innerHTML = '';
+        tutorial.textContent = '';
         
         const itemName = item.type === 'alcohol' ? 'ALCOHOL' : item.item.item.toUpperCase();
-        title.textContent = `PREPARING ${itemName}`;
+        title.textContent = I18n.T('cafe.preparing').replace('{0}', itemName);
 
-        if (item.type === 'alcohol' || item.item.item === 'Coffee') {
-            startPourGame(item);
-        } else if (item.item.item === 'Tea') {
-            startSteepGame(item);
-        } else if (item.item.item === 'Sandwich') {
-            startAssemblyGame(item);
-        } else if (item.item.item === 'Soul Cake') {
-            startGridGame(item);
+        const state = Engine.getState();
+        state.cafeTutorials = state.cafeTutorials || {};
+
+        let gameType = '';
+        if (item.type === 'alcohol' || item.item.item === 'Coffee') gameType = 'pour';
+        else if (item.item.item === 'Tea') gameType = 'steep';
+        else if (item.item.item === 'Sandwich') gameType = 'assemble';
+        else if (item.item.item === 'Soul Cake') gameType = 'decorate';
+
+        if (!state.cafeTutorials[gameType]) {
+            tutorial.textContent = I18n.T(`cafe.tut_${gameType}`);
+            state.cafeTutorials[gameType] = true;
         }
+
+        if (gameType === 'pour') startPourGame(item);
+        else if (gameType === 'steep') startSteepGame(item);
+        else if (gameType === 'assemble') startAssemblyGame(item);
+        else if (gameType === 'decorate') startGridGame(item);
     }
 
     // --- POURING GAME (Coffee/Alcohol) ---
@@ -65,7 +76,7 @@ const CafeGames = (() => {
         const btn = document.createElement('button');
         btn.className = 'action-btn pink-btn';
         btn.style.width = '140px';
-        btn.textContent = 'POUR';
+        btn.textContent = I18n.T('cafe.pour');
         controls.appendChild(btn);
 
         let filling = false;
@@ -135,7 +146,7 @@ const CafeGames = (() => {
         const btn = document.createElement('button');
         btn.className = 'action-btn pink-btn';
         btn.style.width = '140px';
-        btn.textContent = 'STEEP!';
+        btn.textContent = I18n.T('cafe.steep');
         controls.appendChild(btn);
 
         let hits = 0;

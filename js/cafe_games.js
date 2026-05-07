@@ -56,7 +56,6 @@ const CafeGames = (() => {
         
         title.textContent = I18n.T('cafe.preparing').replace('{0}', itemName);
 
-        const state = Engine.getState();
         state.cafeTutorials = state.cafeTutorials || {};
 
         let gameType = '';
@@ -110,18 +109,18 @@ const CafeGames = (() => {
             let quality = 0;
             
             if (status === 'spilled') {
-                result = 'SPILLED! A mess...';
+                result = I18n.T('cafe.fb_spilled');
                 quality = -1;
             } else {
                 if (level >= 70 && level <= 88) {
-                    result = 'PERFECT POUR!';
+                    result = I18n.T('cafe.fb_perfect');
                     quality = 2;
                     Audio8Bit.SFX.success();
                 } else if (level > 40) {
-                    result = 'GOOD ENOUGH.';
+                    result = I18n.T('cafe.fb_good');
                     quality = 1;
                 } else {
-                    result = 'TOO LITTLE...';
+                    result = I18n.T('cafe.fb_little');
                     quality = 0;
                 }
             }
@@ -188,14 +187,14 @@ const CafeGames = (() => {
             if (pos > 100) {
                 hits++;
                 Audio8Bit.SFX.success();
-                feedback.textContent = `STEEPS: ${hits} / 3`;
+                feedback.textContent = I18n.T('cafe.fb_steeps').replace('{0}', hits);
                 if (hits >= 3) {
                     gameRunning = false;
-                    feedback.textContent = 'PERFECT BREW!';
+                    feedback.textContent = I18n.T('cafe.fb_perfect_brew');
                     finishGame(2);
                 }
             } else {
-                feedback.textContent = 'MISSED!';
+                feedback.textContent = I18n.T('cafe.fb_missed');
                 Audio8Bit.SFX.click();
             }
         };
@@ -245,11 +244,11 @@ const CafeGames = (() => {
                         document.querySelectorAll('.recipe-step').forEach(el => el.classList.remove('active'));
                         document.getElementById(`step-${currentStep}`).classList.add('active');
                     } else {
-                        feedback.textContent = 'DELICIOUS!';
+                        feedback.textContent = I18n.T('cafe.fb_delicious');
                         finishGame(2);
                     }
                 } else {
-                    feedback.textContent = 'WRONG ORDER!';
+                    feedback.textContent = I18n.T('cafe.fb_wrong');
                     Audio8Bit.SFX.click();
                     currentStep = 0;
                     document.querySelectorAll('.recipe-step').forEach(el => {
@@ -313,11 +312,11 @@ const CafeGames = (() => {
                     Audio8Bit.SFX.click();
                     userIndex++;
                     if (userIndex === sequence.length) {
-                        feedback.textContent = 'BEAUTIFUL!';
+                        feedback.textContent = I18n.T('cafe.fb_beautiful');
                         finishGame(2);
                     }
                 } else {
-                    feedback.textContent = 'OUIJA SAYS NO!';
+                    feedback.textContent = I18n.T('cafe.fb_ouija');
                     cell.classList.add('wrong');
                     setTimeout(() => cell.classList.remove('wrong'), 400);
                     Audio8Bit.SFX.click();

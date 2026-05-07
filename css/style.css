@@ -1058,19 +1058,34 @@ html, body {
     perspective: 1000px;
 }
 .pixel-grave-img {
-    width: 220px;
+    width: 280px;
     height: auto;
     image-rendering: pixelated;
-    filter: drop-shadow(0 0 20px rgba(224, 43, 182, 0.4));
-    animation: grave-pro-anim 5s ease-in-out infinite;
+    animation: grave-pro-anim 6s ease-in-out infinite;
 }
 
 @keyframes grave-pro-anim {
-    0% { transform: scale(1) rotateY(0deg) translateY(0); filter: brightness(0.9) drop-shadow(0 0 10px rgba(224, 43, 182, 0.3)); }
-    25% { transform: scale(1.1) rotateY(10deg) translateY(-10px); filter: brightness(1.1) drop-shadow(0 0 25px rgba(224, 43, 182, 0.6)); }
-    50% { transform: scale(1.2) rotateY(0deg) translateY(-20px); filter: brightness(1.2) drop-shadow(0 0 40px rgba(224, 43, 182, 0.8)); }
-    75% { transform: scale(1.1) rotateY(-10deg) translateY(-10px); filter: brightness(1.1) drop-shadow(0 0 25px rgba(224, 43, 182, 0.6)); }
-    100% { transform: scale(1) rotateY(0deg) translateY(0); filter: brightness(0.9) drop-shadow(0 0 10px rgba(224, 43, 182, 0.3)); }
+    0% { transform: scale(1) translateY(0) rotate(0deg); filter: brightness(0.8) drop-shadow(0 0 0px var(--accent-pink)); }
+    50% { transform: scale(1.05) translateY(-15px) rotate(1deg); filter: brightness(1.1) drop-shadow(0 0 20px var(--accent-pink)); }
+    100% { transform: scale(1) translateY(0) rotate(0deg); filter: brightness(0.8) drop-shadow(0 0 0px var(--accent-pink)); }
+}
+
+.splash-mist {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 100px;
+    background: radial-gradient(ellipse at center, rgba(188, 74, 156, 0.2) 0%, transparent 70%);
+    filter: blur(20px);
+    animation: mist-drift 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes mist-drift {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.5; }
+    50% { transform: translateX(-45%) scale(1.2); opacity: 0.8; }
 }
 .loading-text {
     font-family: var(--font-pixel);

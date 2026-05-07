@@ -61,36 +61,6 @@ window.Main = (() => {
         }
     }
 
-    function updateHubSchedule() {
-        const sched = Engine.getState().schedule;
-        const list = document.getElementById('schedule-list');
-        if (!list) return;
-        if (sched.length === 0) {
-            list.innerHTML = `<p class="dim-text">${I18n.T('hub.no_appointments')}</p>`;
-        } else {
-            // Sort: Future tasks first (earliest to latest), then Past tasks (latest to earliest)
-            const sorted = sched.slice().sort((a, b) => {
-                if (a.triggered !== b.triggered) return a.triggered ? 1 : -1;
-                return a.triggered ? b.time - a.time : a.time - b.time;
-            });
-            // Only show up to 3 completed tasks
-            let completedCount = 0;
-            const filtered = sorted.filter(s => {
-                if (s.triggered) {
-                    completedCount++;
-                    return completedCount <= 3;
-                }
-                return true;
-            });
-            list.innerHTML = filtered.map(s => {
-                const t = Math.round(s.time), h = Math.floor(t / 60), m = t % 60;
-                const icon = s.rejected ? '✘' : (s.triggered ? '✓' : '⏳');
-                const cls = s.rejected ? 'rejected' : (s.triggered ? 'completed' : '');
-                return `<div class="schedule-item ${cls}"><span>${h}:${m.toString().padStart(2, '0')}</span><span>${s.desc}</span><span>${icon}</span></div>`;
-            }).join('');
-        }
-    }
-
     function initGame() {
         // Init UI Icons
         if (typeof Icons !== 'undefined') {
@@ -98,6 +68,7 @@ window.Main = (() => {
         }
 
         // Set initial language and trigger swap events
+        I18n.init();
         I18n.setLanguage(I18n.getLanguage());
 
         // ===== SPLASH SCREEN LOGIC =====

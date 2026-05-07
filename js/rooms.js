@@ -589,8 +589,8 @@ const Rooms = (() => {
                         });
                     } else {
                         // Denied
-                        if (c.rep) Engine.addReputation(c.rep, 'Denied alcohol');
-                        if (c.satisfaction) Families.updateSatisfaction(order.familyId, c.satisfaction, 'Denied alcohol');
+                        if (c.rep) Engine.addReputation(c.rep, I18n.T('cafe.denied_alcohol'));
+                        if (c.satisfaction) Families.updateSatisfaction(order.familyId, c.satisfaction, I18n.T('cafe.denied_alcohol'));
                         order.served = true;
                         showCafeteria();
                     }

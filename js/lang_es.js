@@ -482,6 +482,7 @@ I18n.register('es', {
 'rec.hearse_ordered_for': 'Coche fúnebre pedido para la familia de {0}.',
 'rec.no_family_transport': 'No hay familias esperando traslado ahora mismo.',
 'rec.nevermind': 'Olvídalo',
+'cafe.denied_alcohol': 'Alcohol denegado',
 'crema.disposal_warning': '⚠️ Algunos cuerpos fueron desechados por no haber sido incinerados a tiempo.',
 'dlg.bad_luck': '¡INCLEMENCIA INESPERADA!',
 'bad.roof_rats': '🏚️ El techo de la capilla se ha hundido por el peso de nidos de rata hechos de pelo humano.',

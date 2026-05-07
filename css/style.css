@@ -813,11 +813,13 @@ html, body {
 .ing-btn:active { transform: scale(0.9); }
 
 /* Grid Game */
-.soul-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.soul-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; justify-items: center; }
 .soul-cell {
-    width: 54px; height: 54px; background: var(--bg-panel); border: 2px solid var(--bg-panel-border);
+    width: 64px; height: 64px; background: var(--bg-panel); border: 2px solid var(--bg-panel-border);
     cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
 }
+.soul-cell .custom-icon { width: 44px !important; height: 44px !important; }
 .soul-cell.flash { background: var(--accent-bright) !important; box-shadow: 0 0 20px var(--accent-bright); }
 .soul-cell.wrong { background: var(--danger) !important; }
 .dialogue-speaker {

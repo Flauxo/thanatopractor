@@ -283,6 +283,7 @@ I18n.register('en', {
 'fam.service_complete': 'All services for {0} are complete. Go to Reception and call a hearse for transfer.',
 'fam.transfer_desc': '🚐 Transfer {0}',
 // Game Over
+'cafe.denied_alcohol': 'Denied alcohol',
 'go.title': 'GAME OVER', 'go.try_again': 'TRY AGAIN',
 'go.bankrupt_title': 'BANKRUPT', 'go.bankrupt_reason': 'You ran out of money. Even death costs money, apparently.',
 'go.disgraced_title': 'DISGRACED', 'go.disgraced_reason': 'Your reputation hit rock bottom. Nobody trusts you with their dead.',

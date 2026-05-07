@@ -21,11 +21,12 @@ const Rooms = (() => {
         const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
         if (task) task.desc = `${I18n.T('rec.car_ordered', f.deceasedName)}`;
         
+        const arrivalTime = Math.round(s.time + 60);
         s.schedule.push({
-            time: Math.round(s.time + 60),
+            time: arrivalTime,
             type: 'hearse_arrival',
             familyId: f.id,
-            desc: I18n.T('rec.hearse_picking', f.deceasedName),
+            desc: I18n.T('rec.hearse_picking', f.deceasedName, Engine.getTimeString(arrivalTime)),
             triggered: false
         });
         
@@ -134,11 +135,12 @@ const Rooms = (() => {
                             const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
                             if (task) task.desc = I18n.T('rec.personal_enroute', f.deceasedName);
                             
+                            const arrivalTime = Math.round(s.time + (hours * 60));
                             s.schedule.push({
-                                time: Math.round(s.time + (hours * 60)),
+                                time: arrivalTime,
                                 type: 'hearse_arrival',
                                 familyId: f.id,
-                                desc: I18n.T('rec.personal_pickup', f.deceasedName),
+                                desc: I18n.T('rec.personal_pickup', f.deceasedName, Engine.getTimeString(arrivalTime)),
                                 triggered: false
                             });
                             Engine.showToast(I18n.T('rec.car_dispatched', f.deceasedName, hours), 'success');

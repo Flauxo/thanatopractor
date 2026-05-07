@@ -48,9 +48,9 @@ const Engine = (() => {
 
     // ===== GETTERS =====
     function getState() { return state; }
-    function getTimeString() {
-        const h = Math.floor(state.time / 60);
-        const m = Math.floor(state.time % 60);
+    function getTimeString(t = state.time) {
+        const h = Math.floor(t / 60);
+        const m = Math.floor(t % 60);
         return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
     }
     function getLevel() {
@@ -345,6 +345,7 @@ const Engine = (() => {
                         window.Rooms.showEmbalming();
                     }
                 } else if (event.type === 'hearse_arrival') {
+                    showToast(`📋 ${event.desc}`, 'success');
                     if (typeof Families !== 'undefined') Families.completeFamily(event.familyId);
                 } else if (event.type === 'cremation_done') {
                     const fam = typeof Families !== 'undefined' ? Families.getById(event.familyId) : null;
@@ -396,7 +397,7 @@ const Engine = (() => {
             state.schedule.push({
                 time: arrivalTime,
                 type: 'arrival',
-                desc: I18n.T('eng.arrival_desc', `${Math.floor(arrivalTime/60)}:${(arrivalTime%60).toString().padStart(2,'0')}`),
+                desc: I18n.T('eng.arrival_desc', getTimeString(arrivalTime)),
                 triggered: false,
                 room: 'reception'
             });
@@ -408,7 +409,7 @@ const Engine = (() => {
         state.schedule.push({
             time: pwTime,
             type: 'paperwork',
-            desc: I18n.T('eng.pw_desk'),
+            desc: I18n.T('eng.new_pw', getTimeString(pwTime)),
             triggered: false,
             room: null,
             task: pwTask

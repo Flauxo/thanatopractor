@@ -104,7 +104,7 @@ window.Main = (() => {
                     const phraseInterval = setInterval(updatePhrase, 700);
                     
                     // Stop interval when splash is done
-                    setTimeout(() => clearInterval(phraseInterval), 3000);
+                    setTimeout(() => clearInterval(phraseInterval), 4000);
                 }
                 
                 if (typeof Audio8Bit !== 'undefined') {
@@ -125,7 +125,7 @@ window.Main = (() => {
                         splash.style.display = 'none';
                         showScreen('title');
                     }, 1000);
-                }, 3000);
+                }, 4000);
             };
             document.addEventListener('click', startSplash);
         }

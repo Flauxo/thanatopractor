@@ -169,7 +169,7 @@ I18n.register('es', {
 'cafe.title': 'CAFETERÍA', 'cafe.subtitle': 'También para los vivos.',
 'cafe.menu': '☕ MENÚ MORTALMENTE BUENO', 'cafe.orders': '📝 PEDIDOS',
 'cafe.pour': 'Echar', 'cafe.steep': 'Preparar', 'cafe.preparing': 'PREPARAR {0}',
-'cafe.coffee': 'CAFÉ', 'cafe.tea': 'TÉ', 'cafe.sandwich': 'SÁNDWICH', 'cafe.soul_cake': 'PASTEL DE ALMA',
+'cafe.coffee': 'CAFÉ', 'cafe.tea': 'TÉ', 'cafe.sandwich': 'SÁNDWICH DEL MÁS ACÁ', 'cafe.soul_cake': 'PASTEL DE ALMA',
 'cafe.tut_pour': '¡Mantén para llenar y suelta en la zona!',
 'cafe.tut_steep': '¡Pulsa cuando la bolsa baje 3 veces!',
 'cafe.tut_assemble': '¡Sigue el orden de la receta!',

@@ -197,7 +197,7 @@ const CafeGames = (() => {
 
         const btn = document.createElement('button');
         btn.className = 'action-btn pink-btn';
-        btn.style.width = '140px';
+        btn.style.width = '160px';
         btn.textContent = I18n.T('cafe.steep');
         controls.appendChild(btn);
 

@@ -94,11 +94,14 @@ const CafeGames = (() => {
         const controls = document.getElementById('cafe-game-controls');
         const feedback = document.getElementById('cafe-game-feedback');
         
+        const isCoffee = (item.item && item.item.item === 'Coffee') || (item.item && item.item.item === 'Café');
+        const isAlcohol = item.type === 'alcohol';
+
         container.innerHTML = `
-            <div class="pour-wrapper">
-                <div class="pour-meter">
+            <div class="pour-wrapper ${isCoffee ? 'coffee-mode' : ''}">
+                <div class="pour-meter" style="${isCoffee ? 'height: 150px;' : 'height: 250px;'}">
                     <div class="pour-target"></div>
-                    <div class="pour-fill" id="pour-fill"></div>
+                    <div class="pour-fill" id="pour-fill" style="background: ${isAlcohol ? '#00ff00' : '#4b2c20'};"></div>
                 </div>
             </div>
         `;
@@ -163,11 +166,23 @@ const CafeGames = (() => {
         btn.onmousedown = btn.ontouchstart = () => {
             if (activeGame) return;
             filling = true;
+            const fillEl = document.getElementById('pour-fill');
+            const pourSpeed = isAlcohol ? 1.6 : 0.9;
+
             gameLoop = setInterval(() => {
                 if (filling) {
-                    level += 0.8;
-                    document.getElementById('pour-fill').style.height = level + '%';
-                    if (level >= 100) stopPour('spilled');
+                    level += pourSpeed;
+                    if (fillEl) {
+                        fillEl.style.height = level + '%';
+                        if (isCoffee && level > 60) {
+                            fillEl.style.background = '#ffffff'; // Leche
+                        }
+                    }
+                    if (level >= 100) {
+                        btn.style.display = 'none';
+                        document.getElementById('cafe-abort-container').style.display = 'none';
+                        stopPour('spilled');
+                    }
                 }
             }, 20);
         };
@@ -225,6 +240,8 @@ const CafeGames = (() => {
                 feedback.textContent = I18n.T('cafe.fb_steeps').replace('{0}', hits);
                 if (hits >= 3) {
                     gameRunning = false;
+                    btn.style.display = 'none';
+                    document.getElementById('cafe-abort-container').style.display = 'none';
                     feedback.textContent = I18n.T('cafe.fb_perfect_brew');
                     finishGame(2);
                 }
@@ -283,6 +300,8 @@ const CafeGames = (() => {
                         currentStep++;
                         Audio8Bit.SFX.success();
                         if (currentStep >= recipe.length) {
+                            btnContainer.style.display = 'none';
+                            document.getElementById('cafe-abort-container').style.display = 'none';
                             feedback.textContent = I18n.T('cafe.fb_delicious');
                             finishGame(3);
                         } else {

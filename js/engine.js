@@ -387,12 +387,13 @@ const Engine = (() => {
     function generateDailySchedule() {
         // Scale arrivals more aggressively with viewing rooms. Max 8 families per day.
         const numArrivals = Math.min(state.viewingRooms * 2 + Math.floor(state.level / 3), 8);
-        const interval = GAME_MINUTES_PER_DAY / numArrivals;
+        const windowSize = 600; // 8:00 AM to 6:00 PM (18:00)
+        const interval = windowSize / numArrivals;
         
         for (let i = 0; i < numArrivals; i++) {
-            // Distribute arrivals evenly across the day with some random jitter
-            const jitter = Math.floor(Math.random() * (interval * 0.6));
-            const arrivalTime = Math.floor(480 + (i * interval) + 15 + jitter);
+            // Distribute arrivals evenly across the 8h-18h window with some random jitter
+            const jitter = Math.floor(Math.random() * (interval * 0.5));
+            const arrivalTime = Math.floor(480 + (i * interval) + jitter);
             
             state.schedule.push({
                 time: arrivalTime,

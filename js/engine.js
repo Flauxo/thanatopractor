@@ -602,8 +602,14 @@ const Engine = (() => {
         const container = document.getElementById('toast-container');
         if (!container) return;
 
+        // Limit to 3 active toasts (excluding those already fading out)
+        const activeToasts = Array.from(container.children).filter(t => !t.classList.contains('fade-out'));
+        if (activeToasts.length >= 3) {
+            dismissToast(activeToasts[0]);
+        }
+
         // Prevent stacking of identical toasts
-        const existing = Array.from(container.children).find(t => t.querySelector('span')?.innerHTML === msg);
+        const existing = activeToasts.find(t => t.querySelector('span')?.innerHTML === msg);
         if (existing) {
             existing.remove();
         }

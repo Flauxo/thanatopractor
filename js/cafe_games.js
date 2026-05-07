@@ -59,10 +59,19 @@ const CafeGames = (() => {
         state.cafeTutorials = state.cafeTutorials || {};
 
         let gameType = '';
-        if (item.type === 'alcohol' || item.item.item === 'Coffee') gameType = 'pour';
-        else if (item.item.item === 'Tea') gameType = 'steep';
-        else if (item.item.item === 'Sandwich') gameType = 'assemble';
-        else if (item.item.item === 'Soul Cake') gameType = 'decorate';
+        const itemKey = (item.item && item.item.item) ? item.item.item.toLowerCase() : '';
+
+        if (item.type === 'alcohol' || itemKey === 'coffee') gameType = 'pour';
+        else if (itemKey === 'tea') gameType = 'steep';
+        else if (itemKey === 'sandwich' || itemKey === 'sándwich') gameType = 'assemble';
+        else if (itemKey === 'soul cake' || itemKey === 'pastel de alma') gameType = 'decorate';
+
+        if (gameType === '') {
+            console.error("Unknown game type for item:", item);
+            overlay.style.display = 'none';
+            if (callback) callback(1); // Auto-success if broken
+            return;
+        }
 
         if (!state.cafeTutorials[gameType]) {
             tutorial.textContent = I18n.T(`cafe.tut_${gameType}`);

@@ -564,5 +564,24 @@ const DATA = {
         "One more level. Enjoy it; eternity is very long and boring.",
         "You're so good at this, the Grim Reaper is considering a franchise.",
         "New level! Your dark future looks... slightly more profitable."
+    ],
+
+    // ===== CAFETERIA DATA =====
+    cafeOrders: [
+        { item: 'Coffee', price: 5, icon: '☕' },
+        { item: 'Tea', price: 4, icon: '🍵' },
+        { item: 'Sandwich', price: 8, icon: '🥪' },
+        { item: 'Soul Cake', price: 12, icon: '🧁' }
+    ],
+    cafeAlcoholRequests: [
+        "\"Look, it's been a long day. Do you have anything... stronger than coffee?\"",
+        "\"My brother always said a funeral without a toast is just a meeting.\"",
+        "\"I need something to numb the pain. And the smell of formaldehyde.\"",
+        "\"Is that a bottle of bourbon behind the counter? Asking for a friend.\""
+    ],
+    cafeAlcoholChoices: [
+        { text: "\"I'm sorry, we don't serve alcohol here.\"", rep: 2, satisfaction: -5 },
+        { text: "\"I could look the other way for a 'grief tax' of {bribe}.\"", isBribe: true, rep: -10, satisfaction: 15 },
+        { text: "\"It's on the house. We all need a drink today.\"", rep: -15, money: 0, satisfaction: 25 }
     ]
 };

@@ -340,8 +340,8 @@ const Rooms = (() => {
                 Engine.showToast(msgs[quality], quality === 'good' || quality === 'excellent' ? 'success' : 'warning');
                 Dialogue.show(I18n.T('emb.quality_title', I18n.T('dice.' + quality)), msgs[quality], [
                     { text: I18n.T('ov.dismiss'), action: () => {
-                        showEmbalming();
-                        if (typeof Main !== 'undefined') Main.showScreen('embalming');
+                        showEmbalming(); // Still update the room state
+                        if (typeof Main !== 'undefined') Main.showScreen('hub');
                     } }
                 ]);
                 Families.updateSatisfaction(embalmTarget.id, quality === 'excellent' ? 20 : quality === 'good' ? 10 : quality === 'mediocre' ? 0 : quality === 'bad' ? -15 : -30, `Embalming: ${quality}`);

@@ -113,6 +113,9 @@ window.Main = (() => {
                 document.removeEventListener('click', startSplash);
                 hint.style.display = 'none';
                 
+                const loadingText = splash.querySelector('.loading-text');
+                if (loadingText) loadingText.style.display = 'block';
+                
                 if (typeof Audio8Bit !== 'undefined') {
                     Audio8Bit.init();
                     Audio8Bit.SFX.bell();

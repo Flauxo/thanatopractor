@@ -173,7 +173,11 @@ const CafeGames = (() => {
         };
 
         btn.onmouseup = btn.ontouchend = () => {
-            if (filling) stopPour();
+            if (filling) {
+                btn.style.display = 'none';
+                document.getElementById('cafe-abort-container').style.display = 'none';
+                stopPour();
+            }
         };
     }
 
@@ -260,8 +264,12 @@ const CafeGames = (() => {
 
         function renderButtons() {
             btnContainer.innerHTML = '';
-            // Shuffle icons
-            const shuffled = [...ingredients].sort(() => Math.random() - 0.5);
+            // Robust shuffle
+            const shuffled = [...ingredients];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
             shuffled.forEach(ing => {
                 const btn = document.createElement('button');
                 btn.className = 'ing-btn action-btn';

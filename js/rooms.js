@@ -674,7 +674,7 @@ const Rooms = (() => {
         // Schedule list update
         const schedList = document.getElementById('crema-schedule-list');
         if (schedList) {
-            const active = Families.getActive().filter(f => f.embalmed && f.wantsCremation && !f.cremated && (f.wantsViewing || f.cooldownDone));
+            const active = Families.getActive().filter(f => f.embalmed && f.wantsCremation && !f.cremated && (f.viewed || f.cooldownDone) && (!f.wantsChapel || f.chapelDone));
             if (active.length === 0) {
                 schedList.innerHTML = `<p class="dim-text">${I18n.T('crema.no_scheduled')}</p>`;
             } else {
@@ -906,7 +906,7 @@ const Rooms = (() => {
         const ivanQuote = DATA.ivanQuotes[Math.floor(Math.random() * DATA.ivanQuotes.length)];
         document.getElementById('ivan-speech').textContent = ivanQuote;
 
-        const active = Families.getActive().filter(f => f.embalmed && f.wantsChapel && !f.chapelDone && (f.wantsViewing || f.cooldownDone));
+        const active = Families.getActive().filter(f => f.embalmed && f.wantsChapel && !f.chapelDone && (f.viewed || f.cooldownDone));
         if (active.length === 0) {
             document.getElementById('chapel-service-info').innerHTML = `<p class="dim-text">${I18n.T('chapel.no_service')}</p>`;
             document.getElementById('chapel-sermon-select').style.display = 'none';

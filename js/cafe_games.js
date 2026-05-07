@@ -233,44 +233,43 @@ const CafeGames = (() => {
             { id: 'pickle', icon: 'pickle' }
         ];
 
-        controls.innerHTML = `<div class="ingredient-buttons"></div>`;
+        controls.innerHTML = `<div class="ingredient-buttons" style="display:flex; gap:8px; justify-content:center;"></div>`;
         const btnContainer = controls.querySelector('.ingredient-buttons');
 
-        ingredients.forEach(ing => {
-            const btn = document.createElement('button');
-            btn.className = 'ing-btn action-btn';
-            btn.style.width = '64px';
-            btn.style.height = '64px';
-            btn.style.padding = '5px';
-            btn.innerHTML = Icons.getHTML(ing.icon);
-            btn.onclick = () => {
-                if (activeGame) return;
-                if (recipe[currentStep] === ing.id) {
-                    document.getElementById(`step-${currentStep}`).classList.add('done');
-                    currentStep++;
-                    Audio8Bit.SFX.click();
-                    if (currentStep < recipe.length) {
-                        document.querySelectorAll('.recipe-step').forEach(el => el.classList.remove('active'));
-                        document.getElementById(`step-${currentStep}`).classList.add('active');
+        function renderButtons() {
+            btnContainer.innerHTML = '';
+            // Shuffle icons
+            const shuffled = [...ingredients].sort(() => Math.random() - 0.5);
+            shuffled.forEach(ing => {
+                const btn = document.createElement('button');
+                btn.className = 'ing-btn action-btn';
+                btn.style.width = '48px';
+                btn.style.height = '48px';
+                btn.style.padding = '4px';
+                btn.innerHTML = Icons.getHTML(ing.icon);
+                btn.onclick = () => {
+                    if (recipe[currentStep] === ing.id) {
+                        document.getElementById(`step-${currentStep}`).classList.add('done');
+                        currentStep++;
+                        Audio8Bit.SFX.success();
+                        if (currentStep >= recipe.length) {
+                            feedback.textContent = I18n.T('cafe.fb_delicious');
+                            finishGame(3);
+                        } else {
+                            renderButtons(); // Shuffle on every correct click
+                        }
                     } else {
-                        feedback.textContent = I18n.T('cafe.fb_delicious');
-                        finishGame(2);
+                        feedback.textContent = I18n.T('cafe.fb_wrong');
+                        Audio8Bit.SFX.click();
+                        renderButtons(); // Shuffle on mistake
                     }
-                } else {
-                    feedback.textContent = I18n.T('cafe.fb_wrong');
-                    Audio8Bit.SFX.click();
-                    currentStep = 0;
-                    document.querySelectorAll('.recipe-step').forEach(el => {
-                        el.classList.remove('done');
-                        el.classList.remove('active');
-                    });
-                    document.getElementById('step-0').classList.add('active');
-                }
-            };
-            btnContainer.appendChild(btn);
-        });
-        Icons.initDOM();
+                };
+                btnContainer.appendChild(btn);
+            });
+            Icons.initDOM();
+        }
 
+        renderButtons();
         document.getElementById('step-0').classList.add('active');
     }
 

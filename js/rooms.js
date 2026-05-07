@@ -15,7 +15,7 @@ const Rooms = (() => {
         const s = Engine.getState();
         if (s.money < 150) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }
         
-        Engine.addMoney(-150, `Ordered Hearse for ${f.deceasedName}`);
+        Engine.addMoney(-150, I18n.T('eng.ordered_hearse'));
         f.transportOrdered = true;
         
         const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
@@ -57,7 +57,7 @@ const Rooms = (() => {
             const phoneChoices = [
                 { text: I18n.T('rec.job_interview'), action: () => {
                     if (s.money < 50) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }
-                    Engine.addMoney(-50, 'Job Interview Call');
+                    Engine.addMoney(-50, I18n.T('eng.job_call'));
                     Engine.showToast(I18n.T('rec.job_result'), 'warning');
                 }},
                 { text: I18n.T('rec.order_hearse'), action: () => {
@@ -82,7 +82,7 @@ const Rooms = (() => {
                 }},
                 { text: I18n.T('rec.order_flowers'), action: () => {
                     if (s.money < 50) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }
-                    Engine.addMoney(-50, 'Ordered Flowers');
+                    Engine.addMoney(-50, I18n.T('eng.ordered_flowers'));
                     Engine.showToast(I18n.T('rec.flowers_result'), 'success');
                     Engine.addReputation(2, 'Beautiful fresh flowers');
                 }},
@@ -170,8 +170,8 @@ const Rooms = (() => {
                 { text: I18n.T('rec.pw_roll'), action: () => {
                     Engine.rollD20(0, (roll, total, result) => {
                         if (total >= task.dc) {
-                            Engine.addMoney(task.reward, 'Paperwork success');
-                            if (task.repReward) Engine.addReputation(task.repReward, 'Paperwork success');
+                            Engine.addMoney(task.reward, I18n.T('eng.paperwork_success'));
+                            if (task.repReward) Engine.addReputation(task.repReward, I18n.T('eng.paperwork_success'));
                             Engine.showToast(I18n.T('rec.pw_success', task.reward), 'success');
                             
                             // Check if this was the niece's car paperwork
@@ -180,8 +180,8 @@ const Rooms = (() => {
                                 Engine.showToast(I18n.T('rec.niece_desc'), 'success');
                             }
                         } else {
-                            Engine.addMoney(task.penalty, 'Paperwork failed');
-                            if (task.repPenalty) Engine.addReputation(task.repPenalty, 'Paperwork failed');
+                            Engine.addMoney(task.penalty, I18n.T('eng.paperwork_failed'));
+                            if (task.repPenalty) Engine.addReputation(task.repPenalty, I18n.T('eng.paperwork_failed'));
                             Engine.showToast(I18n.T('rec.pw_fail', Math.abs(task.penalty)), 'danger');
                         }
                         s.activePaperwork = null;
@@ -463,7 +463,7 @@ const Rooms = (() => {
             if (total === 0) { Engine.showToast(I18n.T('shop.select_item'), 'warning'); return; }
             if (s.money < total) { Engine.showToast(I18n.T('shop.no_money', total), 'danger'); return; }
 
-            Engine.addMoney(-total, 'Supply purchase');
+            Engine.addMoney(-total, I18n.T('eng.supply_purchase'));
             
             s.schedule.push({
                 time: Math.round(s.time + 60),

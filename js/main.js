@@ -42,6 +42,20 @@ window.Main = (() => {
                 break;
             }
         }
+
+        // Handle Global Back Button Visibility & Destination
+        const globalBack = document.getElementById('btn-global-back');
+        if (globalBack) {
+            // Hide on hub, title, splash, name, welcome, gameover
+            const hideOn = ['hub', 'title', 'splash', 'name', 'welcome', 'gameover'];
+            if (hideOn.includes(name)) {
+                globalBack.style.display = 'none';
+            } else {
+                globalBack.style.display = 'flex';
+                // Destination: All rooms go to Hub
+                globalBack.dataset.back = 'hub';
+            }
+        }
     }
 
     function updateHubSchedule() {
@@ -247,6 +261,16 @@ window.Main = (() => {
             Audio8Bit.SFX.click();
             showScreen('title');
         };
+
+        // ===== GLOBAL BACK BUTTON =====
+        const globalBack = document.getElementById('btn-global-back');
+        if (globalBack) {
+            globalBack.innerHTML = Icons.getHTML('back');
+            globalBack.onclick = () => {
+                Audio8Bit.SFX.click();
+                showScreen(globalBack.dataset.back || 'hub');
+            };
+        }
 
         // ===== SAVE / EXIT =====
         document.getElementById('btn-save-game').onclick = () => {

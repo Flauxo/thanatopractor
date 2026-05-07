@@ -22,8 +22,8 @@ const Dialogue = (() => {
                     Audio8Bit.SFX.click();
                     overlay.style.display = 'none';
                     if (choice.action) choice.action();
-                    if (choice.rep) Engine.addReputation(choice.rep, 'Dialogue choice');
-                    if (choice.money) Engine.addMoney(choice.money, 'Dialogue choice');
+                    if (choice.rep) Engine.addReputation(choice.rep, I18n.T('eng.dialogue_choice'));
+                    if (choice.money) Engine.addMoney(choice.money, I18n.T('eng.dialogue_choice'));
                     if (onClose) onClose(i);
                     processQueue();
                 };
@@ -33,7 +33,7 @@ const Dialogue = (() => {
             // Simple OK button
             const btn = document.createElement('button');
             btn.className = 'dialogue-choice';
-            btn.textContent = 'OK';
+            btn.textContent = I18n.T('eng.ok');
             btn.onclick = () => {
                 Audio8Bit.SFX.click();
                 overlay.style.display = 'none';

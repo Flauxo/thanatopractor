@@ -377,11 +377,8 @@ html, body {
 .room-header h2 { font-family: var(--font-pixel); font-size: 10px; color: var(--accent-bright); flex: 1; }
 .room-subtitle { font-family: var(--font-vt); color: var(--text-dim); font-size: 16px; }
 .back-btn {
-    font-size: 18px; background: none; border: 2px solid var(--bg-panel-border);
-    color: var(--text-primary); padding: 4px 10px; cursor: pointer;
-    border-radius: 8px;
+    display: none;
 }
-.back-btn:hover { border-color: var(--accent-pink); color: var(--accent-bright); }
 .room-status-bar {
     display: flex; justify-content: space-around;
     background: rgba(10, 6, 16, 0.9); padding: 6px;
@@ -439,6 +436,7 @@ html, body {
     max-width: 420px;
     display: flex;
     flex-direction: column;
+    padding-bottom: 50px; /* Room for bottom bar */
 }
 .embalming-tasks h3 {
     grid-column: span 2;
@@ -798,8 +796,41 @@ html, body {
 .menu-toggle .custom-icon {
     width: 28px !important;
     height: 28px !important;
-    flex-shrink: 0;
-    display: block !important;
+}
+
+/* Global Back Button */
+.global-back-btn {
+    position: fixed;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+}
+.global-back-btn:hover { opacity: 0.8; }
+.global-back-btn .custom-icon {
+    width: 28px !important;
+    height: 28px !important;
+}
+
+/* Ensure chapel and other rooms don't overlap bottom bar */
+#chapel-screen .room-content,
+#reception-screen .room-content,
+#embalming-screen .room-content,
+#crematorium-screen .room-content,
+#viewing-screen .room-content,
+#office-screen .room-content,
+#families-screen .room-content,
+#cafeteria-screen .room-content {
+    margin-bottom: 45px !important;
 }
 
 /* Hide toggles on intro screens */
@@ -807,6 +838,10 @@ html, body {
 #title-screen.active ~ .audio-toggle,
 #name-screen.active ~ .audio-toggle,
 #welcome-screen.active ~ .audio-toggle,
+#splash-screen.active ~ .global-back-btn,
+#title-screen.active ~ .global-back-btn,
+#name-screen.active ~ .global-back-btn,
+#welcome-screen.active ~ .global-back-btn,
 #splash-screen.active ~ .menu-toggle,
 #title-screen.active ~ .menu-toggle,
 #name-screen.active ~ .menu-toggle,

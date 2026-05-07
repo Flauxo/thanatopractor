@@ -228,7 +228,7 @@ const Engine = (() => {
                 Dialogue.show(
                     I18n.T('eng.alert_18_title'), 
                     I18n.T('eng.alert_18_msg'),
-                    [{ text: "OK" }]
+                    [{ text: I18n.T('eng.ok') }]
                 );
             }
         }

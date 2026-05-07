@@ -335,11 +335,11 @@ const Rooms = (() => {
                 qText.textContent = quality.toUpperCase();
 
                 const msgs = {
-                    catastrophic: I18n.T('emb.catastrophic'),
-                    bad: I18n.T('emb.bad'),
-                    mediocre: I18n.T('emb.mediocre'),
-                    good: I18n.T('emb.good'),
-                    excellent: I18n.T('emb.excellent')
+                    catastrophic: I18n.getRandom('emb.q_catastrophic_list', embalmTarget.deceasedName),
+                    bad: I18n.getRandom('emb.q_bad_list', embalmTarget.deceasedName),
+                    mediocre: I18n.getRandom('emb.q_mediocre_list', embalmTarget.deceasedName),
+                    good: I18n.getRandom('emb.q_good_list', embalmTarget.deceasedName),
+                    excellent: I18n.getRandom('emb.q_excellent_list', embalmTarget.deceasedName)
                 };
                 Engine.showToast(msgs[quality], quality === 'good' || quality === 'excellent' ? 'success' : 'warning');
                 Dialogue.show(I18n.T('emb.quality_title', I18n.T('dice.' + quality)), msgs[quality], [

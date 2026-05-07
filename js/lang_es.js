@@ -76,11 +76,47 @@ I18n.register('es', {
 'emb.buy': '🛒 COMPRAR SUMINISTROS', 'emb.roll': '¡TIRAR D20 — EMBALSAMAR!',
 'emb.no_chemicals': '⚠️ ¡No hay suficientes químicos!', 'emb.no_outfits': '⚠️ ¡No quedan trajes!',
 'emb.finish': '🎲 FINALIZAR Y TIRAR {0}',
-'emb.q_catastrophic': '💀 Oh no. {0} parece una figura de cera encantada. Esto NO va a acabar bien.',
-'emb.q_bad': '😬 {0} se ve... raro. Como si te juzgara desde el más allá.',
-'emb.q_mediocre': '😐 {0} se ve aceptable. Ni bien ni mal. Como un 5 raspao.',
-'emb.q_good': '👍 {0} se ve en paz. ¡Buen trabajo!',
 'emb.q_excellent': '✨ {0} se ve mejor muerto que la mayoría de la gente viva. ¡Obra maestra!',
+'emb.q_catastrophic_list': [
+    "La mandíbula se descuelga como diciendo ¡HAAAMBRE!",
+    "Se nota que el ojo es una pelota de ping-pong mal pintada.",
+    "Parece que le has echado purpurina en vez de polvos de talco.",
+    "Un brazo se ha quedado saludando. Muy amable el finado.",
+    "La sonrisa cosida parece más la de un villano de cómic barato.",
+    "Has usado tanto pegamento que los párpados parecen persianas bajadas."
+],
+'emb.q_bad_list': [
+    "Has apretado tanto el traje que el botón va a salir disparado como una bala.",
+    "El tinte rosa le da un aire de haber pasado demasiado tiempo en una freidora.",
+    "Le has puesto los zapatos al revés, pero total, no va a caminar mucho.",
+    "La piel tiene un brillo sospechoso, como si lo hubieras encerado.",
+    "Huele más a pino de coche que a flores frescas.",
+    "Le has puesto la peluca tan torcida que parece que viene de un concierto."
+],
+'emb.q_mediocre_list': [
+    "Se ha quedado con una expresión de haber dejado el gas encendido.",
+    "Has tapado las ojeras con tanto maquillaje que parece un mimo profesional.",
+    "El peinado es... creativo. Digamos que es tendencia en el más allá.",
+    "No asusta, pero tampoco invita a un abrazo.",
+    "Está aceptable, si la familia no mira con lupa... o de cerca.",
+    "Ni bien ni mal, simplemente... presente. Muy presente."
+],
+'emb.q_good_list': [
+    "Se ve tan bien que casi esperas que te pida la cuenta.",
+    "Has captado su 'esencia'. Sea lo que sea eso que flota en el aire.",
+    "Luce mejor que en su foto del DNI. No era difícil, pero tiene mérito.",
+    "El color de piel es perfecto, ni muy pálido ni muy fucsia.",
+    "Está listo para su última gran fiesta. Al menos va bien vestido.",
+    "Un trabajo digno. La familia podrá dormir tranquila... tú también."
+],
+'emb.q_excellent_list': [
+    "Le has puesto tanta laca que podrías usar el pelo para partir diamantes.",
+    "Es una obra maestra. Deberías firmar en algún sitio discreto.",
+    "Está tan impecable que da pena enterrarlo. Quizás para el museo...",
+    "Has logrado que parezca que solo está echando una siesta muy larga.",
+    "Incluso Iván ha dejado de quejarse al verlo. Eso sí es un milagro.",
+    "Si no fuera porque no respira, le pediría una cita."
+],
 'emb.needs_embalming': '🧪 ¡{0} necesita embalsamamiento!',
 'emb.still_needs': '🧪 ¡{0} todavía necesita embalsamamiento!',
 'emb.penalty': '({0} Penalización)', 'emb.no_penalty': '(SIN PENALIZACIÓN)',

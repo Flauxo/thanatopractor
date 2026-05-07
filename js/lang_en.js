@@ -70,11 +70,47 @@ I18n.register('en', {
 'emb.buy': '🛒 BUY SUPPLIES', 'emb.roll': 'ROLL D20 — EMBALM!',
 'emb.no_chemicals': '⚠️ Not enough chemicals!', 'emb.no_outfits': '⚠️ No outfits left!',
 'emb.finish': '🎲 FINISH & ROLL {0}',
-'emb.q_catastrophic': '💀 Oh no. {0} looks like a haunted wax figure. This will NOT end well.',
-'emb.q_bad': '😬 {0} looks... off. Like they\'re judging you from beyond.',
-'emb.q_mediocre': '😐 {0} looks acceptable. Not great, not terrible. Like a 3.6.',
-'emb.q_good': '👍 {0} looks peaceful. Good job!',
 'emb.q_excellent': '✨ {0} looks better dead than most people alive. Masterwork!',
+'emb.q_catastrophic_list': [
+    "The jaw drops as if screaming for BRAAAINS!",
+    "One eye is clearly a poorly painted ping-pong ball.",
+    "It looks like you used glitter instead of talcum powder.",
+    "One arm is stuck in a wave. Such a polite customer.",
+    "The stitched smile looks like a budget comic book villain.",
+    "You used so much glue the eyelids look like closed shutters."
+],
+'emb.q_bad_list': [
+    "The collar is so tight that button is now a lethal projectile.",
+    "The pink dye makes them look like they spent too much time in a deep fryer.",
+    "You put the shoes on the wrong feet, but hey, they aren't going for a jog.",
+    "The skin has a suspicious shine, as if you've waxed them like a car.",
+    "They smell more like a car air freshener than fresh flowers.",
+    "The wig is so crooked it looks like they just came from a rock concert."
+],
+'emb.q_mediocre_list': [
+    "They have the expression of someone who just remembered they left the stove on.",
+    "You covered the dark circles with so much makeup they look like a professional mime.",
+    "The hairstyle is... creative. Let's call it a 'post-life trend'.",
+    "Not scary, but not exactly inviting for a hug either.",
+    "It's acceptable, as long as the family doesn't use a magnifying glass... or eyes.",
+    "Neither good nor bad, just... present. Very present."
+],
+'emb.q_good_list': [
+    "They look so good you almost expect them to ask for the bill.",
+    "You've captured their 'essence'. Whatever that smell lingering in the air is.",
+    "They look better than in their ID photo. Not hard, but still impressive.",
+    "The skin tone is perfect—not too pale, not too neon pink.",
+    "Ready for their final big party. At least they're well-dressed.",
+    "Dignified work. The family can sleep soundly... and so can you."
+],
+'emb.q_excellent_list': [
+    "There's so much hairspray you could use their head to break diamonds.",
+    "It's a masterpiece. You should sign it somewhere discreet.",
+    "So flawless it's a shame to bury them. Maybe for a museum?",
+    "You've made it look like they're just taking an exceptionally long nap.",
+    "Even Ivan stopped complaining when he saw this. Now that's a miracle.",
+    "If it wasn't for the whole 'not breathing' thing, I'd ask them out."
+],
 'emb.needs_embalming': '🧪 {0} needs embalming!',
 'emb.still_needs': '🧪 {0} still needs embalming!',
 'emb.penalty': '({0} Penalty)', 'emb.no_penalty': '(No Penalty)',

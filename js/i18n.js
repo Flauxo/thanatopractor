@@ -34,6 +34,14 @@ const I18n = (() => {
     // Init on load
     document.addEventListener('DOMContentLoaded', applyToDOM);
 
-    return { T, setLanguage, getLanguage, register, applyToDOM };
+    function getRandom(key, ...args) {
+        const pool = strings[lang][key] || strings['en'][key] || [key];
+        if (!Array.isArray(pool)) return T(key, ...args);
+        let s = pool[Math.floor(Math.random() * pool.length)];
+        args.forEach((a, i) => { s = s.replace(`{${i}}`, a); });
+        return s;
+    }
+
+    return { T, getRandom, setLanguage, getLanguage, register, applyToDOM };
 })();
 const T = I18n.T;

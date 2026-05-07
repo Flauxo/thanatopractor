@@ -32,6 +32,7 @@ const Rooms = (() => {
         
         Engine.showToast(I18n.T('rec.hearse_ordered_for', f.deceasedName), 'success');
         Engine.Notifications.clearBadge('reception');
+        if (typeof Main !== 'undefined') Main.showScreen('hub');
     }
 
     // ===== RECEPTION =====
@@ -60,6 +61,7 @@ const Rooms = (() => {
                     if (s.money < 50) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }
                     Engine.addMoney(-50, I18n.T('eng.job_call'));
                     Engine.showToast(I18n.T('rec.job_result'), 'warning');
+                    if (typeof Main !== 'undefined') Main.showScreen('hub');
                 }},
                 { text: I18n.T('rec.order_hearse'), action: () => {
                     const waitingFams = s.families.filter(f => f.active && f.waitingForTransport && !f.transportOrdered);
@@ -86,6 +88,7 @@ const Rooms = (() => {
                     Engine.addMoney(-50, I18n.T('eng.ordered_flowers'));
                     Engine.showToast(I18n.T('rec.flowers_result'), 'success');
                     Engine.addReputation(2, 'Beautiful fresh flowers');
+                    if (typeof Main !== 'undefined') Main.showScreen('hub');
                 }},
                 { text: I18n.T('rec.nevermind'), action: () => {} }
             ];
@@ -149,6 +152,7 @@ const Rooms = (() => {
                             s.temporaryHearseAvailable = false;
                             Families.completeFamily(f.id);
                             Engine.showToast(I18n.T('rec.niece_arrived', f.deceasedName), 'success');
+                            if (typeof Main !== 'undefined') Main.showScreen('hub');
                         }
 
                         Engine.Notifications.clearBadge('reception');

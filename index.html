@@ -550,6 +550,21 @@
         </div>
     </div>
 
+    <!-- Cafeteria Mini-game Overlay -->
+    <div id="cafe-game-overlay" class="overlay" style="display:none">
+        <div class="cafe-game-panel">
+            <h2 id="cafe-game-title">PREPARING...</h2>
+            <div id="cafe-game-container">
+                <!-- Content injected via JS -->
+            </div>
+            <div id="cafe-game-feedback" class="cafe-feedback"></div>
+            <div class="cafe-game-controls" id="cafe-game-controls">
+                <!-- Action buttons injected via JS -->
+            </div>
+            <button class="pixel-btn pink-btn" id="btn-cafe-game-close" style="display:none; margin-top: 15px;" data-i18n="ov.dismiss">CONTINUE</button>
+        </div>
+    </div>
+
     <!-- Scripts (loaded in dependency order) -->
     <!-- Day Transition Overlay -->
     <div id="day-transition-overlay" class="overlay" style="background: black; z-index: 10000; display: none;">
@@ -565,6 +580,7 @@
     <script src="js/data.js"></script>
     <script src="js/data_es.js"></script>
     <script src="js/audio.js"></script>
+    <script src="js/cafe_games.js"></script>
     <script src="js/engine.js"></script>
     <script src="js/families.js"></script>
     <script src="js/dialogue.js"></script>

@@ -725,6 +725,92 @@ html, body {
     margin: 20px 0; line-height: 1.4;
     min-height: 60px;
 }
+
+/* Cafeteria Mini-Games */
+.cafe-game-panel {
+    background: var(--bg-panel); border: 3px solid var(--accent-pink); border-radius: 12px;
+    padding: 24px; max-width: 400px; width: 95%; text-align: center;
+    box-shadow: 0 0 40px rgba(212, 96, 154, 0.3);
+    animation: levelup-pop 0.4s ease-out;
+}
+.cafe-game-panel h2 { font-family: var(--font-pixel); font-size: 14px; margin-bottom: 15px; color: var(--accent-bright); }
+#cafe-game-container {
+    background: #0f0a1a; border: 2px solid var(--bg-panel-border);
+    border-radius: 8px; margin: 15px 0; padding: 20px;
+    min-height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
+.cafe-feedback {
+    font-family: var(--font-pixel); font-size: 14px; min-height: 20px; margin-bottom: 15px;
+    color: var(--text-primary); text-shadow: 0 0 10px var(--accent-bright);
+}
+.cafe-game-controls {
+    display: flex; justify-content: center; gap: 10px; margin-top: 5px;
+    min-height: 60px; width: 100%;
+}
+
+/* Pouring Game */
+.pour-wrapper { display: flex; flex-direction: column; align-items: center; gap: 15px; }
+.pour-meter {
+    width: 60px; height: 160px; background: #050505; border: 3px solid #4d3575;
+    position: relative; border-radius: 6px; overflow: hidden;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+.pour-fill {
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 0%;
+    background: linear-gradient(to top, #3d2a1a, #5d3a1a);
+    box-shadow: 0 0 10px rgba(93, 58, 26, 0.5);
+}
+.pour-target {
+    position: absolute; bottom: 70%; left: 0; width: 100%; height: 18%;
+    border-top: 2px dashed var(--accent-bright); border-bottom: 2px dashed var(--accent-bright);
+    background: rgba(224, 43, 182, 0.15); z-index: 2;
+}
+
+/* Steeping Game */
+.steep-ui { width: 100%; height: 180px; position: relative; border-bottom: 4px solid #3a5a7a; }
+.tea-cup {
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 80px; height: 60px; background: rgba(173, 216, 230, 0.1);
+    border: 2px solid #add8e6; border-radius: 0 0 20px 20px;
+}
+.tea-bag-sprite {
+    width: 32px; height: 40px; background: #d2b48c; border: 2px solid #8b4513;
+    position: absolute; left: calc(50% - 16px); top: 0;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+}
+.steep-zone {
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 90px; height: 35px; background: rgba(224, 43, 182, 0.1);
+    border: 2px dashed var(--accent-bright); opacity: 0.5;
+}
+
+/* Assembly Game */
+.recipe-display { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
+.recipe-step {
+    width: 40px; height: 40px; background: var(--bg-medium); border: 2px solid #444;
+    display: flex; align-items: center; justify-content: center; border-radius: 4px;
+    opacity: 0.4; transition: all 0.2s;
+}
+.recipe-step.done { opacity: 1; border-color: var(--success); box-shadow: 0 0 8px var(--success); }
+.recipe-step.active { opacity: 1; border-color: var(--accent-bright); transform: scale(1.1); }
+.ingredient-buttons { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.ing-btn {
+    width: 54px; height: 54px; background: var(--bg-panel); border: 2px solid var(--bg-panel-border);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: transform 0.1s;
+}
+.ing-btn:active { transform: scale(0.9); }
+
+/* Grid Game */
+.soul-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.soul-cell {
+    width: 54px; height: 54px; background: var(--bg-panel); border: 2px solid var(--bg-panel-border);
+    cursor: pointer; transition: all 0.2s;
+}
+.soul-cell.flash { background: var(--accent-bright) !important; box-shadow: 0 0 20px var(--accent-bright); }
+.soul-cell.wrong { background: var(--danger) !important; }
 .dialogue-speaker {
     font-family: var(--font-pixel); font-size: 10px;
     color: var(--accent-bright); margin-bottom: 12px;

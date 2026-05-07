@@ -223,7 +223,7 @@ const Engine = (() => {
 
         // Cafe orders
         const pendingCafe = state.cafeOrders.filter(o => !o.served).length;
-        if (hasUpgrade('cafeteria') && activeFams > 0 && pendingCafe < 3 && Math.random() < 0.05 * state.speed) {
+        if (hasUpgrade('cafeteria') && activeFams > 0 && pendingCafe < 2 && Math.random() < 0.03 * state.speed) {
             const active = state.families.filter(f => f.active && f.arrived);
             if (active.length > 0 && typeof DATA !== 'undefined' && DATA.cafeOrders) {
                 const family = active[Math.floor(Math.random() * active.length)];

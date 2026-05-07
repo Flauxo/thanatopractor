@@ -521,21 +521,31 @@ const Rooms = (() => {
         }).filter(h => h !== null).join('');
 
         updateCafeSatisfaction();
+        CafeGames.init();
     }
 
     function serveOrder(idx) {
         const s = Engine.getState();
         const order = s.cafeOrders[idx];
         if (!order || order.served) return;
-        order.served = true;
-        Engine.addMoney(order.item.price, `Sold ${order.item.item}`);
-        Families.updateSatisfaction(order.familyId, 3, 'Cafeteria service');
-        
-        const fam = Families.getById(order.familyId);
-        if (fam) fam.services.push(order.item.item);
-        
-        Audio8Bit.SFX.success();
-        showCafeteria();
+
+        CafeGames.start(order, (quality) => {
+            order.served = true;
+            // Reward based on quality: -1=fail, 0=weak, 1=good, 2=perfect
+            let rewardMult = quality === 2 ? 1.5 : quality === 1 ? 1 : quality === 0 ? 0.7 : 0.2;
+            let finalPrice = Math.ceil(order.item.price * rewardMult);
+            
+            Engine.addMoney(finalPrice, `Sold ${order.item.item} (${quality})`);
+            
+            let satBonus = quality === 2 ? 8 : quality === 1 ? 3 : quality === 0 ? 0 : -10;
+            Families.updateSatisfaction(order.familyId, satBonus, `Cafeteria: ${order.item.item}`);
+            
+            const fam = Families.getById(order.familyId);
+            if (fam) fam.services.push(order.item.item);
+            
+            if (quality >= 1) Audio8Bit.SFX.success();
+            showCafeteria();
+        });
     }
 
     function handleAlcohol(idx) {
@@ -549,43 +559,57 @@ const Rooms = (() => {
             DATA.cafeAlcoholChoices.map(c => ({
                 text: c.isBribe ? c.text.replace('{bribe}', bribe) : c.text,
                 action: () => {
-                    if (c.isBribe) Engine.addMoney(bribe, 'Alcohol bribe');
-                    else if (c.money) Engine.addMoney(c.money, 'Alcohol-related');
-
-                    if (c.rep) Engine.addReputation(c.rep, c.rep > 0 ? 'Handled alcohol request well' : 'Served alcohol illegally');
-                    if (c.satisfaction) Families.updateSatisfaction(order.familyId, c.satisfaction, c.satisfaction > 0 ? 'Got what they wanted' : 'Denied alcohol');
-                    
-                    // Secret inspector logic: if rep is negative, it's alcohol
-                    if (c.rep < 0) {
-                        s.alcoholServedToday++;
-                        if (s.alcoholServedToday >= 3) {
-                            // CLOSE CAFETERIA
-                            s.upgrades = s.upgrades.filter(u => u !== 'cafeteria');
-                            s.cafeOrders = [];
-                            s.alcoholServedToday = 0;
-                            Dialogue.show(I18n.T('cafe.inspector_title'), I18n.T('cafe.inspector_msg'), [
-                                { text: I18n.T('cafe.inspector_ok'), action: () => {
-                                    Main.showScreen('hub');
-                                    // Lock the nav again
-                                    const nav = document.getElementById('nav-cafeteria');
-                                    if (nav) {
-                                        nav.classList.add('locked');
-                                        const lock = nav.querySelector('.nav-lock');
-                                        if (lock) lock.style.display = 'block';
-                                    }
-                                }}
-                            ]);
-                            return;
-                        }
+                    // If they decide to serve (c.rep < 0 is the check for illegal serving in current logic)
+                    if (c.rep < 0 || c.isBribe) {
+                        CafeGames.start({ type: 'alcohol', item: { item: 'Alcohol' } }, (quality) => {
+                            if (quality >= 1) {
+                                if (c.isBribe) Engine.addMoney(bribe, 'Alcohol bribe');
+                                else if (c.money) Engine.addMoney(c.money, 'Alcohol-related');
+                                if (c.rep) Engine.addReputation(c.rep, 'Served alcohol illegally');
+                                if (c.satisfaction) Families.updateSatisfaction(order.familyId, c.satisfaction + (quality === 2 ? 10 : 0), 'Got what they wanted');
+                                s.alcoholServedToday++;
+                            } else {
+                                Engine.showToast("You spilled the evidence!", 'warning');
+                                Engine.addReputation(-5, 'Spilled alcohol / Mess');
+                            }
+                            
+                            order.served = true;
+                            const fam = Families.getById(order.familyId);
+                            if (fam) fam.services.push(I18n.T('cafe.alcohol_request'));
+                            
+                            checkInspector(s);
+                            showCafeteria();
+                        });
+                    } else {
+                        // Denied
+                        if (c.rep) Engine.addReputation(c.rep, 'Denied alcohol');
+                        if (c.satisfaction) Families.updateSatisfaction(order.familyId, c.satisfaction, 'Denied alcohol');
+                        order.served = true;
+                        showCafeteria();
                     }
-                    
-                    order.served = true;
-                    const fam = Families.getById(order.familyId);
-                    if (fam) fam.services.push(I18n.T('cafe.alcohol_request'));
-                    showCafeteria();
                 }
             }))
         );
+    }
+
+    function checkInspector(s) {
+        if (s.alcoholServedToday >= 3) {
+            // CLOSE CAFETERIA
+            s.upgrades = s.upgrades.filter(u => u !== 'cafeteria');
+            s.cafeOrders = [];
+            s.alcoholServedToday = 0;
+            Dialogue.show(I18n.T('cafe.inspector_title'), I18n.T('cafe.inspector_msg'), [
+                { text: I18n.T('cafe.inspector_ok'), action: () => {
+                    if (typeof Main !== 'undefined') Main.showScreen('hub');
+                    const nav = document.getElementById('nav-cafeteria');
+                    if (nav) {
+                        nav.classList.add('locked');
+                        const lock = nav.querySelector('.nav-lock');
+                        if (lock) lock.style.display = 'block';
+                    }
+                }}
+            ]);
+        }
     }
 
     function updateCafeSatisfaction() {

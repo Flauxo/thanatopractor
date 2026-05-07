@@ -2,6 +2,15 @@
 I18n.register('en', {
 // Title
 'splash.loading': 'Loading worms...',
+'splash.loading_list': [
+    'Loading worms...', 'Opening wax jars...', 'Unclogging sewers...', 
+    'Cleaning chimneys...', 'Crafting coffins...', 'Contacting The Undertaker...', 
+    'Dismissing drunk lady...', 'Chatting with cockroach...', 'Activating dramatic rain...', 
+    'Airing out tumulus...', 'Emptying the furnace...', 'Rehearsing sermons...', 
+    'Refilling bottles...', 'Polishing bones...', 'Combing wigs...', 
+    'Perfecting the rictus...', 'Scaring away souls...', 'Counting cents...', 
+    'Ironing shrouds...', 'Praying for tips...', 'Hiding the handsaw...'
+],
 'title.tagline': 'A Management RPG About Life in a Funeral House',
 'title.quote': '"You don\'t save lives. You help end them... professionally."',
 'title.new_game': 'NEW GAME', 'title.continue': 'LOAD GAME', 'title.resume': 'RESUME', 'title.credits': 'CREDITS',

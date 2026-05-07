@@ -88,7 +88,24 @@ window.Main = (() => {
                 hint.style.display = 'none';
                 
                 const loadingText = splash.querySelector('.loading-text');
-                if (loadingText) loadingText.style.display = 'block';
+                if (loadingText) {
+                    loadingText.style.display = 'block';
+                    loadingText.style.color = '#ffffff'; // Ensure white color
+                    
+                    const phrases = I18n.T('splash.loading_list') || [I18n.T('splash.loading')];
+                    let phraseIdx = 0;
+                    
+                    const updatePhrase = () => {
+                        loadingText.textContent = phrases[phraseIdx];
+                        phraseIdx = (phraseIdx + 1) % phrases.length;
+                    };
+                    
+                    updatePhrase();
+                    const phraseInterval = setInterval(updatePhrase, 700);
+                    
+                    // Stop interval when splash is done
+                    setTimeout(() => clearInterval(phraseInterval), 3000);
+                }
                 
                 if (typeof Audio8Bit !== 'undefined') {
                     Audio8Bit.init();
@@ -99,7 +116,7 @@ window.Main = (() => {
                 setTimeout(() => {
                     const lid = document.getElementById('grave-lid');
                     if (lid) lid.classList.add('open');
-                }, 1200);
+                }, 800);
 
                 setTimeout(() => {
                     splash.style.transition = 'opacity 1s ease-in-out';
@@ -108,7 +125,7 @@ window.Main = (() => {
                         splash.style.display = 'none';
                         showScreen('title');
                     }, 1000);
-                }, 4000);
+                }, 3000);
             };
             document.addEventListener('click', startSplash);
         }

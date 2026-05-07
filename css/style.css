@@ -1089,10 +1089,10 @@ html, body {
 }
 .loading-text {
     font-family: var(--font-pixel);
-    font-size: 10px;
-    color: #fff;
-    letter-spacing: 2px;
-    text-shadow: 2px 2px 0 var(--accent-pink);
-    animation: blink 0.6s infinite;
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin-top: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     display: none;
+    transition: all 0.3s ease;
 }

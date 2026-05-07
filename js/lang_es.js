@@ -2,6 +2,15 @@
 I18n.register('es', {
 // Title
 'splash.loading': 'Cargando gusanos...',
+'splash.loading_list': [
+    'Cargando gusanos...', 'Abriendo botes de cera...', 'Desatascando alcantarillas...', 
+    'Limpiando chimeneas...', 'Fabricando féretros...', 'Contactando con El enterrador...', 
+    'Despachando a señora borracha...', 'Conversación con cucaracha...', 'Activando lluvia dramática...', 
+    'Ventilando túmulo...', 'Vaciando el horno...', 'Ensayando sermones...', 
+    'Rellenando botellas...', 'Pulimentando huesos...', 'Peinando pelucas...', 
+    'Perfeccionando el rictus...', 'Ahuyentando ánimas...', 'Contando centavos...', 
+    'Planchando mortajas...', 'Rezando por propinas...', 'Escondiendo el serrucho...'
+],
 'title.tagline': 'Un RPG de Gestión Sobre la Vida en un Tanatorio',
 'title.quote': '"No salvas vidas, ayudas a terminar con ellas... profesionalmente."',
 'title.new_game': 'NUEVA PARTIDA', 'title.continue': 'CARGAR PARTIDA', 'title.resume': 'CONTINUAR', 'title.credits': 'CRÉDITOS',

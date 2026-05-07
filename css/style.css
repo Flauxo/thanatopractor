@@ -1049,55 +1049,28 @@ html, body {
 }
 .grave-container {
     position: relative;
-    width: 140px;
-    height: 140px;
-    margin: 0 auto 20px;
+    width: 240px;
+    height: 240px;
+    margin: 0 auto 10px;
 }
-.tombstone {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50px;
-    height: 65px;
-    background: var(--bg-panel);
-    border-radius: 20px 20px 0 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.iso-grave-svg {
+    width: 100%;
+    height: 100%;
+    shape-rendering: crispEdges;
+}
+.iso-rip-text {
     font-family: var(--font-pixel);
     font-size: 8px;
-    color: var(--accent-pink);
-    border: 4px solid var(--bg-panel-border);
-    box-shadow: 4px 4px 0 #000;
+    /* This aligns the text to the isometric front-right face */
+    transform: translate(12px, -33px) skewY(-26deg);
 }
-.grave-dirt {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 25px;
-    background: var(--bg-dark);
-    border: 4px solid var(--bg-panel-border);
-    border-radius: 50%;
+.iso-lid {
+    transition: all 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: -30px 10px;
 }
-.grave-lid {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 16px;
-    background: var(--bg-medium);
-    border: 4px solid var(--accent-pink);
-    box-shadow: 0 0 15px var(--accent-pink);
-    border-radius: 0; /* Square for pixel art feel */
-    transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.grave-lid.open {
-    transform: translateX(-130%) translateY(-60px) rotate(-70deg);
-    opacity: 0.8;
+.iso-lid.open {
+    transform: translate(-90px, -50px) rotate(-100deg);
+    opacity: 0.6;
 }
 .loading-text {
     font-family: var(--font-pixel);

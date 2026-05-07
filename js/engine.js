@@ -244,8 +244,7 @@ const Engine = (() => {
             Notifications.addBadge('reception', true);
             // Persistent Phone/Hearse badge if transport is needed
             if (waitingFams > 0) {
-                const badge = document.getElementById('badge-phone');
-                if (badge) badge.style.display = 'flex';
+                Notifications.addBadge('phone', true);
             }
         }
 

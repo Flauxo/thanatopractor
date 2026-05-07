@@ -63,7 +63,9 @@ const Rooms = (() => {
                     Engine.showToast(I18n.T('rec.job_result'), 'warning');
                     if (typeof Main !== 'undefined') Main.showScreen('hub');
                 }},
-                { text: I18n.T('rec.order_hearse'), action: () => {
+                { 
+                    text: I18n.T('rec.order_hearse') + (s.families.filter(f => f.active && f.waitingForTransport && !f.transportOrdered).length > 0 ? ' ❗' : ''), 
+                    action: () => {
                     const waitingFams = s.families.filter(f => f.active && f.waitingForTransport && !f.transportOrdered);
                     
                     if (waitingFams.length === 0) {
@@ -110,6 +112,10 @@ const Rooms = (() => {
                     }
                 } else {
                     text = I18n.T('rec.niece_car');
+                }
+
+                if (s.families.filter(f => f.active && f.waitingForTransport && !f.transportOrdered).length > 0 && canUse) {
+                    text += ' ❗';
                 }
 
                 phoneChoices.push({

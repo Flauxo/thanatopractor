@@ -180,29 +180,29 @@ const DATA_ES = {
     },
 
     deathCauses: [
-        "causas naturales", "vejez extrema", "un trágico accidente de jardinería",
-        "se atragantó con una aceituna en una boda", "circunstancias irónicas",
-        "una acalorada discusión sobre aparcamiento", "siesta excesiva",
-        "complicaciones por una reacción alérgica a los lunes",
-        "se cayó de una escalera cambiando una bombilla (la bombilla sobrevivió)",
-        "combustión espontánea (supuestamente)", "un desacuerdo con la gravedad",
-        "demasiada emoción en el bingo", "error de cálculo en un salto de fe",
-        "intento fallido de domesticar un tejón con un palo de selfie",
-        "shock al ver los precios de la luz", "se confundió de seta en el risotto",
-        "un estornudo inoportuno mientras manejaba una motosierra",
-        "mordedura de hámster radioactivo (supuestamente)",
-        "se atragantó intentando decir 'supercalifragilisticoespialidodoso' bajo el agua",
-        "ataque de risa viendo un funeral ajeno", "reacción alérgica a la realidad",
-        "se quedó encerrado en una nevera buscando el último yogur",
-        "impacto de un meteorito del tamaño de una canica en el ojo izquierdo"
+        "Causas naturales", "Vejez extrema", "Un trágico accidente de jardinería",
+        "Se atragantó con una aceituna en una boda", "Circunstancias irónicas",
+        "Una acalorada discusión sobre aparcamiento", "Siesta excesiva",
+        "Complicaciones por una reacción alérgica a los lunes",
+        "Se cayó de una escalera cambiando una bombilla (la bombilla sobrevivió)",
+        "Combustión espontánea (supuestamente)", "Un desacuerdo con la gravedad",
+        "Demasiada emoción en el bingo", "Error de cálculo en un salto de fe",
+        "Intento fallido de domesticar un tejón con un palo de selfie",
+        "Shock al ver los precios de la luz", "Se confundió de seta en el risotto",
+        "Un estornudo inoportuno mientras manejaba una motosierra",
+        "Mordedura de hámster radioactivo (supuestamente)",
+        "Se atragantó intentando decir 'supercalifragilisticoespialidodoso' bajo el agua",
+        "Ataque de risa viendo un funeral ajeno", "Reacción alérgica a la realidad",
+        "Se quedó encerrado en una nevera buscando el último yogur",
+        "Impacto de un meteorito del tamaño de una canica en el ojo izquierdo"
     ],
 
     // ===== CAFETERIA =====
     cafeOrders: [
         { item: "Café", price: 2, icon: "☕", humor: "Negro como el vacío, perfecto." },
         { item: "Té", price: 2, icon: "🍵", humor: "Consuelo en taza. El Earl Grey no te juzga." },
-        { item: "Sándwich", price: 4, icon: "🥪", humor: "Nuestra 'Última Cena' especial." },
-        { item: "Pastel", price: 5, icon: "🍰", humor: "Horneado con dudosas intenciones." },
+        { item: "Sándwich del más acá", price: 4, icon: "🥪", humor: "Nuestra 'Última Cena' especial." },
+        { item: "Pastel de alma", price: 5, icon: "🍰", humor: "Horneado con dudosas intenciones." },
     ],
     cafeAlcoholRequests: [
         "\"¿Tienes algo... más fuerte? Ha sido un DÍA.\"",
@@ -296,7 +296,7 @@ const DATA_ES = {
         { type: "water", text: "\"¿Podríamos tomar un poco de agua, por favor?\"", icon: "💧" },
         { type: "temperature", text: "\"¡Hace un frío/calor horrible aquí!\"", icon: "🌡️" },
         { type: "faint", text: "\"¡Oh no, alguien se acaba de desmayar!\"", icon: "😵" },
-        { type: "flowers", text: "\"Las flores parecen marchitas. ¿Podemos conseguir otras frescas?\"", icon: "💐" },
+        { type: "flowers", text: "\"Las flores parecen marchitas. ¿Podemos conseguir otras frescas? (llama por tlf, corre)\"", icon: "💐" },
         { type: "lighting", text: "\"¿Se podría ajustar la iluminación? Está demasiado brillante/oscura.\"", icon: "💡" },
         { type: "privacy", text: "\"Necesitamos un momento a solas con {name}.\"", icon: "🚪" },
         { type: "music", text: "\"¿Pueden poner algo de música? A {name} le encantaba el jazz.\"", icon: "🎵" }
@@ -455,23 +455,6 @@ const DATA_ES = {
         "\"Yo antes conducía un camión de los helados. Sorprendentemente es casi el mismo trabajo.\""
     ],
 
-    paperworkTasks: [
-        { text: "Intentar pagarle al florista menos dinero de la cuenta.", dc: 12, reward: 100, penalty: -50 },
-        { text: "Carga los gastos del orador Iván a la aseguradora.", dc: 15, reward: 200, penalty: 0 },
-        { text: "Usa el coche de tu sobrina como coche fúnebre para ahorrar.", dc: 10, reward: 150, penalty: -100, repPenalty: -5 },
-        { text: "Contrata a un equipo de limpieza que parece sospechosamente menor de edad.", dc: 8, reward: 50, penalty: -150, repPenalty: -10 },
-        { text: "Firma todos los papeles del escritorio sin leerlos.", dc: 5, reward: 50, penalty: -200, repPenalty: -20 },
-        { text: "Convence al proveedor de formaldehído de que ya le pagaste el mes pasado.", dc: 16, reward: 120, penalty: 0 },
-        { text: "Vende la urna más cara afirmando que está bañada en oro.", dc: 13, reward: 250, penalty: -150, repPenalty: -15 },
-        // Intercambios y humor random
-        { text: "Extrae dientes de oro de la incineradora 'para reciclaje'.", dc: 14, reward: 400, penalty: 0, repReward: -15, repPenalty: -25 },
-        { text: "Rebaja los químicos del formaldehído con ginebra barata.", dc: 12, reward: 300, penalty: -100, repReward: -10, repPenalty: -15 },
-        { text: "Dona a la caridad de 'Viudas de Tanatopractores Caídos'.", dc: 6, reward: -400, penalty: -500, repReward: 20, repPenalty: 0 },
-        { text: "Organiza un fin de semana de descuento 'trae tu propio cuerpo'.", dc: 17, reward: 600, penalty: 0, repReward: -30, repPenalty: -15 },
-        { text: "Contrata a una 'hiper-llorona' profesional para animar el ambiente.", dc: 9, reward: -200, penalty: -300, repReward: 12, repPenalty: -5 },
-        { text: "Recicle los trajes funerarios 'de un solo uso' de la semana pasada.", dc: 11, reward: 250, penalty: -150, repReward: -15, repPenalty: -25 },
-        { text: "Convence a una familia de que los fantasmas son 'servicios premium'.", dc: 18, reward: 500, penalty: -200, repReward: -5, repPenalty: -15 }
-    ],
 
     paperworkExcuses: [
         "A lo mejor en otro momento...",

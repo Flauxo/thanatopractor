@@ -99,7 +99,7 @@ const CafeGames = (() => {
 
         container.innerHTML = `
             <div class="pour-wrapper ${isCoffee ? 'coffee-mode' : ''}">
-                <div class="pour-meter" style="${isCoffee ? 'height: 150px;' : 'height: 250px;'}">
+                <div class="pour-meter" style="${isCoffee ? 'height: 80px; width: 80px;' : 'height: 250px;'}">
                     <div class="pour-target"></div>
                     <div class="pour-fill" id="pour-fill" style="background: ${isAlcohol ? 'var(--success)' : '#4b2c20'};"></div>
                 </div>
@@ -114,6 +114,7 @@ const CafeGames = (() => {
 
         let filling = false;
         let level = 0;
+        let milkThreshold = isCoffee ? (10 + Math.random() * 80) : 101; // Random 10-90% or never for alcohol
 
         // Dynamic target range based on level
         const s = Engine.getState();
@@ -174,7 +175,7 @@ const CafeGames = (() => {
                     level += pourSpeed;
                     if (fillEl) {
                         fillEl.style.height = level + '%';
-                        if (isCoffee && level > 60) {
+                        if (isCoffee && level > milkThreshold) {
                             fillEl.style.background = '#ffffff'; // Leche
                         }
                     }
@@ -246,8 +247,12 @@ const CafeGames = (() => {
                     finishGame(2);
                 }
             } else {
+                gameRunning = false;
+                btn.style.display = 'none';
+                document.getElementById('cafe-abort-container').style.display = 'none';
                 feedback.textContent = I18n.T('cafe.fb_missed');
-                Audio8Bit.SFX.click();
+                Audio8Bit.SFX.fail();
+                finishGame(-1);
             }
         };
     }
@@ -308,9 +313,11 @@ const CafeGames = (() => {
                             renderButtons(); // Shuffle on every correct click
                         }
                     } else {
+                        btnContainer.style.display = 'none';
+                        document.getElementById('cafe-abort-container').style.display = 'none';
                         feedback.textContent = I18n.T('cafe.fb_wrong');
-                        Audio8Bit.SFX.click();
-                        renderButtons(); // Shuffle on mistake
+                        Audio8Bit.SFX.fail();
+                        finishGame(-1);
                     }
                 };
                 btnContainer.appendChild(btn);
@@ -375,9 +382,8 @@ const CafeGames = (() => {
                 } else {
                     feedback.textContent = I18n.T('cafe.fb_ouija');
                     cell.classList.add('wrong');
-                    setTimeout(() => cell.classList.remove('wrong'), 400);
-                    Audio8Bit.SFX.click();
-                    userIndex = 0;
+                    Audio8Bit.SFX.fail();
+                    finishGame(-1);
                 }
             };
         });

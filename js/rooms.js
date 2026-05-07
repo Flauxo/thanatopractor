@@ -781,11 +781,13 @@ const Rooms = (() => {
         const btnWater = document.getElementById('btn-view-water');
         const btnTemp = document.getElementById('btn-view-temp');
         const btnFirstAid = document.getElementById('btn-view-firstaid');
+        const btnPrivacy = document.getElementById('btn-view-privacy');
         
         btnBody.style.display = 'inline-block';
         btnWater.style.display = 'inline-block';
         btnTemp.style.display = 'inline-block';
         btnFirstAid.style.display = 'inline-block';
+        btnPrivacy.style.display = viewingFamily.activeRequests.includes('privacy') ? 'inline-block' : 'none';
 
         btnBody.onclick = () => {
             if (!viewingFamily.activeRequests.includes('see_body')) {
@@ -842,6 +844,27 @@ const Rooms = (() => {
                 Engine.showToast(I18n.T('view.no_firstaid'), 'danger');
                 Families.updateSatisfaction(viewingFamily.id, -10, 'No first aid available');
                 updateViewingMood();
+            }
+        };
+
+        btnPrivacy.onclick = () => {
+            if (!viewingFamily.activeRequests.includes('privacy')) return;
+            Families.updateSatisfaction(viewingFamily.id, 10, 'Left alone as requested');
+            viewingFamily.services.push(I18n.T('view.leave_alone'));
+            viewingFamily.activeRequests = viewingFamily.activeRequests.filter(r => r !== 'privacy');
+            updateViewingUI();
+            Engine.showToast(I18n.T('view.left_alone'), 'success');
+            
+            // Complete viewing if no more requests
+            if (viewingFamily.activeRequests.length === 0) {
+                viewingFamily.viewed = true;
+                checkServiceComplete(viewingFamily);
+            }
+
+            // Return to hub
+            if (typeof Main !== 'undefined') {
+                Main.showScreen('hub-screen');
+                Rooms.updateActiveRoom('hub');
             }
         };
     }

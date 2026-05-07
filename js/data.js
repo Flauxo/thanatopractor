@@ -297,7 +297,7 @@ const DATA = {
         { type: "water", text: "\"Could we get some water, please?\"", icon: "💧" },
         { type: "temperature", text: "\"It's freezing/boiling in here!\"", icon: "🌡️" },
         { type: "faint", text: "\"Oh no, someone just fainted!\"", icon: "😵" },
-        { type: "flowers", text: "\"The flowers look wilted. Can we get fresh ones?\"", icon: "💐" },
+        { type: "flowers", text: "\"The flowers look wilted. Can we get fresh ones? (use the phone, hurry)\"", icon: "💐" },
         { type: "lighting", text: "\"Could we adjust the lighting? It's too bright/dark.\"", icon: "💡" },
         { type: "privacy", text: "\"We need a moment alone with {name}.\"", icon: "🚪" },
         { type: "music", text: "\"Can you play some music? {name} loved jazz.\"", icon: "🎵" }

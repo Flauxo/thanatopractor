@@ -683,16 +683,16 @@ const Icons = (() => {
         ],
         back: [
             "            ",
-            "     AA     ",
-            "    AAAA    ",
-            "   AAAAAA   ",
-            "  AAAAAAAA  ",
-            "     AA     ",
-            "     AAAAAA ",
-            "          AA",
-            "          AA",
-            "     AAAAAA ",
-            "            ",
+            "      AA    ",
+            "     AAAA   ",
+            "    AAAAAA  ",
+            "   AAAAAAAA ",
+            "  AAAAAAAAAA",
+            "  AAAAAAAAAA",
+            "   AAAAAAAA ",
+            "    AAAAAA  ",
+            "     AAAA   ",
+            "      AA    ",
             "            "
         ]
     };

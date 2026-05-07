@@ -60,11 +60,15 @@ const CafeGames = (() => {
 
         let gameType = '';
         const itemKey = (item.item && item.item.item) ? item.item.item.toLowerCase() : '';
+        const isCoffee = itemKey.includes('coffee') || itemKey.includes('café');
+        const isTea = itemKey.includes('tea') || itemKey.includes('té');
+        const isSandwich = itemKey.includes('sandwich') || itemKey.includes('sándwich');
+        const isCake = itemKey.includes('cake') || itemKey.includes('pastel');
 
-        if (item.type === 'alcohol' || itemKey === 'coffee') gameType = 'pour';
-        else if (itemKey === 'tea') gameType = 'steep';
-        else if (itemKey === 'sandwich' || itemKey === 'sándwich') gameType = 'assemble';
-        else if (itemKey === 'soul cake' || itemKey === 'pastel de alma') gameType = 'decorate';
+        if (item.type === 'alcohol' || isCoffee) gameType = 'pour';
+        else if (isTea) gameType = 'steep';
+        else if (isSandwich) gameType = 'assemble';
+        else if (isCake) gameType = 'decorate';
 
         if (gameType === '') {
             console.error("Unknown game type for item:", item);
@@ -108,6 +112,24 @@ const CafeGames = (() => {
         let filling = false;
         let level = 0;
 
+        // Dynamic target range based on level
+        const s = Engine.getState();
+        const pLevel = s.level || 1;
+        const baseWidth = 18;
+        const reduction = Math.min(12, (pLevel - 1) * 0.6); // Range gets smaller
+        const currentWidth = baseWidth - reduction;
+        
+        const targetMid = 79;
+        const targetMin = targetMid - (currentWidth / 2);
+        const targetMax = targetMid + (currentWidth / 2);
+
+        // Apply to visual target
+        const targetEl = container.querySelector('.pour-target');
+        if (targetEl) {
+            targetEl.style.height = currentWidth + '%';
+            targetEl.style.bottom = targetMin + '%';
+        }
+
         const stopPour = (status) => {
             filling = false;
             clearInterval(gameLoop);
@@ -121,11 +143,11 @@ const CafeGames = (() => {
                 result = I18n.T('cafe.fb_spilled');
                 quality = -1;
             } else {
-                if (level >= 70 && level <= 88) {
+                if (level >= targetMin && level <= targetMax) {
                     result = I18n.T('cafe.fb_perfect');
                     quality = 2;
                     Audio8Bit.SFX.success();
-                } else if (level > 40) {
+                } else if (level > targetMin - 30) {
                     result = I18n.T('cafe.fb_good');
                     quality = 1;
                 } else {

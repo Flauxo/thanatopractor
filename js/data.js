@@ -549,5 +549,20 @@ const DATA = {
         "TIP: Some families want alcohol. It's forbidden. But is it, really?",
         "TIP: Your reputation is everything. One bad review can spiral.",
         "TIP: The external hearse driver is weird, but reliable. Mostly."
+    ],
+
+    levelUpPhrases: [
+        "Congratulations. One level closer to being the one on the table.",
+        "Level up. Too bad your life expectancy doesn't do the same.",
+        "Great job. Your clients are dying to see what you do next.",
+        "Level achieved. The cemetery is full of people who thought they were indispensable.",
+        "Your career is taking off. Just like that poor soul in Room 2.",
+        "New level. More money to spend before your debts are inherited.",
+        "You're getting more professional. Formaldehyde is probably in your veins now.",
+        "Congratulations. You've unlocked new ways to ignore your own mortality.",
+        "Keep this up and you'll soon be the king of the worms.",
+        "One more level. Enjoy it; eternity is very long and boring.",
+        "You're so good at this, the Grim Reaper is considering a franchise.",
+        "New level! Your dark future looks... slightly more profitable."
     ]
 };

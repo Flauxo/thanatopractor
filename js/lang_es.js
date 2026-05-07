@@ -30,7 +30,7 @@ I18n.register('es', {
 'welcome.p2': 'Al hacer clic abajo, aceptas que el formaldehído es tu nueva colonia favorita, que los fantasmas no pagan alquiler, y que no somos responsables de pesadillas recurrentes ni del tipo de humor con el que te vas a encontrar.',
 'welcome.accept': 'ACEPTO LOS TÉRMINOS',
 // Hub
-'hub.day': 'DÍA', 'hub.reputation': 'REPUTACIÓN', 'hub.schedule': 'AGENDA DE HOY',
+'hub.day': 'Día', 'hub.reputation': 'REPUTACIÓN', 'hub.schedule': 'AGENDA DE HOY',
 'hub.eternal_rest': 'TANATORIO', 'hub.funeral_house': 'DESCANSO ETERNO',
 'hub.motto': '"Cuidamos de ellos hasta el final"',
 'hub.no_appointments': 'No hay citas para hoy.',
@@ -209,6 +209,8 @@ I18n.register('es', {
 'go.best_roll': 'Mejor tirada:', 'go.level': 'Nivel alcanzado:',
 // Overlays
 'ov.service_complete': '☠ SERVICIO COMPLETADO',
+'ov.level_up': '¡NUEVO RANGO ALCANZADO!',
+'ov.reward': 'RECOMPENSA:',
 'ov.summary_deceased': 'Difunto',
 'ov.summary_rating': 'Valoración',
 'ov.summary_satisfaction': 'Satisfacción',

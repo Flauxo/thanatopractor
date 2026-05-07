@@ -201,12 +201,16 @@ html, body {
 
 /* ===== HUB SCREEN ===== */
 .status-bar {
-    display: flex; justify-content: space-between;
+    display: flex; justify-content: space-between; align-items: center;
     background: var(--bg-panel); border-bottom: 2px solid var(--bg-panel-border);
-    padding: 12px 16px; font-family: var(--font-pixel); font-size: 11px;
+    padding: 12px 16px; 
+    padding-top: max(12px, env(safe-area-inset-top));
+    font-family: var(--font-pixel); font-size: 11px;
     flex-shrink: 0;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 100;
 }
+.status-group { display: flex; gap: 20px; align-items: center; }
 .status-item { 
     display: flex; align-items: center; gap: 6px; 
     text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
@@ -672,6 +676,54 @@ html, body {
     background: var(--bg-panel); border: 3px solid var(--accent-pink); border-radius: 8px;
     padding: 20px; max-width: 380px; width: 100%;
     box-shadow: 0 0 30px #d4609a44;
+}
+
+/* Level Up Panel */
+.levelup-panel {
+    background: linear-gradient(135deg, var(--bg-darkest) 0%, var(--bg-panel) 100%);
+    border: 3px solid var(--accent-bright);
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 400px;
+    width: 95%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 40px rgba(224, 43, 182, 0.4), inset 0 0 20px rgba(224, 43, 182, 0.2);
+    overflow: hidden;
+    animation: levelup-pop 0.6s cubic-bezier(0.17, 0.89, 0.32, 1.28) forwards;
+}
+.levelup-glow {
+    position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(224, 43, 182, 0.1) 0%, transparent 70%);
+    animation: rotate 10s linear infinite;
+    pointer-events: none;
+}
+.levelup-panel h2 {
+    font-family: var(--font-pixel); font-size: 14px;
+    color: var(--accent-bright); margin-bottom: 24px;
+    text-shadow: 0 0 10px var(--accent-bright);
+}
+.levelup-rank {
+    margin-bottom: 20px;
+}
+.levelup-icon-container {
+    margin-bottom: 12px;
+    animation: float 3s ease-in-out infinite;
+}
+#lvl-up-num {
+    font-family: var(--font-pixel); font-size: 24px;
+    color: #fff; text-shadow: 0 0 15px var(--accent-bright);
+}
+.levelup-reward {
+    font-family: var(--font-pixel); font-size: 12px;
+    margin: 15px 0; color: var(--text-primary);
+}
+.levelup-reward .gold { color: var(--gold); text-shadow: 0 0 5px var(--gold); }
+.levelup-quote {
+    font-family: var(--font-vt); font-size: 24px;
+    font-style: italic; color: var(--text-dim);
+    margin: 20px 0; line-height: 1.4;
+    min-height: 60px;
 }
 .dialogue-speaker {
     font-family: var(--font-pixel); font-size: 10px;

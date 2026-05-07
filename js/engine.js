@@ -107,10 +107,37 @@ const Engine = (() => {
         const newLevel = getLevel();
         if (newLevel > state.level) {
             state.level = newLevel;
-            showToast(I18n.T('eng.level_up', newLevel), 'success');
-            addMoney(10000, I18n.T('eng.level_bonus'));
-            Audio8Bit.SFX.success();
+            showLevelUpModal(newLevel);
+            addMoney(10000, I18n.T('eng.level_bonus'), true);
+            if (typeof Audio8Bit !== 'undefined' && Audio8Bit.SFX.levelUp) {
+                Audio8Bit.SFX.levelUp();
+            }
         }
+    }
+
+    function showLevelUpModal(level) {
+        const overlay = document.getElementById('levelup-overlay');
+        const levelText = document.getElementById('lvl-up-num');
+        const quoteText = document.getElementById('lvl-up-quote');
+        const dismissBtn = document.getElementById('btn-lvl-up-dismiss');
+
+        if (!overlay) return;
+
+        if (levelText) levelText.textContent = `LEVEL ${level}`;
+        
+        // Random motivational phrase
+        const phrases = DATA.levelUpPhrases || [];
+        if (phrases.length > 0 && quoteText) {
+            quoteText.textContent = `"${phrases[Math.floor(Math.random() * phrases.length)]}"`;
+        }
+
+        overlay.style.display = 'flex';
+        stopTime(); 
+
+        dismissBtn.onclick = () => {
+            overlay.style.display = 'none';
+            startTime();
+        };
     }
 
     // ===== TIME =====
@@ -652,6 +679,7 @@ const Engine = (() => {
         setText('hud-families', s.families.filter(f => f.active).length);
         setText('hud-money', s.money);
         setText('hud-rep', s.reputation);
+        setText('hud-level', s.level);
         const repFill = document.getElementById('hud-rep-fill');
         if (repFill) repFill.style.width = s.reputation + '%';
 

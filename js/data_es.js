@@ -516,6 +516,21 @@ const DATA_ES = {
         "CONSEJO: Algunas familias piden alcohol. Está prohibido. ¿Pero lo está de verdad?",
         "CONSEJO: Tu reputación lo es todo. Una mala reseña puede arruinarte.",
         "CONSEJO: El conductor externo del coche fúnebre es raro, pero de confianza. Más o menos."
+    ],
+
+    levelUpPhrases: [
+        "Felicidades. Un nivel más cerca de ser tú el que esté en la camilla.",
+        "Has subido de nivel. Lástima que tu esperanza de vida no haga lo mismo.",
+        "Excelente trabajo. Tus clientes están muriendo por ver qué haces ahora.",
+        "Nivel alcanzado. El cementerio está lleno de gente que se creía indispensable.",
+        "Tu carrera despega. Como el alma de ese pobre diablo de la sala 2.",
+        "Nuevo nivel. Más dinero para gastar antes de que hereden tus deudas.",
+        "Cada vez eres más profesional. El formaldehído ya corre por tus venas.",
+        "Felicidades. Has desbloqueado nuevas formas de ignorar tu propia mortalidad.",
+        "Sigue así y pronto serás el rey de los gusanos.",
+        "Un nivel más. Disfrútalo, la eternidad es muy larga y aburrida.",
+        "Eres tan bueno que la Parca está pensando en abrir una franquicia.",
+        "¡Nuevo nivel! Tu oscuro futuro parece... ligeramente más rentable."
     ]
 };
 

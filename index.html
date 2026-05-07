@@ -95,10 +95,14 @@
     <div id="hub-screen" class="screen">
         <!-- Top Status Bar -->
         <div class="status-bar">
-            <div class="status-item"><span class="custom-icon" data-icon="calendar"></span> <span data-i18n="hub.day">DAY</span> <span id="hud-day">1</span></div>
-            <div class="status-item"><span class="custom-icon" data-icon="clock"></span> <span id="hud-time">08:00</span></div>
-            <div class="status-item"><span class="custom-icon" data-icon="people"></span> <span id="hud-families">0</span></div>
-            <div class="status-item"><span class="custom-icon" data-icon="money"></span>$<span id="hud-money">5000</span></div>
+            <div class="status-group status-left">
+                <div class="status-item"><span class="custom-icon" data-icon="calendar"></span> <span data-i18n="hub.day">DAY</span> <span id="hud-day">1</span></div>
+                <div class="status-item"><span class="custom-icon" data-icon="clock"></span> <span id="hud-time">08:00</span></div>
+            </div>
+            <div class="status-group status-right">
+                <div class="status-item"><span class="custom-icon" data-icon="star"></span> LV.<span id="hud-level">1</span></div>
+                <div class="status-item"><span class="custom-icon" data-icon="money"></span>$<span id="hud-money">5000</span></div>
+            </div>
         </div>
         <!-- Reputation Bar -->
         <div class="rep-bar">
@@ -524,6 +528,27 @@
 
     <!-- Global Back Button -->
     <button id="btn-global-back" class="global-back-btn" title="Back" style="display:none"></button>
+
+    <!-- Level Up Overlay -->
+    <div id="levelup-overlay" class="overlay" style="display:none">
+        <div class="levelup-panel">
+            <div class="levelup-glow"></div>
+            <h2 data-i18n="ov.level_up">NEW RANK ACHIEVED!</h2>
+            <div class="levelup-content">
+                <div class="levelup-rank">
+                    <div class="levelup-icon-container">
+                        <span class="custom-icon" data-icon="star" style="width:64px;height:64px"></span>
+                    </div>
+                    <div id="lvl-up-num">LEVEL 2</div>
+                </div>
+                <div class="levelup-reward">
+                    <span data-i18n="ov.reward">REWARD:</span> <span class="gold">+$10,000</span>
+                </div>
+                <p class="levelup-quote" id="lvl-up-quote">"One level closer to being the one on the table."</p>
+            </div>
+            <button class="pixel-btn pink-btn" id="btn-lvl-up-dismiss" data-i18n="ov.dismiss">CONTINUE</button>
+        </div>
+    </div>
 
     <!-- Scripts (loaded in dependency order) -->
     <!-- Day Transition Overlay -->

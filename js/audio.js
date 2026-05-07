@@ -173,6 +173,39 @@ const Audio8Bit = (() => {
         typing() {
             if (!ctx) return;
             playNote(600 + Math.random() * 200, 0.03, 'square', sfxGain, ctx.currentTime, 0.1);
+        },
+        levelUp() {
+            if (!ctx) return;
+            const t = ctx.currentTime;
+            const duration = 2.0;
+            const notes = [
+                523.25, // C5
+                659.25, // E5
+                783.99, // G5
+                1046.50, // C6
+                1318.51, // E6
+                1567.98, // G6
+                2093.00 // C7
+            ];
+            const interval = duration / (notes.length + 1);
+            notes.forEach((freq, i) => {
+                const startTime = t + i * interval;
+                const osc = ctx.createOscillator();
+                const g = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, startTime);
+                // Slight vibrato for bell effect
+                osc.frequency.exponentialRampToValueAtTime(freq * 1.01, startTime + 0.1);
+                
+                g.gain.setValueAtTime(0, startTime);
+                g.gain.linearRampToValueAtTime(0.3, startTime + 0.05);
+                g.gain.exponentialRampToValueAtTime(0.001, startTime + 0.8);
+                
+                osc.connect(g);
+                g.connect(sfxGain);
+                osc.start(startTime);
+                osc.stop(startTime + 1.0);
+            });
         }
     };
 

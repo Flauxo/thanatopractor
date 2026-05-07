@@ -27,7 +27,7 @@ I18n.register('en', {
 'welcome.p2': 'By clicking below, you accept that formaldehyde is your new favorite cologne, that ghosts don\'t pay rent, and that we are not responsible for recurring nightmares or the sudden loss of your own soul.',
 'welcome.accept': 'I ACCEPT THE TERMS',
 // Hub
-'hub.day': 'DAY', 'hub.reputation': 'REPUTATION', 'hub.schedule': "TODAY'S SCHEDULE",
+'hub.day': 'Day', 'hub.reputation': 'REPUTATION', 'hub.schedule': "TODAY'S SCHEDULE",
 'hub.no_appointments': 'No appointments yet...', 'hub.eternal_rest': 'ETERNAL REST',
 'hub.funeral_house': 'FUNERAL HOUSE', 'hub.motto': '"We care to the end"',
 'hub.welcome': '☠ Welcome, {0}. The dead await.',
@@ -203,6 +203,8 @@ I18n.register('en', {
 'go.best_roll': 'Best dice roll:', 'go.level': 'Level reached:',
 // Overlays
 'ov.service_complete': '☠ SERVICE COMPLETE',
+'ov.level_up': 'NEW RANK ACHIEVED!',
+'ov.reward': 'REWARD:',
 'ov.summary_deceased': 'Deceased',
 'ov.summary_rating': 'Rating',
 'ov.summary_satisfaction': 'Satisfaction',

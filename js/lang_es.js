@@ -153,7 +153,11 @@ I18n.register('es', {
 'chapel.tutorial_ok': 'Entendido, miraré primero',
 // Violín
 'chapel.violin_offer_title': '🎻 ACOMPAÑAMIENTO MUSICAL',
-'chapel.violin_offer_text': 'La legendaria, incomparable, devastadoramente talentosa violinista Aida está disponible hoy. ¿Quieres ofrecer a la familia una actuación de violín en directo durante la ceremonia? (Coste para la familia: $40)',
+'chapel.violin_offer_text_1': 'Estás de suerte, es el turno de Aida la violinista. Toca tan bien que hasta los muertos intentan seguir el ritmo. (Coste: $40)',
+'chapel.violin_offer_text_2': 'Estás de suerte, es el turno de Aida la violinista. Su música es tan triste que te cobrará un extra por las lágrimas. (Coste: $40)',
+'chapel.violin_offer_text_3': 'Estás de suerte, es el turno de Aida la violinista. Si te descuidas, el arco del violín acabará en un ojo. (Coste: $40)',
+'chapel.violin_offer_text_4': 'Estás de suerte, es el turno de Aida la violinista. Dice que el violín está hecho de madera de ataúd reciclada. (Coste: $40)',
+'chapel.violin_offer_text_5': 'Estás de suerte, es el turno de Aida la violinista. Sus notas agudas son capaces de despertar a un panteón entero. (Coste: $40)',
 'chapel.violin_offer_yes': 'Ofrecer música de violín ($40)',
 'chapel.violin_offer_no': 'Pasar de la música',
 'chapel.violin_accept_title': '🎻 AIDA ACTÚA',

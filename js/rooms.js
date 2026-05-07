@@ -930,11 +930,20 @@ const Rooms = (() => {
     }
 
     function offerViolinMusic(family, wasCorrectSermon) {
+        // 50% chance for the offer to even appear
+        if (Math.random() < 0.5) {
+            chapelFamily.chapelDone = true;
+            checkServiceComplete(chapelFamily);
+            updateChapelBadge();
+            return;
+        }
+
         const familyAccepts = Math.random() < 0.65;
+        const randomTextIndex = Math.floor(Math.random() * 5) + 1;
 
         Dialogue.show(
             I18n.T('chapel.violin_offer_title'),
-            I18n.T('chapel.violin_offer_text'),
+            I18n.T(`chapel.violin_offer_text_${randomTextIndex}`),
             [
                 { text: I18n.T('chapel.violin_offer_yes'), action: () => {
                     if (familyAccepts) {

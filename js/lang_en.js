@@ -147,7 +147,11 @@ I18n.register('en', {
 'chapel.tutorial_ok': 'Got it, I\'ll check first',
 // Violin music
 'chapel.violin_offer_title': '🎻 MUSICAL ACCOMPANIMENT',
-'chapel.violin_offer_text': 'The legendary, incomparable, devastatingly talented violinist Aida is available today. Would you like to offer the family a live violin performance during the ceremony? (Cost to the family: $40)',
+'chapel.violin_offer_text_1': "You're in luck, it's Aida the violinist's turn. She plays so well even the dead try to keep the beat. (Cost: $40)",
+'chapel.violin_offer_text_2': "You're in luck, it's Aida the violinist's turn. Her music is so sad she'll charge you extra for the tears. (Cost: $40)",
+'chapel.violin_offer_text_3': "You're in luck, it's Aida the violinist's turn. Watch out, or that violin bow might end up in an eye. (Cost: $40)",
+'chapel.violin_offer_text_4': "You're in luck, it's Aida the violinist's turn. She claims the violin is made from recycled coffin wood. (Cost: $40)",
+'chapel.violin_offer_text_5': "You're in luck, it's Aida the violinist's turn. Her high notes could wake up an entire mausoleum. (Cost: $40)",
 'chapel.violin_offer_yes': 'Offer violin music ($40)',
 'chapel.violin_offer_no': 'Skip the music',
 'chapel.violin_accept_title': '🎻 AIDA PERFORMS',

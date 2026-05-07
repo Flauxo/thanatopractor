@@ -3,6 +3,9 @@ window.Main = (() => {
     let currentScreen = 'title';
 
     function showScreen(name) {
+        // Block screen change if a dialogue or critical overlay is open
+        if (isOverlayOpen()) return;
+
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         const screen = document.getElementById(`${name}-screen`);
         if (screen) {
@@ -353,5 +356,13 @@ window.Main = (() => {
     // Init on load
     document.addEventListener('DOMContentLoaded', initGame);
 
-    return { showScreen, updateHubSchedule, get currentScreen() { return currentScreen; } };
+    function isOverlayOpen() {
+        const overlays = ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay', 'credits-overlay'];
+        return overlays.some(id => {
+            const el = document.getElementById(id);
+            return el && (el.style.display === 'flex' || el.style.display === 'block');
+        });
+    }
+
+    return { showScreen, updateHubSchedule, get currentScreen() { return currentScreen; }, isOverlayOpen };
 })();

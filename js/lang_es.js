@@ -66,7 +66,7 @@ I18n.register('es', {
 'rec.pw_title': '📝 PAPELEO', 'rec.pw_roll': 'Tirar D20',
 'rec.pw_success': '¡Éxito! Has ganado ${0}.', 'rec.pw_fail': '¡Fallo! Has perdido ${0}.',
 'rec.pw_discarded': '📝 Papeleo descartado.', 'rec.pw_decline': '(Rechazar)',
-'rec.hearse_picking': 'Traslado en coche fúnebre para {0} a las {1}',
+'rec.hearse_picking': 'Horario de traslado de {0} a cementerio',
 'rec.car_ordered': '📦 (Coche pedido en camino) - {0}',
 // Embalming
 'emb.title': 'SALA DE EMBALSAMAR', 'emb.subtitle': 'Preservar la dignidad.',
@@ -285,7 +285,7 @@ I18n.register('es', {
 'shop.vials': 'viales', 'shop.jars': 'tarros', 'shop.tubes': 'tubos', 'shop.sets': 'conjuntos',
 'rec.pw_dc': 'Dificultad (DC): {0}',
 'rec.personal_enroute': '🚗 (Coche personal en camino) - {0}',
-'rec.personal_pickup': 'Traslado en coche personal para {0} a las {1}',
+'rec.personal_pickup': 'Horario de traslado de {0} a cementerio',
 'off.trained': 'Entrenado: {0}/{1}',
 'crema.done_desc': 'Incineración de {0} terminada.',
 'crema.need_800': 'Esperar a 800°C',

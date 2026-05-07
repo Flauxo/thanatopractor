@@ -275,7 +275,12 @@ html, body {
     color: var(--accent-pink); margin-bottom: 8px;
 }
 .schedule-list { font-family: var(--font-vt); font-size: 18px; }
-.schedule-item { padding: 4px 0; border-bottom: 1px solid var(--bg-panel-border); display: flex; justify-content: space-between; }
+.schedule-item { 
+    padding: 6px 0; border-bottom: 1px solid var(--bg-panel-border); 
+    display: flex; align-items: center; gap: 12px; 
+}
+.schedule-item span:nth-child(1) { min-width: 45px; }
+.schedule-item span:nth-child(2) { flex: 1; }
 .schedule-item:last-child { border-bottom: none; }
 .schedule-item.completed { opacity: 0.45; }
 .schedule-item.completed span:nth-child(2) { text-decoration: line-through; }

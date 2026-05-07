@@ -101,7 +101,7 @@ const CafeGames = (() => {
             <div class="pour-wrapper ${isCoffee ? 'coffee-mode' : ''}">
                 <div class="pour-meter" style="${isCoffee ? 'height: 150px;' : 'height: 250px;'}">
                     <div class="pour-target"></div>
-                    <div class="pour-fill" id="pour-fill" style="background: ${isAlcohol ? '#00ff00' : '#4b2c20'};"></div>
+                    <div class="pour-fill" id="pour-fill" style="background: ${isAlcohol ? 'var(--success)' : '#4b2c20'};"></div>
                 </div>
             </div>
         `;

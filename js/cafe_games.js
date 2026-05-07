@@ -15,6 +15,15 @@ const CafeGames = (() => {
                 onCompleteCallback = null;
             };
         }
+        const abortBtn = document.getElementById('btn-cafe-game-abort');
+        if (abortBtn) {
+            abortBtn.onclick = () => {
+                document.getElementById('cafe-game-overlay').style.display = 'none';
+                // Abort doesn't trigger success
+                onCompleteCallback = null;
+                activeGame = 'done';
+            };
+        }
     }
 
     function start(item, callback) {
@@ -30,12 +39,21 @@ const CafeGames = (() => {
 
         overlay.style.display = 'flex';
         closeBtn.style.display = 'none';
+        document.getElementById('cafe-abort-container').style.display = 'flex';
         feedback.textContent = '';
         controls.innerHTML = '';
         container.innerHTML = '';
         tutorial.textContent = '';
         
-        const itemName = item.type === 'alcohol' ? 'ALCOHOL' : item.item.item.toUpperCase();
+        const state = Engine.getState();
+        const isSpanish = (typeof Main !== 'undefined' && Main.getLang && Main.getLang() === 'es') || (document.documentElement.lang === 'es');
+
+        let itemName = item.type === 'alcohol' ? 'ALCOHOL' : item.item.item.toUpperCase();
+        if (item.item && item.item.item === 'Coffee') itemName = I18n.T('cafe.coffee');
+        else if (item.item && item.item.item === 'Tea') itemName = I18n.T('cafe.tea');
+        else if (item.item && item.item.item === 'Sandwich') itemName = I18n.T('cafe.sandwich');
+        else if (item.item && item.item.item === 'Soul Cake') itemName = I18n.T('cafe.soul_cake');
+        
         title.textContent = I18n.T('cafe.preparing').replace('{0}', itemName);
 
         const state = Engine.getState();
@@ -189,21 +207,22 @@ const CafeGames = (() => {
         const controls = document.getElementById('cafe-game-controls');
         const feedback = document.getElementById('cafe-game-feedback');
 
-        const recipe = ['bread', 'ham', 'cheese', 'lettuce', 'bread'];
+        // Recipe: Bread, Tomato, Cheese, Pickle, Bread
+        const recipe = ['bread', 'tomato', 'cheese', 'pickle', 'bread'];
         let currentStep = 0;
 
         container.innerHTML = `
             <div class="recipe-display">
-                ${recipe.map((r, i) => `<div class="recipe-step" id="step-${i}">${Icons.getHTML(r === 'bread' ? 'sandwich' : r === 'ham' ? 'skull' : r === 'cheese' ? 'money' : 'flowers')}</div>`).join('')}
+                ${recipe.map((r, i) => `<div class="recipe-step" id="step-${i}">${Icons.getHTML(r === 'bread' ? 'sandwich' : r)}</div>`).join('')}
             </div>
         `;
         Icons.initDOM();
 
         const ingredients = [
             { id: 'bread', icon: 'sandwich' },
-            { id: 'ham', icon: 'skull' },
-            { id: 'cheese', icon: 'money' },
-            { id: 'lettuce', icon: 'flowers' }
+            { id: 'tomato', icon: 'tomato' },
+            { id: 'cheese', icon: 'cheese' },
+            { id: 'pickle', icon: 'pickle' }
         ];
 
         controls.innerHTML = `<div class="ingredient-buttons"></div>`;
@@ -252,11 +271,14 @@ const CafeGames = (() => {
         const container = document.getElementById('cafe-game-container');
         const feedback = document.getElementById('cafe-game-feedback');
 
+        const gridIcons = ['sandwich', 'tomato', 'pickle', 'knife', 'ketchup', 'sandwich', 'tomato', 'pickle', 'knife'];
+
         container.innerHTML = `
             <div class="soul-grid">
-                ${Array(9).fill(0).map((_, i) => `<div class="soul-cell" id="cell-${i}"></div>`).join('')}
+                ${gridIcons.map((icon, i) => `<div class="soul-cell" id="cell-${i}">${Icons.getHTML(icon)}</div>`).join('')}
             </div>
         `;
+        Icons.initDOM();
 
         const sequence = [];
         for(let i=0; i<4; i++) sequence.push(Math.floor(Math.random() * 9));
@@ -265,18 +287,19 @@ const CafeGames = (() => {
         let isShowingSequence = true;
 
         async function playSequence() {
-            feedback.textContent = 'WATCH...';
+            feedback.textContent = I18n.T('cafe.watch') || 'WATCH...';
+            isShowingSequence = true;
             for (let id of sequence) {
                 const cell = document.getElementById(`cell-${id}`);
                 if (!cell) return;
                 cell.classList.add('flash');
                 Audio8Bit.SFX.typing();
-                await new Promise(r => setTimeout(r, 500));
+                await new Promise(r => setTimeout(r, 600));
                 cell.classList.remove('flash');
                 await new Promise(r => setTimeout(r, 200));
             }
             isShowingSequence = false;
-            feedback.textContent = 'YOUR TURN!';
+            feedback.textContent = I18n.T('cafe.your_turn') || 'YOUR TURN!';
         }
 
         playSequence();
@@ -306,6 +329,7 @@ const CafeGames = (() => {
 
     function finishGame(quality) {
         activeGame = 'done';
+        document.getElementById('cafe-abort-container').style.display = 'none';
         document.getElementById('btn-cafe-game-close').style.display = 'inline-block';
         const currentCallback = onCompleteCallback;
         onCompleteCallback = () => {

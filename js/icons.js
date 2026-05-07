@@ -12,6 +12,10 @@ const Icons = (() => {
         'G': 'var(--accent-bright)',// Neon Pink
         'M': 'var(--bg-medium)',    // #2d1b4e
         'C': '#ffffff',             // White
+        'T': '#ef4444',             // Red (Tomato/Ketchup)
+        'L': '#4ade80',             // Green (Lettuce/Pickle)
+        'Y': '#fbbf24',             // Yellow (Cheese)
+        'H': '#a0522d',             // Brown (Bread/Crust)
         ' ': 'transparent'
     };
 
@@ -627,14 +631,84 @@ const Icons = (() => {
         ],
         sandwich: [
             "            ",
+            "   HHHHHH   ",
+            "  HHHHHHHH  ",
+            " HHHHHHHHHH ",
+            " HHHHHHHHHH ",
+            " LLLLLLLLLL ",
+            " YYYYYYYYYY ",
+            " TTTTTTTTTT ",
+            " HHHHHHHHHH ",
+            "  HHHHHHHH  ",
+            "   HHHHHH   ",
+            "            "
+        ],
+        tomato: [
             "            ",
-            "    WWWW    ",
-            "   W    W   ",
-            "  W      W  ",
-            "  WWWWWWWW  ",
-            "  S      S  ",
-            "  RRRRRRRR  ",
-            "  WWWWWWWW  ",
+            "     LL     ",
+            "   TTTTTT   ",
+            "  TTTTTTTT  ",
+            " TTTTTTTTTT ",
+            " TTTTTTTTTT ",
+            " TTTTTTTTTT ",
+            " TTTTTTTTTT ",
+            "  TTTTTTTT  ",
+            "   TTTTTT   ",
+            "            ",
+            "            "
+        ],
+        pickle: [
+            "            ",
+            "     LL     ",
+            "    LLLL    ",
+            "   LLLLLL   ",
+            "  LLLLLLLL  ",
+            "  LLLLLLLL  ",
+            "  LLLLLLLL  ",
+            "   LLLLLL   ",
+            "    LLLL    ",
+            "     LL     ",
+            "            ",
+            "            "
+        ],
+        knife: [
+            "            ",
+            "        CC  ",
+            "       CC   ",
+            "      CC    ",
+            "     CC     ",
+            "    CC      ",
+            "   CC       ",
+            "  HH        ",
+            " HH         ",
+            "H           ",
+            "            ",
+            "            "
+        ],
+        ketchup: [
+            "            ",
+            "     CCCC   ",
+            "     TTTT   ",
+            "    TTTTTT  ",
+            "    TTTTTT  ",
+            "    TTTTTT  ",
+            "    TTTTTT  ",
+            "    TTTTTT  ",
+            "    TTTTTT  ",
+            "    TTTTTT  ",
+            "     TTTT   ",
+            "            "
+        ],
+        cheese: [
+            "            ",
+            "      Y     ",
+            "     YYY    ",
+            "    YYYYY   ",
+            "   YYYYYYY  ",
+            "  YYYYYYYYY ",
+            " YYYYYYYYYYY",
+            " YYYYYYYYYYY",
+            "            ",
             "            ",
             "            ",
             "            "

@@ -111,6 +111,11 @@ html, body {
     color: var(--accent-bright);
 }
 .action-btn.pink-btn { background: var(--accent-pink); color: #fff; text-align: center; font-family: var(--font-pixel); font-size: 11px; }
+.small-btn {
+    width: 44px !important; height: 44px !important; padding: 0 !important;
+    font-size: 18px !important; display: flex; align-items: center; justify-content: center;
+    min-width: auto !important; border-radius: 50% !important;
+}
 
 /* ===== TITLE SCREEN ===== */
 #title-screen {

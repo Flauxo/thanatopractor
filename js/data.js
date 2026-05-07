@@ -276,9 +276,8 @@ const DATA = {
             name: "Norse Send-off"
         },
         wrong: [
-            "\"Iván clears his throat nervously. He clearly picked the wrong script.\"",
-            "\"The family exchanges horrified glances as Iván mentions the wrong deity.\"",
-            "\"Someone in the front row whispers 'That's not our religion' loud enough for everyone to hear.\""
+            "chapel.wrong_1", "chapel.wrong_2", "chapel.wrong_3", "chapel.wrong_4", "chapel.wrong_5",
+            "chapel.wrong_6", "chapel.wrong_7", "chapel.wrong_8", "chapel.wrong_9", "chapel.wrong_10"
         ]
     },
 

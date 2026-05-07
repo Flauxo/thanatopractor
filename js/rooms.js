@@ -862,6 +862,7 @@ const Rooms = (() => {
 
     // ===== CHAPEL =====
     let chapelFamily = null;
+    let chapelRetry = false;
 
     function showChapel() {
         activeRoom = 'chapel';
@@ -912,33 +913,51 @@ const Rooms = (() => {
     function selectSermon(religionId) {
         if (!chapelFamily) return;
         const isCorrect = religionId === chapelFamily.religion.id;
-        const sermons = isCorrect ? DATA.sermons[religionId].correct : DATA.sermons.wrong;
-        const sermon = sermons[Math.floor(Math.random() * sermons.length)].replace(/\{name\}/g, chapelFamily.deceasedName);
-
+        
         if (isCorrect) {
+            const sermons = DATA.sermons[religionId].correct;
+            const sermon = sermons[Math.floor(Math.random() * sermons.length)].replace(/\{name\}/g, chapelFamily.deceasedName);
+
             Families.updateSatisfaction(chapelFamily.id, 15, 'Correct ceremony');
             Engine.addReputation(3, 'Beautiful ceremony');
             Audio8Bit.SFX.success();
-        } else {
-            Families.updateSatisfaction(chapelFamily.id, -25, 'Wrong religion ceremony!');
-            Engine.addReputation(-5, 'Wrong ceremony type!');
-            Audio8Bit.SFX.fail();
-        }
 
-        Dialogue.show(I18n.T('chapel.ivan_speaks'), sermon, [
-            { text: isCorrect ? I18n.T('chapel.correct') : I18n.T('chapel.wrong'), action: () => {
-                // After the sermon, offer violin music
-                offerViolinMusic(chapelFamily, isCorrect);
-            }}
-        ]);
+            Dialogue.show(I18n.T('chapel.ivan_speaks'), sermon, [
+                { text: I18n.T('chapel.correct'), action: () => {
+                    chapelRetry = false;
+                    offerViolinMusic(chapelFamily, true);
+                }}
+            ]);
+        } else {
+            const sermons = DATA.sermons.wrong;
+            const sermonKey = sermons[Math.floor(Math.random() * sermons.length)];
+            const sermon = I18n.T(sermonKey).replace(/\{name\}/g, chapelFamily.deceasedName);
+
+            Families.updateSatisfaction(chapelFamily.id, -25, 'Wrong religion ceremony!');
+            Engine.addReputation(-10, 'Wrong ceremony type!'); // -10 points penalty
+            Audio8Bit.SFX.fail();
+
+            const choices = [];
+            if (!chapelRetry) {
+                choices.push({ text: I18n.T('chapel.retry'), action: () => {
+                    chapelRetry = true;
+                    startSermon();
+                }});
+            }
+            
+            choices.push({ text: I18n.T('chapel.wrong'), action: () => {
+                chapelRetry = false;
+                offerViolinMusic(chapelFamily, false);
+            }});
+
+            Dialogue.show(I18n.T('chapel.ivan_speaks'), sermon, choices);
+        }
     }
 
     function offerViolinMusic(family, wasCorrectSermon) {
         // 50% chance for the offer to even appear
         if (Math.random() < 0.5) {
-            chapelFamily.chapelDone = true;
-            checkServiceComplete(chapelFamily);
-            updateChapelBadge();
+            finishChapel(family);
             return;
         }
 
@@ -951,58 +970,44 @@ const Rooms = (() => {
             [
                 { text: I18n.T('chapel.violin_offer_yes'), action: () => {
                     if (familyAccepts) {
-                        // Family accepts - charge $40 and boost satisfaction
                         Engine.addMoney(40, I18n.T('chapel.violin_income'));
                         Families.updateSatisfaction(family.id, 10, 'Beautiful violin music');
                         Engine.addReputation(1, 'Violin accompaniment');
+                        if (!family.services.includes('violin')) family.services.push('violin');
 
-                        // Pick a random humorous Aida quote
                         const quotes = [
-                            I18n.T('chapel.aida_quote_1'),
-                            I18n.T('chapel.aida_quote_2'),
-                            I18n.T('chapel.aida_quote_3'),
-                            I18n.T('chapel.aida_quote_4'),
+                            I18n.T('chapel.aida_quote_1'), I18n.T('chapel.aida_quote_2'),
+                            I18n.T('chapel.aida_quote_3'), I18n.T('chapel.aida_quote_4'),
                             I18n.T('chapel.aida_quote_5')
                         ];
                         const quote = quotes[Math.floor(Math.random() * quotes.length)];
-
+                        
                         Dialogue.show(I18n.T('chapel.violin_accept_title'), quote, [
-                            { text: I18n.T('chapel.violin_bravo'), action: () => {
-                                family.services.push('violin');
-                                finishChapel(family);
-                            }}
+                            { text: I18n.T('ov.dismiss'), action: () => finishChapel(family) }
                         ]);
                     } else {
-                        // Family declines
                         const rejections = [
-                            I18n.T('chapel.violin_reject_1'),
-                            I18n.T('chapel.violin_reject_2'),
-                            I18n.T('chapel.violin_reject_3')
+                            I18n.T('chapel.violin_reject_1'), I18n.T('chapel.violin_reject_2'), I18n.T('chapel.violin_reject_3')
                         ];
                         const rejection = rejections[Math.floor(Math.random() * rejections.length)];
-
                         Dialogue.show(I18n.T('chapel.violin_decline_title'), rejection, [
-                            { text: I18n.T('chapel.violin_ok'), action: () => {
-                                finishChapel(family);
-                            }}
+                            { text: I18n.T('ov.dismiss'), action: () => finishChapel(family) }
                         ]);
                     }
                 }},
-                { text: I18n.T('chapel.violin_offer_no'), action: () => {
-                    // Player skips the offer entirely
-                    finishChapel(family);
-                }}
+                { text: I18n.T('chapel.violin_offer_no'), action: () => finishChapel(family) }
             ]
         );
     }
 
     function finishChapel(family) {
+        if (!family) return;
         family.chapelDone = true;
-        family.services.push('chapel');
+        if (!family.services.includes('chapel')) family.services.push('chapel');
         document.getElementById('chapel-sermon-select').style.display = 'none';
         checkServiceComplete(family);
         updateChapelBadge();
-        showChapel();
+        if (typeof Main !== 'undefined') Main.showScreen('hub');
     }
 
     function updateChapelBadge() {

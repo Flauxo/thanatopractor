@@ -140,10 +140,10 @@ html, body {
 }
 .title-skull { font-size: 64px; margin: 16px 0; }
 .title-quote {
-    font-family: var(--font-vt); font-size: 20px;
-    color: var(--accent-pink); margin-bottom: 100px;
+    font-family: var(--font-vt); font-size: 22px;
+    color: #fff; margin-bottom: 100px;
     font-style: italic;
-    text-shadow: 0 0 5px #fff, 1px 1px 2px #000;
+    text-shadow: 2px 2px 0px #1a0f2e, 0 0 10px #3d2566;
 }
 .title-menu { display: flex; flex-direction: column; gap: 12px; align-items: center; }
 .title-menu .pixel-btn { min-width: 220px; }

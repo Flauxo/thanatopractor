@@ -36,7 +36,17 @@ const DATA = {
         { id: "steampunk", name: "Mechanized", icon: "⚙️", desc: "They want to add brass gears to the coffin." },
         { id: "reality", name: "Dramatic", icon: "📺", desc: "They are treating this like a season finale." },
         { id: "coupon", name: "Frugal", icon: "🎫", desc: "They brought a stack of expired coupons." },
-        { id: "traveler", name: "Temporal", icon: "⏳", desc: "They claim the deceased will revive in a week." }
+        { id: "traveler", name: "Temporal", icon: "⏳", desc: "They claim the deceased will revive in a week." },
+        { id: "conspiracy", name: "Conspiracy", icon: "🛸", desc: "They think the government is tracking the coffin." },
+        { id: "fitness", name: "Fitness", icon: "🏋️", desc: "They want to know if the deceased hit their step goal." },
+        { id: "chef", name: "Chef", icon: "👨‍🍳", desc: "More interested in the cafeteria than the burial." },
+        { id: "musician", name: "Musician", icon: "🎸", desc: "They want to turn the funeral into a world tour." },
+        { id: "superstitious", name: "Superstitious", icon: "🧿", desc: "They need to cover every mirror in the building." },
+        { id: "detective", name: "Detective", icon: "🕵️", desc: "They are investigating the causes themselves." },
+        { id: "occult", name: "Occultist", icon: "🕯️", desc: "They want to hold a séance during the viewing." },
+        { id: "techie", name: "Techie", icon: "💻", desc: "They want to upload the deceased to the cloud." },
+        { id: "romantic", name: "Romantic", icon: "🌹", desc: "Looking for their next partner among the mourners." },
+        { id: "minimalist", name: "Minimalist", icon: "📦", desc: "They want a flat-pack, self-assembly coffin." }
     ],
 
     // ===== ARRIVAL DIALOGUES =====
@@ -176,6 +186,76 @@ const DATA = {
                 { textKey: "dlg.traveler.c1", rep: 2, money: 0 },
                 { textKey: "dlg.traveler.c2", rep: 10, money: -500 },
                 { textKey: "dlg.traveler.c3", rep: 1, money: 0 }
+            ]}
+        ],
+        conspiracy: [
+            { textKey: "dlg.conspiracy.text", choices: [
+                { textKey: "dlg.conspiracy.c1", rep: 2, money: 0 },
+                { textKey: "dlg.conspiracy.c2", rep: 0, money: 200 },
+                { textKey: "dlg.conspiracy.c3", rep: 5, money: 0 }
+            ]}
+        ],
+        fitness: [
+            { textKey: "dlg.fitness.text", choices: [
+                { textKey: "dlg.fitness.c1", rep: 1, money: 0 },
+                { textKey: "dlg.fitness.c2", rep: 2, money: 0 },
+                { textKey: "dlg.fitness.c3", rep: -2, money: 0 }
+            ]}
+        ],
+        chef: [
+            { textKey: "dlg.chef.text", choices: [
+                { textKey: "dlg.chef.c1", rep: 2, money: 0 },
+                { textKey: "dlg.chef.c2", rep: 1, money: 0 },
+                { textKey: "dlg.chef.c3", rep: -1, money: 100 }
+            ]}
+        ],
+        musician: [
+            { textKey: "dlg.musician.text", choices: [
+                { textKey: "dlg.musician.c1", rep: 2, money: 0 },
+                { textKey: "dlg.musician.c2", rep: -2, money: 300 },
+                { textKey: "dlg.musician.c3", rep: 1, money: 0 }
+            ]}
+        ],
+        superstitious: [
+            { textKey: "dlg.superstitious.text", choices: [
+                { textKey: "dlg.superstitious.c1", rep: 3, money: 0 },
+                { textKey: "dlg.superstitious.c2", rep: 0, money: 150 },
+                { textKey: "dlg.superstitious.c3", rep: -1, money: 0 }
+            ]}
+        ],
+        detective: [
+            { textKey: "dlg.detective.text", choices: [
+                { textKey: "dlg.detective.c1", rep: 2, money: 0 },
+                { textKey: "dlg.detective.c2", rep: 0, money: 100 },
+                { textKey: "dlg.detective.c3", rep: -5, money: 0 }
+            ]}
+        ],
+        occult: [
+            { textKey: "dlg.occult.text", choices: [
+                { textKey: "dlg.occult.c1", rep: 1, money: 0 },
+                { textKey: "dlg.occult.c2", rep: -2, money: 200 },
+                { textKey: "dlg.occult.c3", rep: 5, money: 0 }
+            ]}
+        ],
+        techie: [
+            { textKey: "dlg.techie.text", choices: [
+                { textKey: "dlg.techie.c1", rep: 2, money: 0 },
+                { textKey: "dlg.techie.c2", rep: 0, money: 500 },
+                { textKey: "dlg.techie.c3", rep: -3, money: 0 }
+            ]}
+        ],
+        romantic: [
+            { textKey: "dlg.romantic.text", choices: [
+                { textKey: "dlg.romantic.c1", rep: 2, money: 0 },
+                { textKey: "dlg.romantic.c2", rep: 0, money: 0 },
+                { textKey: "dlg.romantic.c3", rep: -2, money: 0 }
+            ]}
+        ],
+        minimalist: [
+            { textKey: "dlg.minimalist.text", choices: [
+                { textKey: "dlg.minimalist.c1", rep: 1, money: -100 },
+                { textKey: "dlg.minimalist.c2", rep: 2, money: 0 },
+                { textKey: "dlg.minimalist.c3", rep: -2, money: 0 }
             ]}
         ]
     },

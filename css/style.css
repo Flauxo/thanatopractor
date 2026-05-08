@@ -174,9 +174,9 @@ html, body {
 }
 .reaper-welcome {
     position: absolute;
-    top: -45px;
-    left: -20px;
-    width: 75px;
+    top: -35px;
+    left: -10px;
+    width: 65px;
     height: auto;
     image-rendering: pixelated;
     z-index: 10;

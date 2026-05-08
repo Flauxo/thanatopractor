@@ -366,37 +366,38 @@ const Engine = (() => {
             text.style.animation = null;
 
             setTimeout(() => {
-                overlay.style.display = 'none';
-                // Force-close any lingering overlays
-                ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.style.display = 'none';
-                });
-                
-                // Generate schedule FIRST so the hub has data to show
-                generateDailySchedule();
-                
-                // Navigate to hub - force it directly if showScreen is blocked
                 try {
+                    overlay.style.display = 'none';
+                    // Force-close any lingering overlays
+                    ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay'].forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.style.display = 'none';
+                    });
+                    
+                    // Generate schedule
+                    console.log('[NEXTDAY] Generating schedule...');
+                    generateDailySchedule();
+                    console.log('[NEXTDAY] Schedule generated: ' + state.schedule.length + ' items');
+                    
+                    // Navigate to hub
                     if (typeof Main !== 'undefined') Main.showScreen('hub');
+                    
+                    if (typeof Audio8Bit !== 'undefined') Audio8Bit.fadeIn(1.5);
                 } catch(e) {
-                    console.error('showScreen error:', e);
+                    console.error('[NEXTDAY] Error during day setup:', e);
+                } finally {
+                    // ALWAYS start the clock, even if something above failed
+                    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                    const hubScreen = document.getElementById('hub-screen');
+                    if (hubScreen) hubScreen.classList.add('active');
+                    
+                    stopTime();
+                    tickInterval = null;
+                    startTime();
+                    state.speed = 1;
+                    console.log('[NEXTDAY] Clock started. tickInterval=' + (tickInterval !== null) + ' speed=' + state.speed + ' schedule=' + state.schedule.length);
+                    save();
                 }
-                // Force hub screen active as fallback
-                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                const hubScreen = document.getElementById('hub-screen');
-                if (hubScreen) hubScreen.classList.add('active');
-                
-                // ALWAYS start the clock
-                console.log('[NEXTDAY] setTimeout fired. Starting clock for day '+state.day+'. schedule='+state.schedule.length+' items');
-                stopTime(); // Clear any stale interval
-                tickInterval = null; // Force null
-                startTime();
-                console.log('[NEXTDAY] startTime called. tickInterval='+(tickInterval!==null)+' speed='+state.speed);
-                state.speed = 1;
-                
-                if (typeof Audio8Bit !== 'undefined') Audio8Bit.fadeIn(1.5);
-                save();
             }, 3000);
         } else {
             generateDailySchedule();

@@ -263,7 +263,9 @@ const Engine = (() => {
                 Dialogue.show(
                     I18n.T('eng.alert_18_title'), 
                     I18n.T('eng.alert_18_msg'),
-                    [{ text: I18n.T('eng.ok') }]
+                    [{ text: I18n.T('eng.ok') }],
+                    null,
+                    { showReaper: true }
                 );
             }
         }
@@ -279,7 +281,7 @@ const Engine = (() => {
                         { text: I18n.T('eng.end_no'), action: () => { 
                             showToast(I18n.T('eng.end_stay'), "");
                         } }
-                    ]);
+                    ], null, { showReaper: true });
                 }
             }
         }
@@ -529,7 +531,7 @@ const Engine = (() => {
                     if (c.rep) addReputation(c.rep, c.text);
                     if (c.money) addMoney(c.money, c.text);
                 }
-            })));
+            })), null, { showReaper: true });
         } else {
             showToast(event.text, '');
             if (event.effect === 'crema_cool') {
@@ -554,7 +556,7 @@ const Engine = (() => {
                     if (event.rep) addReputation(event.rep, I18n.T('dlg.bad_luck'));
                     if (event.money) addMoney(event.money, I18n.T('dlg.bad_luck'));
                 }
-            }]);
+            }], null, { showReaper: true });
         }
         if (typeof Audio8Bit !== 'undefined') Audio8Bit.SFX.fail();
     }
@@ -698,8 +700,8 @@ const Engine = (() => {
         const container = document.getElementById('toast-container');
         if (!container) return;
 
-        // Limit to 3 active toasts (excluding those already fading out)
-        const activeToasts = Array.from(container.children).filter(t => !t.classList.contains('fade-out'));
+        // Limit to 3 active toasts (excluding those already dismissing)
+        const activeToasts = Array.from(container.children).filter(t => !t.classList.contains('dismissing'));
         if (activeToasts.length >= 3) {
             dismissToast(activeToasts[0]);
         }

@@ -311,7 +311,9 @@ const CafeGames = (() => {
                 btn.innerHTML = Icons.getHTML(ing.icon);
                 btn.onclick = () => {
                     if (recipe[currentStep] === ing.id) {
-                        document.getElementById(`step-${currentStep}`).classList.add('done');
+                        const stepEl = document.getElementById(`step-${currentStep}`);
+                        stepEl.classList.add('done');
+                        stepEl.classList.remove('active');
                         currentStep++;
                         Audio8Bit.SFX.success();
                         if (currentStep >= recipe.length) {
@@ -320,6 +322,8 @@ const CafeGames = (() => {
                             feedback.textContent = I18n.T('cafe.fb_delicious');
                             finishGame(3);
                         } else {
+                            const nextStepEl = document.getElementById(`step-${currentStep}`);
+                            if (nextStepEl) nextStepEl.classList.add('active');
                             renderButtons(); // Shuffle on every correct click
                         }
                     } else {

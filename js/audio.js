@@ -317,7 +317,7 @@ const Audio8Bit = (() => {
     function playTrack(name) {
         if (!initialized) init();
         if (!ctx) return;
-        if (ctx.state === 'suspended') ctx.resume();
+        if (ctx.state === 'suspended' && !document.hidden) ctx.resume();
 
         const engineSpeed = (typeof Engine !== 'undefined') ? Engine.getState().speed : 1;
         if (currentTrackName === name && musicPlaying && lastPlayedSpeed === engineSpeed) return;

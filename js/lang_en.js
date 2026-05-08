@@ -201,6 +201,7 @@ I18n.register('en', {
 'crema.waiting': '🔥 The family of {0} is waiting for cremation.',
 'crema.btn_cremate': 'CREMATE', 'crema.need_800': '⏳ Need 800°C',
 'crema.incinerating': '🔥 INCINERATING...',
+'crema.waiting_oven': 'Waiting for Oven',
 'crema.eff_perfect': 'Perfect!', 'crema.eff_heating': 'Heating...', 'crema.eff_warming': 'Warming up',
 'crema.perfect_msg': '✨ Perfect cremation! {0}\'s ashes are clean and pure.',
 'crema.decent_msg': '👍 Decent cremation. Some fragments remain, but acceptable.',

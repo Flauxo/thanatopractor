@@ -231,7 +231,7 @@ const Rooms = (() => {
                     Engine.showToast(I18n.T('rec.pw_discarded'), '');
                     if (typeof Main !== 'undefined') Main.updateHubSchedule();
                 }}
-            ]);
+            ], null, { showReaper: true });
         };
     }
 
@@ -702,16 +702,21 @@ const Rooms = (() => {
         const schedList = document.getElementById('crema-schedule-list');
         if (schedList) {
             const active = Families.getActive().filter(f => f.embalmed && f.wantsCremation && !f.cremated && (f.viewed || f.cooldownDone) && (!f.wantsChapel || f.chapelDone));
+            const isAnyCremating = active.some(f => f.cremationStarted && !f.cremated);
+            const displayed = active.slice(0, 3);
+            
             if (active.length === 0) {
                 schedList.innerHTML = `<p class="dim-text">${I18n.T('crema.no_scheduled')}</p>`;
             } else {
-                schedList.innerHTML = active.map(f => {
+                schedList.innerHTML = displayed.map(f => {
                     const ready = s.cremaTemp >= 800;
                     const starting = f.cremationStarted;
                     let statusHTML = '';
                     if (starting && !f.cremated) {
                         const timeLeft = Math.max(0, Math.round(f.cremationEndTime - s.time));
                         statusHTML = `<span class="warning">${I18n.T('crema.incinerating')} (${timeLeft}m)</span>`;
+                    } else if (isAnyCremating) {
+                        statusHTML = `<span>${I18n.T('crema.waiting_oven')}</span>`;
                     } else if (ready) {
                         statusHTML = `<button class="action-btn pink-btn" style="padding:4px 8px;width:auto" onclick="Rooms.doCremation(${f.id})">${I18n.T('crema.btn_cremate')}</button>`;
                     } else {
@@ -731,6 +736,13 @@ const Rooms = (() => {
         const f = Families.getById(familyId);
         const s = Engine.getState();
         if (!f || f.cremated || f.cremationStarted) return;
+
+        // One cremation at a time check
+        const isBusy = s.families.some(fam => fam.cremationStarted && !fam.cremated);
+        if (isBusy) {
+            Engine.showToast(I18n.T('crema.waiting_oven'), 'warning');
+            return;
+        }
 
         f.cremationStarted = true;
         f.cremationEndTime = s.time + 60;

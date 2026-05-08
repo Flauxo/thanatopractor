@@ -436,7 +436,7 @@ window.Main = (() => {
             }
 
             setInterval(() => {
-                if (window.Audio8Bit && window.Audio8Bit.initialized && !window.Audio8Bit.muted) {
+                if (window.Audio8Bit && window.Audio8Bit.initialized && !window.Audio8Bit.muted && !document.hidden) {
                     window.Audio8Bit.nextTrack();
                 }
             }, 60000);

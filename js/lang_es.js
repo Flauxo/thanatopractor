@@ -208,6 +208,7 @@ I18n.register('es', {
 'crema.waiting': '🔥 La familia de {0} está esperando la cremación.',
 'crema.btn_cremate': 'CREMAR', 'crema.need_800': '⏳ Necesita 800°C',
 'crema.incinerating': '🔥 INCINERANDO...',
+'crema.waiting_oven': 'Esperando Horno',
 'crema.eff_perfect': '¡Perfecto!', 'crema.eff_heating': 'Calentando...', 'crema.eff_warming': 'Precalentando',
 'crema.perfect_msg': '✨ ¡Cremación perfecta! Las cenizas de {0} son limpias y puras.',
 'crema.decent_msg': '👍 Cremación decente. Quedan algunos fragmentos, pero aceptable.',

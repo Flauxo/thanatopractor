@@ -299,7 +299,7 @@ const DATA = {
         { type: "faint", text: "\"Oh no, someone just fainted!\"", icon: "😵" },
         { type: "flowers", text: "\"The flowers look wilted. Can we get fresh ones? (use the phone, hurry)\"", icon: "💐" },
         { type: "lighting", text: "\"Could we adjust the lighting? It's too bright/dark.\"", icon: "💡" },
-        { type: "privacy", text: "\"We need a moment alone with {name}.\"", icon: "🚪" },
+        { type: "privacy", text: "\"We need a moment alone with {name}, come back in 5 min.\"", icon: "🚪" },
         { type: "music", text: "\"Can you play some music? {name} loved jazz.\"", icon: "🎵" }
     ],
 

@@ -298,7 +298,7 @@ const DATA_ES = {
         { type: "faint", text: "\"¡Oh no, alguien se acaba de desmayar!\"", icon: "😵" },
         { type: "flowers", text: "\"Las flores parecen marchitas. ¿Podemos conseguir otras frescas? (llama por tlf, corre)\"", icon: "💐" },
         { type: "lighting", text: "\"¿Se podría ajustar la iluminación? Está demasiado brillante/oscura.\"", icon: "💡" },
-        { type: "privacy", text: "\"Necesitamos un momento a solas con {name}.\"", icon: "🚪" },
+        { type: "privacy", text: "\"Necesitamos un momento a solas con {name}, vuelva en 5 min.\"", icon: "🚪" },
         { type: "music", text: "\"¿Pueden poner algo de música? A {name} le encantaba el jazz.\"", icon: "🎵" }
     ],
 

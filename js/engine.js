@@ -36,7 +36,8 @@ const Engine = (() => {
         cremaTutorialShown: false,
         embalmTutorialShown: false,
         viewingTutorialShown: false,
-        stats: { familiesServed: 0, totalEarnings: 0, diceRolls: 0, bestRoll: 0, worstDay: null }
+        stats: { familiesServed: 0, totalEarnings: 0, diceRolls: 0, bestRoll: 0, worstDay: null },
+        realPlayTimeMS: 0
     });
 
     let state = defaultState();
@@ -164,6 +165,8 @@ const Engine = (() => {
     function tick() {
         if (state.speed === 0 || state.gameOver) return;
         if (typeof window.Main !== 'undefined' && window.Main.currentScreen === 'title') return;
+        
+        state.realPlayTimeMS += TICK_MS;
         const advance = MINUTES_PER_TICK * state.speed;
         state.time += advance;
 
@@ -202,22 +205,23 @@ const Engine = (() => {
         const cooldown = isAdvanced ? 30 : 60;
         const boredTimeout = isAdvanced ? 60 : 120;
         
+        // Random event chance
+        const isIdle = activeFams === 0 && waitingFams === 0;
+        const canTrigger = isIdle || (isAdvanced && Math.random() < 0.25); // 25% chance to allow even if busy starting day 5
+        const gracePeriodOver = state.realPlayTimeMS >= 180000; // 3 minutes
+
+        if (gracePeriodOver && canTrigger && (state.time - state.lastRandomEventTime) >= cooldown && Math.random() < prob) {
+            triggerRandomEvent();
+        }
+
         // Forced event if long dead time passes
-        if (activeFams === 0 && waitingFams === 0 && (state.time - state.lastActivityTime) >= boredTimeout && (state.time - state.lastRandomEventTime) >= cooldown) {
+        if (gracePeriodOver && activeFams === 0 && waitingFams === 0 && (state.time - state.lastActivityTime) >= boredTimeout && (state.time - state.lastRandomEventTime) >= cooldown) {
             state.lastActivityTime = state.time;
             triggerRandomEvent();
         }
 
-        // Random event chance
-        const isIdle = activeFams === 0 && waitingFams === 0;
-        const canTrigger = isIdle || (isAdvanced && Math.random() < 0.25); // 25% chance to allow even if busy starting day 5
-
-        if (canTrigger && (state.time - state.lastRandomEventTime) >= cooldown && Math.random() < prob) {
-            triggerRandomEvent();
-        }
-
         // Bad Luck event chance (Level 10+)
-        if (getLevel() >= 10 && (state.time - state.lastRandomEventTime) >= cooldown && Math.random() < 0.01 * state.speed) {
+        if (gracePeriodOver && getLevel() >= 10 && (state.time - state.lastRandomEventTime) >= cooldown && Math.random() < 0.01 * state.speed) {
             triggerBadLuckEvent();
         }
 

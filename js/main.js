@@ -29,6 +29,13 @@ window.Main = (() => {
             if (btnContinue) btnContinue.style.display = (!hasActiveGame && Engine.hasSave()) ? 'block' : 'none';
         }
 
+        // Start menu ambience on relevant screens
+        if (['title', 'name', 'welcome'].includes(name)) {
+            if (typeof Audio8Bit !== 'undefined' && Audio8Bit.initialized) {
+                Audio8Bit.startAmbience();
+            }
+        }
+
         // Init room when shown
         switch (name) {
             case 'reception': Rooms.showReception(); break;
@@ -61,74 +68,131 @@ window.Main = (() => {
         }
     }
 
+    function updateHubSchedule() {
+        const sched = Engine.getState().schedule;
+        const list = document.getElementById('schedule-list');
+        if (!list) return;
+        if (sched.length === 0) {
+            list.innerHTML = `<p class="dim-text" data-i18n="hub.no_scheduled">No tasks scheduled</p>`;
+            if (typeof I18n !== 'undefined') I18n.updateDOM(list);
+            return;
+        }
+
+        const safeTime = t => (t && typeof t === 'string') ? t : (t ? String(t) : '');
+        const sorted = [...sched].sort((a, b) => safeTime(a.time).localeCompare(safeTime(b.time)));
+        const pending = sorted.filter(s => !s.triggered);
+        let completed = sorted.filter(s => s.triggered);
+        completed = completed.slice(-3);
+        const finalSched = [...pending, ...completed].sort((a, b) => safeTime(a.time).localeCompare(safeTime(b.time)));
+
+        list.innerHTML = '';
+        finalSched.forEach(item => {
+            const div = document.createElement('div');
+            div.className = `schedule-item ${item.triggered ? 'completed' : ''}`;
+            const icon = item.triggered ? '✓' : '⏳';
+            const name = item.family ? item.family.name : '';
+            div.innerHTML = `<span class="time">${item.time}</span><span class="type">${item.type}</span><span class="family">${name}</span><span>${icon}</span>`;
+            list.appendChild(div);
+        });
+    }
+
     function initGame() {
+        // ===== SPLASH SCREEN LOGIC (Immediate) =====
+        const splash = document.getElementById('splash-screen');
+        if (splash) {
+            const loadingText = splash.querySelector('.loading-text');
+            const progressContainer = splash.querySelector('.splash-progress-container');
+            const progressBar = document.getElementById('splash-progress');
+
+            // Phrases logic
+            if (loadingText) {
+                loadingText.style.display = 'block';
+                let phrases = ["Cargando..."];
+                try {
+                    const list = I18n.T('splash.loading_list');
+                    if (Array.isArray(list)) phrases = [...list].sort(() => Math.random() - 0.5);
+                } catch(e) {}
+
+                let phraseIdx = 0;
+                const updatePhrase = () => {
+                    if (phrases[phraseIdx]) {
+                        loadingText.textContent = phrases[phraseIdx];
+                        phraseIdx = (phraseIdx + 1) % phrases.length;
+                    }
+                };
+                updatePhrase();
+                const phraseInt = setInterval(updatePhrase, 800);
+                setTimeout(() => clearInterval(phraseInt), 4000);
+            }
+
+            // Progress Bar logic
+            if (progressBar) {
+                if (progressContainer) progressContainer.style.display = 'block';
+                const startTime = Date.now();
+                const duration = 5000;
+                let currentProgress = 0;
+
+                const progressInt = setInterval(() => {
+                    const elapsed = Date.now() - startTime;
+                    if (elapsed >= duration) {
+                        progressBar.style.width = '100%';
+                        clearInterval(progressInt);
+                        return;
+                    }
+                    if (Math.random() > 0.4) {
+                        currentProgress = Math.min(95, currentProgress + (Math.random() * 10));
+                        const timeFactor = elapsed / duration;
+                        if (currentProgress < timeFactor * 70) currentProgress += 5;
+                    }
+                    progressBar.style.width = currentProgress + '%';
+                }, 100);
+            }
+
+            // Tombstone animation
+            setTimeout(() => {
+                const lid = document.getElementById('grave-lid');
+                if (lid) lid.classList.add('open');
+            }, 800);
+
+            // Transition to button after 5 seconds
+            setTimeout(() => {
+                if (loadingText) loadingText.style.display = 'none';
+                if (progressContainer) progressContainer.style.display = 'none';
+                
+                const btnEnter = document.getElementById('btn-enter-game');
+                if (btnEnter) {
+                    btnEnter.style.display = 'block';
+                    btnEnter.textContent = I18n.T('splash.enter');
+                    btnEnter.onclick = () => {
+                        btnEnter.disabled = true;
+                        btnEnter.style.opacity = '0.6';
+                        
+                        // Audio initialization (Safe now because of user gesture)
+                        if (typeof Audio8Bit !== 'undefined') {
+                            Audio8Bit.init();
+                            Audio8Bit.SFX.splashEntry();
+                            // Start ambience immediately
+                            Audio8Bit.startAmbience();
+                        }
+
+                        splash.style.transition = 'opacity 1s ease-in-out';
+                        splash.style.opacity = '0';
+                        setTimeout(() => {
+                            splash.style.display = 'none';
+                            showScreen('title');
+                        }, 1000);
+                    };
+                }
+            }, 5000);
+        }
+
         // Init UI Icons
         if (typeof Icons !== 'undefined') {
             Icons.initDOM();
         }
 
         // Set initial language and trigger swap events
-        I18n.init();
         I18n.setLanguage(I18n.getLanguage());
-
-        // ===== SPLASH SCREEN LOGIC =====
-        const splash = document.getElementById('splash-screen');
-        if (splash) {
-            const hint = document.createElement('p');
-            hint.className = 'vt-text dim';
-            hint.style.position = 'absolute';
-            hint.style.bottom = '40px';
-            hint.style.width = '100%';
-            hint.style.textAlign = 'center';
-            hint.textContent = I18n.T('spl.click_to_enter');
-            splash.appendChild(hint);
-
-            const startSplash = () => {
-                document.removeEventListener('click', startSplash);
-                hint.style.display = 'none';
-                
-                const loadingText = splash.querySelector('.loading-text');
-                if (loadingText) {
-                    loadingText.style.display = 'block';
-                    loadingText.style.color = '#ffffff'; // Ensure white color
-                    
-                    const phrases = I18n.T('splash.loading_list') || [I18n.T('splash.loading')];
-                    let phraseIdx = 0;
-                    
-                    const updatePhrase = () => {
-                        loadingText.textContent = phrases[phraseIdx];
-                        phraseIdx = (phraseIdx + 1) % phrases.length;
-                    };
-                    
-                    updatePhrase();
-                    const phraseInterval = setInterval(updatePhrase, 700);
-                    
-                    // Stop interval when splash is done
-                    setTimeout(() => clearInterval(phraseInterval), 4000);
-                }
-                
-                if (typeof Audio8Bit !== 'undefined') {
-                    Audio8Bit.init();
-                    Audio8Bit.SFX.bell();
-                    Audio8Bit.SFX.grave();
-                }
-                
-                setTimeout(() => {
-                    const lid = document.getElementById('grave-lid');
-                    if (lid) lid.classList.add('open');
-                }, 800);
-
-                setTimeout(() => {
-                    splash.style.transition = 'opacity 1s ease-in-out';
-                    splash.style.opacity = '0';
-                    setTimeout(() => {
-                        splash.style.display = 'none';
-                        showScreen('title');
-                    }, 1000);
-                }, 4000);
-            };
-            document.addEventListener('click', startSplash);
-        }
 
         // ===== TITLE SCREEN =====
         if (Engine.hasSave()) {
@@ -176,8 +240,11 @@ window.Main = (() => {
         });
 
         document.getElementById('btn-credits').onclick = () => {
-            Audio8Bit.init();
-            Audio8Bit.SFX.click();
+            if (typeof Audio8Bit !== 'undefined') {
+                Audio8Bit.init();
+                Audio8Bit.startAmbience();
+                Audio8Bit.SFX.click();
+            }
             document.getElementById('credits-overlay').style.display = 'flex';
         };
         document.getElementById('btn-close-credits').onclick = () => {
@@ -211,7 +278,7 @@ window.Main = (() => {
         };
 
         document.getElementById('btn-accept-terms').onclick = () => {
-            Audio8Bit.SFX.success();
+            try { if (window.Audio8Bit) window.Audio8Bit.SFX.success(); } catch(e){}
             startGameplay();
         };
 
@@ -282,6 +349,18 @@ window.Main = (() => {
             showScreen('title');
         };
 
+        // ===== MANUAL AUDIO SKIP =====
+        const btnSkip = document.getElementById('btn-skip-track');
+        if (btnSkip) {
+            btnSkip.onclick = () => {
+                if (window.Audio8Bit) {
+                    window.Audio8Bit.stopAmbience();
+                    window.Audio8Bit.nextTrack();
+                    Audio8Bit.SFX.click();
+                }
+            };
+        }
+
         // ===== AUTO SAVE =====
         setInterval(() => {
             if (currentScreen !== 'title' && currentScreen !== 'name' && currentScreen !== 'gameover') {
@@ -306,39 +385,45 @@ window.Main = (() => {
     }
 
     function startGameplay() {
-        const s = Engine.getState();
+        try {
+            console.log("Executing startGameplay...");
+            const s = Engine.getState();
 
-        // Unlock owned rooms
-        s.upgrades.forEach(id => {
-            const upg = DATA.upgrades.find(u => u.id === id);
-            if (upg && upg.room) {
-                const nav = document.getElementById(`nav-${upg.room}`);
-                if (nav) {
-                    nav.classList.remove('locked');
-                    const lock = nav.querySelector('.nav-lock');
-                    if (lock) lock.style.display = 'none';
+            s.upgrades.forEach(id => {
+                const upg = DATA.upgrades.find(u => u.id === id);
+                if (upg && upg.room) {
+                    const nav = document.getElementById(`nav-${upg.room}`);
+                    if (nav) {
+                        nav.classList.remove('locked');
+                        const lock = nav.querySelector('.nav-lock');
+                        if (lock) lock.style.display = 'none';
+                    }
                 }
+            });
+
+            Rooms.initReception();
+            Engine.updateHUD();
+            Engine.generateDailySchedule();
+            Engine.startTime();
+            showScreen('hub');
+
+            if (window.Audio8Bit) {
+                console.log("Attempting to transition audio...");
+                window.Audio8Bit.stopAmbience();
+                window.Audio8Bit.playTrack('midnightDig');
             }
-        });
 
-        Rooms.initReception();
-        Engine.updateHUD();
-        Engine.generateDailySchedule();
-        Engine.startTime();
-        showScreen('hub');
+            setInterval(() => {
+                if (window.Audio8Bit && window.Audio8Bit.initialized && !window.Audio8Bit.muted) {
+                    window.Audio8Bit.nextTrack();
+                }
+            }, 60000);
 
-        // Start music
-        Audio8Bit.playTrack('midnightDig');
-
-        // Cycle music tracks every 3 minutes
-        setInterval(() => {
-            if (Audio8Bit.initialized && !Audio8Bit.muted) {
-                Audio8Bit.nextTrack();
-            }
-        }, 60000);
-
-        // Welcome toast
-        Engine.showToast(I18n.T('hub.welcome', s.playerName), '');
+            Engine.showToast(I18n.T('hub.welcome', s.playerName), '');
+        } catch (fatalError) {
+            console.error("FATAL ERROR IN STARTGAMEPLAY:", fatalError);
+            alert("Error: " + fatalError.message);
+        }
     }
 
     // Init on load

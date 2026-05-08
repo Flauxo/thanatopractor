@@ -5,7 +5,7 @@ const Audio8Bit = (() => {
     let musicGainA = null;
     let musicGainB = null;
     let sfxGain = null;
-    let activeGain = null;
+    let activeGain = 'A';
     let currentGainNode = null;
     let currentTrackName = null;
     let musicPlaying = false;
@@ -13,39 +13,35 @@ const Audio8Bit = (() => {
     let initialized = false;
     let trackOscillators = [];
     let trackTimeout = null;
+    let ambienceNodes = null;
 
     function init() {
         if (initialized) return;
-        ctx = new (window.AudioContext || window.webkitAudioContext)();
-        masterGain = ctx.createGain();
-        masterGain.gain.value = 0.6;
-        masterGain.connect(ctx.destination);
-        
-        musicGainA = ctx.createGain();
-        musicGainA.gain.value = 0.25;
-        musicGainA.connect(masterGain);
-        
-        musicGainB = ctx.createGain();
-        musicGainB.gain.value = 0;
-        musicGainB.connect(masterGain);
-        
-        currentGainNode = musicGainA;
-        activeGain = 'A';
+        try {
+            ctx = new (window.AudioContext || window.webkitAudioContext)();
+            masterGain = ctx.createGain();
+            masterGain.gain.value = 0.6;
+            masterGain.connect(ctx.destination);
+            
+            musicGainA = ctx.createGain();
+            musicGainA.gain.value = 0.25;
+            musicGainA.connect(masterGain);
+            
+            musicGainB = ctx.createGain();
+            musicGainB.gain.value = 0;
+            musicGainB.connect(masterGain);
+            
+            currentGainNode = musicGainA;
+            sfxGain = ctx.createGain();
+            sfxGain.gain.value = 0.5;
+            sfxGain.connect(masterGain);
 
-        sfxGain = ctx.createGain();
-        sfxGain.gain.value = 0.5;
-        sfxGain.connect(masterGain);
-        initialized = true;
-
-        // Mute when tab is hidden, restore when visible
-        document.addEventListener('visibilitychange', () => {
-            if (!ctx || !masterGain) return;
-            if (document.hidden) {
-                masterGain.gain.setTargetAtTime(0, ctx.currentTime, 0.1);
-            } else if (!muted) {
-                masterGain.gain.setTargetAtTime(0.6, ctx.currentTime, 0.3);
-            }
-        });
+            if (ctx.state === 'suspended') ctx.resume();
+            initialized = true;
+            console.log("Audio8Bit Initialized");
+        } catch (e) {
+            console.error("Audio init failed", e);
+        }
     }
 
     function playNote(freq, duration, type, gainNode, startTime, vol) {
@@ -53,7 +49,7 @@ const Audio8Bit = (() => {
         const osc = ctx.createOscillator();
         const g = ctx.createGain();
         osc.type = type || 'square';
-        osc.frequency.value = freq;
+        osc.frequency.setValueAtTime(freq, startTime);
         g.gain.setValueAtTime((vol || 0.3), startTime);
         g.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
         osc.connect(g);
@@ -62,32 +58,8 @@ const Audio8Bit = (() => {
         osc.stop(startTime + duration);
     }
 
-    function playDrum(type, t) {
-        if (!ctx) return;
-        if (type === 'k') { // Kick
-            const osc = ctx.createOscillator();
-            const g = ctx.createGain();
-            osc.frequency.setValueAtTime(150, t);
-            osc.frequency.exponentialRampToValueAtTime(0.01, t + 0.1);
-            g.gain.setValueAtTime(0.6, t);
-            g.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
-            osc.connect(g); g.connect(currentGainNode);
-            osc.start(t); osc.stop(t + 0.1);
-        } else if (type === 's') { // Snare
-            playNote(800 + Math.random()*200, 0.1, 'square', currentGainNode, t, 0.2);
-            playNote(200, 0.1, 'sawtooth', currentGainNode, t, 0.2);
-        } else if (type === 'h') { // Hihat
-            playNote(1200 + Math.random()*200, 0.03, 'square', currentGainNode, t, 0.05);
-        }
-    }
-
-    // ===== SFX =====
     const SFX = {
-        click() {
-            if (!ctx) return;
-            const t = ctx.currentTime;
-            playNote(800, 0.05, 'square', sfxGain, t, 0.2);
-        },
+        click() { if (ctx) playNote(800, 0.05, 'square', sfxGain, ctx.currentTime, 0.2); },
         success() {
             if (!ctx) return;
             const t = ctx.currentTime;
@@ -101,116 +73,96 @@ const Audio8Bit = (() => {
             playNote(300, 0.15, 'sawtooth', sfxGain, t, 0.3);
             playNote(200, 0.25, 'sawtooth', sfxGain, t + 0.15, 0.3);
         },
-        notification() {
+        typing() { if (ctx) playNote(600 + Math.random() * 200, 0.03, 'square', sfxGain, ctx.currentTime, 0.1); },
+        splashEntry() {
             if (!ctx) return;
             const t = ctx.currentTime;
-            playNote(880, 0.08, 'square', sfxGain, t, 0.2);
-            playNote(1100, 0.08, 'square', sfxGain, t + 0.1, 0.2);
-        },
-        diceRoll() {
-            if (!ctx) return;
-            const t = ctx.currentTime;
-            for (let i = 0; i < 8; i++) {
-                playNote(200 + Math.random() * 600, 0.05, 'square', sfxGain, t + i * 0.06, 0.15);
-            }
-        },
-        diceResult(good) {
-            if (!ctx) return;
-            const t = ctx.currentTime;
-            if (good) {
-                playNote(523, 0.1, 'square', sfxGain, t, 0.3);
-                playNote(659, 0.1, 'square', sfxGain, t + 0.1, 0.3);
-                playNote(784, 0.1, 'square', sfxGain, t + 0.2, 0.3);
-                playNote(1047, 0.2, 'square', sfxGain, t + 0.3, 0.3);
-            } else {
-                playNote(400, 0.15, 'sawtooth', sfxGain, t, 0.3);
-                playNote(350, 0.15, 'sawtooth', sfxGain, t + 0.15, 0.3);
-                playNote(250, 0.3, 'sawtooth', sfxGain, t + 0.3, 0.3);
-            }
-        },
-        money() {
-            if (!ctx) return;
-            const t = ctx.currentTime;
-            playNote(1200, 0.05, 'square', sfxGain, t, 0.2);
-            playNote(1500, 0.08, 'square', sfxGain, t + 0.06, 0.2);
-        },
-        bell() {
-            if (!ctx) return;
-            const t = ctx.currentTime;
-            playNote(1400, 0.3, 'sine', sfxGain, t, 0.2);
-            playNote(1800, 0.2, 'sine', sfxGain, t + 0.15, 0.15);
-        },
-        fire() {
-            if (!ctx) return;
-            const t = ctx.currentTime;
-            for (let i = 0; i < 5; i++) {
-                playNote(80 + Math.random() * 120, 0.1, 'sawtooth', sfxGain, t + i * 0.08, 0.1);
-            }
-        },
-        grave() {
-            if (!ctx) return;
-            const t = ctx.currentTime + 1.0; // 1 second delay
-            
-            // Grinding effect (low frequency sawtooth with jitter)
-            for (let i = 0; i < 15; i++) {
-                const dur = 0.15;
-                const start = t + i * 0.08;
-                playNote(40 + Math.random() * 40, dur, 'sawtooth', sfxGain, start, 0.3);
-            }
-            
-            // Final heavy thud
-            playNote(50, 0.6, 'sine', sfxGain, t + 1.2, 0.7);
-            playNote(30, 0.8, 'sine', sfxGain, t + 1.3, 0.5);
-        },
-        gameOver() {
-            if (!ctx) return;
-            const t = ctx.currentTime;
-            playNote(440, 0.3, 'square', sfxGain, t, 0.3);
-            playNote(415, 0.3, 'square', sfxGain, t + 0.35, 0.3);
-            playNote(392, 0.3, 'square', sfxGain, t + 0.7, 0.3);
-            playNote(349, 0.5, 'sawtooth', sfxGain, t + 1.05, 0.4);
-        },
-        typing() {
-            if (!ctx) return;
-            playNote(600 + Math.random() * 200, 0.03, 'square', sfxGain, ctx.currentTime, 0.1);
-        },
-        levelUp() {
-            if (!ctx) return;
-            const t = ctx.currentTime;
-            const duration = 2.0;
-            const notes = [
-                523.25, // C5
-                659.25, // E5
-                783.99, // G5
-                1046.50, // C6
-                1318.51, // E6
-                1567.98, // G6
-                2093.00 // C7
-            ];
-            const interval = duration / (notes.length + 1);
-            notes.forEach((freq, i) => {
-                const startTime = t + i * interval;
+            // Sinister ascending arpeggio: minor chord ascent
+            const sinisterNotes = [130.8, 155.6, 185.0, 220.0, 261.6, 311.1, 370.0, 440.0, 523.3, 622.3, 740.0, 880.0];
+            sinisterNotes.forEach((freq, i) => {
+                const noteT = t + i * (2.0 / sinisterNotes.length);
                 const osc = ctx.createOscillator();
                 const g = ctx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(freq, startTime);
-                // Slight vibrato for bell effect
-                osc.frequency.exponentialRampToValueAtTime(freq * 1.01, startTime + 0.1);
-                
-                g.gain.setValueAtTime(0, startTime);
-                g.gain.linearRampToValueAtTime(0.3, startTime + 0.05);
-                g.gain.exponentialRampToValueAtTime(0.001, startTime + 0.8);
-                
-                osc.connect(g);
-                g.connect(sfxGain);
-                osc.start(startTime);
-                osc.stop(startTime + 1.0);
+                osc.type = i % 2 === 0 ? 'square' : 'sawtooth';
+                osc.frequency.setValueAtTime(freq, noteT);
+                g.gain.setValueAtTime(0.0, noteT);
+                g.gain.linearRampToValueAtTime(0.18, noteT + 0.05);
+                g.gain.exponentialRampToValueAtTime(0.001, noteT + 0.3);
+                osc.connect(g); g.connect(sfxGain);
+                osc.start(noteT); osc.stop(noteT + 0.35);
             });
+            // Low drone underneath
+            const drone = ctx.createOscillator();
+            const droneGain = ctx.createGain();
+            drone.type = 'sine';
+            drone.frequency.setValueAtTime(55, t);
+            drone.frequency.exponentialRampToValueAtTime(110, t + 2.0);
+            droneGain.gain.setValueAtTime(0, t);
+            droneGain.gain.linearRampToValueAtTime(0.12, t + 0.3);
+            droneGain.gain.linearRampToValueAtTime(0, t + 2.0);
+            drone.connect(droneGain); droneGain.connect(sfxGain);
+            drone.start(t); drone.stop(t + 2.0);
         }
     };
 
-    // ===== MUSIC TRACKS =====
-    // 3 ambient chiptune tracks: eerie, melancholic, mysterious
+    function startAmbience() {
+        if (!initialized) init();
+        if (!ctx || ambienceNodes) return;
+        
+        try {
+            if (ctx.state === 'suspended') ctx.resume();
+            
+            const bufferSize = 2 * ctx.sampleRate;
+            const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+
+            const whiteNoise = ctx.createBufferSource();
+            whiteNoise.buffer = noiseBuffer;
+            whiteNoise.loop = true;
+
+            const filter = ctx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.value = 500;
+
+            const gainNode = ctx.createGain();
+            gainNode.gain.value = 0.03;
+
+            const lfo = ctx.createOscillator();
+            lfo.type = 'sine';
+            lfo.frequency.value = 0.2;
+            const lfoGain = ctx.createGain();
+            lfoGain.gain.value = 0.02;
+            lfo.connect(lfoGain);
+            lfoGain.connect(gainNode.gain);
+
+            whiteNoise.connect(filter);
+            filter.connect(gainNode);
+            gainNode.connect(masterGain);
+
+            whiteNoise.start();
+            lfo.start();
+            ambienceNodes = { whiteNoise, lfo, gainNode };
+            console.log("Ambience Started");
+        } catch (e) { console.error("Ambience start failed", e); }
+    }
+
+    function stopAmbience() {
+        console.log("Stopping Ambience...");
+        if (ambienceNodes) {
+            const nodes = ambienceNodes;
+            ambienceNodes = null;
+            try {
+                if (nodes.gainNode) nodes.gainNode.gain.setValueAtTime(0, ctx.currentTime);
+                if (nodes.whiteNoise) nodes.whiteNoise.stop();
+                if (nodes.lfo) nodes.lfo.stop();
+                console.log("Ambience Stopped Successfully");
+            } catch (e) { console.warn("Ambience stop error", e); }
+        } else {
+            console.log("No ambience nodes to stop");
+        }
+    }
+
     const TRACKS = {
         midnightDig: {
             bpm: 135,
@@ -233,9 +185,6 @@ const Audio8Bit = (() => {
                 { n: 'F1', d: 1 }, { n: 'F1', d: 1 }, { n: 'E1', d: 2 }
             ],
             drums: [
-                { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] },
-                { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] },
-                { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] },
                 { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] },
                 { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] },
                 { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] },
@@ -263,14 +212,9 @@ const Audio8Bit = (() => {
                 { n: 'C2', d: 1 }, { n: 'B1', d: 1 }, { n: 'E2', d: 2 },
                 { n: 'A2', d: 1 }, { n: 'B2', d: 1 }, { n: 'C3', d: 1 }, { n: 'G2', d: 1 },
                 { n: 'F2', d: 1 }, { n: 'E2', d: 1 }, { n: 'D2', d: 1 }, { n: 'C2', d: 1 },
-                { n: 'E2', d: 1 }, { n: 'F2', d: 1 }, { n: 'G2', d: 1 }, { n: 'A2', d: 1 },
                 { n: 'B2', d: 4 }
             ],
             drums: [
-                { d: 1, c: ['k','h'] }, { d: 1, c: ['h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['h'] },
-                { d: 1, c: ['k','h'] }, { d: 1, c: ['h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['h'] },
-                { d: 1, c: ['k','h'] }, { d: 1, c: ['h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['h'] },
-                { d: 1, c: ['k','h'] }, { d: 1, c: ['h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['h'] },
                 { d: 1, c: ['k','h'] }, { d: 1, c: ['h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['h'] },
                 { d: 1, c: ['k','h'] }, { d: 1, c: ['h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['h'] },
                 { d: 1, c: ['k','h'] }, { d: 1, c: ['h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['h'] },
@@ -297,48 +241,36 @@ const Audio8Bit = (() => {
             drums: [
                 { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] },
                 { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] },
-                { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] },
-                { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] },
                 { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }
             ]
         }
     };
 
     const NOTE_FREQS = {
-        'R':0,'C1':32.7,'D1':36.7,'E1':41.2,'F1':43.7,'G1':49,'A1':55,'Bb1':58.3,'B1':61.7,
-        'C2':65.4,'D2':73.4,'E2':82.4,'F2':87.3,'G2':98,'A2':110,'Bb2':116.5,'B2':123.5,
-        'C3':130.8,'D3':146.8,'E3':164.8,'F3':174.6,'G3':196,'A3':220,'Bb3':233.1,'B3':246.9,
-        'C4':261.6,'D4':293.7,'E4':329.6,'F4':349.2,'G4':392,'A4':440,'Bb4':466.2,'B4':493.9,
+        'R':0,'C1':32.7,'D1':36.7,'E1':41.2,'F1':43.7,'G1':49,'A1':55,'B1':61.7,
+        'C2':65.4,'D2':73.4,'E2':82.4,'F2':87.3,'G2':98,'A2':110,'B2':123.5,
+        'C3':130.8,'D3':146.8,'E3':164.8,'F3':174.6,'G3':196,'A3':220,'B3':246.9,
+        'C4':261.6,'D4':293.7,'E4':329.6,'F4':349.2,'G4':392,'A4':440,'B4':493.9,
         'C5':523.3,'D5':587.3,'E5':659.3, 'F5':698.5, 'G5':784.0, 'A5':880.0, 'B0':30.9, 'A0':27.5
     };
 
-
-
-    function stopMusic() {
-        trackOscillators.forEach(item => { try { item.osc.stop(); } catch(e){} });
-        trackOscillators = [];
-        if (trackTimeout) clearTimeout(trackTimeout);
-        musicPlaying = false;
-    }
-
     function playTrack(name) {
-        if (!ctx || !initialized) return;
+        if (!initialized) init();
+        if (!ctx) return;
+        if (ctx.state === 'suspended') ctx.resume();
         
-        const fadeTime = 1.5; // seconds for crossfade
+        console.log("Playing Track:", name);
+        const fadeTime = 1.0;
         const t = ctx.currentTime;
         
-        // Fade out current node
         if (currentGainNode) {
             currentGainNode.gain.cancelScheduledValues(t);
             currentGainNode.gain.linearRampToValueAtTime(0, t + fadeTime);
         }
 
-        // Switch to the other gain node for the new track
         activeGain = activeGain === 'A' ? 'B' : 'A';
         const newNode = activeGain === 'A' ? musicGainA : musicGainB;
         
-        // IMPORTANT: Stop any oscillators already connected to THIS node 
-        // to prevent overlapping when switching back and forth quickly.
         trackOscillators = trackOscillators.filter(item => {
             if (item.node === newNode) {
                 try { item.osc.stop(); } catch(e) {}
@@ -348,15 +280,11 @@ const Audio8Bit = (() => {
         });
 
         currentGainNode = newNode;
-        
-        // Prepare new gain node
         currentGainNode.gain.cancelScheduledValues(t);
         currentGainNode.gain.setValueAtTime(0, t);
         currentGainNode.gain.linearRampToValueAtTime(0.25, t + fadeTime);
 
-        // Reset tracking
         if (trackTimeout) clearTimeout(trackTimeout);
-        
         currentTrackName = name;
         musicPlaying = true;
         scheduleTrack(name, currentGainNode);
@@ -366,13 +294,12 @@ const Audio8Bit = (() => {
         if (!musicPlaying || !ctx || currentTrackName !== name) return;
         const track = TRACKS[name];
         if (!track) return;
+        
         const s = (typeof Engine !== 'undefined') ? Engine.getState().speed : 1;
-        if (s <= 0) return; // Don't schedule if paused
-        const speedMultiplier = s;
+        const speedMultiplier = s > 0 ? s : 1;
         const beatDur = 60 / (track.bpm * speedMultiplier);
         let t = ctx.currentTime + 0.1;
 
-        // Melody
         track.notes.forEach(note => {
             const freq = NOTE_FREQS[note.n];
             const dur = note.d * beatDur;
@@ -380,7 +307,7 @@ const Audio8Bit = (() => {
                 const osc = ctx.createOscillator();
                 const g = ctx.createGain();
                 osc.type = 'square';
-                osc.frequency.value = freq;
+                osc.frequency.setValueAtTime(freq, t);
                 g.gain.setValueAtTime(0.15, t);
                 g.gain.exponentialRampToValueAtTime(0.001, t + dur * 0.9);
                 osc.connect(g); g.connect(gainNode);
@@ -389,143 +316,23 @@ const Audio8Bit = (() => {
             }
             t += dur;
         });
-        const melodyEnd = t;
 
-        // Bass
-        let tb = ctx.currentTime + 0.1;
-        track.bass.forEach(note => {
-            const freq = NOTE_FREQS[note.n];
-            const dur = note.d * beatDur;
-            if (freq > 0) {
-                const osc = ctx.createOscillator();
-                const g = ctx.createGain();
-                osc.type = 'triangle';
-                osc.frequency.value = freq;
-                g.gain.setValueAtTime(0.25, tb);
-                g.gain.exponentialRampToValueAtTime(0.001, tb + dur * 0.9);
-                osc.connect(g); g.connect(gainNode);
-                osc.start(tb); osc.stop(tb + dur);
-                trackOscillators.push({ osc, node: gainNode });
-            }
-            tb += dur;
-        });
-
-        // Drums
-        let td = ctx.currentTime + 0.1;
-        track.drums.forEach(step => {
-            const dur = step.d * beatDur;
-            step.c.forEach(type => {
-                if (type === 'k') {
-                    const osc = ctx.createOscillator();
-                    const g = ctx.createGain();
-                    osc.frequency.setValueAtTime(150, td);
-                    osc.frequency.exponentialRampToValueAtTime(0.01, td + 0.1);
-                    g.gain.setValueAtTime(0.6, td);
-                    g.gain.exponentialRampToValueAtTime(0.01, td + 0.1);
-                    osc.connect(g); g.connect(gainNode);
-                    osc.start(td); osc.stop(td + 0.1);
-                    trackOscillators.push({ osc, node: gainNode });
-                } else if (type === 's') {
-                    const osc1 = ctx.createOscillator(); const g1 = ctx.createGain();
-                    osc1.frequency.value = 800 + Math.random()*200;
-                    g1.gain.setValueAtTime(0.2, td); g1.gain.exponentialRampToValueAtTime(0.001, td + 0.1);
-                    osc1.connect(g1); g1.connect(gainNode);
-                    osc1.start(td); osc1.stop(td + 0.1);
-                    trackOscillators.push({ osc: osc1, node: gainNode });
-                } else if (type === 'h') {
-                    const osc = ctx.createOscillator(); const g = ctx.createGain();
-                    osc.frequency.value = 1200 + Math.random()*200;
-                    g.gain.setValueAtTime(0.05, td); g.gain.exponentialRampToValueAtTime(0.001, td + 0.03);
-                    osc.connect(g); g.connect(gainNode);
-                    osc.start(td); osc.stop(td + 0.03);
-                    trackOscillators.push({ osc, node: gainNode });
-                }
-            });
-            td += dur;
-        });
-
-        // Loop
-        const totalDur = (Math.max(t, tb, td) - ctx.currentTime);
+        const totalDur = (t - ctx.currentTime);
         trackTimeout = setTimeout(() => {
             if (currentTrackName === name && musicPlaying) scheduleTrack(name, gainNode);
         }, totalDur * 1000 - 100);
     }
 
-    function nextTrack() {
-        const names = Object.keys(TRACKS);
-        const idx = names.indexOf(currentTrackName);
-        const next = names[(idx + 1) % names.length];
-        playTrack(next);
-    }
-
-    function toggleMute() {
-        if (!ctx) return;
-        muted = !muted;
-        masterGain.gain.cancelScheduledValues(ctx.currentTime);
-        masterGain.gain.linearRampToValueAtTime(muted ? 0 : 0.6, ctx.currentTime + 0.1);
-        return muted;
-    }
-
-    function fadeOut(duration = 1.0) {
-        if (!ctx || !masterGain || muted) return;
-        const t = ctx.currentTime;
-        masterGain.gain.cancelScheduledValues(t);
-        masterGain.gain.linearRampToValueAtTime(0, t + duration);
-    }
-
-    function fadeIn(duration = 1.0) {
-        if (!ctx || !masterGain || muted) return;
-        const t = ctx.currentTime;
-        masterGain.gain.cancelScheduledValues(t);
-        masterGain.gain.setValueAtTime(0, t);
-        masterGain.gain.linearRampToValueAtTime(0.6, t + duration);
-    }
-
-    function updateSpeed() {
-        if (!ctx || !initialized || !musicPlaying || !currentTrackName) return;
-        
-        const t = ctx.currentTime;
-        const s = (typeof Engine !== 'undefined') ? Engine.getState().speed : 1;
-
-        // Stop ALL current oscillators immediately
-        trackOscillators.forEach(item => { try { item.osc.stop(); } catch(e){} });
-        trackOscillators = [];
-        
-        if (trackTimeout) clearTimeout(trackTimeout);
-
-        if (s <= 0) {
-            // If paused, just fade out and wait
-            if (currentGainNode) {
-                currentGainNode.gain.cancelScheduledValues(t);
-                currentGainNode.gain.linearRampToValueAtTime(0, t + 0.1);
-            }
-            return;
-        }
-        
-        // Quick fade out of current node
-        if (currentGainNode) {
-            currentGainNode.gain.cancelScheduledValues(t);
-            currentGainNode.gain.linearRampToValueAtTime(0, t + 0.1);
-        }
-        
-        // Wait 120ms for the quick fade then restart with new speed
-        setTimeout(() => {
-            if (musicPlaying && currentTrackName) {
-                const sNow = (typeof Engine !== 'undefined') ? Engine.getState().speed : 1;
-                if (sNow <= 0) return;
-
-                if (currentGainNode) {
-                    currentGainNode.gain.setValueAtTime(0, ctx.currentTime);
-                    currentGainNode.gain.linearRampToValueAtTime(0.25, ctx.currentTime + 0.1);
-                }
-                scheduleTrack(currentTrackName, currentGainNode);
-            }
-        }, 120);
-    }
-
     return {
-        init, SFX, playTrack, stopMusic, nextTrack, toggleMute, updateSpeed, fadeOut, fadeIn,
-        get muted() { return muted; },
-        get initialized() { return initialized; }
+        init, SFX, playTrack, startAmbience, stopAmbience,
+        nextTrack() {
+            const names = Object.keys(TRACKS);
+            const idx = names.indexOf(currentTrackName);
+            playTrack(names[(idx + 1) % names.length]);
+        },
+        updateSpeed() { if (musicPlaying) playTrack(currentTrackName); },
+        get initialized() { return initialized; },
+        get muted() { return muted; }
     };
 })();
+window.Audio8Bit = Audio8Bit;

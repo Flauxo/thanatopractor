@@ -102,6 +102,7 @@ const CafeGames = (() => {
                 <div class="pour-meter" style="${isCoffee ? 'height: 80px; width: 80px;' : 'height: 250px;'}">
                     <div class="pour-target"></div>
                     <div class="pour-fill" id="pour-fill" style="background: ${isAlcohol ? 'var(--success)' : '#4b2c20'};"></div>
+                    ${isCoffee ? '<div class="pour-milk-fill" id="pour-milk-fill" style="display: none;"></div>' : ''}
                 </div>
             </div>
         `;
@@ -174,9 +175,18 @@ const CafeGames = (() => {
                 if (filling) {
                     level += pourSpeed;
                     if (fillEl) {
-                        fillEl.style.height = level + '%';
                         if (isCoffee && level > milkThreshold) {
-                            fillEl.style.background = '#ffffff'; // Leche
+                            // Coffee stays at threshold
+                            fillEl.style.height = milkThreshold + '%';
+                            // Milk fills on top
+                            const milkFill = document.getElementById('pour-milk-fill');
+                            if (milkFill) {
+                                milkFill.style.display = 'block';
+                                milkFill.style.bottom = milkThreshold + '%';
+                                milkFill.style.height = (level - milkThreshold) + '%';
+                            }
+                        } else {
+                            fillEl.style.height = level + '%';
                         }
                     }
                     if (level >= 100) {

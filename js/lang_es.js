@@ -11,6 +11,7 @@ I18n.register('es', {
     'Perfeccionando el rictus...', 'Ahuyentando ánimas...', 'Contando centavos...', 
     'Planchando mortajas...', 'Rezando por propinas...', 'Escondiendo el serrucho...'
 ],
+'splash.enter': 'ENTRAR AL TANATORIO',
 'title.tagline': 'Un RPG de Gestión Sobre la Vida en un Tanatorio',
 'title.quote': '"No salvas vidas, ayudas a terminar con ellas... profesionalmente."',
 'title.new_game': 'NUEVA PARTIDA', 'title.continue': 'CARGAR PARTIDA', 'title.resume': 'CONTINUAR', 'title.credits': 'CRÉDITOS',

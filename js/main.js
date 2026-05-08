@@ -90,8 +90,8 @@ window.Main = (() => {
             const div = document.createElement('div');
             div.className = `schedule-item ${item.triggered ? 'completed' : ''}`;
             const icon = item.triggered ? '✓' : '⏳';
-            const name = item.family ? item.family.name : '';
-            div.innerHTML = `<span class="time">${item.time}</span><span class="type">${item.type}</span><span class="family">${name}</span><span>${icon}</span>`;
+            const timeStr = typeof Engine !== 'undefined' ? Engine.getTimeString(item.time) : item.time;
+            div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span>${icon}</span>`;
             list.appendChild(div);
         });
     }

@@ -440,6 +440,7 @@ const Engine = (() => {
                         window.Rooms.showEmbalming();
                     }
                 } else if (event.type === 'hearse_arrival') {
+                    event.completed = true;
                     showToast(`📋 ${event.desc}`, 'success');
                     if (typeof Families !== 'undefined') Families.completeFamily(event.familyId);
                 } else if (event.type === 'cremation_done') {

@@ -310,6 +310,8 @@ html, body {
 .schedule-item:last-child { border-bottom: none; }
 .schedule-item.completed { opacity: 0.45; }
 .schedule-item.completed span:nth-child(2) { text-decoration: line-through; }
+.schedule-item.action-pending { color: #ff4466; font-weight: bold; }
+.schedule-item.action-pending span:nth-child(3) { animation: pulse-badge 1.5s infinite; }
 .schedule-item.rejected { opacity: 0.45; color: var(--text-dim); }
 .schedule-item.rejected span:nth-child(2) { text-decoration: line-through; }
 .dim-text { color: var(--text-dim); font-style: italic; }

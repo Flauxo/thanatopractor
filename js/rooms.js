@@ -18,8 +18,15 @@ const Rooms = (() => {
         Engine.addMoney(-150, I18n.T('eng.ordered_hearse'));
         f.transportOrdered = true;
         
+        // Mark the transport_ready task as completed in the schedule
         const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
-        if (task) task.desc = `${I18n.T('rec.car_ordered', f.deceasedName)}`;
+        if (task) {
+            task.completed = true;
+            task.desc = `${I18n.T('rec.car_ordered', f.deceasedName)}`;
+        }
+        // Also mark the original arrival event as completed
+        const arrivalTask = s.schedule.find(t => t.type === 'arrival' && t.familyId === f.id);
+        if (arrivalTask) arrivalTask.completed = true;
         
         const arrivalTime = Math.round(s.time + 60);
         s.schedule.push({
@@ -27,11 +34,13 @@ const Rooms = (() => {
             type: 'hearse_arrival',
             familyId: f.id,
             desc: I18n.T('rec.hearse_picking', f.deceasedName, Engine.getTimeString(arrivalTime)),
-            triggered: false
+            triggered: false,
+            completed: false
         });
         
         Engine.showToast(I18n.T('rec.hearse_ordered_for', f.deceasedName), 'success');
-        Engine.Notifications.clearBadge('reception');
+        // Don't clear reception badge - let updateReceptionBadge handle it
+        Engine.Notifications.updateReceptionBadge();
         if (typeof Main !== 'undefined') Main.showScreen('hub');
     }
 
@@ -142,7 +151,10 @@ const Rooms = (() => {
                             s.personalHearseCooldown = s.time + (hours * 60) + 60; // cooldown = travel time + 1h extra
 
                             const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
-                            if (task) task.desc = I18n.T('rec.personal_enroute', f.deceasedName);
+                            if (task) {
+                                task.completed = true;
+                                task.desc = I18n.T('rec.personal_enroute', f.deceasedName);
+                            }
                             
                             const arrivalTime = Math.round(s.time + (hours * 60));
                             s.schedule.push({
@@ -150,12 +162,15 @@ const Rooms = (() => {
                                 type: 'hearse_arrival',
                                 familyId: f.id,
                                 desc: I18n.T('rec.personal_pickup', f.deceasedName, Engine.getTimeString(arrivalTime)),
-                                triggered: false
+                                triggered: false,
+                                completed: false
                             });
                             Engine.showToast(I18n.T('rec.car_dispatched', f.deceasedName, hours), 'success');
                         } else {
                             // Niece's Car - IMMEDIATE & SINGLE USE
                             s.temporaryHearseAvailable = false;
+                            const nieceTask = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
+                            if (nieceTask) nieceTask.completed = true;
                             Families.completeFamily(f.id);
                             Engine.showToast(I18n.T('rec.niece_arrived', f.deceasedName), 'success');
                             if (typeof Main !== 'undefined') Main.showScreen('hub');
@@ -1141,7 +1156,8 @@ const Rooms = (() => {
                     type: 'transport_ready',
                     familyId: family.id,
                     desc: I18n.T('rec.transfer_ready', family.deceasedName),
-                    triggered: true
+                    triggered: true,
+                    completed: false
                 });
             }
         }

@@ -74,7 +74,6 @@ window.Main = (() => {
         if (!list) return;
         if (sched.length === 0) {
             list.innerHTML = `<p class="dim-text" data-i18n="hub.no_scheduled">No tasks scheduled</p>`;
-            if (typeof I18n !== 'undefined') I18n.updateDOM(list);
             return;
         }
 
@@ -87,10 +86,23 @@ window.Main = (() => {
         list.innerHTML = '';
         finalSched.forEach(item => {
             const div = document.createElement('div');
-            div.className = `schedule-item ${item.triggered ? 'completed' : ''}`;
-            const icon = item.triggered ? '✓' : '⏳';
             const timeStr = typeof Engine !== 'undefined' ? Engine.getTimeString(item.time) : item.time;
-            div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span>${icon}</span>`;
+            
+            // Determine visual state
+            const isActionPending = item.triggered && item.completed === false;
+            const isDone = item.triggered && item.completed !== false;
+            
+            if (isActionPending) {
+                // Triggered but needs player action (e.g. transport_ready - call hearse)
+                div.className = 'schedule-item action-pending';
+                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span>❗</span>`;
+            } else if (isDone) {
+                div.className = 'schedule-item completed';
+                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span>✓</span>`;
+            } else {
+                div.className = 'schedule-item';
+                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span>⏳</span>`;
+            }
             list.appendChild(div);
         });
     }

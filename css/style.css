@@ -165,11 +165,23 @@ html, body {
     align-items: center; justify-content: center;
 }
 .centered-panel {
+    position: relative;
     background: rgba(30, 20, 51, 0.92); border: 2px solid var(--bg-panel-border); border-radius: 8px;
     padding: 32px 24px; max-width: 360px; width: 90%;
     text-align: center;
     backdrop-filter: blur(4px);
     box-shadow: 0 0 30px rgba(10,6,16,0.8);
+}
+.reaper-welcome {
+    position: absolute;
+    top: -55px;
+    left: -45px;
+    width: 95px;
+    height: auto;
+    image-rendering: pixelated;
+    z-index: 10;
+    pointer-events: none;
+    transform: none;
 }
 .centered-panel h2 {
     font-family: var(--font-pixel); font-size: 11px;

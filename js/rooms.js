@@ -241,7 +241,7 @@ const Rooms = (() => {
             Engine.save();
             Dialogue.show(I18n.T('emb.tutorial_title'), I18n.T('emb.tutorial_text'), [
                 { text: I18n.T('emb.tutorial_ok') }
-            ]);
+            ], null, { showReaper: true });
         }
 
         const active = Families.getActive().filter(f => f.arrived && !f.embalmed);
@@ -645,7 +645,7 @@ const Rooms = (() => {
             Engine.save();
             Dialogue.show(I18n.T('crema.tutorial_title'), I18n.T('crema.tutorial_text'), [
                 { text: I18n.T('crema.tutorial_ok') }
-            ]);
+            ], null, { showReaper: true });
         }
 
         updateCrematorium();
@@ -749,7 +749,7 @@ const Rooms = (() => {
             Engine.save();
             Dialogue.show(I18n.T('view.tutorial_title'), I18n.T('view.tutorial_text'), [
                 { text: I18n.T('view.tutorial_ok') }
-            ]);
+            ], null, { showReaper: true });
         }
 
         const active = Families.getActive().filter(f => f.embalmed && f.wantsViewing && !f.viewed);
@@ -935,7 +935,7 @@ const Rooms = (() => {
             Engine.save();
             Dialogue.show(I18n.T('chapel.tutorial_title'), I18n.T('chapel.tutorial_text'), [
                 { text: I18n.T('chapel.tutorial_ok') }
-            ]);
+            ], null, { showReaper: true });
         }
 
         const ivanQuote = DATA.ivanQuotes[Math.floor(Math.random() * DATA.ivanQuotes.length)];

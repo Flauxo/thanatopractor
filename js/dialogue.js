@@ -3,15 +3,25 @@ const Dialogue = (() => {
     let queue = [];
     let currentCallback = null;
 
-    function show(speaker, text, choices, onClose) {
+    function show(speaker, text, choices, onClose, options = {}) {
         const overlay = document.getElementById('dialogue-overlay');
         const speakerEl = document.getElementById('dlg-speaker');
         const textEl = document.getElementById('dlg-text');
         const choicesEl = document.getElementById('dlg-choices');
+        const reaperImg = document.getElementById('dlg-reaper');
+        const box = document.querySelector('.dialogue-box');
 
         speakerEl.textContent = speaker;
         textEl.innerHTML = text;
         choicesEl.innerHTML = '';
+
+        if (options.showReaper) {
+            reaperImg.style.display = 'block';
+            box.classList.add('reaper-active');
+        } else {
+            reaperImg.style.display = 'none';
+            box.classList.remove('reaper-active');
+        }
 
         if (choices && choices.length) {
             choices.forEach((choice, i) => {
@@ -47,8 +57,8 @@ const Dialogue = (() => {
         Engine.setSpeed(0); // Pause during dialogue
     }
 
-    function enqueue(speaker, text, choices, onClose) {
-        queue.push({ speaker, text, choices, onClose });
+    function enqueue(speaker, text, choices, onClose, options = {}) {
+        queue.push({ speaker, text, choices, onClose, options });
         if (queue.length === 1) processQueue();
     }
 
@@ -58,7 +68,7 @@ const Dialogue = (() => {
             return;
         }
         const d = queue.shift();
-        show(d.speaker, d.text, d.choices, d.onClose);
+        show(d.speaker, d.text, d.choices, d.onClose, d.options);
     }
 
     // ===== ARRIVAL SEQUENCE =====

@@ -583,7 +583,17 @@ const DATA = {
         { id: "pw_selfie", dc: 12, reward: 180, penalty: -80, repPenalty: -10 },
         { id: "pw_air", dc: 7, reward: 50, penalty: 0, repPenalty: -2 },
         { id: "pw_viking", dc: 14, reward: 100, penalty: -200, repPenalty: -15 },
-        { id: "pw_insurance", dc: 18, reward: 800, penalty: -400, repPenalty: -30 }
+        { id: "pw_insurance", dc: 18, reward: 800, penalty: -400, repPenalty: -30 },
+        { id: "pw_ghost_tax", dc: 12, reward: 200, penalty: -50, repReward: 5 },
+        { id: "pw_coffin_permit", dc: 10, reward: 150, penalty: -100, repPenalty: -5 },
+        { id: "pw_license_smell", dc: 14, reward: 300, penalty: -200, repPenalty: -10 },
+        { id: "pw_ouija_cert", dc: 16, reward: 400, penalty: -250, repReward: 10 },
+        { id: "pw_netflix_cancel", dc: 8, reward: 100, penalty: -50, repPenalty: -2 },
+        { id: "pw_grave_dig", dc: 15, reward: 500, penalty: -300, repPenalty: -20 },
+        { id: "pw_deli_mixup", dc: 13, reward: 250, penalty: -400, repPenalty: -15 },
+        { id: "pw_vampire_reg", dc: 17, reward: 600, penalty: -350, repPenalty: -10 },
+        { id: "pw_bone_count", dc: 11, reward: 180, penalty: -90, repReward: 5 },
+        { id: "pw_sponsor_grave", dc: 14, reward: 700, penalty: -200, repReward: -15, repPenalty: -10 }
     ],
 
     paperworkExcuses: [

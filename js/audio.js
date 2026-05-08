@@ -102,8 +102,67 @@ const Audio8Bit = (() => {
             droneGain.gain.linearRampToValueAtTime(0, t + 2.0);
             drone.connect(droneGain); droneGain.connect(sfxGain);
             drone.start(t); drone.stop(t + 2.0);
+        },
+        notification() {
+            if (!ctx) return;
+            const t = ctx.currentTime;
+            playNote(880, 0.1, 'square', sfxGain, t, 0.2);
+            playNote(1320, 0.1, 'square', sfxGain, t + 0.1, 0.15);
+        },
+        money() {
+            if (!ctx) return;
+            const t = ctx.currentTime;
+            playNote(987, 0.05, 'square', sfxGain, t, 0.2);
+            playNote(1318, 0.1, 'square', sfxGain, t + 0.05, 0.2);
+        },
+        levelUp() {
+            if (!ctx) return;
+            const t = ctx.currentTime;
+            const notes = [261.6, 329.6, 392, 523.3, 659.3, 784, 1046.5];
+            notes.forEach((f, i) => playNote(f, 0.2, 'square', sfxGain, t + i * 0.1, 0.25));
+        },
+        diceRoll() {
+            if (!ctx) return;
+            const t = ctx.currentTime;
+            for(let i=0; i<5; i++) playNote(200 + Math.random()*400, 0.05, 'sawtooth', sfxGain, t + i*0.05, 0.1);
+        },
+        diceResult(success) {
+            if (!ctx) return;
+            if (success) SFX.success(); else SFX.fail();
+        },
+        fire() {
+            if (!ctx) return;
+            const t = ctx.currentTime;
+            for(let i=0; i<10; i++) playNote(50 + Math.random()*100, 0.1, 'sawtooth', sfxGain, t + i*0.05, 0.2);
+        },
+        bell() {
+            if (!ctx) return;
+            const t = ctx.currentTime;
+            playNote(987, 0.2, 'sine', sfxGain, t, 0.4);
+            playNote(987, 0.5, 'sine', sfxGain, t + 0.05, 0.2);
+        },
+        gameOver() {
+            if (!ctx) return;
+            const t = ctx.currentTime;
+            playNote(220, 0.5, 'sawtooth', sfxGain, t, 0.3);
+            playNote(164.8, 0.5, 'sawtooth', t + 0.4, 0.3);
+            playNote(110, 1.0, 'sawtooth', t + 0.8, 0.4);
         }
     };
+
+    function fadeOut(duration = 1.0) {
+        if (!ctx || !masterGain) return;
+        const t = ctx.currentTime;
+        masterGain.gain.cancelScheduledValues(t);
+        masterGain.gain.linearRampToValueAtTime(0, t + duration);
+    }
+
+    function fadeIn(duration = 1.0) {
+        if (!ctx || !masterGain) return;
+        const t = ctx.currentTime;
+        masterGain.gain.cancelScheduledValues(t);
+        masterGain.gain.linearRampToValueAtTime(0.6, t + duration);
+    }
 
     function startAmbience() {
         if (!initialized) init();
@@ -323,8 +382,17 @@ const Audio8Bit = (() => {
         }, totalDur * 1000 - 100);
     }
 
+    function stopMusic() {
+        if (!ctx || !currentGainNode) return;
+        const t = ctx.currentTime;
+        currentGainNode.gain.cancelScheduledValues(t);
+        currentGainNode.gain.linearRampToValueAtTime(0, t + 0.5);
+        musicPlaying = false;
+        if (trackTimeout) clearTimeout(trackTimeout);
+    }
+
     return {
-        init, SFX, playTrack, startAmbience, stopAmbience,
+        init, SFX, playTrack, stopMusic, fadeIn, fadeOut, startAmbience, stopAmbience,
         nextTrack() {
             const names = Object.keys(TRACKS);
             const idx = names.indexOf(currentTrackName);

@@ -35,7 +35,7 @@ I18n.register('es', {
 'name.f4': '"Esperemos que lo escribas bien en las lápidas."',
 'name.f5': '"Los muertos no pueden juzgar tu nombre. Los vivos sí."',
 // Welcome
-'welcome.title': 'BIENVENIDO A THANATOPRACTOR',
+'welcome.title': 'BIENVENIDO/A A THANATOPRACTOR',
 'welcome.p1': 'Aquí no salvamos vidas, solo las envolvemos con un lazo. Tu trabajo es simple: maquillar a los muertos para que parezcan vivos, quemarlos si la familia no quiere verlos más, y sobre todo, no aficionarse a la necrofilia.',
 'welcome.p2': 'Al hacer clic abajo, aceptas que el formaldehído es tu nueva colonia favorita, que los fantasmas no pagan alquiler, y que no somos responsables de pesadillas recurrentes ni del tipo de humor con el que te vas a encontrar.',
 'welcome.accept': 'ACEPTO LOS TÉRMINOS',
@@ -45,7 +45,7 @@ I18n.register('es', {
 'hub.motto': '"Cuidamos de ellos hasta el final"',
 'hub.no_appointments': 'No hay citas para hoy.',
 'hub.locked': '🔒 Desbloquea esta mejora en el menú mejoras.',
-'hub.welcome': '☠ Bienvenido, {0}. Los muertos te esperan.',
+'hub.welcome': '☠ Bienvenido/a, {0}. Los muertos te esperan.',
 // Nav
 'nav.reception': 'Recepción', 'nav.embalming': 'Embalsamar', 'nav.cafeteria': 'Cafetería',
 'nav.crematorium': 'Cremat.', 'nav.viewing': 'Velatorio', 'nav.chapel': 'Capilla',

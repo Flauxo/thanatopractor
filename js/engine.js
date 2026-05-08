@@ -29,6 +29,7 @@ const Engine = (() => {
         activePaperwork: null,
         pendingArrivals: 0,
         dayEndPrompted: false,
+        dayEndTriggered: false,
         alert18Shown: false,
         lastActivityTime: 480,
         lastRandomEventTime: 0,
@@ -284,7 +285,8 @@ const Engine = (() => {
         }
 
         // End of day
-        if (state.time >= 1200) { // 20:00
+        if (state.time >= 1200 && !state.dayEndTriggered) { // 20:00
+            state.dayEndTriggered = true;
             endDay();
         }
 
@@ -300,7 +302,15 @@ const Engine = (() => {
     }
 
     async function endDay() {
+        if (state.dayEndTriggered && tickInterval === null) return; // Already ending
+        state.dayEndTriggered = true;
         stopTime();
+
+        // Force-close any open overlays that could block the transition
+        ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay', 'credits-overlay'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        });
 
         // Music fade out 1s before transition
         if (typeof Audio8Bit !== 'undefined') Audio8Bit.fadeOut(1.0);
@@ -321,15 +331,21 @@ const Engine = (() => {
     function nextDay() {
         state.day++;
         state.time = 480;
+        state.speed = 1;
         state.cremaTemp = 20;
         state.cremaFuel = 0;
         state.cremaIgnited = false;
         state.schedule = [];
         state.dayEvents = [];
         state.dayEndPrompted = false;
+        state.dayEndTriggered = false;
         state.alert18Shown = false;
         state.lastActivityTime = 480;
+        state.lastRandomEventTime = 480;
         state.alcoholServedToday = 0;
+        state.pendingArrivals = 0;
+        state.activePaperwork = null;
+        state.cafeOrders = [];
         
         // Daily costs
         const dailyCost = 100 + (state.upgrades.length * 20);
@@ -349,15 +365,45 @@ const Engine = (() => {
 
             setTimeout(() => {
                 overlay.style.display = 'none';
-                if (typeof Main !== 'undefined') Main.showScreen('hub');
+                // Force-close any lingering overlays
+                ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = 'none';
+                });
+                
+                // Generate schedule FIRST so the hub has data to show
                 generateDailySchedule();
+                
+                // Navigate to hub - force it directly if showScreen is blocked
+                try {
+                    if (typeof Main !== 'undefined') Main.showScreen('hub');
+                } catch(e) {
+                    console.error('showScreen error:', e);
+                }
+                // Force hub screen active as fallback
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                const hubScreen = document.getElementById('hub-screen');
+                if (hubScreen) hubScreen.classList.add('active');
+                
+                // ALWAYS start the clock
+                stopTime(); // Clear any stale interval
                 startTime();
+                state.speed = 1;
+                
                 if (typeof Audio8Bit !== 'undefined') Audio8Bit.fadeIn(1.5);
+                save();
             }, 3000);
         } else {
-            if (typeof Main !== 'undefined') Main.showScreen('hub');
             generateDailySchedule();
+            try {
+                if (typeof Main !== 'undefined') Main.showScreen('hub');
+            } catch(e) { console.error('showScreen error:', e); }
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            const hubScreen = document.getElementById('hub-screen');
+            if (hubScreen) hubScreen.classList.add('active');
+            stopTime();
             startTime();
+            state.speed = 1;
             if (typeof Audio8Bit !== 'undefined') Audio8Bit.fadeIn(1.0);
         }
     }

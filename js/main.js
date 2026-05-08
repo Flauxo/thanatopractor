@@ -78,12 +78,11 @@ window.Main = (() => {
             return;
         }
 
-        const safeTime = t => (t && typeof t === 'string') ? t : (t ? String(t) : '');
-        const sorted = [...sched].sort((a, b) => safeTime(a.time).localeCompare(safeTime(b.time)));
+        const sorted = [...sched].sort((a, b) => (a.time || 0) - (b.time || 0));
         const pending = sorted.filter(s => !s.triggered);
         let completed = sorted.filter(s => s.triggered);
         completed = completed.slice(-3);
-        const finalSched = [...pending, ...completed].sort((a, b) => safeTime(a.time).localeCompare(safeTime(b.time)));
+        const finalSched = [...pending, ...completed].sort((a, b) => (a.time || 0) - (b.time || 0));
 
         list.innerHTML = '';
         finalSched.forEach(item => {

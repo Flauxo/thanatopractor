@@ -164,8 +164,8 @@ const Engine = (() => {
     }
 
     function tick() {
-        if (state.speed === 0 || state.gameOver) return;
-        if (typeof window.Main !== 'undefined' && window.Main.currentScreen === 'title') return;
+        if (state.speed === 0 || state.gameOver) { if(state.day >= 2) console.log('[TICK] blocked: speed='+state.speed+' gameOver='+state.gameOver); return; }
+        if (typeof window.Main !== 'undefined' && window.Main.currentScreen === 'title') { console.log('[TICK] blocked: title screen'); return; }
         
         state.realPlayTimeMS += TICK_MS;
         const advance = MINUTES_PER_TICK * state.speed;
@@ -302,7 +302,8 @@ const Engine = (() => {
     }
 
     async function endDay() {
-        if (state.dayEndTriggered && tickInterval === null) return; // Already ending
+        console.log('[ENDDAY] called. dayEndTriggered='+state.dayEndTriggered+' tickInterval='+(tickInterval!==null));
+        if (state.dayEndTriggered && tickInterval === null) { console.log('[ENDDAY] aborted - already ending'); return; }
         state.dayEndTriggered = true;
         stopTime();
 
@@ -329,6 +330,7 @@ const Engine = (() => {
     }
 
     function nextDay() {
+        console.log('[NEXTDAY] starting transition to day ' + (state.day+1));
         state.day++;
         state.time = 480;
         state.speed = 1;
@@ -386,8 +388,11 @@ const Engine = (() => {
                 if (hubScreen) hubScreen.classList.add('active');
                 
                 // ALWAYS start the clock
+                console.log('[NEXTDAY] setTimeout fired. Starting clock for day '+state.day+'. schedule='+state.schedule.length+' items');
                 stopTime(); // Clear any stale interval
+                tickInterval = null; // Force null
                 startTime();
+                console.log('[NEXTDAY] startTime called. tickInterval='+(tickInterval!==null)+' speed='+state.speed);
                 state.speed = 1;
                 
                 if (typeof Audio8Bit !== 'undefined') Audio8Bit.fadeIn(1.5);

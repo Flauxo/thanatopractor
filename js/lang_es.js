@@ -126,7 +126,7 @@ I18n.register('es', {
 'emb.supplies': 'SUMINISTROS', 'emb.quality': 'CALIDAD',
 'emb.buy': '🛒 COMPRAR SUMINISTROS', 'emb.roll': 'Tira un D20 para embalsamar',
 'emb.no_chemicals': '⚠️ ¡No hay suficientes químicos!', 'emb.no_outfits': '⚠️ ¡No quedan trajes!',
-'emb.finish': '🎲 FINALIZAR Y TIRAR {0}',
+'emb.finish': '<span style="font-size:1.5em">🎲</span> D20 PARA EMBALSAMAR {0}',
 'emb.q_excellent': '✨ {0} se ve mejor muerto que la mayoría de la gente viva. ¡Obra maestra!',
 'emb.q_catastrophic_list': [
     "La mandíbula se descuelga como diciendo ¡HAAAMBRE!",
@@ -170,7 +170,7 @@ I18n.register('es', {
 ],
 'emb.needs_embalming': '🧪 ¡{0} necesita embalsamamiento!',
 'emb.still_needs': '🧪 ¡{0} todavía necesita embalsamamiento!',
-'emb.penalty': '({0} Penalización)', 'emb.no_penalty': '(SIN PENALIZACIÓN)',
+'emb.penalty': '({0} Pen)', 'emb.no_penalty': '(SIN PEN)',
 // Tutorial embalsamar
 'emb.tutorial_title': '🧪 PRIMERA VEZ EN LA SALA DE EMBALSAMAR',
 'emb.tutorial_text': 'Acuérdate de tener los suministros al día, tardan una hora en llegar. Quedarte sin material a mitad de procedimiento es... incómodo.',

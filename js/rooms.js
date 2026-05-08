@@ -317,7 +317,7 @@ const Rooms = (() => {
         
         if (doneCount > 0) {
             rollBtn.style.display = 'block';
-            rollBtn.textContent = I18n.T('emb.finish', penalty < 0 ? I18n.T('emb.penalty', penalty) : I18n.T('emb.no_penalty'));
+            rollBtn.innerHTML = I18n.T('emb.finish', penalty < 0 ? I18n.T('emb.penalty', penalty) : I18n.T('emb.no_penalty'));
         } else {
             rollBtn.style.display = 'none';
         }

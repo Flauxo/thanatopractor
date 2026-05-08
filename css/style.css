@@ -698,7 +698,7 @@ html, body {
 .reaper-dialogue {
     display: none;
     position: absolute;
-    top: -50px;
+    top: -58px;
     left: 50%;
     transform: translateX(-50%);
     width: 65px;

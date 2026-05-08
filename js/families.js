@@ -44,6 +44,7 @@ const Families = (() => {
             totalCharged: 0,
             satisfaction: 70,
             cooldownDone: false,
+            photoIndex: Math.floor(Math.random() * 9) + 1,
             notes: []
         };
         return family;

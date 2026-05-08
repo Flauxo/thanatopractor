@@ -557,10 +557,17 @@ const Rooms = (() => {
             let rewardMult = quality === 2 ? 1.5 : quality === 1 ? 1 : quality === 0 ? 0.7 : 0.2;
             let finalPrice = Math.ceil(order.item.price * rewardMult);
             
-            Engine.addMoney(finalPrice, `Sold ${order.item.item} (${quality})`);
+            let itemName = order.item.item;
+            if (itemName === 'Coffee') itemName = I18n.T('cafe.coffee');
+            else if (itemName === 'Tea') itemName = I18n.T('cafe.tea');
+            else if (itemName === 'Sandwich') itemName = I18n.T('cafe.sandwich');
+            else if (itemName === 'Soul Cake') itemName = I18n.T('cafe.soul_cake');
+            
+            const qualityStr = quality === 2 ? '+++' : quality === 1 ? '++' : quality === 0 ? '+' : '---';
+            Engine.addMoney(finalPrice, I18n.T('cafe.sold_reason', itemName, qualityStr));
             
             let satBonus = quality === 2 ? 8 : quality === 1 ? 3 : quality === 0 ? 0 : -10;
-            Families.updateSatisfaction(order.familyId, satBonus, `Cafeteria: ${order.item.item}`);
+            Families.updateSatisfaction(order.familyId, satBonus, `${I18n.T('nav.cafeteria')}: ${itemName}`);
             
             const fam = Families.getById(order.familyId);
             if (fam) {

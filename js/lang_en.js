@@ -174,6 +174,8 @@ I18n.register('en', {
 'cafe.menu': '☕ DEADLY GOOD MENU', 'cafe.orders': '📝 ORDERS',
 'cafe.pour': 'POUR', 'cafe.steep': 'STEEP!', 'cafe.preparing': 'PREPARING {0}',
 'cafe.coffee': 'Coffee', 'cafe.tea': 'Tea', 'cafe.sandwich': 'Beyond Sandwich', 'cafe.soul_cake': 'Soul Cake',
+'cafe.sold_reason': 'Sold: {0} ({1})',
+'cafe.alcohol_request': 'Serve Alcohol',
 'cafe.tut_pour': 'Hold to fill and release in the zone!',
 'cafe.tut_steep': 'Click when the bag goes down 3 times!',
 'cafe.tut_assemble': 'Follow the recipe order!',

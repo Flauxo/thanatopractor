@@ -16,6 +16,7 @@ const Dialogue = (() => {
         choicesEl.innerHTML = '';
 
         if (options.showReaper) {
+            reaperImg.src = options.imgSrc || 'assets/ui/Masterpj.png';
             reaperImg.style.display = 'block';
             box.classList.add('reaper-active');
         } else {
@@ -120,7 +121,7 @@ const Dialogue = (() => {
                     }
                 }}
             ]);
-        });
+        }, { showReaper: true, imgSrc: `assets/ui/fam0${family.photoIndex}.png` });
     }
 
     return { show, enqueue, playArrivalSequence };

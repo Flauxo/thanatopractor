@@ -102,10 +102,10 @@ const DATA = {
             ]},
         ],
         cheerful: [
-            { text: "\"Look, Uncle {name} lived to 94, ate bacon every day, and outlived three wives. Legend.\"", choices: [
+            { textKey: "dlg.cheerful.text", text: "\"Look, Uncle {name} lived to 94, ate bacon every day, and outlived all his rivals. Legend.\"", choices: [
                 { text: "\"What a life! Let's honor that legacy with a service worthy of a legend.\"", rep: 2, money: 0 },
                 { text: "\"94 and bacon daily? We should study that man's arteries.\"", rep: 0, money: 0 },
-                { text: "\"Three wives? We can arrange separate viewing times. Trust me, we've dealt with this.\"", rep: 1, money: 50 }
+                { textKey: "dlg.cheerful.c3", text: "\"All his rivals? We can arrange separate viewing times to avoid any scenes. Trust me, we've dealt with this.\"", rep: 1, money: 50 }
             ]},
         ],
         vampire: [

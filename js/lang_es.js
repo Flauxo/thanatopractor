@@ -124,7 +124,7 @@ I18n.register('es', {
 'emb.no_body': 'Sin cuerpo que preparar', 'emb.preparing': 'Preparando: {0}',
 'emb.tasks': 'TAREAS', 'emb.clean': 'Limpiar', 'emb.treat': 'Tratar', 'emb.dress': 'Vestir', 'emb.prepare': 'Preparar',
 'emb.supplies': 'SUMINISTROS', 'emb.quality': 'CALIDAD',
-'emb.buy': '🛒 COMPRAR SUMINISTROS', 'emb.roll': '¡TIRAR D20 — EMBALSAMAR!',
+'emb.buy': '🛒 COMPRAR SUMINISTROS', 'emb.roll': 'Tira un D20 para embalsamar',
 'emb.no_chemicals': '⚠️ ¡No hay suficientes químicos!', 'emb.no_outfits': '⚠️ ¡No quedan trajes!',
 'emb.finish': '🎲 FINALIZAR Y TIRAR {0}',
 'emb.q_excellent': '✨ {0} se ve mejor muerto que la mayoría de la gente viva. ¡Obra maestra!',

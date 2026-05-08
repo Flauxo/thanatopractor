@@ -331,6 +331,8 @@ const Audio8Bit = (() => {
             playTrack(names[(idx + 1) % names.length]);
         },
         updateSpeed() { if (musicPlaying) playTrack(currentTrackName); },
+        suspend() { if (ctx && ctx.state === 'running') ctx.suspend(); },
+        resume() { if (ctx && ctx.state === 'suspended') ctx.resume(); },
         get initialized() { return initialized; },
         get muted() { return muted; }
     };

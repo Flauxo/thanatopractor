@@ -367,6 +367,17 @@ window.Main = (() => {
                 Engine.save();
             }
         }, 15000);
+
+        // ===== TAB VISIBILITY (Stop audio in background) =====
+        document.addEventListener('visibilitychange', () => {
+            if (typeof Audio8Bit !== 'undefined' && Audio8Bit.initialized) {
+                if (document.hidden) {
+                    Audio8Bit.suspend();
+                } else {
+                    Audio8Bit.resume();
+                }
+            }
+        });
     }
 
     function resetHub() {

@@ -713,18 +713,35 @@ const Engine = (() => {
             }
         },
         updateReceptionBadge() {
-            const arrival = document.getElementById('badge-arrival');
-            const phone = document.getElementById('badge-phone');
-            const paperwork = document.getElementById('badge-paperwork');
-            
-            const familyWaiting = state.families.some(f => f.status === 'waiting');
-            
-            const anyActive = (arrival && arrival.style.display === 'flex') ||
-                              (phone && phone.style.display === 'flex') ||
-                              (paperwork && paperwork.style.display === 'flex') ||
+            const badgeArrival = document.getElementById('badge-arrival');
+            const badgePhone = document.getElementById('badge-phone');
+            const badgePaperwork = document.getElementById('badge-paperwork');
+            const mainBadge = document.getElementById('badge-reception');
+
+            // Sub-badge: Arrival (based on pendingArrivals)
+            if (badgeArrival) {
+                const hasArrivals = (state.pendingArrivals || 0) > 0;
+                badgeArrival.style.display = hasArrivals ? 'flex' : 'none';
+            }
+
+            // Sub-badge: Paperwork (based on activePaperwork)
+            if (badgePaperwork) {
+                const hasPaperwork = state.activePaperwork !== null;
+                badgePaperwork.style.display = hasPaperwork ? 'flex' : 'none';
+            }
+
+            // Sub-badge: Phone (based on families waiting for transport)
+            const familyWaiting = state.families.some(f => f.active && f.waitingForTransport && !f.transportOrdered);
+            if (badgePhone && familyWaiting) {
+                badgePhone.style.display = 'flex';
+            }
+
+            // Main Badge: Reception
+            const anyActive = (badgeArrival && badgeArrival.style.display === 'flex') ||
+                              (badgePhone && badgePhone.style.display === 'flex') ||
+                              (badgePaperwork && badgePaperwork.style.display === 'flex') ||
                               familyWaiting;
             
-            const mainBadge = document.getElementById('badge-reception');
             if (mainBadge) {
                 mainBadge.style.display = anyActive ? 'flex' : 'none';
             }

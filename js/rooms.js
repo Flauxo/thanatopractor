@@ -58,11 +58,11 @@ const Rooms = (() => {
             Families.addFamily(family);
             s.activeFamilyId = family.id;
             Dialogue.playArrivalSequence(family);
-            Engine.Notifications.clearBadge('arrival');
+            Engine.Notifications.updateReceptionBadge();
         };
         document.getElementById('btn-phone-call').onclick = () => {
             Audio8Bit.SFX.click();
-            Engine.Notifications.clearBadge('phone');
+            Engine.Notifications.updateReceptionBadge();
             const s = Engine.getState();
             
             const phoneChoices = [
@@ -224,7 +224,7 @@ const Rooms = (() => {
         };
         document.getElementById('btn-paperwork').onclick = () => {
             Audio8Bit.SFX.click();
-            Engine.Notifications.clearBadge('paperwork');
+            Engine.Notifications.updateReceptionBadge();
             const s = Engine.getState();
             if (!s.activePaperwork) {
                 Engine.showToast(I18n.T('rec.no_paperwork'), '');
@@ -253,8 +253,7 @@ const Rooms = (() => {
                         }
                         s.activePaperwork = null;
                         document.getElementById('btn-paperwork').style.opacity = '1';
-                        Engine.Notifications.clearBadge('paperwork');
-                        Engine.Notifications.clearBadge('reception');
+                        Engine.Notifications.updateReceptionBadge();
                         if (typeof Main !== 'undefined') Main.showScreen('hub');
                     });
                 }},
@@ -265,8 +264,7 @@ const Rooms = (() => {
                     if (schedItem) schedItem.rejected = true;
 
                     s.activePaperwork = null;
-                    Engine.Notifications.clearBadge('reception');
-                    Engine.Notifications.clearBadge('paperwork');
+                    Engine.Notifications.updateReceptionBadge();
                     document.getElementById('btn-paperwork').style.opacity = '1';
                     Engine.showToast(I18n.T('rec.pw_discarded'), '');
                     if (typeof Main !== 'undefined') {

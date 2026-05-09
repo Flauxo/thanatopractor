@@ -314,6 +314,9 @@ I18n.register('en', {
 'go.disgraced_title': 'DISGRACED', 'go.disgraced_reason': 'Your reputation hit rock bottom. Nobody trusts you with their dead.',
 'go.money_warning': '⚠️ WARNING: Money running low! (${0})',
 'go.rep_warning': '⚠️ WARNING: Reputation dangerously low!',
+'go.warning_title': '⚠️ BEWARE!',
+'go.money_explained': 'Your funds are critically low. If the Mortuary runs out of money, it will close due to bankruptcy!',
+'go.rep_explained': 'The reviews are terrible. If your reputation drops to zero, the Mortuary will close due to lack of clients!',
 'go.days': 'Days survived:', 'go.served': 'Families served:', 'go.earnings': 'Total earnings:',
 'go.best_roll': 'Best dice roll:', 'go.level': 'Level reached:',
 // Overlays

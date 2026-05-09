@@ -319,6 +319,9 @@ I18n.register('es', {
 'go.disgraced_title': 'DESHONRADO', 'go.disgraced_reason': 'Tu reputación tocó fondo. Nadie te confía a sus muertos.',
 'go.money_warning': '⚠️ AVISO: ¡Dinero bajo! (${0})',
 'go.rep_warning': '⚠️ AVISO: ¡Reputación peligrosamente baja!',
+'go.warning_title': '⚠️ ¡CUIDADO!',
+'go.money_explained': 'Tus fondos están al límite. ¡Si el Tanatorio se queda sin dinero, cerrará por bancarrota!',
+'go.rep_explained': 'Las críticas son nefastas. ¡Si la reputación baja a cero, el Tanatorio cerrará por falta de clientes!',
 'go.days': 'Días sobrevividos:', 'go.served': 'Familias servidas:', 'go.earnings': 'Ganancias totales:',
 'go.best_roll': 'Mejor tirada:', 'go.level': 'Nivel alcanzado:',
 // Overlays

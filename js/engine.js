@@ -40,6 +40,8 @@ const Engine = (() => {
         cremaBroken: false,
         cremaRepairing: false,
         cremaRepairFinishTime: 0,
+        moneyWarningShown: false,
+        repWarningShown: false,
         stats: { familiesServed: 0, totalEarnings: 0, diceRolls: 0, bestRoll: 0, worstDay: null },
         realPlayTimeMS: 0
     });
@@ -818,8 +820,28 @@ const Engine = (() => {
             const quote = DATA.gameOverRep[Math.floor(Math.random() * DATA.gameOverRep.length)];
             showGameOver(I18n.T('go.disgraced_title'), I18n.T('go.disgraced_reason'), quote);
         } else if (state.money <= 500) {
+            if (!state.moneyWarningShown) {
+                state.moneyWarningShown = true;
+                if (typeof Dialogue !== 'undefined') {
+                    Dialogue.show(
+                        I18n.T('go.warning_title'), 
+                        I18n.T('go.money_explained'), 
+                        [{ text: I18n.T('eng.ok') }], null, { showReaper: true }
+                    );
+                }
+            }
             showToast(I18n.T('go.money_warning', state.money), 'danger');
         } else if (state.reputation <= 15) {
+            if (!state.repWarningShown) {
+                state.repWarningShown = true;
+                if (typeof Dialogue !== 'undefined') {
+                    Dialogue.show(
+                        I18n.T('go.warning_title'), 
+                        I18n.T('go.rep_explained'), 
+                        [{ text: I18n.T('eng.ok') }], null, { showReaper: true }
+                    );
+                }
+            }
             showToast(I18n.T('go.rep_warning'), 'danger');
         }
     }

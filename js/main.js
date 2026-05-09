@@ -139,7 +139,7 @@ window.Main = (() => {
             const desc = I18n.T(`ach.${ach.id}.desc`) || ach.desc;
 
             const iconHtml = ach.image ? 
-                `<div class="ach-img" style="background-image: url('${ach.image}'); background-size: ${ach.imagePos === 'center' || ach.id === 'overtime' || ach.id === 'social_butterfly' || ach.id === 'burn_it_all' ? '300% 100%' : (ach.imagePos ? '200% 100%' : 'cover')}; background-position: ${ach.imagePos === 'center' ? '50% 0%' : (ach.imagePos === 'right' ? '100% 0%' : '0% 0%')}; width:32px; height:32px; border-radius: 4px;"></div>` :
+                `<div class="ach-img" style="background-image: url('${ach.image}'); background-size: cover; background-position: center; width:32px; height:32px; border-radius: 4px;"></div>` :
                 `<span class="custom-icon" data-icon="${ach.icon}" style="width:24px;height:24px"></span>`;
 
             card.innerHTML = `

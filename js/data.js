@@ -688,7 +688,7 @@ const DATA = {
         { text: "\"I'm sorry, we don't serve alcohol here.\"", rep: 2, satisfaction: -5 },
         { text: "\"I could look the other way for a 'grief tax' of {bribe}.\"", isBribe: true, rep: -10, satisfaction: 15 },
         { text: "\"It's on the house. We all need a drink today.\"", rep: -15, money: 0, satisfaction: 25 }
-    ]
+    ],
     // ===== INTERVIEW SCENARIOS =====
     interviewScenarios: [
         {

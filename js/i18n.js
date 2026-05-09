@@ -6,7 +6,10 @@ const I18n = (() => {
     const strings = { en: {}, es: {} };
 
     function T(key, ...args) {
-        let s = strings[lang][key] || strings['en'][key] || key;
+        const langObj = strings[lang] || strings['en'] || {};
+        const fallbackObj = strings['en'] || {};
+        let s = langObj[key] || fallbackObj[key] || key;
+        
         if (typeof s === 'string') {
             args.forEach((a, i) => { s = s.replace(`{${i}}`, a); });
         }

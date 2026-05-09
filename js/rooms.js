@@ -990,6 +990,9 @@ const Rooms = (() => {
 
         const satMap = { excellent: 15, good: 8, mediocre: 0, bad: -20, catastrophic: -35 };
         Families.updateSatisfaction(viewingFamily.id, satMap[q], `Saw body (${q})`);
+        
+        const repMap = { excellent: 8, good: 4, mediocre: 0, bad: -10, catastrophic: -20 };
+        Engine.addReputation(repMap[q], `Saw body (${q})`);
 
         Dialogue.show(I18n.T('view.body_title', viewingFamily.deceasedName), reaction, [
             { text: q === 'bad' || q === 'catastrophic' ? I18n.T('view.sorry') : I18n.T('view.glad_goodbye'), action: () => {

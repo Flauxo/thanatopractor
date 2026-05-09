@@ -870,6 +870,96 @@ const DATA = {
                 { text: "Charge a 'Media Appearance' fee ($50).", roll: 12, success: { text: "She pays! #Profit", sat: 5 }, fail: { text: "She's offended.", sat: -20 } },
                 { text: "Explain the 'Soul-stealing' properties of cameras.", sat: -10 }
             ]
+        },
+        {
+            id: "live_pet",
+            text: "The family asks if the deceased can be buried with their favorite pet... which is currently alive.",
+            choices: [
+                { text: "Say no, that's illegal.", sat: -10 },
+                { text: "Convince them the pet prefers to stay alive.", roll: 14, success: { text: "They agree, the dog is safe.", sat: 20 }, fail: { text: "They call you insensitive to their bond.", sat: -15 } },
+                { text: "Offer to taxidermy the pet later.", sat: -30 }
+            ]
+        },
+        {
+            id: "widow_discount",
+            text: "The widow asks for a discount because 'he wasn't that good of a husband anyway.'",
+            choices: [
+                { text: "Apologize, prices are fixed.", sat: 0 },
+                { text: "Gossip about terrible men for a sympathy tip.", roll: 12, success: { text: "She loves the tea. Great tip!", sat: 25 }, fail: { text: "She gets offended you insulted her husband.", sat: -20 } },
+                { text: "Tell her the crematorium burns sinners equally.", sat: -25 }
+            ]
+        },
+        {
+            id: "bribe_dental",
+            text: "A mysterious man in a trench coat offers an extra $500 to 'lose' the dental records.",
+            choices: [
+                { text: "Refuse politely.", sat: 10 },
+                { text: "Accept the bribe smoothly.", roll: 15, success: { text: "Smooth transaction. +$500.", sat: 5, money: 500 }, fail: { text: "You drop the money awkwardly. They leave.", sat: -40, rep: -10 } },
+                { text: "Threaten to call the police.", sat: -15 }
+            ]
+        },
+        {
+            id: "heavy_metal_viewing",
+            text: "The family wants to play extremely inappropriate heavy metal music during the viewing.",
+            choices: [
+                { text: "Refuse, it disturbs other grieving families.", sat: -15 },
+                { text: "Suggest an acoustic, instrumental cover.", roll: 13, success: { text: "They actually love the acoustic version.", sat: 20 }, fail: { text: "They call you a poser.", sat: -10 } },
+                { text: "Offer to crank up the volume to 'wake the dead'.", sat: 10, rep: -5 }
+            ]
+        },
+        {
+            id: "secret_families",
+            text: "The deceased's two secret families accidentally meet in your office.",
+            choices: [
+                { text: "Slowly back out of the room.", sat: -10 },
+                { text: "Intervene as a grief counselor to calm everyone.", roll: 16, success: { text: "Crisis averted! You're a hero.", sat: 35, rep: 10 }, fail: { text: "A massive fight breaks out. Vases are broken.", sat: -40, rep: -10 } },
+                { text: "Offer a 'Buy One, Get One 50% Off' viewing deal.", sat: -50 }
+            ]
+        },
+        {
+            id: "casket_selfie",
+            text: "The son insists on taking a selfie with the open casket.",
+            choices: [
+                { text: "Remind him it's highly disrespectful.", sat: -10 },
+                { text: "Offer to take the picture with professional lighting.", roll: 11, success: { text: "The lighting is great. He posts it.", sat: 20 }, fail: { text: "You drop his phone.", sat: -15 } },
+                { text: "Photobomb the picture making a peace sign.", sat: -40 }
+            ]
+        },
+        {
+            id: "gold_teeth",
+            text: "They ask what happens to the gold teeth during cremation.",
+            choices: [
+                { text: "State standard legal procedure.", sat: 5 },
+                { text: "Reassure them they melt to 'enrich his spirit'.", roll: 14, success: { text: "They find it very poetic.", sat: 25 }, fail: { text: "They demand the gold back.", sat: -10 } },
+                { text: "'What gold teeth? I didn't see any gold teeth.'", sat: -30 }
+            ]
+        },
+        {
+            id: "vegan_embalm",
+            text: "The daughter wants to know if the embalming fluid is vegan and cruelty-free.",
+            choices: [
+                { text: "Explain it's literally formaldehyde.", sat: -10 },
+                { text: "Invent a story about ethically sourced botanicals.", roll: 13, success: { text: "She is relieved and impressed.", sat: 30 }, fail: { text: "She Googles it and calls you a liar.", sat: -20 } },
+                { text: "Tell her the only cruelty was the cause of death.", sat: -40 }
+            ]
+        },
+        {
+            id: "keg_urn",
+            text: "They brought a custom urn shaped like a beer keg, but it's leaking.",
+            choices: [
+                { text: "Demand they buy one of your urns.", sat: -15 },
+                { text: "Fix it with duct tape, call it 'rustic character'.", roll: 12, success: { text: "They agree it adds personality.", sat: 20 }, fail: { text: "The duct tape rips. Ashes everywhere.", sat: -15 } },
+                { text: "Suggest they just drink the ashes later.", sat: -50 }
+            ]
+        },
+        {
+            id: "face_down",
+            text: "The deceased requested to be buried face down 'so the world can kiss my a**.'",
+            choices: [
+                { text: "Refuse to accommodate such vulgarity.", sat: -20 },
+                { text: "Convince them closing the casket achieves the same goal.", roll: 15, success: { text: "Philosophically, they agree.", sat: 25 }, fail: { text: "They insist on the exact positioning.", sat: -15 } },
+                { text: "Charge double for 'special ergonomic positioning'.", sat: 10 }
+            ]
         }
     ]
 };

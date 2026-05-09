@@ -770,11 +770,92 @@ const DATA_ES = {
         },
         {
             id: "selfie_grief",
-            text: "La hija quiere hacerse un 'Selfie de Duelo' contigo.",
+            text: "La hija quiere hacerse un selfie de duelo contigo y el ataúd.",
             choices: [
-                { text: "Poner una pose 'Profesional pero Triste'.", sat: 15 },
-                { text: "Cobrar una 'Tasa de Aparición en Medios' ($50).", roll: 12, success: { text: "¡Paga! #Beneficios", sat: 5 }, fail: { text: "Se siente ofendida.", sat: -20 } },
-                { text: "Explicar las propiedades 'robacorazones' de las cámaras.", sat: -10 }
+                { text: "Poner cara 'profesional pero triste'.", sat: 15 },
+                { text: "Cobrar tarifa por 'Aparición en Redes' ($50).", roll: 12, success: { text: "¡Paga sin dudar! #Profit", sat: 5 }, fail: { text: "Se ofende muchísimo.", sat: -20 } },
+                { text: "Explicarle que las cámaras roban el alma de los difuntos.", sat: -10 }
+            ]
+        },
+        {
+            id: "live_pet",
+            text: "La familia pregunta si el difunto puede ser enterrado con su mascota favorita, que sigue viva.",
+            choices: [
+                { text: "Decir que no, eso es ilegal.", sat: -10 },
+                { text: "Convencerles de que la mascota preferiría seguir viva.", roll: 14, success: { text: "Están de acuerdo, el perro se salva.", sat: 20 }, fail: { text: "Te llaman insensible ante su vínculo.", sat: -15 } },
+                { text: "Ofrecer taxidermizar a la mascota más adelante.", sat: -30 }
+            ]
+        },
+        {
+            id: "widow_discount",
+            text: "La viuda pide un descuento porque 'tampoco era tan buen marido'.",
+            choices: [
+                { text: "Disculparse, los precios son fijos.", sat: 0 },
+                { text: "Cotillear sobre lo terribles que son los hombres para ganar propina.", roll: 12, success: { text: "Le encanta el chisme. ¡Gran propina!", sat: 25 }, fail: { text: "Se ofende porque has insultado a su marido.", sat: -20 } },
+                { text: "Decirle que el crematorio quema a los pecadores por igual.", sat: -25 }
+            ]
+        },
+        {
+            id: "bribe_dental",
+            text: "Un hombre misterioso en gabardina ofrece $500 extra por 'perder' los registros dentales.",
+            choices: [
+                { text: "Rechazar amablemente.", sat: 10 },
+                { text: "Aceptar el soborno sutilmente.", roll: 15, success: { text: "Transacción perfecta. +$500.", sat: 5, money: 500 }, fail: { text: "Se te caen los billetes al suelo. Se va.", sat: -40, rep: -10 } },
+                { text: "Amenazar con llamar a la policía.", sat: -15 }
+            ]
+        },
+        {
+            id: "heavy_metal_viewing",
+            text: "La familia quiere poner música heavy metal extremadamente inapropiada durante el velatorio.",
+            choices: [
+                { text: "Negarse, molesta a otras familias que están de luto.", sat: -15 },
+                { text: "Sugerir ponerla como una versión instrumental acústica.", roll: 13, success: { text: "Les encanta la versión acústica.", sat: 20 }, fail: { text: "Te llaman 'poser' y lloran.", sat: -10 } },
+                { text: "Ofrecer subir el volumen al máximo para 'despertar a los muertos'.", sat: 10, rep: -5 }
+            ]
+        },
+        {
+            id: "secret_families",
+            text: "Las dos familias secretas del difunto se encuentran por accidente en tu oficina.",
+            choices: [
+                { text: "Retroceder lentamente y salir de la habitación.", sat: -10 },
+                { text: "Intervenir como consejero de duelo y calmar a todos.", roll: 16, success: { text: "¡Crisis evitada! Eres un héroe.", sat: 35, rep: 10 }, fail: { text: "Empieza una pelea campal. Rompen un jarrón.", sat: -40, rep: -10 } },
+                { text: "Ofrecer un descuento del 50% en la segunda sala de velatorio.", sat: -50 }
+            ]
+        },
+        {
+            id: "casket_selfie",
+            text: "El hijo insiste en hacerse un selfie con el ataúd abierto.",
+            choices: [
+                { text: "Recordarle que es una gran falta de respeto.", sat: -10 },
+                { text: "Ofrecerte a hacerle tú la foto con iluminación profesional.", roll: 11, success: { text: "La luz es perfecta. La sube a Insta.", sat: 20 }, fail: { text: "Se te cae su móvil al suelo.", sat: -15 } },
+                { text: "Hacer un 'photobomb' en la foto haciendo el símbolo de la paz.", sat: -40 }
+            ]
+        },
+        {
+            id: "gold_teeth",
+            text: "Preguntan qué pasa con los dientes de oro durante la cremación.",
+            choices: [
+                { text: "Explicar el procedimiento legal estándar.", sat: 5 },
+                { text: "Asegurarles que se funden para 'enriquecer su espíritu'.", roll: 14, success: { text: "Les parece un final muy poético.", sat: 25 }, fail: { text: "Exigen que se los devuelvas.", sat: -10 } },
+                { text: "¿Qué dientes de oro? Yo no he visto ningún diente de oro.", sat: -30 }
+            ]
+        },
+        {
+            id: "vegan_embalm",
+            text: "La hija quiere saber si el líquido de embalsamar es vegano y 'cruelty-free'.",
+            choices: [
+                { text: "Explicarle que es literalmente formaldehído cancerígeno.", sat: -10 },
+                { text: "Inventar una historia sobre conservantes botánicos éticos.", roll: 13, success: { text: "Se siente aliviada e impresionada.", sat: 30 }, fail: { text: "Lo busca en Google y te llama mentiroso.", sat: -20 } },
+                { text: "Decirle que la única crueldad aquí fue la causa de la muerte.", sat: -40 }
+            ]
+        },
+        {
+            id: "keg_urn",
+            text: "Han traído una urna personalizada en forma de barril de cerveza, pero gotea.",
+            choices: [
+                { text: "Exigir que compren una de tus urnas estándar.", sat: -15 },
+                { text: "Arreglarla con cinta americana y llamarlo 'toque rústico'.", roll: 12, success: { text: "Están de acuerdo, le da personalidad.", sat: 20 }, fail: { text: "La cinta se rompe. Cenizas por todas partes.", sat: -15 } },
+                { text: "Sugerir que se beban las cenizas en un chupito.", sat: -50 }
             ]
         }
     ]

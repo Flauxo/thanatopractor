@@ -73,9 +73,6 @@ const Families = (() => {
         rating = Math.max(0, Math.min(10, rating));
         f.rating = rating;
 
-        const repChange = rating - 5; // 5 is neutral
-        Engine.addReputation(repChange, `${f.deceasedName}'s family rated you ${rating}/10`, true);
-        Engine.addXP(100 + rating * 20);
         Engine.getState().stats.familiesServed++;
 
         // Charge for services
@@ -89,10 +86,8 @@ const Families = (() => {
             total -= DATA.serviceBasePrices.hearseRental; // hearse rental cost
             Engine.addMoney(-DATA.serviceBasePrices.hearseRental, 'External hearse rental', true);
             const quote = DATA.hearseDriverQuotes[Math.floor(Math.random() * DATA.hearseDriverQuotes.length)];
-            // Engine.showToast(`🚗 Hearse driver: ${quote}`, ''); // Suppress toast here too
         }
         
-        Engine.addMoney(total, `Service for ${f.deceasedName}`, true);
         f.totalCharged = total;
         Engine.save();
 
@@ -114,12 +109,22 @@ const Families = (() => {
             <div class="comp-row"><span class="comp-label">${I18n.T('ov.summary_transport')}</span><span class="comp-value">${transport}</span></div>
             <div class="comp-row"><span class="comp-label">${I18n.T('ov.summary_services')}</span><span class="comp-value" style="font-size:14px;font-family:var(--font-vt)">${services || I18n.T('ov.summary_basic')}</span></div>
             <div class="comp-row"><span class="comp-label">${I18n.T('ov.summary_earned')}</span><span class="comp-value">$${total}</span></div>
-            <div class="comp-row"><span class="comp-label">${I18n.T('ov.summary_reputation')}</span><span class="comp-value">${repChange >= 0 ? '+' : ''}${repChange} REP</span></div>
+            <div class="comp-row"><span class="comp-label">${I18n.T('ov.summary_reputation')}</span><span class="comp-value">${(rating - 5) >= 0 ? '+' : ''}${(rating - 5)} REP</span></div>
         `;
+        
         document.getElementById('completion-overlay').style.display = 'flex';
         document.getElementById('btn-comp-dismiss').onclick = () => {
             document.getElementById('completion-overlay').style.display = 'none';
+
+            // Process rewards AFTER dismissal
+            const repChange = rating - 5; // 5 is neutral
+            Engine.addReputation(repChange, `${f.deceasedName}'s family rated you ${rating}/10`, true);
+            Engine.addXP(100 + rating * 20);
+            Engine.addMoney(total, `Service for ${f.deceasedName}`, true);
+            
+            updateFamiliesLog();
         };
+    }
 
         updateFamiliesLog();
     }

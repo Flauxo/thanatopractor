@@ -381,12 +381,24 @@ window.Main = (() => {
 
         // ===== TAB VISIBILITY (Stop audio in background) =====
         document.addEventListener('visibilitychange', () => {
-            if (typeof Audio8Bit !== 'undefined' && Audio8Bit.initialized) {
-                if (document.hidden) {
+            if (document.hidden) {
+                // Pause music
+                if (typeof Audio8Bit !== 'undefined' && Audio8Bit.initialized) {
                     Audio8Bit.suspend();
-                } else {
+                }
+                // Pause time
+                window.Main.preBackgroundSpeed = Engine.getState().speed;
+                Engine.setSpeed(0);
+            } else {
+                // Resume music
+                if (typeof Audio8Bit !== 'undefined' && Audio8Bit.initialized) {
                     Audio8Bit.resume();
                 }
+                // Resume time if no overlay is open
+                if (window.Main.preBackgroundSpeed !== undefined && !window.Main.isOverlayOpen()) {
+                    Engine.setSpeed(window.Main.preBackgroundSpeed);
+                }
+                window.Main.preBackgroundSpeed = undefined;
             }
         });
     }

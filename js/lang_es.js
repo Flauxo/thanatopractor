@@ -584,4 +584,10 @@ I18n.register('es', {
 'bad.stolen_urn': '🐦 Un cuervo se ha llevado una urna pensando que era un nido brillante.',
 'bad.cursed_phone': '📞 El teléfono de recepción no deja de sonar con psicofonías de gente pidiendo pizza.',
 'spl.click_to_enter': '[ PULSA PARA ENTRAR EN LA CRIPTA ]',
+    'dlg.interview_title': 'Entrevista de Servicios',
+    'dlg.interview_completed': 'Entrevista Completada',
+    'dlg.sat_low': 'Desconfían de ti profundamente...',
+    'dlg.sat_med': 'Neutrales, pero con cautela.',
+    'dlg.sat_high': 'Muy satisfechos con tu profesionalidad.',
+    'dlg.sat_perfect': '¡Te van a proponer matrimonio para su hija!',
 });

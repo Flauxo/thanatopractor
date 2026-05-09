@@ -862,6 +862,40 @@ html, body {
 .soul-cell .custom-icon { width: 44px !important; height: 44px !important; }
 .soul-cell.flash { background: var(--accent-bright) !important; box-shadow: 0 0 20px var(--accent-bright); }
 .soul-cell.wrong { background: var(--danger) !important; }
+/* Satisfaction bar in dialogue */
+.dlg-sat-container {
+    margin-bottom: 16px;
+    background: rgba(30, 20, 51, 0.5);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--bg-panel-border);
+}
+.dlg-sat-label {
+    font-family: var(--font-pixel);
+    font-size: 8px;
+    color: var(--accent-pink);
+    margin-bottom: 4px;
+}
+.dlg-sat-bar {
+    height: 10px;
+    background: var(--bg-darkest);
+    border: 1px solid var(--bg-panel-border);
+    border-radius: 5px;
+    overflow: hidden;
+}
+.dlg-sat-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--danger), var(--warning), var(--success));
+    transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.dlg-sat-value {
+    font-family: var(--font-pixel);
+    font-size: 8px;
+    text-align: right;
+    margin-top: 4px;
+    color: var(--text-dim);
+}
+
 .dialogue-speaker {
     font-family: var(--font-pixel); font-size: 10px;
     color: var(--accent-bright); margin-bottom: 12px;

@@ -689,4 +689,187 @@ const DATA = {
         { text: "\"I could look the other way for a 'grief tax' of {bribe}.\"", isBribe: true, rep: -10, satisfaction: 15 },
         { text: "\"It's on the house. We all need a drink today.\"", rep: -15, money: 0, satisfaction: 25 }
     ]
+    // ===== INTERVIEW SCENARIOS =====
+    interviewScenarios: [
+        {
+            id: "tissues",
+            text: "The family starts crying. You need to offer something.",
+            choices: [
+                { text: "Offer a single, high-quality silk tissue.", sat: 10 },
+                { text: "Push the whole box toward them. 'You'll need it.'", sat: 20 },
+                { text: "Tell them crying is bad for the skin.", sat: -30 }
+            ]
+        },
+        {
+            id: "coffee",
+            text: "They look exhausted. Ivan whispers: 'Sell them the expensive coffee'.",
+            choices: [
+                { text: "Offer free artisanal coffee samples.", sat: 15 },
+                { text: "Try to sell 'Grief-Roasted' espresso ($5).", roll: 12, success: { text: "They love it!", sat: 25 }, fail: { text: "They find it insensitive.", sat: -10 } },
+                { text: "Mention our coffee is better than the competition's.", sat: 5 }
+            ]
+        },
+        {
+            id: "cremation_pitch",
+            text: "The topic of cremation comes up. How do you handle it?",
+            choices: [
+                { text: "Explain it's 'Eco-friendly and efficient'.", sat: 10 },
+                { text: "Describe the 'Beautiful transformation through fire'.", roll: 14, success: { text: "Very poetic!", sat: 20 }, fail: { text: "Too graphic...", sat: -15 } },
+                { text: "Mention it's the cheapest option we have.", sat: -10 }
+            ]
+        },
+        {
+            id: "mistaken_identity",
+            text: "You accidentally call the son by the deceased's name.",
+            choices: [
+                { text: "Quickly apologize and blame the paperwork.", sat: -5 },
+                { text: "Try to play it off: 'You have his noble eyes!'", roll: 10, success: { text: "They are touched.", sat: 15 }, fail: { text: "They are weirded out.", sat: -20 } },
+                { text: "Insist that you are right and they are wrong.", sat: -40 }
+            ]
+        },
+        {
+            id: "flower_talk",
+            text: "They ask about the flower arrangements.",
+            choices: [
+                { text: "Suggest the 'Eternal Bloom' package.", sat: 10 },
+                { text: "Explain that flowers are just 'dying plants'.", sat: -25 },
+                { text: "Call the florist right now to show dedication.", sat: 20 }
+            ]
+        },
+        {
+            id: "gold_tooth",
+            text: "You found a gold tooth during preparation. Do you mention it?",
+            choices: [
+                { text: "Discreetly hand it back in a velvet pouch.", sat: 30 },
+                { text: "Tell them it was 'lost in the process' (keep it).", roll: 15, success: { text: "They believe you. +$200 later.", sat: 0 }, fail: { text: "They see right through you!", sat: -40 } },
+                { text: "Ask if they want to pay for the funeral with it.", sat: -20 }
+            ]
+        },
+        {
+            id: "ivan_outfit",
+            text: "Ivan walks in wearing a 'I Heart Cemeteries' t-shirt.",
+            choices: [
+                { text: "Apologize and say it's our 'casual Friday'.", sat: -5 },
+                { text: "Explain it's a high-fashion ironic brand.", roll: 13, success: { text: "They think you're trendy.", sat: 15 }, fail: { text: "They find it disrespectful.", sat: -15 } },
+                { text: "Force Ivan to change into a trash bag immediately.", sat: 10 }
+            ]
+        },
+        {
+            id: "memory_foam",
+            text: "A relative asks if the coffin is comfortable enough.",
+            choices: [
+                { text: "Offer the 'Memory Foam Deluxe' upgrade.", sat: 15 },
+                { text: "Assure them: 'They won't be complaining'.", sat: -10 },
+                { text: "Pretend to test the softness yourself.", roll: 11, success: { text: "They appreciate your thoroughness.", sat: 10 }, fail: { text: "You look ridiculous.", sat: -10 } }
+            ]
+        },
+        {
+            id: "ghost_insurance",
+            text: "They are terrified of hauntings. Sell them insurance?",
+            choices: [
+                { text: "Offer the 'Spectral Protection' policy ($100).", roll: 14, success: { text: "Sold! They feel safer.", sat: 20 }, fail: { text: "They think you're a scammer.", sat: -25 } },
+                { text: "Explain that our walls are 'ghost-proofed'.", sat: 5 },
+                { text: "Tell them ghosts only haunt 'boring' people.", sat: -30 }
+            ]
+        },
+        {
+            id: "qr_grave",
+            text: "They want a QR code on the tombstone for a Tik-Tok tribute.",
+            choices: [
+                { text: "Embrace the future! 'Digital Immortality' pack.", sat: 20 },
+                { text: "Politely suggest a traditional epitaph.", sat: 5 },
+                { text: "Laugh and say 'Over my dead body'.", sat: -20 }
+            ]
+        },
+        {
+            id: "wrong_ashes",
+            text: "You realize the urn you're holding is slightly dusty.",
+            choices: [
+                { text: "Polish it right in front of them with your tie.", sat: 5 },
+                { text: "Pretend it's 'Ancient Blessing Dust'.", roll: 16, success: { text: "They are in awe.", sat: 25 }, fail: { text: "That's just gross.", sat: -30 } },
+                { text: "Go get a clean one and blame 'The Vault Protocol'.", sat: 15 }
+            ]
+        },
+        {
+            id: "scent_choice",
+            text: "They ask about the smell. Formaldehyde is strong today.",
+            choices: [
+                { text: "Tell them it's 'The Scent of Eternity'.", sat: 10 },
+                { text: "Blame Ivan's cooking in the cafeteria.", sat: -5 },
+                { text: "Use your 'Empathy' to describe it as 'Cleanliness'.", roll: 12, success: { text: "They are reassured.", sat: 15 }, fail: { text: "It still smells like a lab.", sat: -10 } }
+            ]
+        },
+        {
+            id: "neighbor_grave",
+            text: "They want to know who is buried in the next plot.",
+            choices: [
+                { text: "Tell them it's a very 'quiet and prestigious' family.", sat: 15 },
+                { text: "Check the ledger and 'fudge' the details to sound better.", roll: 13, success: { text: "They love the neighbors!", sat: 20 }, fail: { text: "You get the names mixed up.", sat: -10 } },
+                { text: "Say 'Neighbors don't matter when you're 6 feet down'.", sat: -15 }
+            ]
+        },
+        {
+            id: "heirloom_ring",
+            text: "A ring is stuck on the deceased's finger. The family wants it.",
+            choices: [
+                { text: "Use your 'Professional Hands' to remove it (Skill).", roll: 14, success: { text: "Removed with dignity.", sat: 25 }, fail: { text: "You struggle awkwardly.", sat: -20 } },
+                { text: "Suggest burying it as a 'Sacrifice to the Beyond'.", sat: -5 },
+                { text: "Tell them to 'Let it go, it's just shiny metal'.", sat: -35 }
+            ]
+        },
+        {
+            id: "metal_service",
+            text: "They want a Heavy Metal tribute in the chapel.",
+            choices: [
+                { text: "Accept and call the local band 'Rotten Souls'.", sat: 20 },
+                { text: "Suggest Ivan does a 'Heavy' acoustic version.", roll: 15, success: { text: "Ivan rocks! They love it.", sat: 30 }, fail: { text: "It's embarrassing.", sat: -20 } },
+                { text: "Insist on Gregorian chants for 'Soul Stability'.", sat: -10 }
+            ]
+        },
+        {
+            id: "viewing_snacks",
+            text: "A cousin starts eating popcorn during the viewing.",
+            choices: [
+                { text: "Politely ask them to stop out of respect.", sat: 15 },
+                { text: "Try to 'Sell' them a proper snack from the cafe.", roll: 11, success: { text: "Business is booming!", sat: 10 }, fail: { text: "They find you greedy.", sat: -15 } },
+                { text: "Join them and ask for a handful.", sat: -40 }
+            ]
+        },
+        {
+            id: "makeup_fail",
+            text: "The makeup is a bit... much. The deceased looks like a doll.",
+            choices: [
+                { text: "Explain it's the 'Post-Life Glow' technique.", roll: 14, success: { text: "They think it's artistic.", sat: 20 }, fail: { text: "They want a refund.", sat: -30 } },
+                { text: "Immediately offer to fix it 'For free'.", sat: 15 },
+                { text: "Say 'He always wanted to be more colorful'.", sat: -20 }
+            ]
+        },
+        {
+            id: "pet_goodbye",
+            text: "They want to bring a goat for a 'Final Blessing'.",
+            choices: [
+                { text: "Accept, but charge a 'Livestock Cleaning' fee.", sat: 10 },
+                { text: "Use 'Persuasion' to convince them a cat is better.", roll: 15, success: { text: "They bring a kitten. Cute!", sat: 20 }, fail: { text: "They want the goat.", sat: -5 } },
+                { text: "Tell them this is a mortuary, not a farm.", sat: -25 }
+            ]
+        },
+        {
+            id: "eco_cardboard",
+            text: "They want a cardboard coffin to be 'Eco-friendly'.",
+            choices: [
+                { text: "Support their green choice! +20 Satisfaction.", sat: 20 },
+                { text: "Sell them 'Reinforced Eco-Oak' ($500 extra).", roll: 14, success: { text: "They buy the premium wood!", sat: 15 }, fail: { text: "They see the scam.", sat: -20 } },
+                { text: "Mention it might collapse if it rains.", sat: -15 }
+            ]
+        },
+        {
+            id: "selfie_grief",
+            text: "The daughter wants to take a 'Grief Selfie' with you.",
+            choices: [
+                { text: "Strike a 'Professional but Sad' pose.", sat: 15 },
+                { text: "Charge a 'Media Appearance' fee ($50).", roll: 12, success: { text: "She pays! #Profit", sat: 5 }, fail: { text: "She's offended.", sat: -20 } },
+                { text: "Explain the 'Soul-stealing' properties of cameras.", sat: -10 }
+            ]
+        }
+    ]
 };

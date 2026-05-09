@@ -568,4 +568,10 @@ I18n.register('en', {
 'bad.stolen_urn': '🐦 A crow has flown off with an urn, thinking it was a shiny nest.',
 'bad.cursed_phone': '📞 The reception phone won\'t stop ringing with EVP recordings of people ordering pizza.',
 'spl.click_to_enter': '[ CLICK TO ENTER THE CRYPT ]',
+    'dlg.interview_title': 'Service Interview',
+    'dlg.interview_completed': 'Interview Completed',
+    'dlg.sat_low': 'They deeply distrust you...',
+    'dlg.sat_med': 'Neutral, but cautious.',
+    'dlg.sat_high': 'Very satisfied with your professionalism.',
+    'dlg.sat_perfect': 'They are going to propose a marriage for their daughter!',
 });

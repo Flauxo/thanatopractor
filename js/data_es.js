@@ -36,7 +36,17 @@ const DATA_ES = {
         { id: "steampunk", name: "Mecanizados", icon: "⚙️", desc: "Quieren añadir engranajes de latón al ataúd." },
         { id: "reality", name: "Dramáticos", icon: "🎭", desc: "Se lo están tomando como el final de temporada." },
         { id: "coupon", name: "Austeros", icon: "🎫", desc: "Han traído una pila de cupones caducados." },
-        { id: "traveler", name: "Temporales", icon: "⏳", desc: "Afirman que el fallecido revivirá en una semana." }
+        { id: "traveler", name: "Temporales", icon: "⏳", desc: "Afirman que el fallecido revivirá en una semana." },
+        { id: "conspiracy", name: "Conspiranoicos", icon: "🛸", desc: "Creen que el gobierno rastrea el ataúd con satélites." },
+        { id: "fitness", name: "Fitness", icon: "🏋️", desc: "Quieren saber si el difunto llegó a su meta de pasos diaria." },
+        { id: "chef", name: "Chefs", icon: "👨‍🍳", desc: "Más interesados en el menú de la cafetería que en el entierro." },
+        { id: "musician", name: "Músicos", icon: "🎸", desc: "Quieren convertir el funeral en una gira mundial." },
+        { id: "superstitious", name: "Supersticiosos", icon: "🧿", desc: "Necesitan tapar todos los espejos del edificio." },
+        { id: "detective", name: "Detectives", icon: "🕵️", desc: "Están investigando las causas por su cuenta." },
+        { id: "occult", name: "Ocultistas", icon: "🕯️", desc: "Quieren celebrar una sesión de espiritismo en el velatorio." },
+        { id: "techie", name: "Tecnológicos", icon: "💻", desc: "Quieren subir la conciencia del difunto a la nube." },
+        { id: "romantic", name: "Románticos", icon: "🌹", desc: "Buscan a su próxima pareja entre los asistentes." },
+        { id: "minimalist", name: "Minimalistas", icon: "📦", desc: "Quieren un ataúd de montaje fácil tipo IKEA." }
     ],
 
     arrivalIntros: [
@@ -175,6 +185,76 @@ const DATA_ES = {
                 { textKey: "dlg.traveler.c1", rep: 2, money: 0 },
                 { textKey: "dlg.traveler.c2", rep: 1, money: 0 },
                 { textKey: "dlg.traveler.c3", rep: -2, money: 0 }
+            ]}
+        ],
+        conspiracy: [
+            { textKey: "dlg.conspiracy.text", choices: [
+                { textKey: "dlg.conspiracy.c1", rep: 2, money: 0 },
+                { textKey: "dlg.conspiracy.c2", rep: 0, money: 200 },
+                { textKey: "dlg.conspiracy.c3", rep: 5, money: 0 }
+            ]}
+        ],
+        fitness: [
+            { textKey: "dlg.fitness.text", choices: [
+                { textKey: "dlg.fitness.c1", rep: 1, money: 0 },
+                { textKey: "dlg.fitness.c2", rep: 2, money: 0 },
+                { textKey: "dlg.fitness.c3", rep: -2, money: 0 }
+            ]}
+        ],
+        chef: [
+            { textKey: "dlg.chef.text", choices: [
+                { textKey: "dlg.chef.c1", rep: 2, money: 0 },
+                { textKey: "dlg.chef.c2", rep: 1, money: 0 },
+                { textKey: "dlg.chef.c3", rep: -1, money: 100 }
+            ]}
+        ],
+        musician: [
+            { textKey: "dlg.musician.text", choices: [
+                { textKey: "dlg.musician.c1", rep: 2, money: 0 },
+                { textKey: "dlg.musician.c2", rep: -2, money: 300 },
+                { textKey: "dlg.musician.c3", rep: 1, money: 0 }
+            ]}
+        ],
+        superstitious: [
+            { textKey: "dlg.superstitious.text", choices: [
+                { textKey: "dlg.superstitious.c1", rep: 3, money: 0 },
+                { textKey: "dlg.superstitious.c2", rep: 0, money: 150 },
+                { textKey: "dlg.superstitious.c3", rep: -1, money: 0 }
+            ]}
+        ],
+        detective: [
+            { textKey: "dlg.detective.text", choices: [
+                { textKey: "dlg.detective.c1", rep: 2, money: 0 },
+                { textKey: "dlg.detective.c2", rep: 0, money: 100 },
+                { textKey: "dlg.detective.c3", rep: -5, money: 0 }
+            ]}
+        ],
+        occult: [
+            { textKey: "dlg.occult.text", choices: [
+                { textKey: "dlg.occult.c1", rep: 1, money: 0 },
+                { textKey: "dlg.occult.c2", rep: -2, money: 200 },
+                { textKey: "dlg.occult.c3", rep: 5, money: 0 }
+            ]}
+        ],
+        techie: [
+            { textKey: "dlg.techie.text", choices: [
+                { textKey: "dlg.techie.c1", rep: 2, money: 0 },
+                { textKey: "dlg.techie.c2", rep: 0, money: 500 },
+                { textKey: "dlg.techie.c3", rep: -3, money: 0 }
+            ]}
+        ],
+        romantic: [
+            { textKey: "dlg.romantic.text", choices: [
+                { textKey: "dlg.romantic.c1", rep: 2, money: 0 },
+                { textKey: "dlg.romantic.c2", rep: 0, money: 0 },
+                { textKey: "dlg.romantic.c3", rep: -2, money: 0 }
+            ]}
+        ],
+        minimalist: [
+            { textKey: "dlg.minimalist.text", choices: [
+                { textKey: "dlg.minimalist.c1", rep: 1, money: -100 },
+                { textKey: "dlg.minimalist.c2", rep: 2, money: 0 },
+                { textKey: "dlg.minimalist.c3", rep: -2, money: 0 }
             ]}
         ]
     },
@@ -514,6 +594,189 @@ const DATA_ES = {
         "Un nivel más. Disfrútalo, la eternidad es muy larga y aburrida.",
         "Eres tan bueno que la Parca está pensando en abrir una franquicia.",
         "¡Nuevo nivel! Tu oscuro futuro parece... ligeramente más rentable."
+    ]
+    // ===== ESCENARIOS DE ENTREVISTA =====
+    interviewScenarios: [
+        {
+            id: "tissues",
+            text: "La familia empieza a llorar. Tienes que ofrecer algo.",
+            choices: [
+                { text: "Ofrecer un único pañuelo de seda de alta calidad.", sat: 10 },
+                { text: "Empujar la caja entera hacia ellos. 'Lo van a necesitar'.", sat: 20 },
+                { text: "Decirles que llorar es malo para la piel.", sat: -30 }
+            ]
+        },
+        {
+            id: "coffee",
+            text: "Parecen agotados. Iván susurra: 'Véndeles el café caro'.",
+            choices: [
+                { text: "Ofrecer muestras gratuitas de café artesanal.", sat: 15 },
+                { text: "Intentar vender el espresso 'Tueste de Duelo' ($5).", roll: 12, success: { text: "¡Les encanta!", sat: 25 }, fail: { text: "Les parece insensible.", sat: -10 } },
+                { text: "Mencionar que nuestro café es mejor que el de la competencia.", sat: 5 }
+            ]
+        },
+        {
+            id: "cremation_pitch",
+            text: "Surge el tema de la incineración. ¿Cómo lo manejas?",
+            choices: [
+                { text: "Explicar que es 'Ecológico y eficiente'.", sat: 10 },
+                { text: "Describir la 'Hermosa transformación a través del fuego'.", roll: 14, success: { text: "¡Muy poético!", sat: 20 }, fail: { text: "Demasiado gráfico...", sat: -15 } },
+                { text: "Mencionar que es la opción más barata que tenemos.", sat: -10 }
+            ]
+        },
+        {
+            id: "mistaken_identity",
+            text: "Accidentalmente llamas al hijo por el nombre del difunto.",
+            choices: [
+                { text: "Pedir disculpas rápidamente y culpar al papeleo.", sat: -5 },
+                { text: "Intentar disimular: '¡Tiene sus mismos ojos nobles!'", roll: 10, success: { text: "Se sienten conmovidos.", sat: 15 }, fail: { text: "Se sienten extrañados.", sat: -20 } },
+                { text: "Insistir en que tienes razón y ellos se equivocan.", sat: -40 }
+            ]
+        },
+        {
+            id: "flower_talk",
+            text: "Preguntan por los arreglos florales.",
+            choices: [
+                { text: "Sugerir el paquete 'Eterno Florecer'.", sat: 10 },
+                { text: "Explicar que las flores son solo 'plantas muriendo'.", sat: -25 },
+                { text: "Llamar a la floristería ahora mismo para mostrar dedicación.", sat: 20 }
+            ]
+        },
+        {
+            id: "gold_tooth",
+            text: "Has encontrado un diente de oro durante la preparación. ¿Lo mencionas?",
+            choices: [
+                { text: "Devolverlo discretamente en una bolsa de terciopelo.", sat: 30 },
+                { text: "Decirles que se 'perdió en el proceso' (quedártelo).", roll: 15, success: { text: "Te creen. +$200 más tarde.", sat: 0 }, fail: { text: "¡Te han pillado!", sat: -40 } },
+                { text: "Preguntar si quieren pagar el funeral con él.", sat: -20 }
+            ]
+        },
+        {
+            id: "ivan_outfit",
+            text: "Iván entra con una camiseta que dice 'Amo los Cementerios'.",
+            choices: [
+                { text: "Pedir disculpas y decir que es nuestro 'viernes informal'.", sat: -5 },
+                { text: "Explicar que es una marca irónica de alta costura.", roll: 13, success: { text: "Creen que estás a la moda.", sat: 15 }, fail: { text: "Les parece irrespetuoso.", sat: -15 } },
+                { text: "Obligar a Iván a cambiarse por una bolsa de basura.", sat: 10 }
+            ]
+        },
+        {
+            id: "memory_foam",
+            text: "Un pariente pregunta si el ataúd es lo suficientemente cómodo.",
+            choices: [
+                { text: "Ofrecer la mejora 'Memory Foam Deluxe'.", sat: 15 },
+                { text: "Asegurarles: 'No se va a quejar'.", sat: -10 },
+                { text: "Fingir que pruebas la suavidad tú mismo.", roll: 11, success: { text: "Aprecian tu minuciosidad.", sat: 10 }, fail: { text: "Quedas como un ridículo.", sat: -10 } }
+            ]
+        },
+        {
+            id: "ghost_insurance",
+            text: "Están aterrorizados por las apariciones. ¿Seguro de fantasmas?",
+            choices: [
+                { text: "Ofrecer la póliza 'Protección Espectral' ($100).", roll: 14, success: { text: "¡Vendido! Se sienten más seguros.", sat: 20 }, fail: { text: "Creen que eres un estafador.", sat: -25 } },
+                { text: "Explicar que nuestras paredes están 'a prueba de ectoplasma'.", sat: 5 },
+                { text: "Decirles que los fantasmas solo asustan a gente 'aburrida'.", sat: -30 }
+            ]
+        },
+        {
+            id: "qr_grave",
+            text: "Quieren un código QR en la tumba para un tributo en Tik-Tok.",
+            choices: [
+                { text: "¡Abraza el futuro! Pack 'Inmortalidad Digital'.", sat: 20 },
+                { text: "Sugerir cortésmente un epitafio tradicional.", sat: 5 },
+                { text: "Reírte y decir 'Sobre mi cadáver'.", sat: -20 }
+            ]
+        },
+        {
+            id: "wrong_ashes",
+            text: "Te das cuenta de que la urna que sostienes tiene un poco de polvo.",
+            choices: [
+                { text: "Pulirla delante de ellos con tu propia corbata.", sat: 5 },
+                { text: "Fingir que es 'Polvo de Bendición Ancestral'.", roll: 16, success: { text: "Se quedan asombrados.", sat: 25 }, fail: { text: "Eso es simplemente asqueroso.", sat: -30 } },
+                { text: "Ir a por una limpia y culpar al 'Protocolo de la Bóveda'.", sat: 15 }
+            ]
+        },
+        {
+            id: "scent_choice",
+            text: "Preguntan por el olor. El formaldehído está fuerte hoy.",
+            choices: [
+                { text: "Decirles que es 'El aroma de la eternidad'.", sat: 10 },
+                { text: "Culpar a lo que Iván está cocinando en la cafetería.", sat: -5 },
+                { text: "Usar tu 'Empatía' para describirlo como 'Limpieza'.", roll: 12, success: { text: "Se sienten tranquilizados.", sat: 15 }, fail: { text: "Sigue oliendo a laboratorio.", sat: -10 } }
+            ]
+        },
+        {
+            id: "neighbor_grave",
+            text: "Quieren saber quién está enterrado en la parcela de al lado.",
+            choices: [
+                { text: "Decirles que es una familia muy 'tranquila y prestigiosa'.", sat: 15 },
+                { text: "Mirar el registro y 'maquillar' los datos para que suene mejor.", roll: 13, success: { text: "¡Les encantan los vecinos!", sat: 20 }, fail: { text: "Mezclas los nombres.", sat: -10 } },
+                { text: "Decir: 'Los vecinos no importan a dos metros bajo tierra'.", sat: -15 }
+            ]
+        },
+        {
+            id: "heirloom_ring",
+            text: "Un anillo está atascado en el dedo del difunto. La familia lo quiere.",
+            choices: [
+                { text: "Usar tus 'Manos Profesionales' para quitarlo (Habilidad).", roll: 14, success: { text: "Retirado con dignidad.", sat: 25 }, fail: { text: "Forcejeas torpemente.", sat: -20 } },
+                { text: "Sugerir enterrarlo como un 'Sacrificio al Más Allá'.", sat: -5 },
+                { text: "Decirles: 'Déjenlo ir, es solo metal brillante'.", sat: -35 }
+            ]
+        },
+        {
+            id: "metal_service",
+            text: "Quieren un tributo de Heavy Metal en la capilla.",
+            choices: [
+                { text: "Aceptar y llamar a la banda local 'Almas Podridas'.", sat: 20 },
+                { text: "Sugerir que Iván haga una versión acústica 'cañera'.", roll: 15, success: { text: "¡Iván es un crack! Les encanta.", sat: 30 }, fail: { text: "Es vergonzoso.", sat: -20 } },
+                { text: "Insistir en cantos gregorianos para 'Estabilidad del Alma'.", sat: -10 }
+            ]
+        },
+        {
+            id: "viewing_snacks",
+            text: "Un primo empieza a comer palomitas durante el velatorio.",
+            choices: [
+                { text: "Pedirle cortésmente que pare por respeto.", sat: 15 },
+                { text: "Intentar 'venderle' un snack adecuado de la cafetería.", roll: 11, success: { text: "¡El negocio prospera!", sat: 10 }, fail: { text: "Les pareces un codicioso.", sat: -15 } },
+                { text: "Unirte a él y pedirle un puñado.", sat: -40 }
+            ]
+        },
+        {
+            id: "makeup_fail",
+            text: "El maquillaje es un poco... excesivo. El difunto parece una muñeca.",
+            choices: [
+                { text: "Explicar que es la técnica 'Brillo Post-Vida'.", roll: 14, success: { text: "Creen que es artístico.", sat: 20 }, fail: { text: "Quieren que les devuelvas el dinero.", sat: -30 } },
+                { text: "Ofrecerte inmediatamente a arreglarlo gratis.", sat: 15 },
+                { text: "Decir: 'Siempre quiso tener más color'.", sat: -20 }
+            ]
+        },
+        {
+            id: "pet_goodbye",
+            text: "Quieren traer una cabra para una 'Bendición Final'.",
+            choices: [
+                { text: "Aceptar, pero cobrar una 'Tasa de Limpieza de Ganado'.", sat: 10 },
+                { text: "Usar 'Persuasión' para convencerles de que un gato es mejor.", roll: 15, success: { text: "Traen un gatito. ¡Qué mono!", sat: 20 }, fail: { text: "Quieren la cabra.", sat: -5 } },
+                { text: "Decirles que esto es un tanatorio, no una granja.", sat: -25 }
+            ]
+        },
+        {
+            id: "eco_cardboard",
+            text: "Quieren un ataúd de cartón para ser 'Ecológicos'.",
+            choices: [
+                { text: "¡Apoya su elección verde! +20 Satisfacción.", sat: 20 },
+                { text: "Venderles el 'Eco-Roble Reforzado' ($500 extra).", roll: 14, success: { text: "¡Compran la madera premium!", sat: 15 }, fail: { text: "Ven la estafa.", sat: -20 } },
+                { text: "Mencionar que podría colapsar si llueve.", sat: -15 }
+            ]
+        },
+        {
+            id: "selfie_grief",
+            text: "La hija quiere hacerse un 'Selfie de Duelo' contigo.",
+            choices: [
+                { text: "Poner una pose 'Profesional pero Triste'.", sat: 15 },
+                { text: "Cobrar una 'Tasa de Aparición en Medios' ($50).", roll: 12, success: { text: "¡Paga! #Beneficios", sat: 5 }, fail: { text: "Se siente ofendida.", sat: -20 } },
+                { text: "Explicar las propiedades 'robacorazones' de las cámaras.", sat: -10 }
+            ]
+        }
     ]
 };
 

@@ -709,6 +709,10 @@ const Rooms = (() => {
         const schedList = document.getElementById('crema-schedule-list');
         if (schedList) {
             const active = Families.getActive().filter(f => f.embalmed && f.wantsCremation && !f.cremated && (f.viewed || f.cooldownDone) && (!f.wantsChapel || f.chapelDone));
+            
+            // Sort: currently cremating families first
+            active.sort((a, b) => (b.cremationStarted ? 1 : 0) - (a.cremationStarted ? 1 : 0));
+            
             const isAnyCremating = active.some(f => f.cremationStarted && !f.cremated);
             const displayed = active.slice(0, 3);
             
@@ -744,8 +748,8 @@ const Rooms = (() => {
         const s = Engine.getState();
         if (!f || f.cremated || f.cremationStarted) return;
 
-        // One cremation at a time check
-        const isBusy = s.families.some(fam => fam.cremationStarted && !fam.cremated);
+        // One cremation at a time check (only active families)
+        const isBusy = s.families.some(fam => fam.active && fam.cremationStarted && !fam.cremated);
         if (isBusy) {
             Engine.showToast(I18n.T('crema.waiting_oven'), 'warning');
             return;

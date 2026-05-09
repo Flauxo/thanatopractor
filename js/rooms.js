@@ -314,11 +314,24 @@ const Rooms = (() => {
         embalmTarget = active[0];
         document.getElementById('embalm-status').textContent = I18n.T('emb.preparing', embalmTarget.deceasedName);
 
-        // Update supplies display
-        document.getElementById('supply-formal').textContent = s.supplies.formaldehyde;
-        document.getElementById('supply-humect').textContent = s.supplies.humectant;
-        document.getElementById('supply-dye').textContent = s.supplies.dye;
-        document.getElementById('supply-outfits').textContent = s.supplies.outfits;
+        // Update supplies display with color coding
+        const getCol = (amt, req) => amt < req ? '#ff4444' : (amt < req + 3 ? '#ffbb33' : '#00C851');
+        
+        const sf = document.getElementById('supply-formal');
+        sf.textContent = s.supplies.formaldehyde;
+        sf.style.color = getCol(s.supplies.formaldehyde, 2);
+        
+        const sh = document.getElementById('supply-humect');
+        sh.textContent = s.supplies.humectant;
+        sh.style.color = getCol(s.supplies.humectant, 2);
+        
+        const sd = document.getElementById('supply-dye');
+        sd.textContent = s.supplies.dye;
+        sd.style.color = getCol(s.supplies.dye, 2);
+        
+        const so = document.getElementById('supply-outfits');
+        so.textContent = s.supplies.outfits;
+        so.style.color = getCol(s.supplies.outfits, 1);
 
         // Task clicks
         document.querySelectorAll('.task-item').forEach(el => {

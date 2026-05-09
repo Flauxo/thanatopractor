@@ -103,26 +103,34 @@ const Dialogue = (() => {
             const scenario = selectedScenarios[currentStep];
             currentStep++;
 
-            const choices = scenario.choices.map(c => ({
-                text: c.text,
-                action: () => {
-                    if (c.roll) {
-                        Engine.rollD20(0, (roll, total) => {
-                            const success = total >= c.roll;
-                            const result = success ? c.success : c.fail;
-                            satisfaction = Math.max(0, Math.min(100, satisfaction + result.sat));
-                            enqueue(I18n.T('dlg.interview_title'), result.text, null, nextStep, { 
-                                ...portraitOptions, 
-                                showSatBar: true, 
-                                currentSat: satisfaction 
-                            });
-                        });
-                    } else {
-                        satisfaction = Math.max(0, Math.min(100, satisfaction + (c.sat || 0)));
-                        nextStep();
-                    }
+            const choices = scenario.choices.map(c => {
+                let text = c.text;
+                if (c.roll) {
+                    const skills = I18n.T('dlg.skills') || ['Habilidad'];
+                    const randomSkill = skills[Math.floor(Math.random() * skills.length)];
+                    text += ` (${I18n.T('dlg.roll_check')} ${randomSkill} +${c.roll})`;
                 }
-            }));
+                return {
+                    text: text,
+                    action: () => {
+                        if (c.roll) {
+                            Engine.rollD20(0, (roll, total) => {
+                                const success = total >= c.roll;
+                                const result = success ? c.success : c.fail;
+                                satisfaction = Math.max(0, Math.min(100, satisfaction + result.sat));
+                                enqueue(I18n.T('dlg.interview_title'), result.text, null, nextStep, { 
+                                    ...portraitOptions, 
+                                    showSatBar: true, 
+                                    currentSat: satisfaction 
+                                });
+                            });
+                        } else {
+                            satisfaction = Math.max(0, Math.min(100, satisfaction + (c.sat || 0)));
+                            nextStep();
+                        }
+                    }
+                };
+            });
 
             enqueue(I18n.T('dlg.interview_title'), scenario.text, choices, null, { 
                 ...portraitOptions, 
@@ -138,11 +146,13 @@ const Dialogue = (() => {
         family.interviewSatisfaction = finalSat;
         const portraitOptions = { showReaper: true, imgSrc: `assets/ui/fam0${family.photoIndex}.png` };
         
-        let resultText = "";
-        if (finalSat < 30) resultText = I18n.T('dlg.sat_low');
-        else if (finalSat < 60) resultText = I18n.T('dlg.sat_med');
-        else if (finalSat < 90) resultText = I18n.T('dlg.sat_high');
-        else resultText = I18n.T('dlg.sat_perfect');
+        let pool = [];
+        if (finalSat < 30) pool = I18n.T('dlg.sat_low');
+        else if (finalSat < 60) pool = I18n.T('dlg.sat_med');
+        else if (finalSat < 90) pool = I18n.T('dlg.sat_high');
+        else pool = I18n.T('dlg.sat_perfect');
+
+        const resultText = Array.isArray(pool) ? pool[Math.floor(Math.random() * pool.length)] : pool;
 
         const summary = `${I18n.T('dlg.interview_completed')}<br><br><strong>${I18n.T('view.mood')}: ${finalSat}%</strong><br>${resultText}`;
         

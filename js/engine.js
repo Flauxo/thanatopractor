@@ -707,9 +707,12 @@ const Engine = (() => {
             const phone = document.getElementById('badge-phone');
             const paperwork = document.getElementById('badge-paperwork');
             
+            const familyWaiting = state.families.some(f => f.status === 'waiting');
+            
             const anyActive = (arrival && arrival.style.display === 'flex') ||
                               (phone && phone.style.display === 'flex') ||
-                              (paperwork && paperwork.style.display === 'flex');
+                              (paperwork && paperwork.style.display === 'flex') ||
+                              familyWaiting;
             
             const mainBadge = document.getElementById('badge-reception');
             if (mainBadge) {

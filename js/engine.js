@@ -132,6 +132,8 @@ const Engine = (() => {
 
         if (levelText) levelText.textContent = `LEVEL ${level}`;
         
+        const rewardText = document.getElementById('lvl-up-reward');
+        if (rewardText) rewardText.textContent = `+$${level * 1000}`;
         // Random motivational phrase
         const phrases = DATA.levelUpPhrases || [];
         if (phrases.length > 0 && quoteText) {

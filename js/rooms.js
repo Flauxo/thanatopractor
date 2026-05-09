@@ -255,6 +255,7 @@ const Rooms = (() => {
                         document.getElementById('btn-paperwork').style.opacity = '1';
                         Engine.Notifications.clearBadge('paperwork');
                         Engine.Notifications.clearBadge('reception');
+                        if (typeof Main !== 'undefined') Main.showScreen('hub');
                     });
                 }},
                 { text: DATA.paperworkExcuses[Math.floor(Math.random() * DATA.paperworkExcuses.length)] + ` ${I18n.T('rec.pw_decline')}`, action: () => {
@@ -268,7 +269,10 @@ const Rooms = (() => {
                     Engine.Notifications.clearBadge('paperwork');
                     document.getElementById('btn-paperwork').style.opacity = '1';
                     Engine.showToast(I18n.T('rec.pw_discarded'), '');
-                    if (typeof Main !== 'undefined') Main.updateHubSchedule();
+                    if (typeof Main !== 'undefined') {
+                        Main.updateHubSchedule();
+                        Main.showScreen('hub');
+                    }
                 }}
             ], null, { showReaper: true });
         };

@@ -292,19 +292,10 @@ window.Main = (() => {
                     s.upgrades = DATA.upgrades.filter(u => !u.repeatable).map(u => u.id);
                     Engine.showToast(I18n.T('crema.godmode_alert'), 'success');
                 }
-                // Force close overlays
-                document.querySelectorAll('.overlay').forEach(o => o.style.display = 'none');
-                // Direct DOM screen switch (bypass showScreen guard)
-                document.querySelectorAll('.screen').forEach(scr => scr.classList.remove('active'));
-                const welcomeScr = document.getElementById('welcome-screen');
-                if (welcomeScr) {
-                    welcomeScr.classList.add('active');
-                    currentScreen = 'welcome';
-                } else {
-                    alert('ERROR: welcome-screen not found in DOM!');
-                }
+                showScreen('welcome');
             } catch(err) {
-                alert('ERROR en Comenzar Carrera: ' + err.message + '\n' + err.stack);
+                console.error('Error in btn-start-game:', err);
+                alert('Error: ' + err.message);
             }
         };
 

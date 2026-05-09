@@ -126,9 +126,6 @@ const Families = (() => {
         };
     }
 
-        updateFamiliesLog();
-    }
-
     function updateSatisfaction(id, amount, reason) {
         const f = getById(id);
         if (!f) return;

@@ -762,17 +762,17 @@ html, body {
 /* ===== COLLECTION SYSTEM ===== */
 .hub-extras {
     position: absolute;
-    bottom: 125px; /* Más abajo, pegado al recuadro de 8 botones */
+    bottom: 135px; /* Justo encima del recuadro de 8 botones (hub-nav) */
     right: 12px;
-    z-index: 105;
+    z-index: 105; /* Por encima de la barra de estado si hiciera falta, pero sobre todo del fondo */
     display: flex;
     flex-direction: column;
-    gap: -4px; /* Pegadas entre sí, permitiendo ligero solapamiento si es necesario */
+    gap: 0px; /* Pegadas entre sí */
 }
 
 .extra-icon-btn {
-    width: 54px;
-    height: 54px;
+    width: 68px;
+    height: 68px;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -781,12 +781,11 @@ html, body {
     justify-content: center;
     position: relative;
     transition: transform 0.1s;
-    padding: 0;
 }
 
 .extra-icon-btn img {
-    width: 48px;
-    height: 48px;
+    width: 64px;
+    height: 64px;
     image-rendering: pixelated;
 }
 

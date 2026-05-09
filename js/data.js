@@ -837,7 +837,7 @@ const DATA = {
         },
         {
             id: "makeup_fail",
-            text: "The makeup is a bit... much. The deceased looks like a doll.",
+            text: "The makeup from the catalogue looks a bit... much. The deceased is going to look like a doll.",
             choices: [
                 { text: "Explain it's the 'Post-Life Glow' technique.", roll: 14, success: { text: "They think it's artistic.", sat: 20 }, fail: { text: "They want a refund.", sat: -30 } },
                 { text: "Immediately offer to fix it 'For free'.", sat: 15 },

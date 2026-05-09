@@ -743,7 +743,7 @@ const DATA_ES = {
         },
         {
             id: "makeup_fail",
-            text: "El maquillaje es un poco... excesivo. El difunto parece una muñeca.",
+            text: "El maquillaje del catálogo parece un poco... excesivo. El difunto va a parecer una muñeca.",
             choices: [
                 { text: "Explicar que es la técnica 'Brillo Post-Vida'.", roll: 14, success: { text: "Creen que es artístico.", sat: 20 }, fail: { text: "Quieren que les devuelvas el dinero.", sat: -30 } },
                 { text: "Ofrecerte inmediatamente a arreglarlo gratis.", sat: 15 },

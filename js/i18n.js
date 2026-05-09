@@ -7,7 +7,9 @@ const I18n = (() => {
 
     function T(key, ...args) {
         let s = strings[lang][key] || strings['en'][key] || key;
-        args.forEach((a, i) => { s = s.replace(`{${i}}`, a); });
+        if (typeof s === 'string') {
+            args.forEach((a, i) => { s = s.replace(`{${i}}`, a); });
+        }
         return s;
     }
     

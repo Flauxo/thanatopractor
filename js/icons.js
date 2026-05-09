@@ -14,8 +14,8 @@ const Icons = (() => {
         'C': '#ffffff',             // White
         'T': '#ef4444',             // Red (Tomato/Ketchup)
         'L': '#4ade80',             // Green (Lettuce/Pickle)
-        'Y': '#fbbf24',             // Yellow (Cheese)
-        'H': '#a0522d',             // Brown (Bread/Crust)
+        'Y': '#fbbf24',             // Yellow (Cheese/Gold)
+        'S': '#fde047',             // Bright Yellow (Sparkles)
         ' ': 'transparent'
     };
 
@@ -810,6 +810,48 @@ const Icons = (() => {
             "            ",
             "            ",
             "            "
+        ],
+        star: [
+            "      Y     ",
+            "     YYY    ",
+            "  YYYYYYYYY ",
+            "   YYYYYYY  ",
+            "    YYYYY   ",
+            "   YYYYYYY  ",
+            "  YYY   YYY ",
+            "            ",
+            "            ",
+            "            ",
+            "            ",
+            "            "
+        ],
+        sparkles: [
+            "   S     S  ",
+            "  SSS   SSS ",
+            "   S     S  ",
+            "            ",
+            "      S     ",
+            "     SSS    ",
+            "      S     ",
+            "            ",
+            "  S     S   ",
+            " SSS   SSS  ",
+            "  S     S   ",
+            "            "
+        ],
+        drunk: [
+            "            ",
+            "   WWWWWW   ",
+            "   W    W   ",
+            "   W GGGW   ",
+            "   W GGGW   ",
+            "   WWWWWW   ",
+            "     WW     ",
+            "     WW     ",
+            "   WWWWWW   ",
+            "            ",
+            "            ",
+            "            "
         ]
     };
 
@@ -845,6 +887,13 @@ const Icons = (() => {
             // Handle legacy emoji mappings
             if (emojiMap[name]) name = emojiMap[name];
             return `<span class="custom-icon" data-icon="${name}">${parse(name)}</span>`;
+        },
+        refresh: () => {
+            document.querySelectorAll('.custom-icon[data-icon]').forEach(el => {
+                if (el.innerHTML.trim() === '') {
+                    el.innerHTML = parse(el.dataset.icon);
+                }
+            });
         },
         initDOM: () => {
             document.querySelectorAll('.custom-icon[data-icon]').forEach(el => {

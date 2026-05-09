@@ -610,7 +610,7 @@ html, body {
     display: flex; 
     flex-direction: column; 
     gap: 12px;
-    padding-bottom: 40px; /* Space for bottom breathing room */
+    padding-bottom: 100px; /* More space for the global back button */
 }
 .achievement-card {
     background: var(--bg-panel); border: 2px solid var(--bg-panel-border); border-radius: 12px;
@@ -646,6 +646,13 @@ html, body {
     background: linear-gradient(135deg, #1e1433 0%, #30143a 100%);
     border: 2px solid var(--gold) !important; padding: 16px; width: 100% !important;
     animation: achievement-slide-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+.achievement-toast.dismissing {
+    animation: achievement-slide-out 0.5s ease-in forwards !important;
+}
+@keyframes achievement-slide-out {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-50px) scale(0.8); opacity: 0; }
 }
 .achievement-toast .ach-icon { font-size: 32px; color: var(--gold); text-shadow: 0 0 12px var(--gold); margin-right: 12px; }
 .achievement-toast .ach-label { font-family: var(--font-pixel); font-size: 7px; color: var(--gold); margin-bottom: 4px; letter-spacing: 1px; }
@@ -1248,10 +1255,29 @@ html, body {
     height: 36px;
     padding: 0;
 }
-.global-back-btn:hover { opacity: 0.8; }
+.global-back-btn:hover { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
 .global-back-btn .custom-icon {
     width: 28px !important;
     height: 28px !important;
+}
+
+.global-back-btn {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 44px;
+    height: 44px;
+    background: var(--bg-panel);
+    border: 2px solid var(--bg-panel-border);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    transition: all 0.2s;
 }
 
 /* Ensure chapel and other rooms don't overlap bottom bar */
@@ -1262,8 +1288,9 @@ html, body {
 #viewing-screen .room-content,
 #office-screen .room-content,
 #families-screen .room-content,
+#achievements-screen .room-content,
 #cafeteria-screen .room-content {
-    margin-bottom: 45px !important;
+    margin-bottom: 60px !important;
 }
 
 /* Hide toggles on intro screens */
@@ -1391,4 +1418,68 @@ html, body {
 @keyframes pixel-pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
+}
+
+/* Global Back Button */
+.global-back-btn {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 64px;
+    height: 64px;
+    background: var(--bg-panel);
+    border: 3px solid var(--bg-panel-border);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5), 0 0 0 2px var(--bg-darkest);
+    transition: all 0.2s;
+}
+.global-back-btn:hover {
+    border-color: var(--accent-pink);
+    transform: translateX(-50%) scale(1.1);
+}
+.global-back-btn:active {
+    transform: translateX(-50%) scale(0.9);
+}
+.global-back-btn .custom-icon {
+    width: 32px !important;
+    height: 32px !important;
+}
+
+/* Global Back Button Styling */
+.global-back-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 56px;
+    height: 56px;
+    background: var(--bg-panel);
+    border: 3px solid var(--bg-panel-border);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.6), inset 0 0 10px rgba(0,0,0,0.3);
+    transition: all 0.2s;
+}
+
+.global-back-btn:hover {
+    border-color: var(--accent-pink);
+    transform: translateX(-50%) scale(1.1);
+}
+
+.global-back-btn:active {
+    transform: translateX(-50%) scale(0.9);
+}
+
+.global-back-btn .custom-icon rect {
+    fill: var(--accent-bright) !important;
 }

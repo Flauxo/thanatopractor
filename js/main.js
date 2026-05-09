@@ -63,8 +63,13 @@ window.Main = (() => {
                 globalBack.style.display = 'none';
             } else {
                 globalBack.style.display = 'flex';
-                // Destination: All rooms go to Hub
-                globalBack.dataset.back = 'hub';
+                // Destination: Most rooms go to Hub, Achievements depends on state
+                if (name === 'achievements') {
+                    const hasActiveGame = Engine.getState() && Engine.getState().playerName !== '';
+                    globalBack.dataset.back = hasActiveGame ? 'hub' : 'title';
+                } else {
+                    globalBack.dataset.back = 'hub';
+                }
             }
         }
     }
@@ -153,13 +158,8 @@ window.Main = (() => {
         if (dot) {
             console.log('[ACH] Hiding notification dot');
             dot.style.display = 'none';
-        }
-
-        // Update back button destination based on where we are
-        const backBtn = document.querySelector('#achievements-screen .back-btn');
-        if (backBtn) {
-            const hasActiveGame = state && state.playerName && state.playerName !== '';
-            backBtn.dataset.back = hasActiveGame ? 'hub' : 'title';
+            // Also update state so it doesn't come back until new achievement
+            state.hasNewAchievement = false;
         }
     }
 

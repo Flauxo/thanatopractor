@@ -68,6 +68,13 @@ const Audio8Bit = (() => {
             playNote(659, 0.1, 'square', sfxGain, t + 0.1, 0.3);
             playNote(784, 0.15, 'square', sfxGain, t + 0.2, 0.3);
         },
+        success() {
+            if (!ctx) return;
+            const t = ctx.currentTime;
+            playNote(523.25, 0.1, 'square', sfxGain, t, 0.2);
+            playNote(659.25, 0.1, 'square', sfxGain, t + 0.1, 0.2);
+            playNote(783.99, 0.2, 'square', sfxGain, t + 0.2, 0.3);
+        },
         fail() {
             if (!ctx) return;
             const t = ctx.currentTime;

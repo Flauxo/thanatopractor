@@ -606,7 +606,12 @@ html, body {
 .family-status.completed { background: var(--success); color: #000; }
 
 /* Achievements Screen */
-.achievements-list { display: flex; flex-direction: column; gap: 12px; }
+.achievements-list { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px;
+    padding-bottom: 40px; /* Space for bottom breathing room */
+}
 .achievement-card {
     background: var(--bg-panel); border: 2px solid var(--bg-panel-border); border-radius: 12px;
     padding: 12px; display: flex; align-items: center; gap: 16px; transition: all 0.3s;
@@ -750,7 +755,7 @@ html, body {
 /* ===== COLLECTION SYSTEM ===== */
 .hub-extras {
     position: absolute;
-    bottom: 10px;
+    bottom: 100px; /* Move up so it doesn't cover navigation buttons */
     right: 16px;
     z-index: 5;
     display: flex;

@@ -293,21 +293,21 @@ const DATA = {
 
     // ===== CAFETERIA =====
     cafeOrders: [
-        { item: "Coffee", price: 2, icon: "☕", humor: "Black as the void, just right." },
-        { item: "Tea", price: 2, icon: "🍵", humor: "Comfort in a cup. Earl Grey won't judge you." },
-        { item: "Sandwich", price: 4, icon: "🥪", humor: "Our 'Last Supper' special." },
-        { item: "Soul Cake", price: 5, icon: "🍰", humor: "Baked with questionable intentions." },
+        { item: 'Coffee', price: 5, icon: '☕' },
+        { item: 'Tea', price: 4, icon: '🍵' },
+        { item: 'Sandwich', price: 8, icon: '🥪' },
+        { item: 'Soul Cake', price: 12, icon: '🧁' }
     ],
     cafeAlcoholRequests: [
-        "\"Got anything... stronger? It's been a DAY.\"",
-        "\"I don't suppose you have whiskey? For... medicinal purposes.\"",
-        "\"My father would've wanted me to toast with tequila. Do you have any?\"",
-        "\"Is it too early for wine? Asking for a friend. The friend is me.\""
+        "\"Look, it's been a long day. Do you have anything... stronger than coffee?\"",
+        "\"My brother always said a funeral without a toast is just a meeting.\"",
+        "\"I need something to numb the pain. And the smell of formaldehyde.\"",
+        "\"Is that a bottle of bourbon behind the counter? Asking for a friend.\""
     ],
     cafeAlcoholChoices: [
-        { text: "\"I'm sorry, alcohol is not permitted on the premises.\"", rep: 1, money: 0, satisfaction: -5 },
-        { text: "\"But for {bribe} coins, I can serve it to you...\"", rep: -5, money: 0, satisfaction: 25, isBribe: true },
-        { text: "\"Let me offer you our 'Comfort Blend' instead. Extra strong coffee.\"", rep: 1, money: 2, satisfaction: 5 }
+        { text: "\"I'm sorry, we don't serve alcohol here.\"", rep: 2, satisfaction: -5 },
+        { text: "\"I could look the other way for a 'grief tax' of {bribe}.\"", isBribe: true, rep: -10, satisfaction: 15 },
+        { text: "\"It's on the house. We all need a drink today.\"", rep: -15, money: 0, satisfaction: 25 }
     ],
 
     // ===== CHAPEL - IVAN'S SERMONS =====
@@ -451,7 +451,6 @@ const DATA = {
         ]},
         { type: "supplier", text: "📦 Embalming supply delivery! Sign for the package?", effect: "supplies" },
         
-        // NEW RANDOM EVENTS
         { type: "flood", text: "💧 A pipe burst in the basement! The embalming fluid is mixing with the water...", choices: [
             { text: "Call an emergency plumber ($500)", rep: 2, money: -500 },
             { text: "Mop it up yourself and hope for the best", rep: -5, money: 0 },
@@ -541,7 +540,7 @@ const DATA = {
             { text: "Discreetly return it to the family", rep: 25, money: 0 },
             { text: "It's finders keepers in this business!", rep: -35, money: 2000 },
             { text: "Sell it and donate half to 'charity' (yourself)", rep: -15, money: 1000 }
-        ]}
+        ]
     ],
 
     badLuckEvents: [
@@ -582,7 +581,6 @@ const DATA = {
         { id: "pw_mourner", dc: 9, reward: -200, penalty: -300, repReward: 12, repPenalty: -5 },
         { id: "pw_outfits", dc: 11, reward: 250, penalty: -150, repReward: -15, repPenalty: -25 },
         { id: "pw_ghosts", dc: 18, reward: 500, penalty: -200, repReward: -5, repPenalty: -15 },
-        // NEW TASKS
         { id: "pw_used_coffin", dc: 12, reward: 300, penalty: -100, repPenalty: -10 },
         { id: "pw_gym", dc: 10, reward: 100, penalty: -50, repPenalty: -2 },
         { id: "pw_reggaeton", dc: 16, reward: 150, penalty: -100, repReward: 10, repPenalty: -15 },
@@ -685,24 +683,6 @@ const DATA = {
         "New level! Your dark future looks... slightly more profitable."
     ],
 
-    // ===== CAFETERIA DATA =====
-    cafeOrders: [
-        { item: 'Coffee', price: 5, icon: '☕' },
-        { item: 'Tea', price: 4, icon: '🍵' },
-        { item: 'Sandwich', price: 8, icon: '🥪' },
-        { item: 'Soul Cake', price: 12, icon: '🧁' }
-    ],
-    cafeAlcoholRequests: [
-        "\"Look, it's been a long day. Do you have anything... stronger than coffee?\"",
-        "\"My brother always said a funeral without a toast is just a meeting.\"",
-        "\"I need something to numb the pain. And the smell of formaldehyde.\"",
-        "\"Is that a bottle of bourbon behind the counter? Asking for a friend.\""
-    ],
-    cafeAlcoholChoices: [
-        { text: "\"I'm sorry, we don't serve alcohol here.\"", rep: 2, satisfaction: -5 },
-        { text: "\"I could look the other way for a 'grief tax' of {bribe}.\"", isBribe: true, rep: -10, satisfaction: 15 },
-        { text: "\"It's on the house. We all need a drink today.\"", rep: -15, money: 0, satisfaction: 25 }
-    ],
     // ===== INTERVIEW SCENARIOS =====
     interviewScenarios: [
         {
@@ -987,6 +967,12 @@ const DATA = {
         { id: "reputable", title: "Eternal Trust", desc: "Reach 100 Reputation.", icon: "star" },
         { id: "collector", title: "Curiosity Shop", desc: "Find 5 different items for your collection.", icon: "viewing" },
         { id: "paperwork_ninja", title: "Bureaucracy King", desc: "Complete 10 paperwork tasks without failing.", icon: "paperwork" },
-        { id: "crema_pro", title: "Fire Starter", desc: "Complete 5 cremations with perfect temperature.", icon: "crematorium" }
+        { id: 'crema_pro', title: 'Professional Pyromaniac', desc: 'Complete 5 cremations with perfect temperature.', icon: 'fire' },
+        { id: 'perfectionist', title: 'The Perfectionist', desc: 'Perform 20 Excellent embalmings.', icon: 'sparkles' },
+        { id: 'grave_robber', title: 'Curiosity Master', desc: 'Find all 12 items for your collection.', icon: 'skull' },
+        { id: 'capitalist', title: 'Morbid Tycoon', desc: 'Accumulate $50,000.', icon: 'money' },
+        { id: 'overtime', title: 'Two Weeks in Hell', desc: 'Survive until Day 14.', icon: 'calendar' },
+        { id: 'social_butterfly', title: 'Corrupt Official', desc: 'Accept 10 bribes in the cafeteria.', icon: 'drink' },
+        { id: 'burn_it_all', title: 'Incinerator King', desc: 'Cremate 20 bodies.', icon: 'fire' }
     ]
 };

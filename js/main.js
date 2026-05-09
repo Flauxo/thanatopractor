@@ -115,8 +115,17 @@ window.Main = (() => {
         const state = Engine.getState();
         const unlocked = state.unlockedAchievements || [];
 
+        // Sort: Unlocked first
+        const sorted = [...DATA.achievements].sort((a, b) => {
+            const aU = unlocked.includes(a.id);
+            const bU = unlocked.includes(b.id);
+            if (aU && !bU) return -1;
+            if (!aU && bU) return 1;
+            return 0;
+        });
+
         list.innerHTML = '';
-        DATA.achievements.forEach(ach => {
+        sorted.forEach(ach => {
             const isUnlocked = unlocked.includes(ach.id);
             const card = document.createElement('div');
             card.className = `achievement-card ${isUnlocked ? 'unlocked' : 'locked'}`;

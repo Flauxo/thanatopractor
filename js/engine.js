@@ -744,8 +744,12 @@ const Engine = (() => {
             // Special Achievement Toast
             const container = document.getElementById('toast-container');
             if (container) {
+                // Pause game
+                stopTime();
+
                 const toast = document.createElement('div');
                 toast.className = 'toast achievement-toast';
+                toast.style.zIndex = "10000"; // Ensure it's on top of everything
                 
                 const title = I18n.T(`ach.${ach.id}.title`) || ach.title;
                 const labelText = I18n.T('ach.unlocked_label') || "ACHIEVEMENT UNLOCKED!";
@@ -762,10 +766,24 @@ const Engine = (() => {
                 container.appendChild(toast);
                 if (typeof Icons !== 'undefined') Icons.refresh();
                 
-                Audio8Bit.SFX.success();
+                // Play victory sound
+                if (window.Audio8Bit && Audio8Bit.SFX.victory) {
+                    Audio8Bit.SFX.victory();
+                } else if (window.Audio8Bit && Audio8Bit.SFX.success) {
+                    Audio8Bit.SFX.success();
+                }
+
                 setTimeout(() => {
                     toast.classList.add('dismissing');
-                    setTimeout(() => toast.remove(), 500);
+                    setTimeout(() => {
+                        toast.remove();
+                        // Resume game if no other achievement toasts are left AND no other overlay is open AND game was running
+                        if (!document.querySelector('.achievement-toast')) {
+                            if (state.speed > 0 && typeof window.Main !== 'undefined' && !window.Main.isOverlayOpen()) {
+                                startTime();
+                            }
+                        }
+                    }, 500);
                 }, 5000);
             }
         },

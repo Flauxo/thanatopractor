@@ -752,4 +752,5 @@ I18n.register('es', {
     'ach.social_butterfly.desc': 'Acepta 10 sobornos en la cafetería.',
     'ach.burn_it_all.title': 'Rey de la Incineración',
     'ach.burn_it_all.desc': 'Cremate 20 cuerpos.',
+    'ach.unlocked_label': '¡LOGRO DESBLOQUEADO!',
 });

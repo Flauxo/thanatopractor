@@ -746,14 +746,22 @@ const Engine = (() => {
             if (container) {
                 const toast = document.createElement('div');
                 toast.className = 'toast achievement-toast';
+                
+                const title = I18n.T(`ach.${ach.id}.title`) || ach.title;
+                const labelText = I18n.T('ach.unlocked_label') || "ACHIEVEMENT UNLOCKED!";
+
                 toast.innerHTML = `
-                    <div class="ach-icon">${Icons.getHTML(ach.icon)}</div>
+                    <div class="ach-icon">
+                        <span class="custom-icon" data-icon="${ach.icon}" style="width:32px;height:32px"></span>
+                    </div>
                     <div class="ach-info">
-                        <div class="ach-label">ACHIEVEMENT UNLOCKED!</div>
-                        <div class="ach-title">${ach.title}</div>
+                        <div class="ach-label">${labelText}</div>
+                        <div class="ach-title">${title}</div>
                     </div>
                 `;
                 container.appendChild(toast);
+                if (typeof Icons !== 'undefined') Icons.refresh();
+                
                 Audio8Bit.SFX.success();
                 setTimeout(() => {
                     toast.classList.add('dismissing');

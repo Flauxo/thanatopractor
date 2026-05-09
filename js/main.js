@@ -145,11 +145,15 @@ window.Main = (() => {
             list.appendChild(card);
         });
         
+        // Refresh icons for all cards
         if (typeof Icons !== 'undefined') Icons.refresh();
 
         // Hide notification dot
         const dot = document.getElementById('ach-notification');
-        if (dot) dot.style.display = 'none';
+        if (dot) {
+            console.log('[ACH] Hiding notification dot');
+            dot.style.display = 'none';
+        }
 
         // Update back button destination based on where we are
         const backBtn = document.querySelector('#achievements-screen .back-btn');

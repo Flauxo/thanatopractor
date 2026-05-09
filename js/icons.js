@@ -601,6 +601,20 @@ const Icons = (() => {
             "            ",
             "            "
         ],
+        sparkles: [
+            "      C     ",
+            "   C  C  C  ",
+            "    C C C   ",
+            "  CCCCCCCCC ",
+            "    C C C   ",
+            "   C  C  C  ",
+            "      C     ",
+            "            ",
+            "            ",
+            "            ",
+            "            ",
+            "            "
+        ],
         ac: [
             "      P     ",
             "    PP PP   ",
@@ -765,6 +779,34 @@ const Icons = (() => {
             "           A",
             "           A",
             "    AAAAAAAA",
+            "            ",
+            "            ",
+            "            "
+        ],
+        fire: [
+            "     R      ",
+            "    RWR     ",
+            "   RWWWR    ",
+            "  RWG GWR   ",
+            "  RWGGGWR   ",
+            "  RWGWGWR   ",
+            "  RRWWWRR   ",
+            "            ",
+            "            ",
+            "            ",
+            "            ",
+            "            "
+        ],
+        drink: [
+            "            ",
+            "  W      W  ",
+            "  W GGGG W  ",
+            "  W GGGG W  ",
+            "  W GGGG W  ",
+            "  W GGGG W  ",
+            "  WWWWWWWW  ",
+            "            ",
+            "            ",
             "            ",
             "            ",
             "            "

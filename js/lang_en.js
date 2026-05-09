@@ -736,4 +736,5 @@ I18n.register('en', {
     'ach.social_butterfly.desc': 'Accept 10 bribes in the cafeteria.',
     'ach.burn_it_all.title': 'Incinerator King',
     'ach.burn_it_all.desc': 'Cremate 20 bodies.',
+    'ach.unlocked_label': 'ACHIEVEMENT UNLOCKED!',
 });

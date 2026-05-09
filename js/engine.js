@@ -146,7 +146,10 @@ const Engine = (() => {
 
         dismissBtn.onclick = () => {
             overlay.style.display = 'none';
-            startTime();
+            // Small delay to ensure isOverlayOpen sees the change
+            setTimeout(() => {
+                startTime();
+            }, 50);
         };
     }
 
@@ -174,6 +177,8 @@ const Engine = (() => {
         else document.getElementById('btn-fast').classList.add('active');
         
         if (typeof Audio8Bit !== 'undefined') Audio8Bit.updateSpeed();
+        
+        if (s > 0) startTime();
     }
 
     function tick() {

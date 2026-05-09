@@ -417,7 +417,9 @@ window.Main = (() => {
             btnColClose.onclick = () => {
                 Audio8Bit.SFX.click();
                 document.getElementById('collection-overlay').style.display = 'none';
-                Engine.startTime();
+                setTimeout(() => {
+                    Engine.startTime();
+                }, 50);
             };
         }
 
@@ -513,11 +515,13 @@ window.Main = (() => {
     document.addEventListener('DOMContentLoaded', initGame);
 
     function isOverlayOpen() {
-        const overlays = ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay', 'credits-overlay', 'collection-overlay', 'levelup-overlay'];
-        return overlays.some(id => {
+        const overlays = ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay', 'credits-overlay', 'collection-overlay', 'levelup-overlay', 'cafe-game-overlay', 'day-transition-overlay'];
+        const open = overlays.filter(id => {
             const el = document.getElementById(id);
             return el && (el.style.display === 'flex' || el.style.display === 'block');
         });
+        if (open.length > 0) console.log('[MAIN] Open overlays blocking time:', open);
+        return open.length > 0;
     }
 
     return { showScreen, updateHubSchedule, get currentScreen() { return currentScreen; }, isOverlayOpen };

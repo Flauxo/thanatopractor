@@ -54,7 +54,7 @@ const DATA_ES = {
         { id: "magic_sock", name: "Calcetín desparejado mágico", desc: "Siempre parece pertenecer a otra persona.", icon: "🧦" },
         { id: "ghost_key", name: "Llave de mansión inexistente", desc: "No abre nada, pero pesa mucho.", icon: "🔑" },
         { id: "crystal_balls", name: "Bolas de cristal de hipnotista", desc: "Si miras fijamente, ves la cara de Iván.", icon: "🔮" },
-        { id: "treasure_map", name: "Mapa del tesoro en servilleta", desc: "La X marca el lugar. Está bajo una tumba local.", icon: "📜" },
+        { id: "treasure_map", name: "Mapa del tesoro en servilleta", desc: "La X marca el lugar. Está bajo una tumba local. Tumba: 1418a", icon: "📜" },
         { id: "glass_eye", name: "Ojo de cristal que mira", desc: "Parece seguirte por toda la oficina.", icon: "👁️" },
         { id: "concert_ticket", name: "Entrada de concierto de 1920", desc: "La banda era 'The Mourning Melodies'.", icon: "🎫" },
         { id: "returned_ring", name: "Anillo de compromiso devuelto", desc: "Una historia triste en una joya pequeña.", icon: "💍" },

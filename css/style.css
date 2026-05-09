@@ -855,6 +855,9 @@ html, body {
 .collection-panel {
     padding: 15px !important;
 }
+.collection-panel .action-btn {
+    text-align: center !important;
+}
 .levelup-glow {
     position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
     background: radial-gradient(circle, rgba(224, 43, 182, 0.1) 0%, transparent 70%);

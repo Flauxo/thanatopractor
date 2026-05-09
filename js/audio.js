@@ -407,7 +407,17 @@ const Audio8Bit = (() => {
         suspend() { if (ctx && ctx.state === 'running') ctx.suspend(); },
         resume() { if (ctx && ctx.state === 'suspended') ctx.resume(); },
         get initialized() { return initialized; },
-        get muted() { return muted; }
+        get muted() { return muted; },
+        toggleMute() {
+            if (!initialized) init();
+            muted = !muted;
+            if (masterGain) {
+                const t = ctx.currentTime;
+                masterGain.gain.cancelScheduledValues(t);
+                masterGain.gain.linearRampToValueAtTime(muted ? 0 : 0.6, t + 0.1);
+            }
+            return muted;
+        }
     };
 })();
 window.Audio8Bit = Audio8Bit;

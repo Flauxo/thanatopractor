@@ -156,11 +156,6 @@ const Engine = (() => {
     // ===== TIME =====
     function startTime() {
         if (tickInterval) return;
-        // Don't start if an overlay is open
-        if (typeof Main !== 'undefined' && Main.isOverlayOpen()) {
-            console.log('[ENGINE] startTime blocked by open overlay');
-            return;
-        }
         tickInterval = setInterval(tick, TICK_MS);
     }
     function stopTime() {
@@ -182,7 +177,10 @@ const Engine = (() => {
     }
 
     function tick() {
-        if (state.speed === 0 || state.gameOver) { if(state.day >= 2) console.log('[TICK] blocked: speed='+state.speed+' gameOver='+state.gameOver); return; }
+        if (state.speed === 0 || state.gameOver) return;
+        
+        // Skip tick if an overlay is open (game is "paused" visually but clock is running)
+        if (typeof Main !== 'undefined' && Main.isOverlayOpen()) return;
         if (typeof window.Main !== 'undefined' && window.Main.currentScreen === 'title') { console.log('[TICK] blocked: title screen'); return; }
         
         state.realPlayTimeMS += TICK_MS;
@@ -737,15 +735,14 @@ const Engine = (() => {
 
             // Sub-badge: Phone (based on families waiting for transport)
             const familyWaiting = state.families.some(f => f.active && f.waitingForTransport && !f.transportOrdered);
-            if (badgePhone && familyWaiting) {
-                badgePhone.style.display = 'flex';
+            if (badgePhone) {
+                badgePhone.style.display = familyWaiting ? 'flex' : 'none';
             }
 
             // Main Badge: Reception
             const anyActive = (badgeArrival && badgeArrival.style.display === 'flex') ||
                               (badgePhone && badgePhone.style.display === 'flex') ||
-                              (badgePaperwork && badgePaperwork.style.display === 'flex') ||
-                              familyWaiting;
+                              (badgePaperwork && badgePaperwork.style.display === 'flex');
             
             if (mainBadge) {
                 mainBadge.style.display = anyActive ? 'flex' : 'none';

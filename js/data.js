@@ -540,7 +540,7 @@ const DATA = {
             { text: "Discreetly return it to the family", rep: 25, money: 0 },
             { text: "It's finders keepers in this business!", rep: -35, money: 2000 },
             { text: "Sell it and donate half to 'charity' (yourself)", rep: -15, money: 1000 }
-        ]
+        ]},
     ],
 
     badLuckEvents: [

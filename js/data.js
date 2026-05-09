@@ -958,21 +958,21 @@ const DATA = {
     ],
     // ===== ACHIEVEMENTS =====
     achievements: [
-        { id: "first_client", title: "Welcome to the Trade", desc: "Process your first family successfully.", icon: "skull" },
-        { id: "nat_20", title: "Natural Precision", desc: "Roll a natural 20 on any check.", icon: "star" },
-        { id: "nat_1", title: "The Clumsy Mortician", desc: "Roll a natural 1. How professional.", icon: "firstaid" },
-        { id: "rich_undertaker", title: "Rich Undertaker", desc: "Amass $20,000 in your bank account.", icon: "money" },
-        { id: "daily_grind", title: "One Week Later", desc: "Survive until Day 7.", icon: "calendar" },
-        { id: "bribe_master", title: "Shadow Deals", desc: "Accept 5 bribes in the cafeteria.", icon: "drunk" },
-        { id: "reputable", title: "Eternal Trust", desc: "Reach 100 Reputation.", icon: "star" },
-        { id: "collector", title: "Curiosity Shop", desc: "Find 5 different items for your collection.", icon: "viewing" },
-        { id: "paperwork_ninja", title: "Bureaucracy King", desc: "Complete 10 paperwork tasks without failing.", icon: "paperwork" },
-        { id: 'crema_pro', title: 'Professional Pyromaniac', desc: 'Complete 5 cremations with perfect temperature.', icon: 'fire' },
-        { id: 'perfectionist', title: 'The Perfectionist', desc: 'Perform 20 Excellent embalmings.', icon: 'sparkles' },
-        { id: 'grave_robber', title: 'Curiosity Master', desc: 'Find all 12 items for your collection.', icon: 'skull' },
-        { id: 'capitalist', title: 'Morbid Tycoon', desc: 'Accumulate $50,000.', icon: 'money' },
-        { id: 'overtime', title: 'Two Weeks in Hell', desc: 'Survive until Day 14.', icon: 'calendar' },
-        { id: 'social_butterfly', title: 'Corrupt Official', desc: 'Accept 10 bribes in the cafeteria.', icon: 'drink' },
-        { id: 'burn_it_all', title: 'Incinerator King', desc: 'Cremate 20 bodies.', icon: 'fire' }
+        { id: "first_client", title: "Welcome to the Trade", desc: "Process your first family successfully.", icon: "skull", image: "assets/achievements/nat_1_first.png", imagePos: "right" },
+        { id: "nat_20", title: "Natural Precision", desc: "Roll a natural 20 on any check.", icon: "star", image: "assets/achievements/nat_20.png" },
+        { id: "nat_1", title: "The Clumsy Mortician", desc: "Roll a natural 1. How professional.", icon: "firstaid", image: "assets/achievements/nat_1_first.png", imagePos: "left" },
+        { id: "rich_undertaker", title: "Rich Undertaker", desc: "Amass $20,000 in your bank account.", icon: "money", image: "assets/achievements/money_cal.png", imagePos: "left" },
+        { id: "daily_grind", title: "One Week Later", desc: "Survive until Day 7.", icon: "calendar", image: "assets/achievements/money_cal.png", imagePos: "right" },
+        { id: "bribe_master", title: "Shadow Deals", desc: "Accept 5 bribes in the cafeteria.", icon: "drunk", image: "assets/achievements/bribe_rep.png", imagePos: "left" },
+        { id: "reputable", title: "Eternal Trust", desc: "Reach 100 Reputation.", icon: "star", image: "assets/achievements/bribe_rep.png", imagePos: "right" },
+        { id: "collector", title: "Curiosity Shop", desc: "Find 5 different items for your collection.", icon: "viewing", image: "assets/achievements/coll_ninja.png", imagePos: "left" },
+        { id: "paperwork_ninja", title: "Bureaucracy King", desc: "Complete 10 paperwork tasks without failing.", icon: "paperwork", image: "assets/achievements/coll_ninja.png", imagePos: "right" },
+        { id: 'crema_pro', title: 'Professional Pyromaniac', desc: 'Complete 5 cremations with perfect temperature.', icon: 'fire', image: "assets/achievements/crema_perf.png", imagePos: "left" },
+        { id: 'perfectionist', title: 'The Perfectionist', desc: 'Perform 20 Excellent embalmings.', icon: 'sparkles', image: "assets/achievements/crema_perf.png", imagePos: "right" },
+        { id: 'grave_robber', title: 'Curiosity Master', desc: 'Find all 12 items for your collection.', icon: 'skull', image: "assets/achievements/robber_cap.png", imagePos: "left" },
+        { id: 'capitalist', title: 'Morbid Tycoon', desc: 'Accumulate $50,000.', icon: 'money', image: "assets/achievements/robber_cap.png", imagePos: "right" },
+        { id: 'overtime', title: 'Two Weeks in Hell', desc: 'Survive until Day 14.', icon: 'calendar', image: "assets/achievements/final_three.png", imagePos: "left" },
+        { id: 'social_butterfly', title: 'Corrupt Official', desc: 'Accept 10 bribes in the cafeteria.', icon: 'drink', image: "assets/achievements/final_three.png", imagePos: "center" },
+        { id: 'burn_it_all', title: 'Incinerator King', desc: 'Cremate 20 bodies.', icon: 'fire', image: "assets/achievements/final_three.png", imagePos: "right" }
     ]
 };

@@ -758,10 +758,14 @@ const Engine = (() => {
                 const title = I18n.T(`ach.${ach.id}.title`) || ach.title;
                 const labelText = I18n.T('ach.unlocked_label') || "ACHIEVEMENT UNLOCKED!";
 
+                const iconHtml = ach.image ? 
+                    `<div class="ach-img" style="background-image: url('${ach.image}'); background-size: ${ach.imagePos === 'center' || ach.id === 'overtime' || ach.id === 'social_butterfly' || ach.id === 'burn_it_all' ? '300% 100%' : (ach.imagePos ? '200% 100%' : 'cover')}; background-position: ${ach.imagePos === 'center' ? '50% 0%' : (ach.imagePos === 'right' ? '100% 0%' : '0% 0%')}"></div>` :
+                    `<span class="custom-icon" data-icon="${ach.icon}" style="width:48px;height:48px"></span>`;
+
                 toast.innerHTML = `
                     <button class="ach-close-btn">&times;</button>
                     <div class="ach-icon">
-                        <span class="custom-icon" data-icon="${ach.icon}" style="width:48px;height:48px"></span>
+                        ${iconHtml}
                     </div>
                     <div class="ach-info">
                         <div class="ach-label">${labelText}</div>

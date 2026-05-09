@@ -635,6 +635,7 @@ html, body {
 .achievement-icon {
     width: 48px; height: 48px; background: var(--bg-darkest); border-radius: 8px;
     display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
+    overflow: hidden; border: 1px solid var(--accent-pink);
 }
 .unlocked .achievement-icon { color: var(--gold); text-shadow: 0 0 8px var(--gold); }
 .achievement-info { flex: 1; }
@@ -678,7 +679,14 @@ html, body {
     cursor: pointer;
     line-height: 1;
 }
-.achievement-modal .ach-icon { font-size: 48px; color: var(--gold); text-shadow: 0 0 20px var(--gold); margin: 0 auto 15px; display: block; }
+.ach-img {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    display: block;
+}
+.achievement-modal .ach-icon { width: 80px; height: 80px; color: var(--gold); text-shadow: 0 0 20px var(--gold); margin: 0 auto 15px; display: block; overflow: hidden; border-radius: 8px; border: 2px solid var(--gold); }
 .achievement-modal .ach-label { font-family: var(--font-pixel); font-size: 10px; color: var(--gold); margin-bottom: 8px; letter-spacing: 2px; }
 .achievement-modal .ach-title { font-family: var(--font-pixel); font-size: 14px; color: #fff; line-height: 1.4; }
 

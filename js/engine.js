@@ -517,8 +517,13 @@ const Engine = (() => {
         const interval = windowSize / numArrivals;
         
         for (let i = 0; i < numArrivals; i++) {
-            // Distribute arrivals evenly across the 8h-18h window with some random jitter
-            const jitter = Math.floor(Math.random() * (interval * 0.5));
+            // First appointment must be no later than 9:20 AM (80 mins after 8:00 AM)
+            let jitter;
+            if (i === 0) {
+                jitter = Math.floor(Math.random() * Math.min(80, interval * 0.5));
+            } else {
+                jitter = Math.floor(Math.random() * (interval * 0.5));
+            }
             const arrivalTime = Math.floor(480 + (i * interval) + jitter);
             
             state.schedule.push({

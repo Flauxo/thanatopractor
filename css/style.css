@@ -1255,29 +1255,10 @@ html, body {
     height: 36px;
     padding: 0;
 }
-.global-back-btn:hover { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
+.global-back-btn:hover { opacity: 0.8; }
 .global-back-btn .custom-icon {
     width: 28px !important;
     height: 28px !important;
-}
-
-.global-back-btn {
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 44px;
-    height: 44px;
-    background: var(--bg-panel);
-    border: 2px solid var(--bg-panel-border);
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 2000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    transition: all 0.2s;
 }
 
 /* Ensure chapel and other rooms don't overlap bottom bar */
@@ -1421,65 +1402,4 @@ html, body {
 }
 
 /* Global Back Button */
-.global-back-btn {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 64px;
-    height: 64px;
-    background: var(--bg-panel);
-    border: 3px solid var(--bg-panel-border);
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 1100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5), 0 0 0 2px var(--bg-darkest);
-    transition: all 0.2s;
-}
-.global-back-btn:hover {
-    border-color: var(--accent-pink);
-    transform: translateX(-50%) scale(1.1);
-}
-.global-back-btn:active {
-    transform: translateX(-50%) scale(0.9);
-}
-.global-back-btn .custom-icon {
-    width: 32px !important;
-    height: 32px !important;
-}
-
-/* Global Back Button Styling */
-.global-back-btn {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 56px;
-    height: 56px;
-    background: var(--bg-panel);
-    border: 3px solid var(--bg-panel-border);
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 2000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.6), inset 0 0 10px rgba(0,0,0,0.3);
-    transition: all 0.2s;
-}
-
-.global-back-btn:hover {
-    border-color: var(--accent-pink);
-    transform: translateX(-50%) scale(1.1);
-}
-
-.global-back-btn:active {
-    transform: translateX(-50%) scale(0.9);
-}
-
-.global-back-btn .custom-icon rect {
-    fill: var(--accent-bright) !important;
-}
+/* End of File */

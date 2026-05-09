@@ -153,6 +153,11 @@ const Engine = (() => {
     // ===== TIME =====
     function startTime() {
         if (tickInterval) return;
+        // Don't start if an overlay is open
+        if (typeof Main !== 'undefined' && Main.isOverlayOpen()) {
+            console.log('[ENGINE] startTime blocked by open overlay');
+            return;
+        }
         tickInterval = setInterval(tick, TICK_MS);
     }
     function stopTime() {
@@ -319,7 +324,7 @@ const Engine = (() => {
         stopTime();
 
         // Force-close any open overlays that could block the transition
-        ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay', 'credits-overlay'].forEach(id => {
+        ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay', 'credits-overlay', 'levelup-overlay'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.style.display = 'none';
         });
@@ -344,7 +349,7 @@ const Engine = (() => {
         console.log('[NEXTDAY] starting transition to day ' + (state.day+1));
         state.day++;
         state.time = 480;
-        state.speed = 1;
+        setSpeed(1);
         state.cremaTemp = 20;
         state.cremaFuel = 0;
         state.cremaIgnited = false;
@@ -380,7 +385,7 @@ const Engine = (() => {
                 try {
                     overlay.style.display = 'none';
                     // Force-close any lingering overlays
-                    ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay'].forEach(id => {
+                    ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay', 'levelup-overlay'].forEach(id => {
                         const el = document.getElementById(id);
                         if (el) el.style.display = 'none';
                     });
@@ -405,7 +410,7 @@ const Engine = (() => {
                     stopTime();
                     tickInterval = null;
                     startTime();
-                    state.speed = 1;
+                    setSpeed(1);
                     console.log('[NEXTDAY] Clock started. tickInterval=' + (tickInterval !== null) + ' speed=' + state.speed + ' schedule=' + state.schedule.length);
                     save();
                 }
@@ -420,7 +425,7 @@ const Engine = (() => {
             if (hubScreen) hubScreen.classList.add('active');
             stopTime();
             startTime();
-            state.speed = 1;
+            setSpeed(1);
             if (typeof Audio8Bit !== 'undefined') Audio8Bit.fadeIn(1.0);
         }
     }

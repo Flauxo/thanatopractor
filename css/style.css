@@ -826,6 +826,10 @@ html, body {
 #collection-overlay {
     z-index: 3000 !important;
 }
+
+#levelup-overlay {
+    z-index: 11000 !important;
+}
 .dialogue-box {
     position: relative;
     background: var(--bg-panel); border: 3px solid var(--accent-pink); border-radius: 8px;

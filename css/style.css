@@ -264,7 +264,7 @@ html, body {
 
 /* Hub Scene */
 .hub-scene {
-    flex: 1; padding: 12px;
+    flex: 1; padding: 12px 12px 0 12px;
     background: url('../assets/scenes/reception.png') center top/cover no-repeat;
     image-rendering: pixelated;
     overflow-y: auto;
@@ -702,10 +702,10 @@ html, body {
 
 /* ===== COLLECTION SYSTEM ===== */
 .hub-extras {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 5px;
-    padding: 0 10px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 5;
 }
 
 .extra-icon-btn {

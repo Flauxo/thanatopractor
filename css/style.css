@@ -774,7 +774,14 @@ html, body {
 
 .col-slot.found {
     border-color: #f1c40f;
-    background: rgba(241, 196, 15, 0.05);
+    background: rgba(241, 196, 15, 0.1);
+    cursor: pointer;
+    transition: transform 0.1s, background 0.2s;
+}
+
+.col-slot.found:active {
+    transform: scale(0.95);
+    background: rgba(241, 196, 15, 0.2);
 }
 
 .col-icon {
@@ -789,15 +796,12 @@ html, body {
 .col-info strong {
     display: block;
     color: #f1c40f;
-    font-size: 12px;
-    margin-bottom: 2px;
+    font-size: 11px;
+    margin: 0;
+    line-height: 1.1;
 }
 
-.col-info p {
-    font-size: 10px;
-    margin: 0;
-    line-height: 1.2;
-}
+
 
 @keyframes pulse {
     0% { transform: scale(1); }

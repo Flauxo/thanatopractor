@@ -924,9 +924,15 @@ const Engine = (() => {
                     <div class="col-icon">${item.icon}</div>
                     <div class="col-info">
                         <strong>${item.name}</strong>
-                        <p>${item.desc}</p>
                     </div>
                 `;
+                slot.onclick = () => {
+                    if (typeof Dialogue !== 'undefined') {
+                        Dialogue.show(item.icon + " " + item.name, item.desc, [
+                            { text: I18n.T('ov.dismiss') }
+                        ]);
+                    }
+                };
             } else {
                 slot.innerHTML = `<div class="col-icon">?</div>`;
             }

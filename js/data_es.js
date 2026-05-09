@@ -594,7 +594,7 @@ const DATA_ES = {
         "Un nivel más. Disfrútalo, la eternidad es muy larga y aburrida.",
         "Eres tan bueno que la Parca está pensando en abrir una franquicia.",
         "¡Nuevo nivel! Tu oscuro futuro parece... ligeramente más rentable."
-    ]
+    ],
     // ===== ESCENARIOS DE ENTREVISTA =====
     interviewScenarios: [
         {

@@ -101,6 +101,43 @@ const Rooms = (() => {
                     Engine.addReputation(2, 'Beautiful fresh flowers');
                     if (typeof Main !== 'undefined') Main.showScreen('hub');
                 }},
+                { text: I18n.T('rec.call_maintenance') + (s.cremaBroken && !s.cremaRepairing ? ' ❗' : ''), action: () => {
+                    if (!s.cremaBroken) {
+                        Engine.showToast(I18n.T('crema.not_broken'), 'warning');
+                        return;
+                    }
+                    if (s.cremaRepairing) {
+                        Engine.showToast(I18n.T('crema.already_repairing'), 'warning');
+                        return;
+                    }
+                    
+                    const cost = 200 + Math.floor(Math.random() * 201);
+                    if (s.money < cost) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }
+
+                    const quotes = I18n.T('crema.maintenance_quotes');
+                    const quote = Array.isArray(quotes) ? quotes[Math.floor(Math.random() * quotes.length)] : quotes;
+
+                    Dialogue.show(I18n.T('rec.maintenance_title'), `${quote}<br><br>${I18n.T('rec.maintenance_cost', cost)}`, [
+                        { text: I18n.T('rec.pay_repair'), action: () => {
+                            Engine.addMoney(-cost, I18n.T('eng.crema_repair'));
+                            s.cremaRepairing = true;
+                            s.cremaRepairFinishTime = s.time + 120;
+                            Engine.showToast(I18n.T('crema.repair_started'), 'success');
+                            
+                            s.schedule.push({
+                                time: s.cremaRepairFinishTime,
+                                type: 'repair_done',
+                                desc: I18n.T('crema.repair_task_desc'),
+                                triggered: false,
+                                completed: true
+                            });
+
+                            Engine.updateHUD();
+                            if (typeof Main !== 'undefined') Main.showScreen('hub');
+                        }},
+                        { text: I18n.T('rec.nevermind'), action: () => {} }
+                    ], null, { showReaper: true });
+                }},
                 { text: I18n.T('rec.nevermind'), action: () => {} }
             ];
 

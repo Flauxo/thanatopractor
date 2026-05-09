@@ -37,6 +37,9 @@ const Engine = (() => {
         cremaTutorialShown: false,
         embalmTutorialShown: false,
         viewingTutorialShown: false,
+        cremaBroken: false,
+        cremaRepairing: false,
+        cremaRepairFinishTime: 0,
         stats: { familiesServed: 0, totalEarnings: 0, diceRolls: 0, bestRoll: 0, worstDay: null },
         realPlayTimeMS: 0
     });
@@ -445,6 +448,11 @@ const Engine = (() => {
                     event.completed = true;
                     showToast(`📋 ${event.desc}`, 'success');
                     if (typeof Families !== 'undefined') Families.completeFamily(event.familyId);
+                } else if (event.type === 'repair_done') {
+                    state.cremaRepairing = false;
+                    state.cremaBroken = false;
+                    showToast(I18n.T('crema.repaired_toast'), 'success');
+                    updateHUD();
                 } else if (event.type === 'cremation_done') {
                     const fam = typeof Families !== 'undefined' ? Families.getById(event.familyId) : null;
                     if (fam) {
@@ -463,6 +471,14 @@ const Engine = (() => {
                         showToast(msg, fam.cremationTempFailure ? 'danger' : 'success');
                         if (typeof Families !== 'undefined') Families.updateSatisfaction(fam.id, satChange, 'Cremation quality');
                         if (typeof Rooms !== 'undefined') Rooms.checkServiceComplete(fam);
+
+                        // Breakdown chance: 20%
+                        if (Math.random() < 0.20) {
+                            state.cremaBroken = true;
+                            showToast(I18n.T('crema.broken_toast'), 'danger');
+                            Audio8Bit.SFX.error();
+                            updateHUD();
+                        }
                     }
                 } else {
                     showToast(`📋 ${event.desc}`, '');
@@ -761,6 +777,10 @@ const Engine = (() => {
 
         // Crema nav bar
         const cremaBar = document.getElementById('nav-crema-temp-bar');
+        const brokenX = document.getElementById('nav-crema-broken');
+
+        if (brokenX) brokenX.style.display = (s.cremaBroken || s.cremaRepairing) ? 'flex' : 'none';
+
         if (cremaBar) {
             if (hasUpgrade('crematorium')) {
                 cremaBar.style.display = 'flex';

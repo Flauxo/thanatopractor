@@ -296,6 +296,26 @@ window.Main = (() => {
         // ===== HUB NAV =====
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.onclick = () => {
+                const room = btn.dataset.room;
+                const s = Engine.getState();
+
+                // Broken Crematorium Check
+                if (room === 'crematorium') {
+                    if (s.cremaBroken && !s.cremaRepairing) {
+                        if (typeof Dialogue !== 'undefined') {
+                            Dialogue.show(I18n.T('crema.broken_title'), I18n.T('crema.broken_desc'), [
+                                { text: I18n.T('eng.ok') }
+                            ], null, { showReaper: true });
+                        }
+                        return;
+                    }
+                    if (s.cremaRepairing) {
+                        const remaining = Math.max(0, Math.round(s.cremaRepairFinishTime - s.time));
+                        Engine.showToast(I18n.T('crema.repairing_toast', remaining), 'warning');
+                        return;
+                    }
+                }
+
                 if (btn.classList.contains('locked')) {
                     Engine.showToast(I18n.T('hub.locked'), 'warning');
                     return;

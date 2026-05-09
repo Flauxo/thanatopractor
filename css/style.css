@@ -641,22 +641,52 @@ html, body {
 .achievement-title { font-family: var(--font-pixel); font-size: 8px; color: var(--accent-bright); margin-bottom: 4px; }
 .achievement-desc { font-family: var(--font-vt); font-size: 16px; color: var(--text-dim); }
 
-/* Achievement Toast */
-.achievement-toast {
+/* Achievement Toast / Modal */
+.achievement-backdrop {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10, 6, 16, 0.85);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    transition: opacity 0.5s ease;
+}
+.achievement-backdrop.dismissing {
+    opacity: 0;
+}
+.achievement-modal {
     background: linear-gradient(135deg, #1e1433 0%, #30143a 100%);
-    border: 2px solid var(--gold) !important; padding: 16px; width: 100% !important;
-    animation: achievement-slide-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    border: 3px solid var(--gold) !important;
+    padding: 30px;
+    width: 90% !important;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.3);
+    animation: achievement-pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
-.achievement-toast.dismissing {
-    animation: achievement-slide-out 0.5s ease-in forwards !important;
+.ach-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--gold);
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
 }
-@keyframes achievement-slide-out {
-    0% { transform: translateY(0) scale(1); opacity: 1; }
-    100% { transform: translateY(-50px) scale(0.8); opacity: 0; }
+.achievement-modal .ach-icon { font-size: 48px; color: var(--gold); text-shadow: 0 0 20px var(--gold); margin: 0 auto 15px; display: block; }
+.achievement-modal .ach-label { font-family: var(--font-pixel); font-size: 10px; color: var(--gold); margin-bottom: 8px; letter-spacing: 2px; }
+.achievement-modal .ach-title { font-family: var(--font-pixel); font-size: 14px; color: #fff; line-height: 1.4; }
+
+@keyframes achievement-pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
 }
-.achievement-toast .ach-icon { font-size: 32px; color: var(--gold); text-shadow: 0 0 12px var(--gold); margin-right: 12px; }
-.achievement-toast .ach-label { font-family: var(--font-pixel); font-size: 7px; color: var(--gold); margin-bottom: 4px; letter-spacing: 1px; }
-.achievement-toast .ach-title { font-family: var(--font-pixel); font-size: 9px; color: #fff; }
+
 @keyframes achievement-slide-in {
     0% { transform: translateY(-50px) scale(0.8); opacity: 0; }
     100% { transform: translateY(0) scale(1); opacity: 1; }

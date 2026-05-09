@@ -741,50 +741,65 @@ const Engine = (() => {
             const dot = document.getElementById('ach-notification');
             if (dot) dot.style.display = 'block';
 
-            // Special Achievement Toast
-            const container = document.getElementById('toast-container');
+            // Special Achievement Modal/Toast
+            const container = document.body;
             if (container) {
                 // Pause game
                 stopTime();
 
+                // Create backdrop to block other windows and darken screen
+                const backdrop = document.createElement('div');
+                backdrop.className = 'achievement-backdrop';
+                backdrop.id = 'achievement-backdrop-' + Date.now();
+                
                 const toast = document.createElement('div');
-                toast.className = 'toast achievement-toast';
-                toast.style.zIndex = "10000"; // Ensure it's on top of everything
+                toast.className = 'toast achievement-toast achievement-modal';
                 
                 const title = I18n.T(`ach.${ach.id}.title`) || ach.title;
                 const labelText = I18n.T('ach.unlocked_label') || "ACHIEVEMENT UNLOCKED!";
 
                 toast.innerHTML = `
+                    <button class="ach-close-btn">&times;</button>
                     <div class="ach-icon">
-                        <span class="custom-icon" data-icon="${ach.icon}" style="width:32px;height:32px"></span>
+                        <span class="custom-icon" data-icon="${ach.icon}" style="width:48px;height:48px"></span>
                     </div>
                     <div class="ach-info">
                         <div class="ach-label">${labelText}</div>
                         <div class="ach-title">${title}</div>
                     </div>
                 `;
-                container.appendChild(toast);
+                backdrop.appendChild(toast);
+                container.appendChild(backdrop);
+                
                 if (typeof Icons !== 'undefined') Icons.refresh();
                 
                 // Play victory sound
                 if (window.Audio8Bit && Audio8Bit.SFX.victory) {
                     Audio8Bit.SFX.victory();
-                } else if (window.Audio8Bit && Audio8Bit.SFX.success) {
-                    Audio8Bit.SFX.success();
                 }
 
-                setTimeout(() => {
-                    toast.classList.add('dismissing');
+                const dismiss = () => {
+                    if (backdrop.classList.contains('dismissing')) return;
+                    backdrop.classList.add('dismissing');
                     setTimeout(() => {
-                        toast.remove();
-                        // Resume game if no other achievement toasts are left AND no other overlay is open AND game was running
-                        if (!document.querySelector('.achievement-toast')) {
+                        backdrop.remove();
+                        // Resume game if no other achievement modals are left AND no other overlay is open AND game was running
+                        if (!document.querySelector('.achievement-backdrop')) {
                             if (state.speed > 0 && typeof window.Main !== 'undefined' && !window.Main.isOverlayOpen()) {
                                 startTime();
                             }
                         }
                     }, 500);
-                }, 5000);
+                };
+
+                // Close on button click
+                toast.querySelector('.ach-close-btn').onclick = (e) => {
+                    e.stopPropagation();
+                    dismiss();
+                };
+
+                // Auto-dismiss after 3 seconds
+                setTimeout(dismiss, 3000);
             }
         },
         updateReceptionBadge() {

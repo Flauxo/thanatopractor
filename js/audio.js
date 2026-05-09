@@ -163,8 +163,8 @@ const Audio8Bit = (() => {
             if (!ctx) return;
             const t = ctx.currentTime;
             playNote(220, 0.5, 'sawtooth', sfxGain, t, 0.3);
-            playNote(164.8, 0.5, 'sawtooth', t + 0.4, 0.3);
-            playNote(110, 1.0, 'sawtooth', t + 0.8, 0.4);
+            playNote(164.8, 0.5, 'sawtooth', sfxGain, t + 0.4, 0.3);
+            playNote(110, 1.0, 'sawtooth', sfxGain, t + 0.8, 0.4);
         }
     };
 

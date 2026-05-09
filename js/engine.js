@@ -977,9 +977,10 @@ const Engine = (() => {
     }
 
     function showGameOver(title, reason, quote) {
-        console.log('[ENGINE] showGameOver called:', title, reason);
-        Audio8Bit.stopMusic();
-        Audio8Bit.SFX.gameOver();
+        try {
+            Audio8Bit.stopMusic();
+            if (Audio8Bit.SFX && Audio8Bit.SFX.gameOver) Audio8Bit.SFX.gameOver();
+        } catch (e) { console.error('Audio error during game over:', e); }
 
         // Force-close all overlays
         ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay', 'credits-overlay', 'collection-overlay', 'levelup-overlay', 'cafe-game-overlay', 'day-transition-overlay'].forEach(id => {
@@ -988,24 +989,36 @@ const Engine = (() => {
         });
         document.querySelectorAll('.achievement-backdrop').forEach(el => el.remove());
 
-        if (typeof window.Main !== 'undefined') {
-            console.log('[ENGINE] Triggering Main.showScreen(gameover)');
-            window.Main.showScreen('gameover');
-        } else {
-            console.error('[ENGINE] Main is not defined! Cannot show game over screen.');
-        }
+        // Fill data
+        try {
+            const titleEl = document.getElementById('gameover-title');
+            if (titleEl) titleEl.textContent = title;
+            
+            const reasonEl = document.getElementById('gameover-reason');
+            if (reasonEl) reasonEl.textContent = reason;
+            
+            const quoteEl = document.getElementById('gameover-quote');
+            if (quoteEl) quoteEl.textContent = quote;
 
-        document.getElementById('gameover-title').textContent = title;
-        document.getElementById('gameover-reason').textContent = reason;
-        document.getElementById('gameover-quote').textContent = quote;
-        document.getElementById('gameover-stats').innerHTML = `
-            ${I18n.T('go.days')} ${state.day}<br>
-            ${I18n.T('go.served')} ${state.stats.familiesServed}<br>
-            ${I18n.T('go.earnings')} $${state.stats.totalEarnings}<br>
-            ${I18n.T('go.best_roll')} ${state.stats.bestRoll}<br>
-            ${I18n.T('go.level')} ${state.level}
-        `;
-        Main.showScreen('gameover');
+            const statsEl = document.getElementById('gameover-stats');
+            if (statsEl) {
+                const s = state.stats || {};
+                statsEl.innerHTML = `
+                    ${I18n.T('go.days')}: ${state.day}<br>
+                    ${I18n.T('go.served')}: ${s.familiesServed || 0}<br>
+                    ${I18n.T('go.earnings')}: $${s.totalEarnings || 0}<br>
+                    ${I18n.T('go.best_roll')}: ${s.bestRoll || 0}<br>
+                    ${I18n.T('go.level')}: ${getLevel()}
+                `;
+            }
+        } catch (e) { console.error('Error filling game over stats:', e); }
+
+        // Finally show the screen
+        if (typeof window.Main !== 'undefined') {
+            window.Main.showScreen('gameover');
+        } else if (typeof Main !== 'undefined') {
+            Main.showScreen('gameover');
+        }
     }
 
     // ===== SAVE / LOAD =====

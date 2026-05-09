@@ -548,7 +548,6 @@ window.Main = (() => {
 
     function startGameplay() {
         try {
-            console.log("Executing startGameplay...");
             const s = Engine.getState();
 
             s.upgrades.forEach(id => {

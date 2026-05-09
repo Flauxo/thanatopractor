@@ -5,7 +5,7 @@ const Engine = (() => {
         playerName: '',
         day: 1,
         time: 480, // minutes from midnight (8:00 = 480)
-        money: 50000,
+        money: 2000,
         reputation: 50,
         xp: 0,
         level: 1,
@@ -113,7 +113,7 @@ const Engine = (() => {
         if (newLevel > state.level) {
             state.level = newLevel;
             showLevelUpModal(newLevel);
-            addMoney(10000, I18n.T('eng.level_bonus'), true);
+            addMoney(newLevel * 1000, I18n.T('eng.level_bonus'), true);
             if (typeof Audio8Bit !== 'undefined' && Audio8Bit.SFX.levelUp) {
                 Audio8Bit.SFX.levelUp();
             }
@@ -204,15 +204,16 @@ const Engine = (() => {
         checkSchedule();
 
         // Random event chance
-        const isAdvanced = state.day >= 5;
-        const prob = (isAdvanced ? 0.02 : 0.008) * state.speed;
-        const cooldown = isAdvanced ? 30 : 60;
-        const boredTimeout = isAdvanced ? 60 : 120;
+        const currentLevel = getLevel();
+        const isAdvanced = currentLevel >= 3;
+        const prob = (isAdvanced ? 0.02 : 0.015) * state.speed;
+        const cooldown = 45;
+        const boredTimeout = 60; // Max 1 hour of doing nothing
         
         // Random event chance
         const isIdle = activeFams === 0 && waitingFams === 0;
-        const canTrigger = isIdle || (isAdvanced && Math.random() < 0.25); // 25% chance to allow even if busy starting day 5
-        const gracePeriodOver = state.realPlayTimeMS >= 180000; // 3 minutes
+        const canTrigger = isIdle || (isAdvanced && Math.random() < 0.25); // 25% chance to allow even if busy starting Level 3
+        const gracePeriodOver = state.realPlayTimeMS >= 60000; // 1 minute grace period
 
         if (gracePeriodOver && canTrigger && (state.time - state.lastRandomEventTime) >= cooldown && Math.random() < prob) {
             triggerRandomEvent();
@@ -224,8 +225,8 @@ const Engine = (() => {
             triggerRandomEvent();
         }
 
-        // Bad Luck event chance (Level 10+)
-        if (gracePeriodOver && getLevel() >= 10 && (state.time - state.lastRandomEventTime) >= cooldown && Math.random() < 0.01 * state.speed) {
+        // Bad Luck event chance (Level 3+)
+        if (gracePeriodOver && currentLevel >= 3 && (state.time - state.lastRandomEventTime) >= cooldown && Math.random() < 0.015 * state.speed) {
             triggerBadLuckEvent();
         }
 

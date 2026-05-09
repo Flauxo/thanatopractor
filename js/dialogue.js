@@ -78,7 +78,7 @@ const Dialogue = (() => {
 
     function processQueue() {
         if (queue.length === 0) {
-            if (!Main.isOverlayOpen()) Engine.setSpeed(1); 
+            Engine.setSpeed(1); 
             return;
         }
         const d = queue.shift();

@@ -787,9 +787,9 @@ const Engine = (() => {
                     backdrop.classList.add('dismissing');
                     setTimeout(() => {
                         backdrop.remove();
-                        // Resume game if no other achievement modals are left AND no other overlay is open AND game was running
+                        // Resume game if no other achievement modals are left AND game was running
                         if (!document.querySelector('.achievement-backdrop')) {
-                            if (state.speed > 0 && typeof window.Main !== 'undefined' && !window.Main.isOverlayOpen()) {
+                            if (state.speed > 0 && typeof window.Main !== 'undefined') {
                                 startTime();
                             }
                         }
@@ -936,12 +936,15 @@ const Engine = (() => {
     // ===== GAME OVER =====
     function checkGameOver() {
         if (state.gameOver) return;
+        console.log('[ENGINE] Checking Game Over. Money:', state.money, 'Rep:', state.reputation);
         if (state.money <= 0) {
+            console.log('[ENGINE] Game Over: Bankrupt');
             state.gameOver = true;
             stopTime();
             const quote = DATA.gameOverMoney[Math.floor(Math.random() * DATA.gameOverMoney.length)];
             showGameOver(I18n.T('go.bankrupt_title'), I18n.T('go.bankrupt_reason'), quote);
         } else if (state.reputation <= 0) {
+            console.log('[ENGINE] Game Over: Disgraced');
             state.gameOver = true;
             stopTime();
             const quote = DATA.gameOverRep[Math.floor(Math.random() * DATA.gameOverRep.length)];
@@ -974,8 +977,24 @@ const Engine = (() => {
     }
 
     function showGameOver(title, reason, quote) {
+        console.log('[ENGINE] showGameOver called:', title, reason);
         Audio8Bit.stopMusic();
         Audio8Bit.SFX.gameOver();
+
+        // Force-close all overlays
+        ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay', 'credits-overlay', 'collection-overlay', 'levelup-overlay', 'cafe-game-overlay', 'day-transition-overlay'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        });
+        document.querySelectorAll('.achievement-backdrop').forEach(el => el.remove());
+
+        if (typeof window.Main !== 'undefined') {
+            console.log('[ENGINE] Triggering Main.showScreen(gameover)');
+            window.Main.showScreen('gameover');
+        } else {
+            console.error('[ENGINE] Main is not defined! Cannot show game over screen.');
+        }
+
         document.getElementById('gameover-title').textContent = title;
         document.getElementById('gameover-reason').textContent = reason;
         document.getElementById('gameover-quote').textContent = quote;

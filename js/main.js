@@ -3,8 +3,8 @@ window.Main = (() => {
     let currentScreen = 'title';
 
     function showScreen(name) {
-        // Block screen change if a dialogue or critical overlay is open
-        if (isOverlayOpen()) return;
+        // Block screen change if a dialogue or critical overlay is open (except for gameover)
+        if (name !== 'gameover' && isOverlayOpen()) return;
 
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         const screen = document.getElementById(`${name}-screen`);
@@ -597,6 +597,12 @@ window.Main = (() => {
             const el = document.getElementById(id);
             return el && (el.style.display === 'flex' || el.style.display === 'block');
         });
+        
+        // Also check for dynamic achievement backdrops
+        if (document.querySelector('.achievement-backdrop')) {
+            open.push('achievement-notification');
+        }
+
         if (open.length > 0) console.log('[MAIN] Open overlays blocking time:', open);
         return open.length > 0;
     }

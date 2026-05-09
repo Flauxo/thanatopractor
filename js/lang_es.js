@@ -8,7 +8,7 @@ I18n.register('es', {
     'Despachando a señora borracha...', 'Conversación con cucaracha...', 'Activando lluvia dramática...', 
     'Ventilando túmulo...', 'Vaciando el horno...', 'Ensayando sermones...', 
     'Rellenando botellas...', 'Pulimentando huesos...', 'Peinando pelucas...', 
-    'Perfeccionando el rictus...', 'Ahuyentando ánimas...', 'Contando centavos...', 
+    'Perfeccionando el rictus...', 'Ahuyentando ánimas...', 'Contando céntimos...', 
     'Planchando mortajas...', 'Rezando por propinas...', 'Escondiendo el serrucho...'
 ],
 'splash.enter': 'ENTRAR AL TANATORIO',

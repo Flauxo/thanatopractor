@@ -762,7 +762,7 @@ html, body {
 /* ===== COLLECTION SYSTEM ===== */
 .hub-extras {
     position: absolute;
-    bottom: 133px; /* Justo encima del recuadro de 8 botones */
+    bottom: 30px; /* Pegado al recuadro de 8 botones (ajustado tras inspección) */
     right: 12px;
     z-index: 105;
     display: flex;

@@ -95,13 +95,13 @@ window.Main = (() => {
             if (isActionPending) {
                 // Triggered but needs player action (e.g. transport_ready - call hearse)
                 div.className = 'schedule-item action-pending';
-                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span>❗</span>`;
+                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span>ÔØù</span>`;
             } else if (isDone) {
                 div.className = 'schedule-item completed';
-                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span>✓</span>`;
+                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span>Ô£ô</span>`;
             } else {
                 div.className = 'schedule-item';
-                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span>⏳</span>`;
+                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span>ÔÅ│</span>`;
             }
             list.appendChild(div);
         });
@@ -274,55 +274,40 @@ window.Main = (() => {
         };
 
         document.getElementById('btn-start-game').onclick = () => {
-            try {
-                const name = nameInput.value.trim();
-                if (!name) {
-                    Engine.showToast(I18n.T('name.error'), 'warning');
-                    return;
-                }
-                if (typeof Audio8Bit !== 'undefined') Audio8Bit.SFX.success();
-                
-                try { localStorage.removeItem('thanatopractor_save'); } catch(e) {}
-                
-                Engine.resetState();
-                Families.reset();
-                resetHub();
-                
-                const s = Engine.getState();
-                s.playerName = name;
-
-                if (name === 'GODMODE') {
-                    s.money = 999999;
-                    s.upgrades = DATA.upgrades.filter(u => !u.repeatable).map(u => u.id);
-                    Engine.showToast(I18n.T('crema.godmode_alert'), 'success');
-                }
-
-                showScreen('welcome');
-            } catch (err) {
-                console.error("Error in btn-start-game:", err);
-                alert("Critical Error: " + err.message);
+            const name = nameInput.value.trim();
+            if (!name) {
+                Engine.showToast(I18n.T('name.error'), 'warning');
+                return;
             }
+            Audio8Bit.SFX.success();
+            try { localStorage.removeItem('thanatopractor_save'); } catch(e) {}
+            Engine.resetState();
+            Families.reset();
+            resetHub();
+            const s = Engine.getState();
+            s.playerName = name;
+            if (name === 'GODMODE') {
+                s.money = 999999;
+                s.upgrades = DATA.upgrades.filter(u => !u.repeatable).map(u => u.id);
+                Engine.showToast(I18n.T('crema.godmode_alert'), 'success');
+            }
+            showScreen('welcome');
         };
 
         document.getElementById('btn-accept-terms').onclick = () => {
-            try {
-                if (window.Audio8Bit) window.Audio8Bit.SFX.success();
-                startGameplay();
-            } catch (err) {
-                console.error("Error in btn-accept-terms:", err);
-                alert("Critical Error: " + err.message);
-            }
+            try { if (window.Audio8Bit) window.Audio8Bit.SFX.success(); } catch(e){}
+            startGameplay();
         };
 
         // ===== HUB NAV =====
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.onclick = () => {
                 const room = btn.dataset.room;
-                const s = Engine.getState();
+                const navState = Engine.getState();
 
                 // Broken Crematorium Check
                 if (room === 'crematorium') {
-                    if (s.cremaBroken && !s.cremaRepairing) {
+                    if (navState.cremaBroken && !navState.cremaRepairing) {
                         if (typeof Dialogue !== 'undefined') {
                             Dialogue.show(I18n.T('crema.broken_title'), I18n.T('crema.broken_desc'), [
                                 { text: I18n.T('eng.ok') }
@@ -330,8 +315,8 @@ window.Main = (() => {
                         }
                         return;
                     }
-                    if (s.cremaRepairing) {
-                        const remaining = Math.max(0, Math.round(s.cremaRepairFinishTime - s.time));
+                    if (navState.cremaRepairing) {
+                        const remaining = Math.max(0, Math.round(navState.cremaRepairFinishTime - navState.time));
                         Engine.showToast(I18n.T('crema.repairing_toast', remaining), 'warning');
                         return;
                     }
@@ -455,9 +440,6 @@ window.Main = (() => {
                 const lock = nav.querySelector('.nav-lock');
                 if (lock) lock.style.display = 'none';
             }
-            // Hide broken indicator
-            const brokenX = nav.querySelector('.nav-broken-x');
-            if (brokenX) brokenX.style.display = 'none';
         });
     }
 

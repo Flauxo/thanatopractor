@@ -292,12 +292,17 @@ window.Main = (() => {
                     s.upgrades = DATA.upgrades.filter(u => !u.repeatable).map(u => u.id);
                     Engine.showToast(I18n.T('crema.godmode_alert'), 'success');
                 }
-                // Force close any stray overlays so showScreen is not blocked
-                ['dialogue-overlay','dice-overlay','completion-overlay','supplies-overlay','credits-overlay'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.style.display = 'none';
-                });
-                showScreen('welcome');
+                // Force close overlays
+                document.querySelectorAll('.overlay').forEach(o => o.style.display = 'none');
+                // Direct DOM screen switch (bypass showScreen guard)
+                document.querySelectorAll('.screen').forEach(scr => scr.classList.remove('active'));
+                const welcomeScr = document.getElementById('welcome-screen');
+                if (welcomeScr) {
+                    welcomeScr.classList.add('active');
+                    currentScreen = 'welcome';
+                } else {
+                    alert('ERROR: welcome-screen not found in DOM!');
+                }
             } catch(err) {
                 alert('ERROR en Comenzar Carrera: ' + err.message + '\n' + err.stack);
             }

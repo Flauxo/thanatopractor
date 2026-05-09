@@ -48,6 +48,20 @@ const DATA = {
         { id: "romantic", name: "Romantic", icon: "🌹", desc: "Looking for their next partner among the mourners." },
         { id: "minimalist", name: "Minimalist", icon: "📦", desc: "They want a flat-pack, self-assembly coffin." }
     ],
+    collections: [
+        { id: "gold_tooth", name: "Skull-shaped gold tooth", desc: "A molar carved into a tiny skull. Pure luxury.", icon: "🦷" },
+        { id: "pizza_letter", name: "Love letter to a pizza", desc: "Dedicated to a Pepperoni Pizza. Very romantic.", icon: "🍕" },
+        { id: "magic_sock", name: "Magic mismatched sock", desc: "It always feels like it belongs to someone else.", icon: "🧦" },
+        { id: "ghost_key", name: "Key to a non-existent mansion", desc: "It doesn't open anything, but it feels heavy.", icon: "🔑" },
+        { id: "crystal_balls", name: "Hypnotist's crystal balls", desc: "If you stare long enough, you see Ivan's face.", icon: "🔮" },
+        { id: "treasure_map", name: "Treasure map on a napkin", desc: "X marks the spot. It's under a local tombstone.", icon: "📜" },
+        { id: "glass_eye", name: "Glass eye that stares", desc: "It seems to follow you around the office.", icon: "👁️" },
+        { id: "concert_ticket", name: "1920 concert ticket", desc: "The band was 'The Mourning Melodies'.", icon: "🎫" },
+        { id: "returned_ring", name: "Returned engagement ring", desc: "A sad story in a small piece of jewelry.", icon: "💍" },
+        { id: "choc_coin", name: "Ever-melting chocolate coin", desc: "It never melts, but it always smells like cocoa.", icon: "🍫" },
+        { id: "vintage_lighter", name: "Vintage Lighter", desc: "Engraved with 'Property of Death'.", icon: "🔥" },
+        { id: "mystery_cassette", name: "Mystery Cassette", desc: "Labelled: 'Do Not Listen at Night'.", icon: "📼" }
+    ],
 
     // ===== ARRIVAL DIALOGUES =====
     arrivalIntros: [

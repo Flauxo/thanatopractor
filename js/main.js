@@ -402,6 +402,24 @@ window.Main = (() => {
             };
         }
 
+        // ===== COLLECTION SYSTEM =====
+        const btnCol = document.getElementById('btn-collection');
+        if (btnCol) {
+            btnCol.onclick = () => {
+                Audio8Bit.SFX.click();
+                Engine.showCollection();
+            };
+        }
+
+        const btnColClose = document.getElementById('btn-collection-close');
+        if (btnColClose) {
+            btnColClose.onclick = () => {
+                Audio8Bit.SFX.click();
+                document.getElementById('collection-overlay').style.display = 'none';
+                Engine.startTime();
+            };
+        }
+
         // ===== AUTO SAVE =====
         setInterval(() => {
             if (currentScreen !== 'title' && currentScreen !== 'name' && currentScreen !== 'gameover') {
@@ -494,7 +512,7 @@ window.Main = (() => {
     document.addEventListener('DOMContentLoaded', initGame);
 
     function isOverlayOpen() {
-        const overlays = ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay', 'credits-overlay'];
+        const overlays = ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay', 'credits-overlay', 'collection-overlay'];
         return overlays.some(id => {
             const el = document.getElementById(id);
             return el && (el.style.display === 'flex' || el.style.display === 'block');

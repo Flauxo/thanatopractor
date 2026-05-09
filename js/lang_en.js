@@ -671,6 +671,10 @@ I18n.register('en', {
         'A legendary service that elevates the reputation of this place.',
         'They are going to propose a marriage for their daughter!'
     ],
+    'col.found_text': 'You found: {0}',
+    'col.empty': 'Your collection is empty. Look for items while preparing bodies!',
+    'col.title': 'LOST & FOUND',
+    'col.found_title': 'NEW ITEM FOUND!',
     'crema.broken_toast': 'BOOM! The oven has backfired and broken down.',
     'crema.broken_title': 'OVEN BROKEN',
     'crema.broken_desc': 'The crematorium oven is broken, call maintenance to repair it.',

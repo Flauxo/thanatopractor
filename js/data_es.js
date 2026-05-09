@@ -48,6 +48,20 @@ const DATA_ES = {
         { id: "romantic", name: "Románticos", icon: "🌹", desc: "Buscan a su próxima pareja entre los asistentes." },
         { id: "minimalist", name: "Minimalistas", icon: "📦", desc: "Quieren un ataúd de montaje fácil tipo IKEA." }
     ],
+    collections: [
+        { id: "gold_tooth", name: "Diente de oro calavera", desc: "Un molar tallado como una calavera. Puro lujo.", icon: "🦷" },
+        { id: "pizza_letter", name: "Carta de amor a una pizza", desc: "Dedicada a una Pepperoni. Muy romántico.", icon: "🍕" },
+        { id: "magic_sock", name: "Calcetín desparejado mágico", desc: "Siempre parece pertenecer a otra persona.", icon: "🧦" },
+        { id: "ghost_key", name: "Llave de mansión inexistente", desc: "No abre nada, pero pesa mucho.", icon: "🔑" },
+        { id: "crystal_balls", name: "Bolas de cristal de hipnotista", desc: "Si miras fijamente, ves la cara de Iván.", icon: "🔮" },
+        { id: "treasure_map", name: "Mapa del tesoro en servilleta", desc: "La X marca el lugar. Está bajo una tumba local.", icon: "📜" },
+        { id: "glass_eye", name: "Ojo de cristal que mira", desc: "Parece seguirte por toda la oficina.", icon: "👁️" },
+        { id: "concert_ticket", name: "Entrada de concierto de 1920", desc: "La banda era 'The Mourning Melodies'.", icon: "🎫" },
+        { id: "returned_ring", name: "Anillo de compromiso devuelto", desc: "Una historia triste en una joya pequeña.", icon: "💍" },
+        { id: "choc_coin", name: "Moneda de chocolate eterna", desc: "Nunca se derrite, pero huele a cacao.", icon: "🍫" },
+        { id: "vintage_lighter", name: "Mechero Vintage", desc: "Grabado con: 'Propiedad de la Muerte'.", icon: "🔥" },
+        { id: "mystery_cassette", name: "Cassette Misterioso", desc: "Etiquetado: 'No escuchar de noche'.", icon: "📼" }
+    ],
 
     arrivalIntros: [
         "Una familia entra por la puerta. Suena la campana. Alguien sorbe por la nariz.",

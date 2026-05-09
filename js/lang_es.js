@@ -687,6 +687,10 @@ I18n.register('es', {
         'Un servicio legendario que eleva la reputación del lugar.',
         '¡Te van a proponer matrimonio para su hija!'
     ],
+    'col.found_text': 'Has encontrado: {0}',
+    'col.empty': 'Tu colección está vacía. ¡Busca objetos mientras preparas cuerpos!',
+    'col.title': 'OBJETOS PERDIDOS',
+    'col.found_title': '¡OBJETO ENCONTRADO!',
     'crema.broken_toast': '¡PUM! El horno ha pegado un petardazo y se ha averiado.',
     'crema.broken_title': 'HORNO AVERIADO',
     'crema.broken_desc': 'El horno crematorio está averiado, llama a mantenimiento para repararlo.',

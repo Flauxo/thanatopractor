@@ -43,7 +43,8 @@ const Engine = (() => {
         moneyWarningShown: false,
         repWarningShown: false,
         stats: { familiesServed: 0, totalEarnings: 0, diceRolls: 0, bestRoll: 0, worstDay: null },
-        realPlayTimeMS: 0
+        realPlayTimeMS: 0,
+        foundItems: []
     });
 
     let state = defaultState();
@@ -476,6 +477,7 @@ const Engine = (() => {
                         showToast(msg, fam.cremationTempFailure ? 'danger' : 'success');
                         if (typeof Families !== 'undefined') Families.updateSatisfaction(fam.id, satChange, 'Cremation quality');
                         if (typeof Rooms !== 'undefined') Rooms.checkServiceComplete(fam);
+                        rollCollectionDiscovery();
 
                         // Breakdown chance: 20%
                         if (Math.random() < 0.20) {
@@ -880,6 +882,61 @@ const Engine = (() => {
     }
     function resetState() { state = defaultState(); }
 
+    function rollCollectionDiscovery() {
+        const chance = 0.15; // 15% chance
+        if (Math.random() < chance) {
+            const all = DATA.collections || [];
+            const available = all.filter(item => !state.foundItems.includes(item.id));
+            if (available.length > 0) {
+                const found = available[Math.floor(Math.random() * available.length)];
+                state.foundItems.push(found.id);
+                
+                // Show notification dot
+                const dot = document.getElementById('collection-dot');
+                if (dot) dot.style.display = 'block';
+                
+                // Show discovery dialogue
+                Dialogue.show(I18n.T('col.found_title'), I18n.T('col.found_text', found.name), [
+                    { text: I18n.T('ov.dismiss'), action: () => {} }
+                ]);
+            }
+        }
+    }
+
+    function showCollection() {
+        const dot = document.getElementById('collection-dot');
+        if (dot) dot.style.display = 'none';
+
+        const overlay = document.getElementById('collection-overlay');
+        const grid = document.getElementById('collection-grid');
+        if (!overlay || !grid) return;
+
+        grid.innerHTML = '';
+        const all = DATA.collections || [];
+        
+        all.forEach(item => {
+            const isFound = state.foundItems.includes(item.id);
+            const slot = document.createElement('div');
+            slot.className = isFound ? 'col-slot found' : 'col-slot empty';
+            
+            if (isFound) {
+                slot.innerHTML = `
+                    <div class="col-icon">${item.icon}</div>
+                    <div class="col-info">
+                        <strong>${item.name}</strong>
+                        <p>${item.desc}</p>
+                    </div>
+                `;
+            } else {
+                slot.innerHTML = `<div class="col-icon">?</div>`;
+            }
+            grid.appendChild(slot);
+        });
+
+        overlay.style.display = 'flex';
+        stopTime();
+    }
+
     return {
         getState, getTimeString, getLevel, getRepStars,
         addMoney, addReputation, addXP,
@@ -887,6 +944,7 @@ const Engine = (() => {
         generateDailySchedule, hasUpgrade, buyUpgrade,
         rollD20, Notifications, showToast, updateHUD,
         save, load, hasSave, resetState,
-        checkGameOver, defaultState
+        checkGameOver, defaultState,
+        rollCollectionDiscovery, showCollection
     };
 })();

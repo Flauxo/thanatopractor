@@ -427,6 +427,8 @@ const Rooms = (() => {
                     } }
                 ]);
                 Families.updateSatisfaction(embalmTarget.id, quality === 'excellent' ? 20 : quality === 'good' ? 10 : quality === 'mediocre' ? 0 : quality === 'bad' ? -15 : -30, `Embalming: ${quality}`);
+                
+                Engine.rollCollectionDiscovery();
 
                 if (embalmTarget.wantsViewing) {
                     Engine.Notifications.addBadge('viewing');

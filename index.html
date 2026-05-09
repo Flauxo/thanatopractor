@@ -138,6 +138,14 @@
             </div>
         </div>
 
+        <!-- Hub Extras -->
+        <div class="hub-extras">
+            <div id="btn-collection" class="extra-icon-btn">
+                <img src="assets/ui/collection_box.png" alt="Collection Box">
+                <span class="notification-dot" id="collection-dot" style="display:none"></span>
+            </div>
+        </div>
+
         <!-- Hub Navigation -->
         <div class="hub-nav">
             <div class="nav-btn" data-room="reception" id="nav-reception">
@@ -604,5 +612,16 @@
     <script src="js/dialogue.js?v=6"></script>
     <script src="js/rooms.js?v=6"></script>
     <script src="js/main.js?v=6"></script>
+    <!-- Collection Overlay -->
+    <div id="collection-overlay" class="overlay" style="display:none">
+        <div class="levelup-panel" style="max-width: 600px; max-height: 80vh; overflow-y: auto;">
+            <h2 data-i18n="col.title">LOST & FOUND</h2>
+            <div class="collection-grid" id="collection-grid">
+                <!-- Items will be injected here -->
+            </div>
+            <button class="action-btn" id="btn-collection-close" data-i18n="ov.dismiss">CLOSE</button>
+        </div>
+    </div>
+
 </body>
 </html>

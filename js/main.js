@@ -367,6 +367,7 @@ window.Main = (() => {
                     s.money = 999999;
                     s.upgrades = DATA.upgrades.filter(u => !u.repeatable).map(u => u.id);
                     s.foundItems = DATA.collections.map(item => item.id);
+                    s.unlockedAchievements = DATA.achievements.map(a => a.id);
                     Engine.showToast(I18n.T('crema.godmode_alert'), 'success');
                 }
                 showScreen('welcome');

@@ -8,13 +8,13 @@ const Icons = (() => {
         'B': 'var(--accent-bright)',
         'W': 'var(--accent-bright)',
         'R': 'var(--accent-pink)',
-        'G': 'var(--accent-pink)',
+        'G': 'var(--accent-bright)',
         'M': 'var(--bg-medium)',
         'C': '#ffffff',
         'T': '#ef4444',
         'L': '#4ade80',
-        'Y': 'var(--accent-pink)',
-        'S': 'var(--accent-pink)',
+        'Y': 'var(--accent-bright)',
+        'S': 'var(--accent-bright)',
         ' ': 'transparent'
     };
 

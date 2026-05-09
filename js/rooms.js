@@ -101,11 +101,14 @@ const Rooms = (() => {
                     Engine.addReputation(2, 'Beautiful fresh flowers');
                     if (typeof Main !== 'undefined') Main.showScreen('hub');
                 }},
-                { text: I18n.T('rec.call_maintenance') + (s.cremaBroken && !s.cremaRepairing ? ' ❗' : ''), action: () => {
-                    if (!s.cremaBroken) {
-                        Engine.showToast(I18n.T('crema.not_broken'), 'warning');
-                        return;
-                    }
+                { text: I18n.T('rec.nevermind'), action: () => {} }
+            ];
+
+            // Only show maintenance call when crematorium is actually broken
+            if (s.cremaBroken || s.cremaRepairing) {
+                phoneChoices.splice(phoneChoices.length - 1, 0, {
+                    text: I18n.T('rec.call_maintenance') + (s.cremaBroken && !s.cremaRepairing ? ' !!!' : ' (en reparación)'),
+                    action: () => {
                     if (s.cremaRepairing) {
                         Engine.showToast(I18n.T('crema.already_repairing'), 'warning');
                         return;
@@ -137,9 +140,8 @@ const Rooms = (() => {
                         }},
                         { text: I18n.T('rec.nevermind'), action: () => {} }
                     ], null, { showReaper: true });
-                }},
-                { text: I18n.T('rec.nevermind'), action: () => {} }
-            ];
+                }});
+            }
 
             const hasPermanentHearse = Engine.hasUpgrade('hearse');
             const hasTempHearse = s.temporaryHearseAvailable;

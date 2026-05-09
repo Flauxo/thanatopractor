@@ -95,13 +95,13 @@ window.Main = (() => {
             if (isActionPending) {
                 // Triggered but needs player action (e.g. transport_ready - call hearse)
                 div.className = 'schedule-item action-pending';
-                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span>ÔØù</span>`;
+                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span class="sched-icon pending-icon">!</span>`;
             } else if (isDone) {
                 div.className = 'schedule-item completed';
-                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span>Ô£ô</span>`;
+                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span class="sched-icon done-icon">✓</span>`;
             } else {
                 div.className = 'schedule-item';
-                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span>ÔÅ│</span>`;
+                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span class="sched-icon clock-icon">◷</span>`;
             }
             list.appendChild(div);
         });

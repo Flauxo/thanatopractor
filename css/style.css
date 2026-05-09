@@ -143,7 +143,7 @@ html, body {
     color: var(--text-dim);
     margin-bottom: 40px;
     line-height: 1.2;
-    text-shadow: 1px 1px 2px var(--accent-bright), 0 0 12px rgba(224, 43, 182, 0.6);
+    text-shadow: 2px 2px 2px #000, 0 0 10px rgba(224, 43, 182, 0.3);
 }
 .title-skull { font-size: 64px; margin: 16px 0; }
 .title-quote {

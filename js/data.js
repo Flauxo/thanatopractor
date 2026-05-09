@@ -702,7 +702,7 @@ const DATA = {
         },
         {
             id: "coffee",
-            text: "They look exhausted. Ivan whispers: 'Sell them the expensive coffee'.",
+            text: "They look exhausted. Ivan, the chaplain, whispers: 'Sell them the expensive coffee'.",
             choices: [
                 { text: "Offer free artisanal coffee samples.", sat: 15 },
                 { text: "Try to sell 'Grief-Roasted' espresso ($5).", roll: 12, success: { text: "They love it!", sat: 25 }, fail: { text: "They find it insensitive.", sat: -10 } },
@@ -747,7 +747,7 @@ const DATA = {
         },
         {
             id: "ivan_outfit",
-            text: "Ivan walks in wearing a 'I Heart Cemeteries' t-shirt.",
+            text: "Ivan, the chaplain, walks in wearing a 'I Heart Cemeteries' t-shirt.",
             choices: [
                 { text: "Apologize and say it's our 'casual Friday'.", sat: -5 },
                 { text: "Explain it's a high-fashion ironic brand.", roll: 13, success: { text: "They think you're trendy.", sat: 15 }, fail: { text: "They find it disrespectful.", sat: -15 } },
@@ -795,7 +795,7 @@ const DATA = {
             text: "They ask about the smell. Formaldehyde is strong today.",
             choices: [
                 { text: "Tell them it's 'The Scent of Eternity'.", sat: 10 },
-                { text: "Blame Ivan's cooking in the cafeteria.", sat: -5 },
+                { text: "Blame the cooking of Ivan, the chaplain, in the cafeteria.", sat: -5 },
                 { text: "Use your 'Empathy' to describe it as 'Cleanliness'.", roll: 12, success: { text: "They are reassured.", sat: 15 }, fail: { text: "It still smells like a lab.", sat: -10 } }
             ]
         },
@@ -822,7 +822,7 @@ const DATA = {
             text: "They want a Heavy Metal tribute in the chapel.",
             choices: [
                 { text: "Accept and call the local band 'Rotten Souls'.", sat: 20 },
-                { text: "Suggest Ivan does a 'Heavy' acoustic version.", roll: 15, success: { text: "Ivan rocks! They love it.", sat: 30 }, fail: { text: "It's embarrassing.", sat: -20 } },
+                { text: "Suggest Ivan, the chaplain, does a 'Heavy' acoustic version.", roll: 15, success: { text: "Ivan rocks! They love it.", sat: 30 }, fail: { text: "It's embarrassing.", sat: -20 } },
                 { text: "Insist on Gregorian chants for 'Soul Stability'.", sat: -10 }
             ]
         },

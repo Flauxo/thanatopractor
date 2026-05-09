@@ -608,7 +608,7 @@ const DATA_ES = {
         },
         {
             id: "coffee",
-            text: "Parecen agotados. Iván susurra: 'Véndeles el café caro'.",
+            text: "Parecen agotados. Iván, el orador, susurra: 'Véndeles el café caro'.",
             choices: [
                 { text: "Ofrecer muestras gratuitas de café artesanal.", sat: 15 },
                 { text: "Intentar vender el espresso 'Tueste de Duelo' ($5).", roll: 12, success: { text: "¡Les encanta!", sat: 25 }, fail: { text: "Les parece insensible.", sat: -10 } },
@@ -653,7 +653,7 @@ const DATA_ES = {
         },
         {
             id: "ivan_outfit",
-            text: "Iván entra con una camiseta que dice 'Amo los Cementerios'.",
+            text: "Iván, el orador, entra con una camiseta que dice 'Amo los Cementerios'.",
             choices: [
                 { text: "Pedir disculpas y decir que es nuestro 'viernes informal'.", sat: -5 },
                 { text: "Explicar que es una marca irónica de alta costura.", roll: 13, success: { text: "Creen que estás a la moda.", sat: 15 }, fail: { text: "Les parece irrespetuoso.", sat: -15 } },
@@ -701,7 +701,7 @@ const DATA_ES = {
             text: "Preguntan por el olor. El formaldehído está fuerte hoy.",
             choices: [
                 { text: "Decirles que es 'El aroma de la eternidad'.", sat: 10 },
-                { text: "Culpar a lo que Iván está cocinando en la cafetería.", sat: -5 },
+                { text: "Culpar a lo que Iván, el orador, está cocinando en la cafetería.", sat: -5 },
                 { text: "Usar tu 'Empatía' para describirlo como 'Limpieza'.", roll: 12, success: { text: "Se sienten tranquilizados.", sat: 15 }, fail: { text: "Sigue oliendo a laboratorio.", sat: -10 } }
             ]
         },
@@ -728,7 +728,7 @@ const DATA_ES = {
             text: "Quieren un tributo de Heavy Metal en la capilla.",
             choices: [
                 { text: "Aceptar y llamar a la banda local 'Almas Podridas'.", sat: 20 },
-                { text: "Sugerir que Iván haga una versión acústica 'cañera'.", roll: 15, success: { text: "¡Iván es un crack! Les encanta.", sat: 30 }, fail: { text: "Es vergonzoso.", sat: -20 } },
+                { text: "Sugerir que Iván, el orador, haga una versión acústica 'cañera'.", roll: 15, success: { text: "¡Iván es un crack! Les encanta.", sat: 30 }, fail: { text: "Es vergonzoso.", sat: -20 } },
                 { text: "Insistir en cantos gregorianos para 'Estabilidad del Alma'.", sat: -10 }
             ]
         },

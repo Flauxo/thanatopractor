@@ -616,4 +616,5 @@ I18n.register('es', {
     'eng.crema_repair': 'Reparación de horno',
     'crema.not_broken': 'El horno funciona perfectamente, no desperdicies dinero.',
     'crema.already_repairing': 'El técnico ya está en ello, ten paciencia.',
+    'crema.godmode_alert': '¡MODO DIOS ACTIVADO! Todas las mejoras desbloqueadas y bolsillo lleno.',
 });

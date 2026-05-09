@@ -600,4 +600,5 @@ I18n.register('en', {
     'eng.crema_repair': 'Oven repair',
     'crema.not_broken': 'The oven works perfectly, don\'t waste money.',
     'crema.already_repairing': 'The technician is already on it, be patient.',
+    'crema.godmode_alert': 'GOD MODE ACTIVATED! All upgrades unlocked and pockets full.',
 });

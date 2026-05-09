@@ -274,23 +274,44 @@ window.Main = (() => {
         };
 
         document.getElementById('btn-start-game').onclick = () => {
-            const name = nameInput.value.trim();
-            if (!name) {
-                Engine.showToast(I18n.T('name.error'), 'warning');
-                return;
+            try {
+                const name = nameInput.value.trim();
+                if (!name) {
+                    Engine.showToast(I18n.T('name.error'), 'warning');
+                    return;
+                }
+                if (typeof Audio8Bit !== 'undefined') Audio8Bit.SFX.success();
+                
+                try { localStorage.removeItem('thanatopractor_save'); } catch(e) {}
+                
+                Engine.resetState();
+                Families.reset();
+                resetHub();
+                
+                const s = Engine.getState();
+                s.playerName = name;
+
+                if (name === 'GODMODE') {
+                    s.money = 999999;
+                    s.upgrades = DATA.upgrades.filter(u => !u.repeatable).map(u => u.id);
+                    Engine.showToast(I18n.T('crema.godmode_alert'), 'success');
+                }
+
+                showScreen('welcome');
+            } catch (err) {
+                console.error("Error in btn-start-game:", err);
+                alert("Critical Error: " + err.message);
             }
-            Audio8Bit.SFX.success();
-            localStorage.removeItem('thanatopractor_save');
-            Engine.resetState();
-            Families.reset();
-            resetHub();
-            Engine.getState().playerName = name;
-            showScreen('welcome');
         };
 
         document.getElementById('btn-accept-terms').onclick = () => {
-            try { if (window.Audio8Bit) window.Audio8Bit.SFX.success(); } catch(e){}
-            startGameplay();
+            try {
+                if (window.Audio8Bit) window.Audio8Bit.SFX.success();
+                startGameplay();
+            } catch (err) {
+                console.error("Error in btn-accept-terms:", err);
+                alert("Critical Error: " + err.message);
+            }
         };
 
         // ===== HUB NAV =====
@@ -435,6 +456,9 @@ window.Main = (() => {
                 const lock = nav.querySelector('.nav-lock');
                 if (lock) lock.style.display = 'none';
             }
+            // Hide broken indicator
+            const brokenX = nav.querySelector('.nav-broken-x');
+            if (brokenX) brokenX.style.display = 'none';
         });
     }
 

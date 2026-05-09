@@ -8,13 +8,13 @@ const Icons = (() => {
         'B': 'var(--accent-bright)',
         'W': 'var(--accent-bright)',
         'R': 'var(--accent-pink)',
-        'G': 'var(--accent-bright)',
+        'G': 'var(--gold)',
         'M': 'var(--bg-medium)',
         'C': '#ffffff',
         'T': '#ef4444',
         'L': '#4ade80',
-        'Y': 'var(--accent-bright)',
-        'S': 'var(--accent-bright)',
+        'Y': 'var(--gold)',
+        'S': 'var(--gold)',
         ' ': 'transparent'
     };
 
@@ -378,15 +378,15 @@ const Icons = (() => {
         // Moods / Feedback
         star: [
             "            ",
-            "     G      ",
-            "    GGG     ",
-            "   GGGGG    ",
-            " GGGGGGGGGG ",
+            "     GG     ",
+            "    GGGG    ",
+            "   GGGGGG   ",
+            "GGGGGGGGGGGG",
             "  GGGGGGGG  ",
             "   GGGGGG   ",
-            "  GG GG GG  ",
-            "  G   G  G  ",
-            " G       G  ",
+            "  GGGGGGGG  ",
+            " GGGG  GGGG ",
+            " GG      GG ",
             "            ",
             "            "
         ],

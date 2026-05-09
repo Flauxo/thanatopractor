@@ -246,10 +246,17 @@ const Rooms = (() => {
                                 s.temporaryHearseAvailable = true;
                                 Engine.showToast(I18n.T('rec.niece_desc'), 'success');
                             }
+
+                            // Achievement: Paperwork Ninja
+                            s.consecutivePaperwork = (s.consecutivePaperwork || 0) + 1;
+                            if (s.consecutivePaperwork >= 10) Engine.unlockAchievement('paperwork_ninja');
                         } else {
                             Engine.addMoney(task.penalty, I18n.T('eng.paperwork_failed'));
                             if (task.repPenalty) Engine.addReputation(task.repPenalty, I18n.T('eng.paperwork_failed'));
                             Engine.showToast(I18n.T('rec.pw_fail', Math.abs(task.penalty)), 'danger');
+
+                            // Reset consecutive paperwork
+                            s.consecutivePaperwork = 0;
                         }
                         s.activePaperwork = null;
                         document.getElementById('btn-paperwork').style.opacity = '1';
@@ -651,7 +658,11 @@ const Rooms = (() => {
                     if (c.rep < 0 || c.isBribe) {
                         CafeGames.start({ type: 'alcohol', item: { item: 'Alcohol' } }, (quality) => {
                             if (quality >= 1) {
-                                if (c.isBribe) Engine.addMoney(bribe, 'Alcohol bribe');
+                                if (c.isBribe) {
+                                    Engine.addMoney(bribe, 'Alcohol bribe');
+                                    s.bribesAccepted = (s.bribesAccepted || 0) + 1;
+                                    if (s.bribesAccepted >= 5) Engine.unlockAchievement('bribe_master');
+                                }
                                 else if (c.money) Engine.addMoney(c.money, 'Alcohol-related');
                                 if (c.rep) Engine.addReputation(c.rep, 'Served alcohol illegally');
                                 if (c.satisfaction) Families.updateSatisfaction(order.familyId, c.satisfaction + (quality === 2 ? 10 : 0), 'Got what they wanted');

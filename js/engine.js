@@ -42,9 +42,10 @@ const Engine = (() => {
         cremaRepairFinishTime: 0,
         moneyWarningShown: false,
         repWarningShown: false,
-        stats: { familiesServed: 0, totalEarnings: 0, diceRolls: 0, bestRoll: 0, worstDay: null },
+        stats: { familiesServed: 0, totalEarnings: 0, diceRolls: 0, bestRoll: 0, worstDay: null, bribesAccepted: 0, perfectCremations: 0, consecutivePaperwork: 0 },
         realPlayTimeMS: 0,
-        foundItems: []
+        foundItems: [],
+        unlockedAchievements: []
     });
 
     let state = defaultState();
@@ -79,6 +80,7 @@ const Engine = (() => {
     function addMoney(amount, reason, silent = false) {
         state.money += amount;
         if (amount > 0) state.stats.totalEarnings += amount;
+        if (state.money >= 20000) Notifications.unlockAchievement('rich_undertaker');
         updateHUD();
         if (amount > 0 && !silent) {
             Audio8Bit.SFX.money();
@@ -96,6 +98,7 @@ const Engine = (() => {
     // ===== REPUTATION =====
     function addReputation(amount, reason, silent = false) {
         state.reputation = Math.max(0, Math.min(100, state.reputation + amount));
+        if (state.reputation >= 100) Notifications.unlockAchievement('reputable');
         updateHUD();
         if (!silent) {
             if (amount > 0) {
@@ -351,6 +354,7 @@ const Engine = (() => {
     function nextDay() {
         console.log('[NEXTDAY] starting transition to day ' + (state.day+1));
         state.day++;
+        if (state.day >= 7) Notifications.unlockAchievement('daily_grind');
         state.time = 480;
         setSpeed(1);
         state.cremaTemp = 20;
@@ -415,6 +419,7 @@ const Engine = (() => {
                     startTime();
                     setSpeed(1);
                     console.log('[NEXTDAY] Clock started. tickInterval=' + (tickInterval !== null) + ' speed=' + state.speed + ' schedule=' + state.schedule.length);
+                    if (state.foundItems && state.foundItems.length >= 5) Notifications.unlockAchievement('collector');
                     save();
                 }
             }, 3000);
@@ -480,6 +485,10 @@ const Engine = (() => {
                         } else {
                             msg = I18n.T('crema.perfect_msg', fam.deceasedName);
                             satChange = 15;
+
+                            // Achievement: Crema Pro
+                            state.perfectCremations = (state.perfectCremations || 0) + 1;
+                            if (state.perfectCremations >= 5) Notifications.unlockAchievement('crema_pro');
                         }
 
                         showToast(msg, fam.cremationTempFailure ? 'danger' : 'success');
@@ -682,6 +691,9 @@ const Engine = (() => {
                     else if (total <= 19) { result = I18n.T('dice.great'); cls = 'good'; }
                     else { result = I18n.T('dice.crit_success'); cls = 'crit-success'; }
 
+                    if (roll === 20) Notifications.unlockAchievement('nat_20');
+                    if (roll === 1) Notifications.unlockAchievement('nat_1');
+
                     resultEl.textContent = I18n.T('dice.result', roll + (modifier ? (modifier > 0 ? ' + ' + modifier : ' ' + modifier) : ''), total, result);
                     resultEl.className = `dice-result ${cls}`;
                     Audio8Bit.SFX.diceResult(total > 12);
@@ -713,6 +725,40 @@ const Engine = (() => {
             if (badge) badge.style.display = 'none';
             if (['arrival', 'phone', 'paperwork'].includes(room)) {
                 this.updateReceptionBadge();
+            }
+        },
+        unlockAchievement(id) {
+            if (!state.unlockedAchievements) state.unlockedAchievements = [];
+            if (state.unlockedAchievements.includes(id)) return;
+            
+            const ach = DATA.achievements.find(a => a.id === id);
+            if (!ach) return;
+
+            state.unlockedAchievements.push(id);
+            save();
+
+            // Show notification dot in Hub
+            const dot = document.getElementById('ach-notification');
+            if (dot) dot.style.display = 'block';
+
+            // Special Achievement Toast
+            const container = document.getElementById('toast-container');
+            if (container) {
+                const toast = document.createElement('div');
+                toast.className = 'toast achievement-toast';
+                toast.innerHTML = `
+                    <div class="ach-icon">${Icons.getHTML(ach.icon)}</div>
+                    <div class="ach-info">
+                        <div class="ach-label">ACHIEVEMENT UNLOCKED!</div>
+                        <div class="ach-title">${ach.title}</div>
+                    </div>
+                `;
+                container.appendChild(toast);
+                Audio8Bit.SFX.success();
+                setTimeout(() => {
+                    toast.classList.add('dismissing');
+                    setTimeout(() => toast.remove(), 500);
+                }, 5000);
             }
         },
         updateReceptionBadge() {
@@ -922,6 +968,7 @@ const Engine = (() => {
             if (available.length > 0) {
                 const found = available[Math.floor(Math.random() * available.length)];
                 state.foundItems.push(found.id);
+                if (state.foundItems.length >= 5) Notifications.unlockAchievement('collector');
                 
                 // Show notification dot
                 const dot = document.getElementById('collection-dot');
@@ -983,6 +1030,7 @@ const Engine = (() => {
         rollD20, Notifications, showToast, updateHUD,
         save, load, hasSave, resetState,
         checkGameOver, defaultState,
-        rollCollectionDiscovery, showCollection
+        rollCollectionDiscovery, showCollection,
+        unlockAchievement: (id) => Notifications.unlockAchievement(id)
     };
 })();

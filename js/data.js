@@ -975,5 +975,18 @@ const DATA = {
                 { text: "Charge double for 'special ergonomic positioning'.", sat: 10 }
             ]
         }
+    ],
+    // ===== ACHIEVEMENTS =====
+    achievements: [
+        { id: "first_client", title: "Welcome to the Trade", desc: "Process your first family successfully.", icon: "skull" },
+        { id: "nat_20", title: "Natural Precision", desc: "Roll a natural 20 on any check.", icon: "star" },
+        { id: "nat_1", title: "The Clumsy Mortician", desc: "Roll a natural 1. How professional.", icon: "firstaid" },
+        { id: "rich_undertaker", title: "Rich Undertaker", desc: "Amass $20,000 in your bank account.", icon: "money" },
+        { id: "daily_grind", title: "One Week Later", desc: "Survive until Day 7.", icon: "calendar" },
+        { id: "bribe_master", title: "Shadow Deals", desc: "Accept 5 bribes in the cafeteria.", icon: "drunk" },
+        { id: "reputable", title: "Eternal Trust", desc: "Reach 100 Reputation.", icon: "star" },
+        { id: "collector", title: "Curiosity Shop", desc: "Find 5 different items for your collection.", icon: "viewing" },
+        { id: "paperwork_ninja", title: "Bureaucracy King", desc: "Complete 10 paperwork tasks without failing.", icon: "paperwork" },
+        { id: "crema_pro", title: "Fire Starter", desc: "Complete 5 cremations with perfect temperature.", icon: "crematorium" }
     ]
 };

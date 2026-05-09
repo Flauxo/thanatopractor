@@ -46,6 +46,7 @@ window.Main = (() => {
             case 'chapel': Rooms.showChapel(); break;
             case 'office': Rooms.showOffice(); break;
             case 'families': Families.updateFamiliesLog(); break;
+            case 'achievements': Main.showAchievements(); break;
             case 'hub': {
                 Rooms.activeRoom = null;
                 updateHubSchedule();
@@ -105,6 +106,48 @@ window.Main = (() => {
             }
             list.appendChild(div);
         });
+    }
+
+    function showAchievements() {
+        const list = document.getElementById('achievements-list');
+        if (!list) return;
+
+        const state = Engine.getState();
+        const unlocked = state.unlockedAchievements || [];
+
+        list.innerHTML = '';
+        DATA.achievements.forEach(ach => {
+            const isUnlocked = unlocked.includes(ach.id);
+            const card = document.createElement('div');
+            card.className = `achievement-card ${isUnlocked ? 'unlocked' : 'locked'}`;
+            
+            const title = I18n.T(`ach.${ach.id}.title`) || ach.title;
+            const desc = I18n.T(`ach.${ach.id}.desc`) || ach.desc;
+
+            card.innerHTML = `
+                <div class="achievement-icon">
+                    <span class="custom-icon" data-icon="${ach.icon}" style="width:24px;height:24px"></span>
+                </div>
+                <div class="achievement-info">
+                    <div class="achievement-title">${title}</div>
+                    <div class="achievement-desc">${desc}</div>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+        
+        if (typeof Icons !== 'undefined') Icons.refresh();
+
+        // Hide notification dot
+        const dot = document.getElementById('ach-notification');
+        if (dot) dot.style.display = 'none';
+
+        // Update back button destination based on where we are
+        const backBtn = document.querySelector('#achievements-screen .back-btn');
+        if (backBtn) {
+            const hasActiveGame = state && state.playerName && state.playerName !== '';
+            backBtn.dataset.back = hasActiveGame ? 'hub' : 'title';
+        }
     }
 
     function initGame() {
@@ -258,6 +301,22 @@ window.Main = (() => {
             }
             document.getElementById('credits-overlay').style.display = 'flex';
         };
+
+        const btnAchTitle = document.getElementById('btn-achievements-title');
+        if (btnAchTitle) btnAchTitle.onclick = () => {
+            if (typeof Audio8Bit !== 'undefined') {
+                Audio8Bit.init();
+                Audio8Bit.SFX.click();
+            }
+            showScreen('achievements');
+        };
+
+        const btnAchHub = document.getElementById('btn-achievements-hub');
+        if (btnAchHub) btnAchHub.onclick = () => {
+            if (typeof Audio8Bit !== 'undefined') Audio8Bit.SFX.click();
+            showScreen('achievements');
+        };
+
         document.getElementById('btn-close-credits').onclick = () => {
             Audio8Bit.SFX.click();
             document.getElementById('credits-overlay').style.display = 'none';
@@ -524,5 +583,5 @@ window.Main = (() => {
         return open.length > 0;
     }
 
-    return { showScreen, updateHubSchedule, get currentScreen() { return currentScreen; }, isOverlayOpen };
+    return { showScreen, updateHubSchedule, showAchievements, get currentScreen() { return currentScreen; }, isOverlayOpen };
 })();

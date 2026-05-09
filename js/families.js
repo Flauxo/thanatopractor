@@ -74,6 +74,7 @@ const Families = (() => {
         f.rating = rating;
 
         Engine.getState().stats.familiesServed++;
+        if (Engine.getState().stats.familiesServed === 1) Engine.Notifications.unlockAchievement('first_client');
 
         // Charge for services
         let total = DATA.serviceBasePrices.basic;

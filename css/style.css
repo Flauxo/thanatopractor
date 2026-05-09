@@ -605,6 +605,51 @@ html, body {
 .family-status.active { background: var(--accent-pink); color: #fff; }
 .family-status.completed { background: var(--success); color: #000; }
 
+/* Achievements Screen */
+.achievements-list { display: flex; flex-direction: column; gap: 12px; }
+.achievement-card {
+    background: var(--bg-panel); border: 2px solid var(--bg-panel-border); border-radius: 12px;
+    padding: 12px; display: flex; align-items: center; gap: 16px; transition: all 0.3s;
+}
+.achievement-icon .custom-icon {
+    display: inline-block;
+    filter: drop-shadow(0 0 4px rgba(255,255,255,0.2));
+}
+
+.unlocked .achievement-icon .custom-icon {
+    color: var(--gold);
+    filter: drop-shadow(0 0 8px var(--gold));
+}
+
+.achievement-card.locked {
+    opacity: 0.5;
+    filter: grayscale(1);
+    border-style: dashed;
+}
+.achievement-card.unlocked { border-color: var(--gold); box-shadow: 0 0 10px rgba(255, 215, 0, 0.1); }
+.achievement-icon {
+    width: 48px; height: 48px; background: var(--bg-darkest); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
+}
+.unlocked .achievement-icon { color: var(--gold); text-shadow: 0 0 8px var(--gold); }
+.achievement-info { flex: 1; }
+.achievement-title { font-family: var(--font-pixel); font-size: 8px; color: var(--accent-bright); margin-bottom: 4px; }
+.achievement-desc { font-family: var(--font-vt); font-size: 16px; color: var(--text-dim); }
+
+/* Achievement Toast */
+.achievement-toast {
+    background: linear-gradient(135deg, #1e1433 0%, #30143a 100%);
+    border: 2px solid var(--gold) !important; padding: 16px; width: 100% !important;
+    animation: achievement-slide-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+.achievement-toast .ach-icon { font-size: 32px; color: var(--gold); text-shadow: 0 0 12px var(--gold); margin-right: 12px; }
+.achievement-toast .ach-label { font-family: var(--font-pixel); font-size: 7px; color: var(--gold); margin-bottom: 4px; letter-spacing: 1px; }
+.achievement-toast .ach-title { font-family: var(--font-pixel); font-size: 9px; color: #fff; }
+@keyframes achievement-slide-in {
+    0% { transform: translateY(-50px) scale(0.8); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
 /* Family Completion Summary */
 .completion-panel {
     background: rgba(10, 6, 16, 0.75);
@@ -708,6 +753,9 @@ html, body {
     bottom: 10px;
     right: 16px;
     z-index: 5;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .extra-icon-btn {

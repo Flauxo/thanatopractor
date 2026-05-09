@@ -62,6 +62,7 @@
                 <button id="btn-new-game" class="pixel-btn pink-btn"><span class="custom-icon" data-icon="skull" style="width:12px;height:12px"></span> <span data-i18n="title.new_game">NEW GAME</span></button>
                 <button id="btn-continue" class="pixel-btn" style="display:none"><span class="custom-icon" data-icon="coffin" style="width:12px;height:12px"></span> <span data-i18n="title.continue">CONTINUE</span></button>
                 <button id="btn-save-game" class="pixel-btn" style="display:none"><span class="custom-icon" data-icon="paperwork" style="width:12px;height:12px"></span> <span data-i18n="title.save">SAVE</span></button>
+                <button id="btn-achievements-title" class="pixel-btn dim-btn"><span class="custom-icon" data-icon="star" style="width:12px;height:12px"></span> <span data-i18n="title.achievements">ACHIEVEMENTS</span></button>
                 <button id="btn-credits" class="pixel-btn dim-btn"><span class="custom-icon" data-icon="cross" style="width:12px;height:12px"></span> <span data-i18n="title.credits">CREDITS</span></button>
             </div>
             <p class="title-footer" data-i18n="title.footer">GAME DESIGN & CONCEPT BY K. ARLÓN<br>DARK HUMOR CONTENT — RATED BY DEATH INC.</p>
@@ -139,10 +140,14 @@
             
             <!-- Hub Extras (Moved inside) -->
             <div class="hub-extras">
-                <div id="btn-collection" class="extra-icon-btn">
-                    <img src="assets/ui/collection_box.png" alt="Collection Box">
-                    <span class="notification-dot" id="collection-dot" style="display:none"></span>
-                </div>
+                <button id="btn-achievements-hub" class="extra-icon-btn" title="Achievements">
+                     <span class="custom-icon" data-icon="star" style="width:32px;height:32px;color:var(--gold)"></span>
+                     <div id="ach-notification" class="notification-dot" style="display:none"></div>
+                </button>
+                <button id="btn-collection" class="extra-icon-btn" title="Collection">
+                    <img src="assets/icons/treasure_chest.png" alt="Collection">
+                    <div id="col-notification" class="notification-dot" style="display:none"></div>
+                </button>
             </div>
         </div>
 
@@ -455,6 +460,25 @@
         <div class="room-content" id="families-content">
             <div id="families-list" class="families-list">
                 <p class="dim-text" data-i18n="fam.no_families">No families yet. Death takes a day off?</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ACHIEVEMENTS SCREEN ===== -->
+    <div id="achievements-screen" class="screen room-screen">
+        <div class="room-header">
+            <button class="back-btn" data-back="hub">◀</button>
+            <h2 data-i18n="ach.title">MACABRE ACHIEVEMENTS</h2>
+            <span class="room-subtitle" data-i18n="ach.subtitle">Your legacy in the trade.</span>
+        </div>
+        <div class="room-status-bar ach-status-bar" style="display:none">
+            <span>📅 <span data-i18n="hub.day">DAY</span> <span class="rs-day">1</span></span>
+            <span>🕐 <span class="rs-time">08:00</span></span>
+            <span>💰 $<span class="rs-money">5000</span></span>
+        </div>
+        <div class="room-content" id="achievements-content">
+            <div id="achievements-list" class="achievements-list">
+                <!-- Achievements will be injected here -->
             </div>
         </div>
     </div>

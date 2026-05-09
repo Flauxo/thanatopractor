@@ -56,7 +56,7 @@ const DATA_ES = {
         { id: "crystal_balls", name: "Bolas de cristal de hipnotista", desc: "Si miras fijamente, ves la cara de Iván.", icon: "🔮" },
         { id: "treasure_map", name: "Mapa del tesoro en servilleta", desc: "La X marca el lugar. Está bajo una tumba local. Tumba: 1418a", icon: "📜" },
         { id: "glass_eye", name: "Ojo de cristal que mira", desc: "Parece seguirte por toda la oficina.", icon: "👁️" },
-        { id: "concert_ticket", name: "Entrada de concierto de 1920", desc: "La banda era 'The Mourning Melodies'.", icon: "🎫" },
+        { id: "concert_ticket", name: "Entrada de concierto Ska", desc: "Concierto de Mephiskapheles con Seiskafés de teloneros.", icon: "🎫" },
         { id: "returned_ring", name: "Anillo de compromiso devuelto", desc: "Una historia triste en una joya pequeña.", icon: "💍" },
         { id: "choc_coin", name: "Moneda de chocolate eterna", desc: "Nunca se derrite, pero huele a cacao.", icon: "🍫" },
         { id: "vintage_lighter", name: "Mechero Vintage", desc: "Grabado con: 'Propiedad de la Muerte'.", icon: "🔥" },

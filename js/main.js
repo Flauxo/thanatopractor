@@ -274,24 +274,33 @@ window.Main = (() => {
         };
 
         document.getElementById('btn-start-game').onclick = () => {
-            const name = nameInput.value.trim();
-            if (!name) {
-                Engine.showToast(I18n.T('name.error'), 'warning');
-                return;
+            try {
+                const name = nameInput.value.trim();
+                if (!name) {
+                    Engine.showToast(I18n.T('name.error'), 'warning');
+                    return;
+                }
+                Audio8Bit.SFX.success();
+                try { localStorage.removeItem('thanatopractor_save'); } catch(e) {}
+                Engine.resetState();
+                Families.reset();
+                resetHub();
+                const s = Engine.getState();
+                s.playerName = name;
+                if (name === 'GODMODE') {
+                    s.money = 999999;
+                    s.upgrades = DATA.upgrades.filter(u => !u.repeatable).map(u => u.id);
+                    Engine.showToast(I18n.T('crema.godmode_alert'), 'success');
+                }
+                // Force close any stray overlays so showScreen is not blocked
+                ['dialogue-overlay','dice-overlay','completion-overlay','supplies-overlay','credits-overlay'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = 'none';
+                });
+                showScreen('welcome');
+            } catch(err) {
+                alert('ERROR en Comenzar Carrera: ' + err.message + '\n' + err.stack);
             }
-            Audio8Bit.SFX.success();
-            try { localStorage.removeItem('thanatopractor_save'); } catch(e) {}
-            Engine.resetState();
-            Families.reset();
-            resetHub();
-            const s = Engine.getState();
-            s.playerName = name;
-            if (name === 'GODMODE') {
-                s.money = 999999;
-                s.upgrades = DATA.upgrades.filter(u => !u.repeatable).map(u => u.id);
-                Engine.showToast(I18n.T('crema.godmode_alert'), 'success');
-            }
-            showScreen('welcome');
         };
 
         document.getElementById('btn-accept-terms').onclick = () => {

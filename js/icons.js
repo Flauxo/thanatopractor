@@ -2,20 +2,19 @@
 const Icons = (() => {
     // Color palette mapped to CSS variables
     const palette = {
-        'P': 'var(--accent-bright)', // Neon Pink
-        'D': 'var(--text-dim)',     // #8b6ea8
-        'A': 'var(--accent-pink)',  // #d4609a
-        'B': 'var(--accent-bright)',// Neon Pink
-        'S': 'var(--accent-bright)',// Neon Pink
-        'W': 'var(--accent-bright)',// Neon Pink
-        'R': 'var(--accent-pink)',  // #d4609a
-        'G': 'var(--accent-bright)',// Neon Pink
-        'M': 'var(--bg-medium)',    // #2d1b4e
-        'C': '#ffffff',             // White
-        'T': '#ef4444',             // Red (Tomato/Ketchup)
-        'L': '#4ade80',             // Green (Lettuce/Pickle)
-        'Y': '#fbbf24',             // Yellow (Cheese/Gold)
-        'S': '#fde047',             // Bright Yellow (Sparkles)
+        'P': 'var(--accent-bright)',
+        'D': 'var(--text-dim)',
+        'A': 'var(--accent-pink)',
+        'B': 'var(--accent-bright)',
+        'W': 'var(--accent-bright)',
+        'R': 'var(--accent-pink)',
+        'G': 'var(--accent-pink)',
+        'M': 'var(--bg-medium)',
+        'C': '#ffffff',
+        'T': '#ef4444',
+        'L': '#4ade80',
+        'Y': 'var(--accent-pink)',
+        'S': 'var(--accent-pink)',
         ' ': 'transparent'
     };
 
@@ -811,44 +810,16 @@ const Icons = (() => {
             "            ",
             "            "
         ],
-        star: [
-            "      Y     ",
-            "     YYY    ",
-            "  YYYYYYYYY ",
-            "   YYYYYYY  ",
-            "    YYYYY   ",
-            "   YYYYYYY  ",
-            "  YYY   YYY ",
-            "            ",
-            "            ",
-            "            ",
-            "            ",
-            "            "
-        ],
-        sparkles: [
-            "   S     S  ",
-            "  SSS   SSS ",
-            "   S     S  ",
-            "            ",
-            "      S     ",
-            "     SSS    ",
-            "      S     ",
-            "            ",
-            "  S     S   ",
-            " SSS   SSS  ",
-            "  S     S   ",
-            "            "
-        ],
         drunk: [
             "            ",
-            "   WWWWWW   ",
-            "   W    W   ",
-            "   W GGGW   ",
-            "   W GGGW   ",
-            "   WWWWWW   ",
-            "     WW     ",
-            "     WW     ",
-            "   WWWWWW   ",
+            "   AAAAAA   ",
+            "   A    A   ",
+            "   A AAA A   ",
+            "   A AAA A   ",
+            "   AAAAAA   ",
+            "     AA     ",
+            "     AA     ",
+            "   AAAAAA   ",
             "            ",
             "            ",
             "            "

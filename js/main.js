@@ -342,7 +342,6 @@ window.Main = (() => {
                     return;
                 }
                 Audio8Bit.SFX.click();
-                const room = btn.dataset.room;
                 showScreen(room);
             };
         });

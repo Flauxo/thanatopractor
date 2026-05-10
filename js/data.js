@@ -541,6 +541,81 @@ const DATA = {
             { text: "It's finders keepers in this business!", rep: -35, money: 2000 },
             { text: "Sell it and donate half to 'charity' (yourself)", rep: -15, money: 1000 }
         ]},
+        { type: "lookalike", text: "🎭 A professional lookalike of the deceased shows up and starts performing.", choices: [
+            { text: "Accept it as an artistic tribute", rep: 5, money: 0 },
+            { text: "Kick them out for disrespect", rep: 2, money: 0 },
+            { text: "Charge admission as an 'Extra Show' ($100)", rep: -10, money: 100 }
+        ]},
+        { type: "ikea_coffin", text: "📦 A family brings their own IKEA-style cardboard coffin and asks you to assemble it.", choices: [
+            { text: "Charge an 'Assembly Fee' ($200)", rep: 0, money: 200 },
+            { text: "Claim it doesn't meet safety standards", rep: -5, money: 0 },
+            { text: "Accept it for the ecological cause", rep: 10, money: 0 }
+        ]},
+        { type: "parrot", text: "🦜 The deceased's parrot won't stop insulting mourners using the owner's voice.", choices: [
+            { text: "Cover the cage discreetly", rep: 2, money: 0 },
+            { text: "Claim it's the spirit manifesting", rep: 8, money: 0 },
+            { text: "Charge a 'Chatty Pet Fee' ($50)", rep: -5, money: 50 }
+        ]},
+        { type: "strike", text: "🪧 Local gravediggers are on a 'shovels down' strike.", choices: [
+            { text: "Dig it yourself (Lose 2h game time)", rep: 15, money: 0 },
+            { text: "Pay for expensive 'Minimum Services' ($400)", rep: 5, money: -400 },
+            { text: "Delay burial and blame the government", rep: -10, money: 0 }
+        ]},
+        { type: "goth_teen", text: "📸 A gothic teen wants to take 'aesthetic' photos inside the coffins.", choices: [
+            { text: "Let them if they tag the business", rep: 5, money: 0 },
+            { text: "Kick them out before they scratch the wood", rep: 2, money: 0 },
+            { text: "Charge $50 per photo session", rep: -5, money: 50 }
+        ]},
+        { type: "prank_show", text: "🎥 You suspect a hidden camera prank show is filming in the lobby.", choices: [
+            { text: "Act extremely professional", rep: 10, money: 0 },
+            { text: "Wave to the camera and act goofy", rep: -15, money: 0 },
+            { text: "Charge a 'Filming Fee' of $300", rep: -5, money: 300 }
+        ]},
+        { type: "melting_urn", text: "⚱️ The biodegradable urn starts dissolving due to high humidity.", choices: [
+            { text: "Fix it with duct tape discreetly", rep: -5, money: 0 },
+            { text: "Sell them a premium marble urn ($300)", rep: 2, money: 300 },
+            { text: "Claim it's 'Sacred Dust' melting away", rep: 5, money: 0 }
+        ]},
+        { type: "psychic", text: "🔮 A psychic claims the deceased's spirit hates their chosen tie.", choices: [
+            { text: "Change it for a more colorful one", rep: 5, money: 0 },
+            { text: "Ignore her, the dead don't talk (usually)", rep: 0, money: 0 },
+            { text: "Charge for a 'Direct Spirit Consultation' ($100)", rep: -5, money: 100 }
+        ]},
+        { type: "pizza", text: "🍕 A family pizza arrives that the deceased ordered 'for the final journey'.", choices: [
+            { text: "Distribute it among hungry mourners", rep: 12, money: 0 },
+            { text: "Eat it yourself in the office (Energy boost)", rep: 5, money: 0 },
+            { text: "Claim it's a ritual offering to the Cheese God", rep: 2, money: 0 }
+        ]},
+        { type: "zombie_prank", text: "🧟 Someone rigged a mechanical spring to make the body sit up suddenly.", choices: [
+            { text: "Panic! Call an exorcist!", rep: -20, money: 0 },
+            { text: "Laugh and say it was their last joke", rep: 5, money: 0 },
+            { text: "Fine the family for disrespect ($200)", rep: -10, money: 200 }
+        ]},
+        { type: "grief_influencer", text: "🤳 An influencer is doing a 'Get Ready With Me: Funeral Edition' next to the body.", choices: [
+            { text: "Photo-bomb them with a peace sign", rep: -10, money: 0 },
+            { text: "Cut the funeral home's Wi-Fi", rep: 5, money: 0 },
+            { text: "Charge a 'Funeral Streaming Fee' ($150)", rep: -2, money: 150 }
+        ]},
+        { type: "static_voices", text: "📻 The speakers are emitting static that sounds like voices from beyond.", choices: [
+            { text: "Claim it's 'Direct Communication' ($200)", rep: -5, money: 200 },
+            { text: "Turn off the system and apologize", rep: 5, money: 0 },
+            { text: "Turn it up to hear the message", rep: 0, money: 0 }
+        ]},
+        { type: "salesman", text: "👔 An aggressive salesman is trying to sell plots to weeping relatives.", choices: [
+            { text: "Kick them off the premises", rep: 15, money: 0 },
+            { text: "Ask for a 20% commission on each sale", rep: -20, money: 200 },
+            { text: "Claim all plots are already sold out", rep: 5, money: 0 }
+        ]},
+        { type: "dog_heir", text: "🐕 The deceased's dog inherits the fortune and 'pays' with barks.", choices: [
+            { text: "Accept the 'payment' for good publicity", rep: 10, money: 0 },
+            { text: "Urgent search for the animal's legal guardian", rep: 2, money: 0 },
+            { text: "Kick the dog out and keep the gold collar", rep: -30, money: 300 }
+        ]},
+        { type: "lightning", text: "⚡ Lightning hits the rod and blows all the building's fuses.", choices: [
+            { text: "Use emergency candles (Gothic vibe)", rep: 8, money: 0 },
+            { text: "Charge an 'Ambient Lighting Fee' ($100)", rep: -15, money: 100 },
+            { text: "Claim it's a direct divine message", rep: 5, money: 0 }
+        ]}
     ],
 
     badLuckEvents: [
@@ -553,7 +628,37 @@ const DATA = {
         { id: "tax_error", textKey: "bad.tax_error", rep: 0, money: -500 },
         { id: "slip_fall", textKey: "bad.slip_fall", rep: -20, money: -150 },
         { id: "stolen_urn", textKey: "bad.stolen_urn", rep: -12, money: 0 },
-        { id: "cursed_phone", textKey: "bad.cursed_phone", rep: -5, money: 0 }
+        { id: "cursed_phone", textKey: "bad.cursed_phone", rep: -5, money: 0 },
+        { id: "clown_delivery", textKey: "bad.clown_delivery", rep: -15, money: -50 },
+        { id: "organ_tuning", textKey: "bad.organ_tuning", rep: -5, money: -100 },
+        { id: "coffin_leak", textKey: "bad.coffin_leak", rep: -20, money: -200 },
+        { id: "power_surge", textKey: "bad.power_surge", rep: 0, money: -300 },
+        { id: "mold_scare", textKey: "bad.mold_scare", rep: -10, money: -150 },
+        { id: "angry_neighbor", textKey: "bad.angry_neighbor", rep: -5, money: -50 },
+        { id: "lost_key", textKey: "bad.lost_key", rep: 0, money: -80 },
+        { id: "wet_floor", textKey: "bad.wet_floor", rep: -12, money: 0 },
+        { id: "fly_infestation", textKey: "bad.fly_infestation", rep: -18, money: -120 },
+        { id: "stuck_elevator", textKey: "bad.stuck_elevator", rep: -25, money: -400 },
+        { id: "shroud_mixup", textKey: "bad.shroud_mixup", rep: -8, money: 0 },
+        { id: "pigeon_invasion", textKey: "bad.pigeon_invasion", rep: -10, money: -60 },
+        { id: "rotten_wood", textKey: "bad.rotten_wood", rep: -15, money: -300 },
+        { id: "hearse_flat", textKey: "bad.hearse_flat", rep: 0, money: -100 },
+        { id: "skeleton_closet", textKey: "bad.skeleton_closet", rep: -5, money: -200 },
+        { id: "expired_embalm", textKey: "bad.expired_embalm", rep: -5, money: -200 },
+        { id: "grave_mixup", textKey: "bad.grave_mixup", rep: -30, money: -500 },
+        { id: "leaky_roof", textKey: "bad.leaky_roof", rep: -10, money: -150 },
+        { id: "broken_urn", textKey: "bad.broken_urn", rep: -20, money: -100 },
+        { id: "angry_ex", textKey: "bad.angry_ex", rep: -15, money: 0 },
+        { id: "missing_teeth", textKey: "bad.missing_teeth", rep: -10, money: -200 },
+        { id: "wrong_music", textKey: "bad.wrong_music", rep: -8, money: 0 },
+        { id: "cat_attack", textKey: "bad.cat_attack", rep: -5, money: -50 },
+        { id: "slippery_stairs", textKey: "bad.slippery_stairs", rep: -15, money: -300 },
+        { id: "flowers_wilt", textKey: "bad.flowers_wilt", rep: -10, money: -80 },
+        { id: "statue_fall", textKey: "bad.statue_fall", rep: -12, money: -250 },
+        { id: "bad_smell", textKey: "bad.bad_smell", rep: -18, money: 0 },
+        { id: "tax_hike", textKey: "bad.tax_hike", rep: 0, money: -600 },
+        { id: "window_shatter", textKey: "bad.window_shatter", rep: -5, money: -400 },
+        { id: "identity_theft", textKey: "bad.identity_theft", rep: -25, money: -100 }
     ],
 
     // ===== HEARSE DRIVER =====

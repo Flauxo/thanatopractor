@@ -538,6 +538,81 @@ const DATA_ES = {
             { text: "Devolverlo discretamente a la familia", rep: 25, money: 0 },
             { text: "¡El que lo encuentra se lo queda!", rep: -35, money: 2000 },
             { text: "Venderlo y donar la mitad a 'caridad' (a ti mismo)", rep: -15, money: 1000 }
+        ]},
+        { type: "lookalike", text: "🎭 Un imitador profesional del difunto aparece en el velatorio y empieza a actuar.", choices: [
+            { text: "Aceptarlo como un tributo artístico", rep: 5, money: 0 },
+            { text: "Echarlo inmediatamente por falta de respeto", rep: 2, money: 0 },
+            { text: "Cobrarle entrada como 'Espectáculo Extra' ($100)", rep: -10, money: 100 }
+        ]},
+        { type: "ikea_coffin", text: "📦 Una familia trae su propio ataúd de cartón tipo IKEA y te pide que lo montes.", choices: [
+            { text: "Cobrar 'Tasa de Montaje' ($200)", rep: 0, money: 200 },
+            { text: "Decir que no cumple las normas de seguridad", rep: -5, money: 0 },
+            { text: "Aceptarlo por compromiso ecológico", rep: 10, money: 0 }
+        ]},
+        { type: "parrot", text: "🦜 El loro del difunto no para de insultar a los asistentes con la voz del fallecido.", choices: [
+            { text: "Taparle la jaula discretamente", rep: 2, money: 0 },
+            { text: "Decir que es el espíritu manifestándose", rep: 8, money: 0 },
+            { text: "Cobrar 'Tasa de Mascota Parlanchina' ($50)", rep: -5, money: 50 }
+        ]},
+        { type: "strike", text: "🪧 Los enterradores locales están en huelga de palas caídas.", choices: [
+            { text: "Cavar tú mismo (Pierdes 2h de juego)", rep: 15, money: 0 },
+            { text: "Pagar 'Servicios Mínimos' muy caros ($400)", rep: 5, money: -400 },
+            { text: "Retrasar el entierro y culpar al gobierno", rep: -10, money: 0 }
+        ]},
+        { type: "goth_teen", text: "📸 Un adolescente gótico quiere hacerse fotos 'estéticas' dentro de los ataúdes.", choices: [
+            { text: "Dejarle a cambio de que te etiquete", rep: 5, money: 0 },
+            { text: "Echarlo antes de que raye la madera", rep: 2, money: 0 },
+            { text: "Cobrarle $50 por sesión de fotos", rep: -5, money: 50 }
+        ]},
+        { type: "prank_show", text: "🎥 Crees que hay un programa de bromas pesadas grabando con cámara oculta.", choices: [
+            { text: "Actuar de forma extremadamente profesional", rep: 10, money: 0 },
+            { text: "Saludar a cámara y hacer el tonto", rep: -15, money: 0 },
+            { text: "Cobrar 'Tasa de Rodaje' de $300", rep: -5, money: 300 }
+        ]},
+        { type: "melting_urn", text: "⚱️ La urna biodegradable se empieza a deshacer por la humedad del ambiente.", choices: [
+            { text: "Arreglarla con cinta americana discretamente", rep: -5, money: 0 },
+            { text: "Venderles una urna premium de mármol ($300)", rep: 2, money: 300 },
+            { text: "Decir que es 'Polvo Sagrado' fundiéndose", rep: 5, money: 0 }
+        ]},
+        { type: "psychic", text: "🔮 Una vidente afirma que el espíritu del difunto odia la corbata que le has puesto.", choices: [
+            { text: "Cambiársela por una más colorida", rep: 5, money: 0 },
+            { text: "Ignorarla, los muertos no hablan (normalmente)", rep: 0, money: 0 },
+            { text: "Cobrarle por 'Consulta Espiritual Directa' ($100)", rep: -5, money: 100 }
+        ]},
+        { type: "pizza", text: "🍕 Llega una pizza familiar que el difunto dejó programada 'para su último viaje'.", choices: [
+            { text: "Repartirla entre los asistentes hambrientos", rep: 12, money: 0 },
+            { text: "Comértela tú en la oficina (Recuperas energía)", rep: 5, money: 0 },
+            { text: "Decir que es una ofrenda ritual al Dios del Queso", rep: 2, money: 0 }
+        ]},
+        { type: "zombie_prank", text: "🧟 Alguien ha puesto un muelle mecánico para que el cuerpo se siente de golpe.", choices: [
+            { text: "Pánico general. ¡Llama a un exorcista!", rep: -20, money: 0 },
+            { text: "Reírte y decir que era su último chiste", rep: 5, money: 0 },
+            { text: "Multar a la familia por falta de respeto ($200)", rep: -10, money: 200 }
+        ]},
+        { type: "grief_influencer", text: "🤳 Un influencer hace un directo 'Get Ready With Me: Edición Funeral' al lado del cuerpo.", choices: [
+            { text: "Salir de fondo haciendo el signo de la paz", rep: -10, money: 0 },
+            { text: "Cortarle el Wi-Fi del tanatorio", rep: 5, money: 0 },
+            { text: "Cobrar 'Tasa de Streaming Funerario' ($150)", rep: -2, money: 150 }
+        ]},
+        { type: "static_voices", text: "📻 Los altavoces emiten interferencias que suenan a voces de ultratumba.", choices: [
+            { text: "Decir que es 'Comunicación Directa' ($200)", rep: -5, money: 200 },
+            { text: "Apagar el sistema y pedir disculpas", rep: 5, money: 0 },
+            { text: "Subir el volumen para oír el mensaje", rep: 0, money: 0 }
+        ]},
+        { type: "salesman", text: "👔 Un comercial agresivo intenta vender parcelas a los familiares que lloran.", choices: [
+            { text: "Echarlo a patadas del recinto", rep: 15, money: 0 },
+            { text: "Pedirle una comisión del 20% por cada venta", rep: -20, money: 200 },
+            { text: "Decir que ya están todas las parcelas vendidas", rep: 5, money: 0 }
+        ]},
+        { type: "dog_heir", text: "🐕 El perro del difunto hereda la fortuna y 'paga' el servicio con ladridos.", choices: [
+            { text: "Aceptar el 'pago' por la buena publicidad", rep: 10, money: 0 },
+            { text: "Buscar urgentemente al tutor legal del animal", rep: 2, money: 0 },
+            { text: "Echar al perro y quedarte con el collar de oro", rep: -30, money: 300 }
+        ]},
+        { type: "lightning", text: "⚡ Un rayo cae sobre el pararrayos y funde todos los plomos del edificio.", choices: [
+            { text: "Usar velas de emergencia (Ambiente gótico)", rep: 8, money: 0 },
+            { text: "Cobrar 'Tasa de Iluminación Ambiental' ($100)", rep: -15, money: 100 },
+            { text: "Decir que es un mensaje divino directo", rep: 5, money: 0 }
         ]}
     ],
 

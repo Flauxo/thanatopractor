@@ -790,7 +790,9 @@ const Rooms = (() => {
                     const ready = s.cremaTemp >= 800;
                     const starting = f.cremationStarted;
                     let statusHTML = '';
-                    if (starting && !f.cremated) {
+                    if (s.cremaBroken || s.cremaRepairing) {
+                        statusHTML = `<span class="danger">${s.cremaRepairing ? I18n.T('crema.repairing_status') : I18n.T('crema.broken_status')}</span>`;
+                    } else if (starting && !f.cremated) {
                         const timeLeft = Math.max(0, Math.round(f.cremationEndTime - s.time));
                         statusHTML = `<span class="warning">${I18n.T('crema.incinerating')} (${timeLeft}m)</span>`;
                     } else if (isAnyCremating) {
@@ -814,6 +816,10 @@ const Rooms = (() => {
         const f = Families.getById(familyId);
         const s = Engine.getState();
         if (!f || f.cremated || f.cremationStarted) return;
+        if (s.cremaBroken || s.cremaRepairing) {
+            Engine.showToast(I18n.T('crema.broken_title'), 'danger');
+            return;
+        }
 
         // One cremation at a time check (only active families)
         const isBusy = s.families.some(fam => fam.active && fam.cremationStarted && !fam.cremated);

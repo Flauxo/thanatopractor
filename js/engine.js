@@ -249,8 +249,8 @@ const Engine = (() => {
             triggerRandomEvent();
         }
 
-        // Bad Luck event chance (Level 3+)
-        if (gracePeriodOver && currentLevel >= 3 && (state.time - state.lastRandomEventTime) >= cooldown && Math.random() < 0.015 * state.speed) {
+        // Bad Luck event chance (Level 4+)
+        if (gracePeriodOver && currentLevel >= 4 && (state.time - state.lastRandomEventTime) >= cooldown && Math.random() < 0.015 * state.speed) {
             triggerBadLuckEvent();
         }
 
@@ -300,9 +300,10 @@ const Engine = (() => {
 
         // Prompt for early sleep if all tasks done
         const remainingArrivals = state.schedule.filter(s => s.type === 'arrival' && !s.triggered).length;
-        const allDone = remainingArrivals === 0 && activeFams === 0 && waitingFams === 0 && !state.activePaperwork;
-
-        if (allDone && !state.dayEndPrompted && state.time >= 1020) {
+        const isAnyCremating = state.families.some(f => f.active && f.cremationStarted && !f.cremated);
+        const allDone = remainingArrivals === 0 && activeFams === 0 && waitingFams === 0 && !state.activePaperwork && !state.cremaRepairing && !isAnyCremating;
+        
+        if (allDone && !state.sleepPromptShown && state.dayProgress > 0.5) {
             if (state.tasksCompletedRealTime === null) {
                 state.tasksCompletedRealTime = Date.now();
             } else if (Date.now() - state.tasksCompletedRealTime >= 4000) {
@@ -485,8 +486,19 @@ const Engine = (() => {
                 } else if (event.type === 'repair_done') {
                     state.cremaRepairing = false;
                     state.cremaBroken = false;
+                    // Reset any family that was being cremated when it broke
+                    state.families.forEach(f => {
+                        if (f.active && f.cremationStarted && !f.cremated) {
+                            f.cremationStarted = false;
+                            showToast(I18n.T('crema.body_reset_toast', f.deceasedName), 'info');
+                        }
+                    });
                     showToast(I18n.T('crema.repaired_toast'), 'success');
                     updateHUD();
+                    // Refresh current room if player is in crematorium
+                    if (typeof window.Main !== 'undefined' && window.Main.currentScreen === 'crematorium') {
+                        if (typeof Rooms !== 'undefined') Rooms.showCrematorium();
+                    }
                 } else if (event.type === 'cremation_done') {
                     const fam = typeof Families !== 'undefined' ? Families.getById(event.familyId) : null;
                     if (fam) {

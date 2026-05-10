@@ -52,7 +52,7 @@ const Engine = (() => {
             realPlayTimeMS: 0,
             foundItems: [],
             unlockedAchievements: ach,
-            tasksCompletedTime: null
+            tasksCompletedRealTime: null
         };
     };
 
@@ -303,9 +303,9 @@ const Engine = (() => {
         const allDone = remainingArrivals === 0 && activeFams === 0 && waitingFams === 0 && !state.activePaperwork;
 
         if (allDone && !state.dayEndPrompted && state.time >= 1020) {
-            if (state.tasksCompletedTime === null) {
-                state.tasksCompletedTime = state.time;
-            } else if (state.time - state.tasksCompletedTime >= 10) {
+            if (state.tasksCompletedRealTime === null) {
+                state.tasksCompletedRealTime = Date.now();
+            } else if (Date.now() - state.tasksCompletedRealTime >= 5000) {
                 state.dayEndPrompted = true;
                 if (typeof Dialogue !== 'undefined') {
                     Dialogue.show(I18n.T('eng.end_title'), I18n.T('eng.end_text'), [
@@ -317,7 +317,7 @@ const Engine = (() => {
                 }
             }
         } else if (!allDone) {
-            state.tasksCompletedTime = null; 
+            state.tasksCompletedRealTime = null; 
         }
 
         // End of day
@@ -385,7 +385,7 @@ const Engine = (() => {
         state.pendingArrivals = 0;
         state.activePaperwork = null;
         state.cafeOrders = [];
-        state.tasksCompletedTime = null;
+        state.tasksCompletedRealTime = null;
         
         // Daily costs
         const dailyCost = 100 + (state.upgrades.length * 20);

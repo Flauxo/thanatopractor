@@ -869,14 +869,15 @@ const Rooms = (() => {
         
         // Initialize requests if not exists
         if (!viewingFamily.activeRequests) {
-            viewingFamily.activeRequests = [];
-            viewingFamily.activeRequests.push('see_body'); // Primary
-            if (Math.random() > 0.4) viewingFamily.activeRequests.push('water');
-            if (Math.random() > 0.6) viewingFamily.activeRequests.push('temperature');
-            if (Math.random() > 0.8) viewingFamily.activeRequests.push('faint');
-            if (viewingFamily.activeRequests.length === 1) {
-                viewingFamily.activeRequests.push(Math.random() > 0.5 ? 'privacy' : 'flowers');
+            let reqs = [];
+            if (Math.random() > 0.4) reqs.push('water');
+            if (Math.random() > 0.6) reqs.push('temperature');
+            if (Math.random() > 0.8) reqs.push('faint');
+            if (reqs.length === 0) {
+                reqs.push(Math.random() > 0.5 ? 'privacy' : 'flowers');
             }
+            reqs.push('see_body'); // Primary - Now pushed last to appear at the bottom
+            viewingFamily.activeRequests = reqs;
         }
 
         updateViewingUI();

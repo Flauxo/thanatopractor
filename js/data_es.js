@@ -386,7 +386,7 @@ const DATA_ES = {
     ],
 
     viewingRequests: [
-        { type: "see_body", text: "\"Nos gustaría ver a {name} una última vez.\"", icon: "👁️" },
+        { type: "see_body", text: "\"Nos gustaría ver a {name} una última vez. (Concluir el velatorio)\"", icon: "👁️" },
         { type: "water", text: "\"¿Podríamos tomar un poco de agua, por favor?\"", icon: "💧" },
         { type: "temperature", text: "\"¡Hace un frío/calor horrible aquí!\"", icon: "🌡️" },
         { type: "faint", text: "\"¡Oh no, alguien se acaba de desmayar!\"", icon: "😵" },

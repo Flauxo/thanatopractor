@@ -207,7 +207,6 @@ const Dialogue = (() => {
 
     // ===== ARRIVAL SEQUENCE =====
     function playArrivalSequence(family) {
-        const intro = DATA.arrivalIntros[Math.floor(Math.random() * DATA.arrivalIntros.length)];
         const moodDialogues = DATA.arrivalDialogues[family.mood.id];
         const dialogue = moodDialogues[Math.floor(Math.random() * moodDialogues.length)];
 
@@ -231,7 +230,6 @@ const Dialogue = (() => {
         const moodName = I18n.T(`mood.${family.mood.id}.name`) || family.mood.name;
         const moodDesc = I18n.T(`mood.${family.mood.id}.desc`) || family.mood.desc;
 
-        enqueue(`${family.mood.icon} ${I18n.T('dlg.new_arrival')}`, `${intro}\n\n<strong>${moodName}</strong>: ${moodDesc}`, null, () => {});
         enqueue(`${family.mood.icon} ${I18n.T('dlg.family_title', family.deceasedName)}`, text, choices, () => {
             startInterview(family);
         }, { showReaper: true, imgSrc: `assets/ui/fam0${family.photoIndex}.png` });

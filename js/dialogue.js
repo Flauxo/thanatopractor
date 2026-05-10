@@ -2,6 +2,7 @@
 const Dialogue = (() => {
     let queue = [];
     let currentCallback = null;
+    let isShowing = false;
 
     function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
@@ -12,6 +13,7 @@ const Dialogue = (() => {
     }
 
     function show(speaker, text, choices, onClose, options = {}) {
+        isShowing = true;
         const overlay = document.getElementById('dialogue-overlay');
         const speakerEl = document.getElementById('dlg-speaker');
         const textEl = document.getElementById('dlg-text');
@@ -53,11 +55,12 @@ const Dialogue = (() => {
                 btn.onclick = () => {
                     Audio8Bit.SFX.click();
                     overlay.style.display = 'none';
+                    isShowing = false;
                     if (choice.action) choice.action();
                     if (choice.rep) Engine.addReputation(choice.rep, I18n.T('eng.dialogue_choice'));
                     if (choice.money) Engine.addMoney(choice.money, I18n.T('eng.dialogue_choice'));
                     if (onClose) onClose(i);
-                    processQueue();
+                    if (!isShowing) processQueue();
                 };
                 choicesEl.appendChild(btn);
             });
@@ -69,8 +72,9 @@ const Dialogue = (() => {
             btn.onclick = () => {
                 Audio8Bit.SFX.click();
                 overlay.style.display = 'none';
+                isShowing = false;
                 if (onClose) onClose(-1);
-                processQueue();
+                if (!isShowing) processQueue();
             };
             choicesEl.appendChild(btn);
         }
@@ -81,11 +85,12 @@ const Dialogue = (() => {
 
     function enqueue(speaker, text, choices, onClose, options = {}) {
         queue.push({ speaker, text, choices, onClose, options });
-        if (queue.length === 1) processQueue();
+        if (!isShowing) processQueue();
     }
 
     function processQueue() {
         if (queue.length === 0) {
+            isShowing = false;
             Engine.setSpeed(1); 
             return;
         }
@@ -107,6 +112,9 @@ const Dialogue = (() => {
                 finishInterview(family, satisfaction);
                 return;
             }
+
+            const scenario = selectedScenarios[currentStep];
+            currentStep++;
 
             const choices = scenario.choices.map(c => {
                 let text = c.text;

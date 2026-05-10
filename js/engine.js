@@ -1,52 +1,60 @@
 /* ===== THANATOPRACTOR - Core Engine ===== */
 const Engine = (() => {
     // ===== GAME STATE =====
-    const defaultState = () => ({
-        playerName: '',
-        day: 1,
-        time: 480, // minutes from midnight (8:00 = 480)
-        money: 2000,
-        reputation: 50,
-        xp: 0,
-        level: 1,
-        families: [], // all families (active + completed)
-        activeFamilyId: null,
-        upgrades: [], // owned upgrade IDs
-        embalmTrainCount: 0,
-        supplies: { formaldehyde: 10, humectant: 8, dye: 6, outfits: 4 },
-        cremaTemp: 20,
-        cremaFuel: 0,
-        cremaIgnited: false,
-        schedule: [], // {time, type, familyId, desc}
-        notifications: [],
-        dayEvents: [],
-        cafeSatisfaction: 100,
-        cafeOrders: [],
-        alcoholServedToday: 0,
-        viewingRooms: 1,
-        speed: 1, // 0=pause, 1=normal, 2=fast
-        gameOver: false,
-        activePaperwork: null,
-        pendingArrivals: 0,
-        dayEndPrompted: false,
-        dayEndTriggered: false,
-        alert18Shown: false,
-        lastActivityTime: 480,
-        lastRandomEventTime: 0,
-        chapelTutorialShown: false,
-        cremaTutorialShown: false,
-        embalmTutorialShown: false,
-        viewingTutorialShown: false,
-        cremaBroken: false,
-        cremaRepairing: false,
-        cremaRepairFinishTime: 0,
-        moneyWarningShown: false,
-        repWarningShown: false,
-        stats: { familiesServed: 0, totalEarnings: 0, diceRolls: 0, bestRoll: 0, worstDay: null, bribesAccepted: 0, perfectCremations: 0, consecutivePaperwork: 0 },
-        realPlayTimeMS: 0,
-        foundItems: [],
-        unlockedAchievements: []
-    });
+    const defaultState = () => {
+        let ach = [];
+        try {
+            ach = JSON.parse(localStorage.getItem('thanatopractor_permanent_achievements') || '[]');
+        } catch(e) {}
+        
+        return {
+            playerName: '',
+            day: 1,
+            time: 480, // minutes from midnight (8:00 = 480)
+            money: 2000,
+            reputation: 50,
+            xp: 0,
+            level: 1,
+            families: [], // all families (active + completed)
+            activeFamilyId: null,
+            upgrades: [], // owned upgrade IDs
+            embalmTrainCount: 0,
+            supplies: { formaldehyde: 10, humectant: 8, dye: 6, outfits: 4 },
+            cremaTemp: 20,
+            cremaFuel: 0,
+            cremaIgnited: false,
+            schedule: [], // {time, type, familyId, desc}
+            notifications: [],
+            dayEvents: [],
+            cafeSatisfaction: 100,
+            cafeOrders: [],
+            alcoholServedToday: 0,
+            viewingRooms: 1,
+            speed: 1, // 0=pause, 1=normal, 2=fast
+            gameOver: false,
+            activePaperwork: null,
+            pendingArrivals: 0,
+            dayEndPrompted: false,
+            dayEndTriggered: false,
+            alert18Shown: false,
+            lastActivityTime: 480,
+            lastRandomEventTime: 0,
+            chapelTutorialShown: false,
+            cremaTutorialShown: false,
+            embalmTutorialShown: false,
+            viewingTutorialShown: false,
+            cremaBroken: false,
+            cremaRepairing: false,
+            cremaRepairFinishTime: 0,
+            moneyWarningShown: false,
+            repWarningShown: false,
+            stats: { familiesServed: 0, totalEarnings: 0, diceRolls: 0, bestRoll: 0, worstDay: null, bribesAccepted: 0, perfectCremations: 0, consecutivePaperwork: 0 },
+            realPlayTimeMS: 0,
+            foundItems: [],
+            unlockedAchievements: ach,
+            tasksCompletedTime: null
+        };
+    };
 
     let state = defaultState();
     let tickInterval = null;
@@ -291,9 +299,13 @@ const Engine = (() => {
         }
 
         // Prompt for early sleep if all tasks done
-        if (!state.dayEndPrompted && state.time >= 1020) { // After 5:00 PM
-            const remainingArrivals = state.schedule.filter(s => s.type === 'arrival' && !s.triggered).length;
-            if (remainingArrivals === 0 && activeFams === 0 && waitingFams === 0 && !state.activePaperwork) {
+        const remainingArrivals = state.schedule.filter(s => s.type === 'arrival' && !s.triggered).length;
+        const allDone = remainingArrivals === 0 && activeFams === 0 && waitingFams === 0 && !state.activePaperwork;
+
+        if (allDone && !state.dayEndPrompted && state.time >= 1020) {
+            if (state.tasksCompletedTime === null) {
+                state.tasksCompletedTime = state.time;
+            } else if (state.time - state.tasksCompletedTime >= 10) {
                 state.dayEndPrompted = true;
                 if (typeof Dialogue !== 'undefined') {
                     Dialogue.show(I18n.T('eng.end_title'), I18n.T('eng.end_text'), [
@@ -304,6 +316,8 @@ const Engine = (() => {
                     ], null, { showReaper: true });
                 }
             }
+        } else if (!allDone) {
+            state.tasksCompletedTime = null; 
         }
 
         // End of day
@@ -371,6 +385,7 @@ const Engine = (() => {
         state.pendingArrivals = 0;
         state.activePaperwork = null;
         state.cafeOrders = [];
+        state.tasksCompletedTime = null;
         
         // Daily costs
         const dailyCost = 100 + (state.upgrades.length * 20);
@@ -573,7 +588,11 @@ const Engine = (() => {
             Dialogue.show(I18n.T('dlg.random_event'), event.text, event.choices.map(c => ({
                 text: c.text,
                 action: () => {
-                    if (c.rep) addReputation(c.rep, c.text);
+                    if (c.rep) {
+                        let val = c.rep;
+                        if (val < 0) val = Math.max(-10, Math.min(-2, val));
+                        addReputation(val, c.text);
+                    }
                     if (c.money) addMoney(c.money, c.text);
                 }
             })), null, { showReaper: true });
@@ -598,7 +617,11 @@ const Engine = (() => {
             Dialogue.show(I18n.T('dlg.bad_luck'), I18n.T(event.textKey), [{
                 text: "OK",
                 action: () => {
-                    if (event.rep) addReputation(event.rep, I18n.T('dlg.bad_luck'));
+                    if (event.rep) {
+                        let val = event.rep;
+                        if (val < 0) val = Math.max(-10, Math.min(-2, val));
+                        addReputation(val, I18n.T('dlg.bad_luck'));
+                    }
                     if (event.money) addMoney(event.money, I18n.T('dlg.bad_luck'));
                 }
             }], null, { showReaper: true });
@@ -735,6 +758,16 @@ const Engine = (() => {
             if (!ach) return;
 
             state.unlockedAchievements.push(id);
+            
+            // Save to permanent storage
+            try {
+                const permanent = JSON.parse(localStorage.getItem('thanatopractor_permanent_achievements') || '[]');
+                if (!permanent.includes(id)) {
+                    permanent.push(id);
+                    localStorage.setItem('thanatopractor_permanent_achievements', JSON.stringify(permanent));
+                }
+            } catch(e) {}
+
             save();
 
             // Show notification dot in Hub
@@ -1028,7 +1061,21 @@ const Engine = (() => {
     function load() {
         try {
             const data = localStorage.getItem('thanatopractor_save');
-            if (data) { state = { ...defaultState(), ...JSON.parse(data) }; return true; }
+            if (data) { 
+                state = { ...defaultState(), ...JSON.parse(data) }; 
+                
+                // Merge permanent achievements
+                try {
+                    const permanent = JSON.parse(localStorage.getItem('thanatopractor_permanent_achievements') || '[]');
+                    permanent.forEach(id => {
+                        if (!state.unlockedAchievements.includes(id)) {
+                            state.unlockedAchievements.push(id);
+                        }
+                    });
+                } catch(e) {}
+
+                return true; 
+            }
         } catch(e) {}
         return false;
     }

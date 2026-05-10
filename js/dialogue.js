@@ -3,6 +3,14 @@ const Dialogue = (() => {
     let queue = [];
     let currentCallback = null;
 
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
     function show(speaker, text, choices, onClose, options = {}) {
         const overlay = document.getElementById('dialogue-overlay');
         const speakerEl = document.getElementById('dlg-speaker');
@@ -100,9 +108,6 @@ const Dialogue = (() => {
                 return;
             }
 
-            const scenario = selectedScenarios[currentStep];
-            currentStep++;
-
             const choices = scenario.choices.map(c => {
                 let text = c.text;
                 if (c.roll) {
@@ -131,6 +136,8 @@ const Dialogue = (() => {
                     }
                 };
             });
+
+            shuffle(choices);
 
             enqueue(I18n.T('dlg.interview_title'), scenario.text, choices, null, { 
                 ...portraitOptions, 
@@ -210,6 +217,8 @@ const Dialogue = (() => {
                 if (c.rep) Families.updateSatisfaction(family.id, c.rep * 5, c.rep > 0 ? 'Good first impression' : 'Bad first impression');
             }
         }));
+
+        shuffle(choices);
 
         const moodName = I18n.T(`mood.${family.mood.id}.name`) || family.mood.name;
         const moodDesc = I18n.T(`mood.${family.mood.id}.desc`) || family.mood.desc;

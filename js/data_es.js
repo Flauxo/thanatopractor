@@ -566,9 +566,9 @@ const DATA_ES = {
         { id: "embalm_kit", name: "Kit Premium Embalsamar", desc: "+2 tiradas embalsamar", cost: 2500, level: 1, icon: "🧪", room: null },
         { id: "ac_system", name: "Sistema de Aire", desc: "Controla temperatura velatorio", cost: 3000, level: 1, icon: "❄️", room: null },
         { id: "coffee_machine", name: "Máquina de Espresso", desc: "+10% satisfacción cafetería", cost: 1200, level: 1, icon: "☕", room: null },
-        { id: "cafeteria", name: "Cafetería Completa", desc: "Sirve bebidas a las familias", cost: 12000, level: 1, icon: "☕", room: "cafeteria" },
-        { id: "crematorium", name: "Crematorio", desc: "Incinera en tus instalaciones", cost: 8500, level: 1, icon: "🔥", room: "crematorium" },
-        { id: "chapel", name: "La Capilla", desc: "Da ceremonias en la funeraria", cost: 15000, level: 1, icon: "⛪", room: "chapel" },
+        { id: "cafeteria", name: "Cafetería Completa", desc: "Sirve bebidas a las familias", cost: 7500, level: 1, icon: "☕", room: "cafeteria" },
+        { id: "crematorium", name: "Crematorio", desc: "Incinera en tus instalaciones", cost: 5000, level: 1, icon: "🔥", room: "crematorium" },
+        { id: "chapel", name: "La Capilla", desc: "Da ceremonias en la funeraria", cost: 10000, level: 1, icon: "⛪", room: "chapel" },
         { id: "hearse", name: "Coche Fúnebre", desc: "No más pagos por alquiler", cost: 20000, level: 1, icon: "🚗", room: null },
         { id: "viewing2", name: "Sala de Velatorio #2", desc: "Gestiona 2 familias a la vez", cost: 5000, level: 1, icon: "🪦", room: null },
         { id: "viewing3", name: "Sala de Velatorio #3", desc: "Gestiona 3 familias a la vez", cost: 9000, level: 1, icon: "🪦", room: null },
@@ -870,6 +870,105 @@ const DATA_ES = {
                 { text: "Exigir que compren una de tus urnas estándar.", sat: -15 },
                 { text: "Arreglarla con cinta americana y llamarlo 'toque rústico'.", roll: 12, success: { text: "Están de acuerdo, le da personalidad.", sat: 20 }, fail: { text: "La cinta se rompe. Cenizas por todas partes.", sat: -15 } },
                 { text: "Sugerir que se beban las cenizas en un chupito.", sat: -50 }
+            ]
+        },
+        {
+            id: "face_down",
+            text: "El difunto pidió ser enterrado boca abajo 'para que el mundo me bese el c*lo'.",
+            choices: [
+                { text: "Negarse a aceptar tal vulgaridad.", sat: -20 },
+                { text: "Convencerles de que cerrar el ataúd logra el mismo objetivo.", roll: 15, success: { text: "Filosóficamente, están de acuerdo.", sat: 25 }, fail: { text: "Insisten en la posición exacta.", sat: -15 } },
+                { text: "Cobrar el doble por 'posicionamiento ergonómico especial'.", sat: 10 }
+            ]
+        },
+        {
+            id: "inheritance_watch",
+            text: "Dos hermanos se pelean por el reloj de oro del difunto. Quieren que TÚ decidas quién se lo queda.",
+            choices: [
+                { text: "Sugerir donarlo a la funeraria para 'custodia segura'.", roll: 16, success: { text: "Aceptan que es la opción más neutral. +$300.", sat: 10, money: 300 }, fail: { text: "¡Ambos vuelcan su ira contra ti!", sat: -30 } },
+                { text: "Sugerir dárselo al que llore más.", sat: -15 },
+                { text: "Enterrar al difunto con el reloj para acabar con el debate.", sat: 20 }
+            ]
+        },
+        {
+            id: "wrong_face",
+            text: "La viuda afirma que el difunto tiene 'demasiado pelo' y que ese no es su marido.",
+            choices: [
+                { text: "Ofrecer un 'afeitado de emergencia' gratuito ahora mismo.", sat: 15 },
+                { text: "Explicar que el pelo crece tras la muerte (una mentira total).", roll: 14, success: { text: "Se cree la pseudociencia.", sat: 20 }, fail: { text: "Llama a su abogado.", sat: -35 } },
+                { text: "Enseñarle la etiqueta de identificación en el pie.", sat: 5 }
+            ]
+        },
+        {
+            id: "tapping_sound",
+            text: "Alguien afirma haber oído un 'golpe' desde dentro del ataúd.",
+            choices: [
+                { text: "Explicar que son 'gases escapando'. Algo normal.", sat: 10 },
+                { text: "Abrirlo inmediatamente para tranquilizarlos.", roll: 12, success: { text: "Está vacío. Digo, solo el cuerpo. Todo bien.", sat: 15 }, fail: { text: "¡La tapa se atasca! ¡Pánico general!", sat: -25 } },
+                { text: "Decirles que el difunto siempre fue de 'sueño inquieto'.", sat: -20 }
+            ]
+        },
+        {
+            id: "clown_request",
+            text: "La familia quiere que el difunto sea enterrado con maquillaje completo de payaso y nariz roja.",
+            choices: [
+                { text: "Honrar el último deseo. 'El espectáculo debe continuar'.", sat: 20 },
+                { text: "Sugerir un compromiso de 'payaso elegante' (solo nariz).", roll: 13, success: { text: "Les encanta el sutil tributo.", sat: 15 }, fail: { text: "Quieren la experiencia Bozo completa.", sat: -10 } },
+                { text: "Decirles que esto es un funeral, no un circo.", sat: -30 }
+            ]
+        },
+        {
+            id: "rival_widows",
+            text: "La ex-mujer y la viuda actual están teniendo un 'duelo de miradas' en el vestíbulo.",
+            choices: [
+                { text: "Ofrecer dos salas de velatorio separadas ($400 extra).", roll: 15, success: { text: "¡Ambas pagan para evitarse! +$400.", sat: 25, money: 400 }, fail: { text: "Se unen... contra ti.", sat: -20 } },
+                { text: "Pedir a Iván que ponga música 'relajante' a todo volumen.", sat: 5 },
+                { text: "Intentar mediar sobre la herencia aquí mismo.", sat: -40 }
+            ]
+        },
+        {
+            id: "pigeon_blessing",
+            text: "Una paloma ha entrado y ha... 'bendecido' el traje del difunto.",
+            choices: [
+                { text: "Afirmar que es una 'señal de los cielos'.", roll: 14, success: { text: "Se sienten profundamente conmovidos por la señal.", sat: 30 }, fail: { text: "Exigen un reembolso por la tintorería.", sat: -20 } },
+                { text: "Limpiarlo discretamente con un pañuelo.", sat: 10 },
+                { text: "Decirles que es mejor que un cuervo.", sat: -15 }
+            ]
+        },
+        {
+            id: "lasagna_complaint",
+            text: "Se quejan de que la sala huele a ajo. Iván estaba cocinando al fondo.",
+            choices: [
+                { text: "Explicar que es un 'incienso mediterráneo especial'.", roll: 13, success: { text: "Les parece exótico y relajante.", sat: 20 }, fail: { text: "Se dan cuenta de que es pasta.", sat: -10 } },
+                { text: "Pedir disculpas y abrir todas las ventanas.", sat: 10 },
+                { text: "Preguntar si quieren un poco de lasaña. Solo $10.", sat: -25 }
+            ]
+        },
+        {
+            id: "gold_teeth_rumor",
+            text: "Un sobrino susurra: 'El abuelo tenía la boca llena de oro. ¿Dónde está?'",
+            choices: [
+                { text: "Asegurarle que todo está contabilizado en la urna.", sat: 10 },
+                { text: "Ofrecer un servicio de 'recuperación dental' previo pago.", roll: 16, success: { text: "Paga la tarifa. No encuentras... nada.", sat: 5, money: 200 }, fail: { text: "Sospecha que ya te lo has llevado tú.", sat: -30 } },
+                { text: "Decirle que vaya a cavar él mismo.", sat: -40 }
+            ]
+        },
+        {
+            id: "viking_arrow",
+            text: "Quieren disparar una flecha incendiaria al ataúd en el parking.",
+            choices: [
+                { text: "Explicar las normas de incendios y ofrecer una 'lámpara de fuego'.", sat: 15 },
+                { text: "Dejarles si pagan la 'exención de seguro' ($300).", roll: 14, success: { text: "¡Espectacular! Ningún árbol sufrió daños.", sat: 25, money: 300 }, fail: { text: "Fallan y le dan a tu coche fúnebre.", sat: -40, rep: -10 } },
+                { text: "Sugerir un 'entierro acuático' en el fregadero.", sat: -20 }
+            ]
+        },
+        {
+            id: "ghost_bros_tv",
+            text: "La familia quiere rodar un especial de 'cazadores de fantasmas' durante el velatorio.",
+            choices: [
+                { text: "Aceptar por una 'tasa de producción' ($500).", roll: 15, success: { text: "¡Vas a salir en la tele! +$500.", sat: 10, money: 500 }, fail: { text: "Los equipos no paran de saltar los plomos.", sat: -20 } },
+                { text: "Rechazar cortésmente para mantener la dignidad.", sat: 15 },
+                { text: "Ofrecerte para hacer de fantasma por $100 extra.", sat: -35 }
             ]
         }
     ]

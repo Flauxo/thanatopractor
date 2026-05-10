@@ -625,9 +625,9 @@ const DATA = {
         { id: "embalm_kit", name: "Premium Embalming Kit", desc: "+2 to embalming rolls", cost: 2500, level: 1, icon: "🧪", room: null },
         { id: "ac_system", name: "A/C System", desc: "Control viewing room temperature", cost: 3000, level: 1, icon: "❄️", room: null },
         { id: "coffee_machine", name: "Espresso Machine", desc: "+10% cafeteria satisfaction", cost: 1200, level: 1, icon: "☕", room: null },
-        { id: "cafeteria", name: "Full Cafeteria", desc: "Serve drinks & food to families", cost: 12000, level: 1, icon: "☕", room: "cafeteria" },
-        { id: "crematorium", name: "Crematorium", desc: "Cremate on-site", cost: 8500, level: 1, icon: "🔥", room: "crematorium" },
-        { id: "chapel", name: "The Chapel", desc: "Hold ceremonies on-site", cost: 15000, level: 1, icon: "⛪", room: "chapel" },
+        { id: "cafeteria", name: "Full Cafeteria", desc: "Serve drinks & food to families", cost: 7500, level: 1, icon: "☕", room: "cafeteria" },
+        { id: "crematorium", name: "Crematorium", desc: "Cremate on-site", cost: 5000, level: 1, icon: "🔥", room: "crematorium" },
+        { id: "chapel", name: "The Chapel", desc: "Hold ceremonies on-site", cost: 10000, level: 1, icon: "⛪", room: "chapel" },
         { id: "hearse", name: "Own Hearse", desc: "No more rental fees", cost: 20000, level: 1, icon: "🚗", room: null },
         { id: "viewing2", name: "Viewing Room #2", desc: "Handle 2 families at once", cost: 5000, level: 1, icon: "🪦", room: null },
         { id: "viewing3", name: "Viewing Room #3", desc: "Handle 3 families at once", cost: 9000, level: 1, icon: "🪦", room: null },
@@ -953,6 +953,96 @@ const DATA = {
                 { text: "Refuse to accommodate such vulgarity.", sat: -20 },
                 { text: "Convince them closing the casket achieves the same goal.", roll: 15, success: { text: "Philosophically, they agree.", sat: 25 }, fail: { text: "They insist on the exact positioning.", sat: -15 } },
                 { text: "Charge double for 'special ergonomic positioning'.", sat: 10 }
+            ]
+        },
+        {
+            id: "inheritance_watch",
+            text: "Two siblings are fighting over the deceased's gold watch. They want YOU to decide who gets it.",
+            choices: [
+                { text: "Suggest donating it to the funeral home for 'Safe Keeping'.", roll: 16, success: { text: "They agree it's the most neutral option. +$300.", sat: 10, money: 300 }, fail: { text: "They both turn their anger on you!", sat: -30 } },
+                { text: "Suggest giving it to the one who cries more.", sat: -15 },
+                { text: "Bury the deceased with the watch to end the debate.", sat: 20 }
+            ]
+        },
+        {
+            id: "wrong_face",
+            text: "The widow claims the deceased has 'too much hair' and it's not her husband.",
+            choices: [
+                { text: "Offer a free 'Emergency Shave' right now.", sat: 15 },
+                { text: "Explain that hair grows after death (A total lie).", roll: 14, success: { text: "She believes the pseudo-science.", sat: 20 }, fail: { text: "She calls her lawyer.", sat: -35 } },
+                { text: "Show her the ID tag on the toe.", sat: 5 }
+            ]
+        },
+        {
+            id: "tapping_sound",
+            text: "Someone claims they heard a 'thump' from inside the casket.",
+            choices: [
+                { text: "Explain it's just 'Gas escaping'. Standard stuff.", sat: 10 },
+                { text: "Open it immediately to reassure them.", roll: 12, success: { text: "It's empty. I mean, just the body. All good.", sat: 15 }, fail: { text: "The lid gets stuck. Panic ensues!", sat: -25 } },
+                { text: "Tell them the deceased always was a 'restless sleeper'.", sat: -20 }
+            ]
+        },
+        {
+            id: "clown_request",
+            text: "The family wants the deceased buried in full clown makeup and a red nose.",
+            choices: [
+                { text: "Honor the final wish. 'The show must go on'.", sat: 20 },
+                { text: "Suggest a 'Classy Clown' compromise (nose only).", roll: 13, success: { text: "They love the subtle tribute.", sat: 15 }, fail: { text: "They want the full Bozo experience.", sat: -10 } },
+                { text: "Tell them this is a funeral, not a circus.", sat: -30 }
+            ]
+        },
+        {
+            id: "rival_widows",
+            text: "The ex-wife and the current wife are having a 'staring contest' in the lobby.",
+            choices: [
+                { text: "Offer two separate viewing rooms ($400 extra).", roll: 15, success: { text: "They both pay to avoid each other!", sat: 25, money: 400 }, fail: { text: "They unite... against you.", sat: -20 } },
+                { text: "Ask Iván to play some 'calming' music at max volume.", sat: 5 },
+                { text: "Try to mediate the inheritance talk right here.", sat: -40 }
+            ]
+        },
+        {
+            id: "pigeon_blessing",
+            text: "A pigeon flew in and... 'blessed' the deceased's suit.",
+            choices: [
+                { text: "Claim it's a 'Sign from the Heavens'.", roll: 14, success: { text: "They are deeply moved by the sign.", sat: 30 }, fail: { text: "They want a dry-cleaning refund.", sat: -20 } },
+                { text: "Clean it up discreetly with a tissue.", sat: 10 },
+                { text: "Tell them it's better than a crow.", sat: -15 }
+            ]
+        },
+        {
+            id: "lasagna_complaint",
+            text: "They complain the room smells like garlic. Ivan was cooking in the back.",
+            choices: [
+                { text: "Explain it's a 'Special Mediterranean Incense'.", roll: 13, success: { text: "They find it exotic and soothing.", sat: 20 }, fail: { text: "They realize it's just pasta.", sat: -10 } },
+                { text: "Apologize and open all the windows.", sat: 10 },
+                { text: "Ask if they want some lasagna. Only $10.", sat: -25 }
+            ]
+        },
+        {
+            id: "gold_teeth_rumor",
+            text: "A nephew whispers: 'Grandpa had a mouth full of gold. Where is it?'",
+            choices: [
+                { text: "Reassure him it's all accounted for in the urn.", sat: 10 },
+                { text: "Offer a 'Dental Recovery' service for a fee.", roll: 16, success: { text: "He pays the fee. You find... nothing.", sat: 5, money: 200 }, fail: { text: "He suspects you already took it.", sat: -30 } },
+                { text: "Tell him to go dig it out himself.", sat: -40 }
+            ]
+        },
+        {
+            id: "viking_arrow",
+            text: "They want to shoot a flaming arrow at the casket in the parking lot.",
+            choices: [
+                { text: "Explain the local fire codes and offer a 'Fire Lamp'.", sat: 15 },
+                { text: "Let them do it if they pay the 'Insurance Waiver' ($300).", roll: 14, success: { text: "Spectacular! No trees were harmed.", sat: 25, money: 300 }, fail: { text: "They miss and hit your hearse.", sat: -40, rep: -10 } },
+                { text: "Suggest a 'Water Burial' in the sink instead.", sat: -20 }
+            ]
+        },
+        {
+            id: "ghost_bros_tv",
+            text: "The family wants to film a 'Ghost Hunting' special during the viewing.",
+            choices: [
+                { text: "Accept for a 'Production Fee' ($500).", roll: 15, success: { text: "You're going to be on TV! +$500.", sat: 10, money: 500 }, fail: { text: "The equipment keeps tripping the breakers.", sat: -20 } },
+                { text: "Politely decline to maintain dignity.", sat: 15 },
+                { text: "Offer to play the ghost for an extra $100.", sat: -35 }
             ]
         }
     ],

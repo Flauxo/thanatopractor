@@ -501,7 +501,7 @@ const Rooms = (() => {
             else if (roll < 0.85) mult = 1.5 + Math.random() * 1.5;   // 1.5–3x expensive
             else                  mult = 3.0 + Math.random() * 2.5;   // 3–5.5x extortionate
  
-            prices[key] = Math.ceil(item.base * mult);
+            prices[key] = Math.ceil(item.base * mult * (s.priceMod || 1));
             quantities[key] = 0;
         });
  
@@ -790,8 +790,11 @@ const Rooms = (() => {
                     const ready = s.cremaTemp >= 800;
                     const starting = f.cremationStarted;
                     let statusHTML = '';
+                    const locked = s.cremaLock && s.time >= s.cremaLock[0] && s.time <= s.cremaLock[1];
                     if (s.cremaBroken || s.cremaRepairing) {
                         statusHTML = `<span class="danger">${s.cremaRepairing ? I18n.T('crema.repairing_status') : I18n.T('crema.broken_status')}</span>`;
+                    } else if (locked) {
+                        statusHTML = `<span class="danger">${I18n.T('crema.lock_status')}</span>`;
                     } else if (starting && !f.cremated) {
                         const timeLeft = Math.max(0, Math.round(f.cremationEndTime - s.time));
                         statusHTML = `<span class="warning">${I18n.T('crema.incinerating')} (${timeLeft}m)</span>`;
@@ -816,8 +819,9 @@ const Rooms = (() => {
         const f = Families.getById(familyId);
         const s = Engine.getState();
         if (!f || f.cremated || f.cremationStarted) return;
-        if (s.cremaBroken || s.cremaRepairing) {
-            Engine.showToast(I18n.T('crema.broken_title'), 'danger');
+        const locked = s.cremaLock && s.time >= s.cremaLock[0] && s.time <= s.cremaLock[1];
+        if (s.cremaBroken || s.cremaRepairing || locked) {
+            Engine.showToast(locked ? I18n.T('crema.lock_title') : I18n.T('crema.broken_title'), 'danger');
             return;
         }
 

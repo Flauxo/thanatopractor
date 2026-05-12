@@ -1138,21 +1138,21 @@ const DATA_ES = {
         }
     ],
     dailyNews: [
-        "¡Hoy es el Día del Tanatopractor! La asociación local regala café a todos los profesionales del sector.",
-        "Huelga de enterradores en el cementerio municipal. Los cuerpos se acumulan en los depósitos.",
-        "Ola de calor extrema. Se recomienda bajar la temperatura de las salas de velatorio para evitar... olores.",
-        "Un cliente afirma ser un vampiro real de Transilvania. Pide un ataúd con revestimiento de terciopelo rojo.",
-        "Iván ha ganado el premio a la 'Voz más Tétrica' del año. Está insoportable celebrándolo.",
-        "Se rumorea que un fantasma vaga por los pasillos de Eternal Rest. Algunos clientes han pedido descuentos por 'susto'.",
-        "Inflación en los suministros de embalsamamiento. El formaldehído está por las nubes hoy.",
-        "Gamberros volcaron varias lápidas anoche. Los vecinos están indignados con la seguridad local.",
-        "La funeraria de la competencia regala ataúdes de segunda mano. ¡Es una guerra de precios!",
-        "Tormenta eléctrica prevista para esta noche. Riesgo de apagones en el crematorio.",
-        "Se ha encontrado una cápsula del tiempo bajo el porche. Contiene... ¿un diente de oro?",
-        "Un famoso 'crítico de funerales' está en la ciudad. ¡Asegúrate de que todo brille!",
-        "La cafetería ha recibido una partida de 'Pasteles de Alma' especialmente dulces hoy.",
-        "El ayuntamiento anuncia nuevas tasas por cada gramo de ceniza. ¡Más papeleo!",
-        "Avistamiento de OVNIs cerca del tanatorio. La familia alienígena está muy emocionada."
+        { id: "day_tanato", text: "¡Hoy es el Día del Tanatopractor! La asociación local regala café a todos los profesionales.", effect: { rep: 5, msg: "+5 Reputación" } },
+        { id: "strike_gravediggers", text: "Huelga de enterradores en el cementerio municipal. Los cuerpos se acumulan en los depósitos.", effect: { money: -100, msg: "-$100 (Tasas de almacenamiento)" } },
+        { id: "heat_wave", text: "Ola de calor extrema. Se recomienda bajar la temperatura de las salas de velatorio para evitar olores.", effect: { priceMod: 1.3, msg: "Suministros +30% más caros" } },
+        { id: "vampire_client", text: "Un cliente afirma ser un vampiro real de Transilvania. Pide un ataúd con revestimiento de terciopelo rojo.", effect: { rep: -5, msg: "-5 Reputación" } },
+        { id: "ivan_award", text: "Iván ha ganado el premio a la 'Voz más Tétrica' del año. Está insoportable celebrándolo.", effect: { rep: 5, msg: "+5 Reputación" } },
+        { id: "ghost_rumors", text: "Se rumorea que un fantasma vaga por los pasillos de Eternal Rest. Algunos clientes piden descuentos.", effect: { rep: -10, msg: "-10 Reputación" } },
+        { id: "inflation_formal", text: "Inflación en los suministros de embalsamamiento. El formaldehído está por las nubes hoy.", effect: { priceMod: 2.0, msg: "Suministros +100% más caros" } },
+        { id: "vandalism", text: "Gamberros volcaron varias lápidas anoche. Los vecinos están indignados con la seguridad.", effect: { rep: -5, msg: "-5 Reputación" } },
+        { id: "comp_war", text: "La funeraria de la competencia regala ataúdes de segunda mano. ¡Es una guerra de precios!", effect: { rep: -5, msg: "-5 Reputación" } },
+        { id: "storm_crema", text: "Tormenta eléctrica prevista. Riesgo de apagones. El crematorio no funcionará de 20h a 22h.", effect: { cremaLock: [1200, 1320], msg: "Crematorio bloqueado (20h-22h)" } },
+        { id: "rat_report", text: "Reportaje de investigación revela presencia de ratas en 'Descanso Eterno'. Escándalo sanitario.", effect: { rep: -20, msg: "-20 Reputación" } },
+        { id: "pollution_alert", text: "Alerta por contaminación: Prohibido incinerar de 14:00h a 16:00h hoy por orden municipal.", effect: { cremaLock: [840, 960], msg: "Crematorio bloqueado (14h-16h)" } },
+        { id: "transport_strike", text: "Huelga de transportes: Los proveedores triplican los gastos de envío por la escasez.", effect: { priceMod: 1.8, msg: "Suministros +80% más caros" } },
+        { id: "lucky_find", text: "Se ha encontrado una cápsula del tiempo bajo el porche con monedas de oro antiguas.", effect: { money: 500, msg: "+$500" } },
+        { id: "inspector_visit", text: "El inspector de sanidad está en la ciudad. Los estándares son más altos hoy.", effect: { rep: 5, msg: "+5 Reputación (por limpieza)" } }
     ]
 };
 

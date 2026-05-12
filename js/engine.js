@@ -53,7 +53,9 @@ const Engine = (() => {
             foundItems: [],
             unlockedAchievements: ach,
             tasksCompletedRealTime: null,
-            interviewPool: []
+            interviewPool: [],
+            priceMod: 1,
+            cremaLock: null
         };
     };
 
@@ -389,6 +391,8 @@ const Engine = (() => {
         state.activePaperwork = null;
         state.cafeOrders = [];
         state.tasksCompletedRealTime = null;
+        state.priceMod = 1;
+        state.cremaLock = null;
         
         // Daily costs
         const dailyCost = 100 + (state.upgrades.length * 20);
@@ -463,8 +467,26 @@ const Engine = (() => {
                         // Phase 4: Show news button
                         btnNewsOpen.style.display = 'block';
                         btnNewsOpen.onclick = () => {
-                            const newsList = DATA.dailyNews || ["Everything is quiet."];
-                            newsContentText.textContent = newsList[Math.floor(Math.random() * newsList.length)];
+                            const newsList = DATA.dailyNews || [{ text: "Everything is quiet.", effect: {} }];
+                            const newsItem = newsList[Math.floor(Math.random() * newsList.length)];
+                            
+                            newsContentText.textContent = newsItem.text;
+                            const effectText = document.getElementById('news-effect-text');
+                            if (newsItem.effect && newsItem.effect.msg) {
+                                effectText.textContent = newsItem.effect.msg;
+                                effectText.style.display = 'block';
+                                
+                                // Immediate effects
+                                if (newsItem.effect.rep) addReputation(newsItem.effect.rep, "News: " + newsItem.id);
+                                if (newsItem.effect.money) addMoney(newsItem.effect.money, "News: " + newsItem.id);
+                                
+                                // Day-long effects
+                                if (newsItem.effect.priceMod) state.priceMod = newsItem.effect.priceMod;
+                                if (newsItem.effect.cremaLock) state.cremaLock = newsItem.effect.cremaLock;
+                            } else {
+                                effectText.style.display = 'none';
+                            }
+
                             newsModal.style.display = 'flex';
                             if (Audio8Bit.SFX.paperwork) Audio8Bit.SFX.paperwork();
                         };

@@ -1242,21 +1242,21 @@ const DATA = {
         }
     ],
     dailyNews: [
-        "Today is Undertaker's Day! The local association is giving away free coffee to all professionals.",
-        "Gravedigger strike at the municipal cemetery. Bodies are piling up in the morgues.",
-        "Extreme heat wave. It is recommended to lower the temperature in the viewing rooms to avoid... odors.",
-        "A client claims to be a real vampire from Transylvania. He asks for a coffin with red velvet lining.",
-        "Ivan has won the 'Grimmest Voice' of the year award. He is insufferably celebrating it.",
-        "Rumor has it a ghost is wandering the halls of Eternal Rest. Some clients have asked for 'fright' discounts.",
-        "Inflation in embalming supplies. Formaldehyde is through the roof today.",
-        "Vandals overturned several tombstones last night. Neighbors are outraged at local security.",
-        "The competing funeral home is giving away second-hand coffins. It's a price war!",
-        "Thunderstorm predicted for tonight. Risk of power outages in the crematorium.",
-        "A time capsule has been found under the porch. It contains... a gold tooth?",
-        "A famous 'funeral critic' is in town. Make sure everything shines!",
-        "The cafeteria received a batch of especially sweet 'Soul Cakes' today.",
-        "The city council announces new fees for every gram of ash. More paperwork!",
-        "UFO sightings near the mortuary. The alien family is very excited."
+        { id: "day_tanato", text: "Today is Undertaker's Day! The local association is giving away free coffee to all professionals.", effect: { rep: 5, msg: "+5 Reputation" } },
+        { id: "strike_gravediggers", text: "Gravedigger strike at the municipal cemetery. Bodies are piling up in the morgues.", effect: { money: -100, msg: "-$100 (Storage fees)" } },
+        { id: "heat_wave", text: "Extreme heat wave. It is recommended to lower the temperature in the viewing rooms to avoid odors.", effect: { priceMod: 1.3, msg: "Supplies +30% more expensive" } },
+        { id: "vampire_client", text: "A client claims to be a real vampire from Transylvania. He asks for a coffin with red velvet lining.", effect: { rep: -5, msg: "-5 Reputation" } },
+        { id: "ivan_award", text: "Ivan has won the 'Grimmest Voice' of the year award. He is insufferably celebrating it.", effect: { rep: 5, msg: "+5 Reputation" } },
+        { id: "ghost_rumors", text: "Rumor has it a ghost is wandering the halls of Eternal Rest. Some clients ask for discounts.", effect: { rep: -10, msg: "-10 Reputation" } },
+        { id: "inflation_formal", text: "Inflation in embalming supplies. Formaldehyde is through the roof today.", effect: { priceMod: 2.0, msg: "Supplies +100% more expensive" } },
+        { id: "vandalism", text: "Vandals overturned several tombstones last night. Neighbors are outraged at local security.", effect: { rep: -5, msg: "-5 Reputation" } },
+        { id: "comp_war", text: "The competing funeral home is giving away second-hand coffins. It's a price war!", effect: { rep: -5, msg: "-5 Reputation" } },
+        { id: "storm_crema", text: "Thunderstorm predicted tonight. Risk of power outages. The crematorium will not work from 8 PM to 10 PM.", effect: { cremaLock: [1200, 1320], msg: "Crematorium locked (8 PM - 10 PM)" } },
+        { id: "rat_report", text: "Investigative report reveals presence of rats at 'Eternal Rest'. Sanitary scandal.", effect: { rep: -20, msg: "-20 Reputation" } },
+        { id: "pollution_alert", text: "Pollution alert: Incineration prohibited from 2 PM to 4 PM today by municipal order.", effect: { cremaLock: [840, 960], msg: "Crematorium locked (2 PM - 4 PM)" } },
+        { id: "transport_strike", text: "Transport strike: Suppliers triple shipping costs due to shortages.", effect: { priceMod: 1.8, msg: "Supplies +80% more expensive" } },
+        { id: "lucky_find", text: "A time capsule has been found under the porch with ancient gold coins.", effect: { money: 500, msg: "+$500" } },
+        { id: "inspector_visit", text: "The health inspector is in town. Standards are higher today.", effect: { rep: 5, msg: "+5 Reputation (for cleanliness)" } }
     ],
     // ===== ACHIEVEMENTS =====
     achievements: [

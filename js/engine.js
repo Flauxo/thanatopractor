@@ -292,7 +292,7 @@ const Engine = (() => {
         if (currentTotalMinutes >= 1080 && !state.alert18Shown) {
             state.alert18Shown = true;
             if (typeof Dialogue !== 'undefined') {
-                Dialogue.show(
+                Dialogue.enqueue(
                     I18n.T('eng.alert_18_title'), 
                     I18n.T('eng.alert_18_msg'),
                     [{ text: I18n.T('eng.ok') }],
@@ -308,13 +308,13 @@ const Engine = (() => {
         const allDone = remainingArrivals === 0 && activeFams === 0 && waitingFams === 0 && !state.activePaperwork && !state.cremaRepairing && !isAnyCremating;
         
         const dayProgress = (state.time - 480) / 720; // 8:00 to 20:00
-        if (allDone && !state.dayEndPrompted && dayProgress > 0.5) {
+        if (allDone && !state.dayEndPrompted && dayProgress > 0.1) {
             if (state.tasksCompletedRealTime === null) {
                 state.tasksCompletedRealTime = Date.now();
-            } else if (Date.now() - state.tasksCompletedRealTime >= 4000) {
+            } else if (Date.now() - state.tasksCompletedRealTime >= 3000) {
                 state.dayEndPrompted = true;
                 if (typeof Dialogue !== 'undefined') {
-                    Dialogue.show(I18n.T('eng.end_title'), I18n.T('eng.end_text'), [
+                    Dialogue.enqueue(I18n.T('eng.end_title'), I18n.T('eng.end_text'), [
                         { text: I18n.T('eng.end_yes'), action: () => endDay() },
                         { text: I18n.T('eng.end_no'), action: () => { 
                             showToast(I18n.T('eng.end_stay'), "");
@@ -660,7 +660,7 @@ const Engine = (() => {
         state.dayEvents.push(event.type);
         
         if (event.choices) {
-            Dialogue.show(I18n.T('dlg.random_event'), event.text, event.choices.map(c => ({
+            Dialogue.enqueue(I18n.T('dlg.random_event'), event.text, event.choices.map(c => ({
                 text: c.text,
                 action: () => {
                     if (c.rep) {
@@ -689,7 +689,7 @@ const Engine = (() => {
         const event = DATA.badLuckEvents[Math.floor(Math.random() * DATA.badLuckEvents.length)];
         
         if (typeof Dialogue !== 'undefined') {
-            Dialogue.show(I18n.T('dlg.bad_luck'), I18n.T(event.textKey), [{
+            Dialogue.enqueue(I18n.T('dlg.bad_luck'), I18n.T(event.textKey), [{
                 text: "OK",
                 action: () => {
                     if (event.rep) {

@@ -227,8 +227,8 @@ I18n.register('es', {
 'crema.perfect_msg': '✨ ¡Cremación perfecta! Las cenizas de {0} son limpias y puras.',
 'crema.decent_msg': '👍 Cremación decente. Quedan algunos fragmentos, pero aceptable.',
 'crema.bad_msg': '😬 Cremación mala. Los resultados son... subóptimos. La familia no está contenta.',
-'crema.lock_status': '🚫 BLOQUEO LOCAL',
-'crema.lock_title': 'Crematorio bloqueado por noticias locales.',
+'crema.lock_status': '🚫 BLOQUEO MUNICIPAL',
+'crema.lock_title': 'Crematorio bloqueado por orden municipal.',
 // Tutorial crematorio
 'crema.tutorial_title': '🔥 PRIMERA VEZ EN EL CREMATORIO',
 'crema.tutorial_text': 'El horno tarda en calentar. Una vez iniciada la cremación, tiene que permanecer encendido 1 hora para hacer unas buenas cenizas. Si la temperatura baja de 700°C durante el proceso... digamos que la familia no estará contenta.',

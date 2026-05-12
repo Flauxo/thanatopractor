@@ -447,6 +447,8 @@ const Engine = (() => {
         };
 
         if (overlay && dayText) {
+            // Reset transition screen
+            dayText.style.top = '50%';
             dayText.textContent = `${I18n.T('hub.day')} ${state.day}`.toUpperCase();
             dayText.className = ''; 
             overlay.style.display = 'flex';
@@ -456,8 +458,8 @@ const Engine = (() => {
 
             // Phase 1: Day Text center (1s)
             setTimeout(() => {
-                // Phase 2: Move UP
-                dayText.classList.add('anim-day-up');
+                // Phase 2: Move UP smoothly
+                dayText.style.top = '22%';
 
                 setTimeout(() => {
                     // Phase 3: Newspaper spin
@@ -470,10 +472,14 @@ const Engine = (() => {
                         btnNewsOpen.onclick = () => {
                             const newsList = DATA.dailyNews || [{ id: "none", text: "Everything is quiet.", effect: {} }];
                             
-                            // Rotation logic: if pool is empty or too small, refill and shuffle
+                            // Rotation logic: if pool is empty, refill and shuffle using Fisher-Yates
                             if (!state.newsPool || state.newsPool.length === 0) {
-                                state.newsPool = newsList.map(n => n.id);
-                                state.newsPool.sort(() => 0.5 - Math.random());
+                                const ids = newsList.map(n => n.id);
+                                for (let i = ids.length - 1; i > 0; i--) {
+                                    const j = Math.floor(Math.random() * (i + 1));
+                                    [ids[i], ids[j]] = [ids[j], ids[i]];
+                                }
+                                state.newsPool = ids;
                             }
                             
                             const newsId = state.newsPool.pop();

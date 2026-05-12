@@ -1038,15 +1038,8 @@ const Rooms = (() => {
                 viewingFamily.activeRequests = viewingFamily.activeRequests.filter(r => r !== 'see_body');
                 checkServiceComplete(viewingFamily);
                 
-                // If no more services pending (chapel/cremation), go to hub
-                const needsChapel = viewingFamily.wantsChapel && Engine.hasUpgrade('chapel') && !viewingFamily.chapelDone;
-                const needsCremation = viewingFamily.wantsCremation && Engine.hasUpgrade('crematorium') && !viewingFamily.cremated;
-                
-                if (!needsChapel && !needsCremation) {
-                    if (typeof Main !== 'undefined') Main.showScreen('hub');
-                } else {
-                    updateViewingUI();
-                }
+                // interaction finished, go back to hub
+                if (typeof Main !== 'undefined') Main.showScreen('hub');
             }}
         ]);
     }

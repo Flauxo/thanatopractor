@@ -54,6 +54,7 @@ const Engine = (() => {
             unlockedAchievements: ach,
             tasksCompletedRealTime: null,
             interviewPool: [],
+            newsPool: [],
             priceMod: 1,
             cremaLock: null
         };
@@ -467,8 +468,16 @@ const Engine = (() => {
                         // Phase 4: Show news button
                         btnNewsOpen.style.display = 'block';
                         btnNewsOpen.onclick = () => {
-                            const newsList = DATA.dailyNews || [{ text: "Everything is quiet.", effect: {} }];
-                            const newsItem = newsList[Math.floor(Math.random() * newsList.length)];
+                            const newsList = DATA.dailyNews || [{ id: "none", text: "Everything is quiet.", effect: {} }];
+                            
+                            // Rotation logic: if pool is empty or too small, refill and shuffle
+                            if (!state.newsPool || state.newsPool.length === 0) {
+                                state.newsPool = newsList.map(n => n.id);
+                                state.newsPool.sort(() => 0.5 - Math.random());
+                            }
+                            
+                            const newsId = state.newsPool.pop();
+                            const newsItem = newsList.find(n => n.id === newsId) || newsList[0];
                             
                             newsContentText.textContent = newsItem.text;
                             const effectText = document.getElementById('news-effect-text');

@@ -103,9 +103,8 @@
 
 @keyframes newspaper-spin-zoom {
     0% { transform: rotate(0deg) scale(0); opacity: 0; }
-    80% { transform: rotate(1800deg) scale(1.1); opacity: 1; }
-    100% { transform: rotate(2160deg) scale(1); opacity: 1; }
+    100% { transform: rotate(1800deg) scale(1); opacity: 1; }
 }
 
 .anim-day-up { animation: day-move-up 0.8s ease-in-out forwards; }
-.anim-news-spin { animation: newspaper-spin-zoom 1.5s ease-out forwards; }
+.anim-news-spin { animation: newspaper-spin-zoom 1.6s cubic-bezier(0.165, 0.84, 0.44, 1) forwards; }

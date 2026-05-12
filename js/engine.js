@@ -52,7 +52,8 @@ const Engine = (() => {
             realPlayTimeMS: 0,
             foundItems: [],
             unlockedAchievements: ach,
-            tasksCompletedRealTime: null
+            tasksCompletedRealTime: null,
+            interviewPool: []
         };
     };
 

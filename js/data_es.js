@@ -1045,6 +1045,96 @@ const DATA_ES = {
                 { text: "Rechazar cortésmente para mantener la dignidad.", sat: 15 },
                 { text: "Ofrecerte para hacer de fantasma por $100 extra.", sat: -35 }
             ]
+        },
+        {
+            id: "pacemaker",
+            text: "La familia pregunta si se le ha quitado el marcapasos antes de la cremación. 'Hemos oído que explotan'.",
+            choices: [
+                { text: "Por supuesto, la seguridad es lo primero en nuestra casa.", sat: 15 },
+                { text: "Aposté con Iván a ver si explotaba. He perdido 50 monedas.", sat: -30 },
+                { text: "El marcapasos es ahora una 'batería espiritual' eterna. No se preocupen.", roll: 14, success: { text: "Les parece una idea reconfortante.", sat: 25 }, fail: { text: "Creen que se está riendo de ellos.", sat: -15 } }
+            ]
+        },
+        {
+            id: "ash_taste",
+            text: "Un familiar muy afectado quiere probar un poco de las cenizas para 'conectar con su esencia'.",
+            choices: [
+                { text: "Señor, eso es... poco higiénico. Pruebe nuestro café de cortesía.", sat: 10 },
+                { text: "Saben a barbacoa y arrepentimiento. 20 monedas la cata.", sat: -20, money: 20 },
+                { text: "Iván dice que con un poco de sal están mucho mejor.", sat: -45 }
+            ]
+        },
+        {
+            id: "swallowed_key",
+            text: "Sospechan que el abuelo se tragó la llave de la caja fuerte antes de morir.",
+            choices: [
+                { text: "Podemos hacer una 'inspección profunda' por una tarifa de recuperación.", roll: 15, success: { text: "¡La has encontrado! +200 monedas.", sat: 20, money: 200 }, fail: { text: "No hay nada ahí dentro. Se sienten decepcionados.", sat: -25 } },
+                { text: "Si suena como una hucha al moverlo, es que hay premio.", sat: -30 },
+                { text: "La honestidad es clave. Si aparece durante el proceso, les avisamos.", sat: 15 }
+            ]
+        },
+        {
+            id: "fridge_box",
+            text: "Traen una caja de nevera vacía para usarla como ataúd y ahorrar costes.",
+            choices: [
+                { text: "El reciclaje es la forma más noble de volver a la tierra.", sat: 15 },
+                { text: "Si llueve durante el entierro, el abuelo va a ser puré de cartón.", sat: -40 },
+                { text: "Podemos pintarla de marrón para que parezca roble a media distancia.", roll: 12, success: { text: "Aceptan el apaño encantados.", sat: 20 }, fail: { text: "Se dan cuenta de lo ridículo que suena.", sat: -15 } }
+            ]
+        },
+        {
+            id: "dead_selfie",
+            text: "Quieren que pongas al difunto en una pose 'dinámica' para un último selfie familiar.",
+            choices: [
+                { text: "La dignidad de nuestros clientes es innegociable, lo siento.", sat: 10 },
+                { text: "Tengo un pack de 'Poses de Instagram' por 100 monedas.", roll: 14, success: { text: "¡Sale genial en la foto! #RIP", sat: 25, money: 100 }, fail: { text: "Se le cae un brazo durante la pose. Desastre.", sat: -35 } },
+                { text: "Si le pongo gafas de sol, parecerá que está de vacaciones en Benidorm.", sat: -15 }
+            ]
+        },
+        {
+            id: "sweating_body",
+            text: "Un familiar grita horrorizado porque el difunto 'está sudando'. Es solo condensación.",
+            choices: [
+                { text: "Es el proceso natural de enfriamiento, no se preocupen en absoluto.", sat: 15 },
+                { text: "Es que en el infierno hace calor, ¿saben? Mala señal.", sat: -55 },
+                { text: "Está nervioso por verles una última vez, es una señal de puro amor.", roll: 13, success: { text: "Se sienten conmovidos por el 'fenómeno'.", sat: 20 }, fail: { text: "Creen que les estás tomando el pelo.", sat: -25 } }
+            ]
+        },
+        {
+            id: "boring_music",
+            text: "Se quejan amargamente de que la música de la capilla es aburrida y 'poca cosa'.",
+            choices: [
+                { text: "Buscamos siempre un ambiente de máxima paz y recogimiento.", sat: 10 },
+                { text: "Iván puede pinchar Techno-Muerte si pagan el equipo de sonido.", roll: 15, success: { text: "¡La fiesta de su vida! Digo, de su muerte.", sat: 30, money: 150 }, fail: { text: "Iván pone reguetón antiguo. Les horroriza.", sat: -25 } },
+                { text: "A los muertos les encanta, no se han quejado nunca hasta ahora.", sat: -15 }
+            ]
+        },
+        {
+            id: "twin_cremation",
+            text: "Una pareja de gemelos idénticos quiere saber si hay descuento 2x1 si mueren a la vez.",
+            choices: [
+                { text: "La logística es la misma, pero puedo hacerles un 10% por fidelidad.", sat: 15 },
+                { text: "Si caben en el mismo horno, ahorramos leña y tiempo. Trato hecho.", sat: -35 },
+                { text: "El 'Pack Dúo Eterno' incluye una urna compartida muy elegante.", roll: 12, success: { text: "Les encanta la idea de estar juntos siempre.", sat: 20 }, fail: { text: "Les parece una oferta de mal gusto.", sat: -15 } }
+            ]
+        },
+        {
+            id: "psychic_insult",
+            text: "Una vidente en la sala afirma que el muerto le está insultando desde el otro lado.",
+            choices: [
+                { text: "El duelo a veces nos hace oír cosas, descanse un poco en la cafetería.", sat: 10 },
+                { text: "Dígale que si sigue así, le cobraré recargo por mal comportamiento post-mortem.", sat: -25 },
+                { text: "Yo también lo oigo, dice que usted le debe 50 monedas.", roll: 16, success: { text: "¡La vidente paga asustada! +50 monedas.", sat: 20, money: 50 }, fail: { text: "Creen que todos estáis locos.", sat: -35 } }
+            ]
+        },
+        {
+            id: "beach_urn",
+            text: "Quieren mezclar las cenizas con arena de playa para que parezca que 'sigue de vacaciones'.",
+            choices: [
+                { text: "Un tributo veraniego muy original. Lo prepararemos con mimo.", sat: 15 },
+                { text: "Tengan cuidado no la confundan con el cenicero del hotel este verano.", sat: -30 },
+                { text: "Podemos añadirle esencia de coco y protector solar por 20 monedas.", roll: 11, success: { text: "Huele a vacaciones eternas. ¡Perfecto!", sat: 20, money: 20 }, fail: { text: "Huele a rayos. No les gusta nada.", sat: -15 } }
+            ]
         }
     ]
 };

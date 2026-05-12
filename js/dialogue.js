@@ -100,10 +100,24 @@ const Dialogue = (() => {
 
     // ===== INTERVIEW MINI-GAME =====
     function startInterview(family) {
+        const state = Engine.getState();
         let satisfaction = 50;
         let steps = 3 + Math.floor(Math.random() * 3); // 3-5 steps
         let currentStep = 0;
-        let selectedScenarios = [...DATA.interviewScenarios].sort(() => 0.5 - Math.random()).slice(0, steps);
+
+        // Interview Rotation Logic: Ensure we use all scenarios before repeating
+        if (!state.interviewPool || state.interviewPool.length < steps) {
+            state.interviewPool = [...DATA.interviewScenarios].map(s => s.id);
+            // Shuffle
+            state.interviewPool.sort(() => 0.5 - Math.random());
+        }
+
+        let selectedScenarios = [];
+        for (let i = 0; i < steps; i++) {
+            const id = state.interviewPool.pop();
+            const scenario = DATA.interviewScenarios.find(s => s.id === id);
+            selectedScenarios.push(scenario);
+        }
 
         const portraitOptions = { showReaper: true, imgSrc: `assets/ui/fam0${family.photoIndex}.png` };
 

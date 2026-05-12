@@ -1149,6 +1149,96 @@ const DATA = {
                 { text: "Politely decline to maintain dignity.", sat: 15 },
                 { text: "Offer to play the ghost for an extra $100.", sat: -35 }
             ]
+        },
+        {
+            id: "pacemaker",
+            text: "The family asks if the pacemaker has been removed before cremation. 'We heard they explode.'",
+            choices: [
+                { text: "Of course, safety is our top priority here.", sat: 15 },
+                { text: "I bet Ivan 50 coins it would explode. I just lost.", sat: -30 },
+                { text: "The pacemaker is now an eternal 'spiritual battery'. Don't worry.", roll: 14, success: { text: "They find the idea comforting.", sat: 25 }, fail: { text: "They think you're mocking them.", sat: -15 } }
+            ]
+        },
+        {
+            id: "ash_taste",
+            text: "A very distressed relative wants to taste the ashes to 'connect with their essence'.",
+            choices: [
+                { text: "Sir, that is... unsanitary. Try our complimentary coffee instead.", sat: 10 },
+                { text: "They taste like barbecue and regret. 20 coins for the tasting.", sat: -20, money: 20 },
+                { text: "Ivan says they taste much better with a pinch of salt.", sat: -45 }
+            ]
+        },
+        {
+            id: "swallowed_key",
+            text: "They suspect Grandpa swallowed the safe key right before passing away.",
+            choices: [
+                { text: "We can perform a 'deep inspection' for a recovery fee.", roll: 15, success: { text: "You found it! +200 coins.", sat: 20, money: 200 }, fail: { text: "Nothing in there. They are disappointed.", sat: -25 } },
+                { text: "If he rattles like a piggy bank when moved, there's a prize.", sat: -30 },
+                { text: "Honesty is key. If it shows up during the process, we'll let you know.", sat: 15 }
+            ]
+        },
+        {
+            id: "fridge_box",
+            text: "They brought an empty refrigerator box to use as a coffin to save costs.",
+            choices: [
+                { text: "Recycling is the noblest way to return to the earth.", sat: 15 },
+                { text: "If it rains during the burial, Grandpa is going to be cardboard mush.", sat: -40 },
+                { text: "We can paint it brown to look like oak from a distance.", roll: 12, success: { text: "They happily accept the workaround.", sat: 20 }, fail: { text: "They realize how ridiculous that sounds.", sat: -15 } }
+            ]
+        },
+        {
+            id: "dead_selfie",
+            text: "They want you to put the deceased in a 'dynamic' pose for one last family selfie.",
+            choices: [
+                { text: "The dignity of our clients is non-negotiable, I'm sorry.", sat: 10 },
+                { text: "I have an 'Instagram Poses' pack for 100 coins.", roll: 14, success: { text: "Looks great in the photo! #RIP", sat: 25, money: 100 }, fail: { text: "An arm falls off during the pose. Disaster.", sat: -35 } },
+                { text: "If I put sunglasses on him, he'll look like he's on vacation.", sat: -15 }
+            ]
+        },
+        {
+            id: "sweating_body",
+            text: "A relative screams in horror because the deceased 'is sweating'. It's just condensation.",
+            choices: [
+                { text: "It's the natural cooling process, no need to worry at all.", sat: 15 },
+                { text: "Well, it's hot in hell, you know? Bad sign.", sat: -55 },
+                { text: "He's just nervous to see you one last time; it's a sign of pure love.", roll: 13, success: { text: "They are moved by the 'phenomenon'.", sat: 20 }, fail: { text: "They think you're pulling their leg.", sat: -25 } }
+            ]
+        },
+        {
+            id: "boring_music",
+            text: "They complain loudly that the chapel music is boring and 'too thin'.",
+            choices: [
+                { text: "We always aim for an atmosphere of maximum peace and reflection.", sat: 10 },
+                { text: "Ivan can DJ some 'Death-Techno' if you pay for the sound system.", roll: 15, success: { text: "The party of his life! I mean, death.", sat: 30, money: 150 }, fail: { text: "Ivan plays old reggaeton. They are horrified.", sat: -25 } },
+                { text: "The dead love it; they've never complained until now.", sat: -15 }
+            ]
+        },
+        {
+            id: "twin_cremation",
+            text: "A pair of identical twins wants to know if there's a 2-for-1 discount if they die together.",
+            choices: [
+                { text: "The logistics are the same, but I can do 10% for loyalty.", sat: 15 },
+                { text: "If they fit in the same oven, we save fuel and time. Deal.", sat: -35 },
+                { text: "The 'Eternal Duo Pack' includes a very elegant shared urn.", roll: 12, success: { text: "They love the idea of being together forever.", sat: 20 }, fail: { text: "They find it to be a tasteless offer.", sat: -15 } }
+            ]
+        },
+        {
+            id: "psychic_insult",
+            text: "A psychic in the room claims the deceased is insulting her from the other side.",
+            choices: [
+                { text: "Grief sometimes makes us hear things; rest a bit in the cafeteria.", sat: 10 },
+                { text: "Tell her if he keeps it up, I'll charge a post-mortem misconduct fee.", sat: -25 },
+                { text: "I hear it too; he says you owe him 50 coins.", roll: 16, success: { text: "The psychic pays up out of fear! +50 coins.", sat: 20, money: 50 }, fail: { text: "They think you're all crazy.", sat: -35 } }
+            ]
+        },
+        {
+            id: "beach_urn",
+            text: "They want to mix the ashes with beach sand so it feels like he's 'still on vacation'.",
+            choices: [
+                { text: "A very original summer tribute. We'll prepare it with care.", sat: 15 },
+                { text: "Just be careful not to mistake it for the hotel ashtray this summer.", sat: -30 },
+                { text: "We can add coconut scent and sunscreen for 20 coins.", roll: 11, success: { text: "Smells like eternal vacation. Perfect!", sat: 20, money: 20 }, fail: { text: "Smells terrible. They don't like it at all.", sat: -15 } }
+            ]
         }
     ],
     // ===== ACHIEVEMENTS =====

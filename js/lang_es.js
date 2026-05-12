@@ -44,7 +44,7 @@ I18n.register('es', {
 'hub.eternal_rest': 'TANATORIO', 'hub.funeral_house': 'DESCANSO ETERNO',
 'hub.motto': '"Cuidamos de ellos hasta el final"',
 'hub.news_btn': 'NOTICIAS DEL DÍA',
-'hub.news_title': 'EL CLARÍN DE LA TUMBA',
+'hub.news_title': 'EL RIGOR MORTIS',
 'hub.no_appointments': 'No hay citas para hoy.',
 'hub.locked': '🔒 Desbloquea esta mejora en el menú mejoras.',
 'hub.welcome': '☠ Bienvenido/a, {0}. Los muertos te esperan.',

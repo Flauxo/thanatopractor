@@ -98,7 +98,7 @@
 
 @keyframes day-move-up {
     0% { transform: translateY(0); }
-    100% { transform: translateY(-160px); }
+    100% { transform: translateY(-130px); }
 }
 
 @keyframes newspaper-spin-zoom {

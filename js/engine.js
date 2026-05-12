@@ -285,7 +285,7 @@ const Engine = (() => {
 
         // Daily 18:00h alert
         const currentTotalMinutes = Math.floor(state.time);
-        if (currentTotalMinutes === 1080 && !state.alert18Shown) {
+        if (currentTotalMinutes >= 1080 && !state.alert18Shown) {
             state.alert18Shown = true;
             if (typeof Dialogue !== 'undefined') {
                 Dialogue.show(
@@ -303,7 +303,8 @@ const Engine = (() => {
         const isAnyCremating = state.families.some(f => f.active && f.cremationStarted && !f.cremated);
         const allDone = remainingArrivals === 0 && activeFams === 0 && waitingFams === 0 && !state.activePaperwork && !state.cremaRepairing && !isAnyCremating;
         
-        if (allDone && !state.sleepPromptShown && state.dayProgress > 0.5) {
+        const dayProgress = (state.time - 480) / 720; // 8:00 to 20:00
+        if (allDone && !state.dayEndPrompted && dayProgress > 0.5) {
             if (state.tasksCompletedRealTime === null) {
                 state.tasksCompletedRealTime = Date.now();
             } else if (Date.now() - state.tasksCompletedRealTime >= 4000) {

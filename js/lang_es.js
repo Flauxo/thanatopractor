@@ -374,7 +374,7 @@ I18n.register('es', {
 'ov.roll': '¡TIRAR!',
 // Engine
 'eng.new_pw': 'Papeleo previsto a las {0}',
-'eng.end_title': '🛌 FIN DEL DÍA', 'eng.end_text': 'Parece que no quedan más tareas para hoy. ¿Quieres irte a dormir?',
+'eng.end_title': '🛌 FIN DEL DÍA', 'eng.end_text': 'No más tareas por hoy, ¿quieres irte a dormir?',
 'eng.end_yes': 'SÍ, A DORMIR', 'eng.end_no': 'TODAVÍA NO',
 'eng.end_stay': 'Decidiste quedarte despierto un poco más.',
 'eng.day_ended': '🌙 El día {0} terminó. Un nuevo día amanece en Descanso Eterno.',
@@ -445,7 +445,7 @@ I18n.register('es', {
 'dlg.random_event': '📢 EVENTO ALEATORIO',
 'rec.transfer_ready': '🚐 Transferir a {0}',
 'eng.alert_18_title': '¡ALERTA!',
-'eng.alert_18_msg': '¡Rápido, termina todas tus tareas, el tanatorio cierra en 2 horas!',
+'eng.alert_18_msg': 'El día termina en 2 horas, rápido termina tus tareas porque cierra a las 20h',
 // Moods
 'mood.crying.name': 'Devastados', 'mood.crying.desc': 'Apenas pueden hablar entre sollozos.',
 'mood.celebrating.name': 'De celebración', 'mood.celebrating.desc': 'Han traído confeti. A un tanatorio.',

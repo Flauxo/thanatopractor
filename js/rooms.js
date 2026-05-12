@@ -94,15 +94,33 @@ const Rooms = (() => {
                         Dialogue.show(I18n.T('rec.order_hearse'), I18n.T('rec.select_transport'), choices);
                     }
                 }},
-                { text: I18n.T('rec.order_flowers'), action: () => {
-                    if (s.money < 50) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }
-                    Engine.addMoney(-50, I18n.T('eng.ordered_flowers'));
-                    Engine.showToast(I18n.T('rec.flowers_result'), 'success');
-                    Engine.addReputation(2, 'Beautiful fresh flowers');
-                    if (typeof Main !== 'undefined') Main.showScreen('hub');
-                }},
                 { text: I18n.T('rec.nevermind'), action: () => {} }
             ];
+
+            // Only show flower ordering when requested by a family in viewing
+            const hasFlowerRequest = s.families.some(f => f.active && f.activeRequests && f.activeRequests.includes('flowers'));
+            if (hasFlowerRequest) {
+                // Insert before 'Nevermind'
+                phoneChoices.splice(phoneChoices.length - 1, 0, { 
+                    text: I18n.T('rec.order_flowers') + ' 🌸', 
+                    action: () => {
+                        if (s.money < 50) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }
+                        Engine.addMoney(-50, I18n.T('eng.ordered_flowers'));
+                        Engine.showToast(I18n.T('rec.flowers_result'), 'success');
+                        Engine.addReputation(5, 'Fresh flowers delivered');
+                        
+                        // Fulfill request for all families that wanted flowers
+                        s.families.forEach(f => {
+                            if (f.active && f.activeRequests && f.activeRequests.includes('flowers')) {
+                                f.activeRequests = f.activeRequests.filter(r => r !== 'flowers');
+                                if (typeof Families !== 'undefined') Families.updateSatisfaction(f.id, 10, 'Fresh flowers');
+                            }
+                        });
+
+                        if (typeof Main !== 'undefined') Main.showScreen('hub');
+                    }
+                });
+            }
 
             // Only show maintenance call when crematorium is actually broken
             if (s.cremaBroken || s.cremaRepairing) {

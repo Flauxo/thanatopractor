@@ -396,63 +396,87 @@ const Engine = (() => {
 
         // Transition Overlay
         const overlay = document.getElementById('day-transition-overlay');
-        const text = document.getElementById('day-text');
-        if (overlay && text) {
-            text.textContent = `${I18n.T('hub.day')} ${state.day}`;
-            overlay.style.display = 'flex';
-            
-            // Reset animation
-            text.style.animation = 'none';
-            text.offsetHeight; // trigger reflow
-            text.style.animation = null;
+        const dayText = document.getElementById('day-text');
+        const newspaperContainer = document.getElementById('newspaper-container');
+        const newspaperImg = document.getElementById('newspaper-img');
+        const btnNewsOpen = document.getElementById('btn-news-open');
+        const newsModal = document.getElementById('news-modal');
+        const newsContentText = document.getElementById('news-content-text');
+        const btnNewsOk = document.getElementById('btn-news-ok');
 
-            setTimeout(() => {
-                try {
-                    overlay.style.display = 'none';
-                    // Force-close any lingering overlays
-                    ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay', 'levelup-overlay'].forEach(id => {
-                        const el = document.getElementById(id);
-                        if (el) el.style.display = 'none';
-                    });
-                    
-                    // Generate schedule
-                    console.log('[NEXTDAY] Generating schedule...');
-                    generateDailySchedule();
-                    console.log('[NEXTDAY] Schedule generated: ' + state.schedule.length + ' items');
-                    
-                    // Navigate to hub
-                    if (typeof Main !== 'undefined') Main.showScreen('hub');
-                    
-                    if (typeof Audio8Bit !== 'undefined') Audio8Bit.fadeIn(1.5);
-                } catch(e) {
-                    console.error('[NEXTDAY] Error during day setup:', e);
-                } finally {
-                    // ALWAYS start the clock, even if something above failed
-                    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                    const hubScreen = document.getElementById('hub-screen');
-                    if (hubScreen) hubScreen.classList.add('active');
-                    
-                    stopTime();
-                    tickInterval = null;
-                    startTime();
-                    setSpeed(1);
-                    console.log('[NEXTDAY] Clock started. tickInterval=' + (tickInterval !== null) + ' speed=' + state.speed + ' schedule=' + state.schedule.length);
-                    if (state.foundItems && state.foundItems.length >= 5) Notifications.unlockAchievement('collector');
-                    save();
-                }
-            }, 3000);
-        } else {
-            generateDailySchedule();
+        const finishDayTransition = () => {
             try {
+                overlay.style.display = 'none';
+                newsModal.style.display = 'none';
+                // Force-close any lingering overlays
+                ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay', 'levelup-overlay'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = 'none';
+                });
+                
+                // Generate schedule
+                console.log('[NEXTDAY] Generating schedule...');
+                generateDailySchedule();
+                console.log('[NEXTDAY] Schedule generated: ' + state.schedule.length + ' items');
+                
+                // Navigate to hub
                 if (typeof Main !== 'undefined') Main.showScreen('hub');
-            } catch(e) { console.error('showScreen error:', e); }
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            const hubScreen = document.getElementById('hub-screen');
-            if (hubScreen) hubScreen.classList.add('active');
-            stopTime();
-            startTime();
-            setSpeed(1);
-            if (typeof Audio8Bit !== 'undefined') Audio8Bit.fadeIn(1.0);
+                
+                if (typeof Audio8Bit !== 'undefined') Audio8Bit.fadeIn(1.5);
+            } catch(e) {
+                console.error('[NEXTDAY] Error during day setup:', e);
+            } finally {
+                // ALWAYS start the clock, even if something above failed
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                const hubScreen = document.getElementById('hub-screen');
+                if (hubScreen) hubScreen.classList.add('active');
+                
+                stopTime();
+                tickInterval = null;
+                startTime();
+                setSpeed(1);
+                console.log('[NEXTDAY] Clock started. tickInterval=' + (tickInterval !== null) + ' speed=' + state.speed + ' schedule=' + state.schedule.length);
+                if (state.foundItems && state.foundItems.length >= 5) Notifications.unlockAchievement('collector');
+                save();
+            }
+        };
+
+        if (overlay && dayText) {
+            dayText.textContent = `${I18n.T('hub.day')} ${state.day}`.toUpperCase();
+            dayText.className = ''; 
+            overlay.style.display = 'flex';
+            newspaperContainer.style.display = 'none';
+            btnNewsOpen.style.display = 'none';
+            newsModal.style.display = 'none';
+
+            // Phase 1: Day Text center (1s)
+            setTimeout(() => {
+                // Phase 2: Move UP
+                dayText.classList.add('anim-day-up');
+
+                setTimeout(() => {
+                    // Phase 3: Newspaper spin
+                    newspaperContainer.style.display = 'flex';
+                    newspaperImg.className = 'anim-news-spin';
+
+                    setTimeout(() => {
+                        // Phase 4: Show news button
+                        btnNewsOpen.style.display = 'block';
+                        btnNewsOpen.onclick = () => {
+                            const newsList = DATA.dailyNews || ["Everything is quiet."];
+                            newsContentText.textContent = newsList[Math.floor(Math.random() * newsList.length)];
+                            newsModal.style.display = 'flex';
+                            if (Audio8Bit.SFX.paperwork) Audio8Bit.SFX.paperwork();
+                        };
+
+                        btnNewsOk.onclick = () => {
+                            finishDayTransition();
+                        };
+                    }, 1500); // Wait for spin animation
+                }, 800); // Wait for move up animation
+            }, 1000);
+        } else {
+            finishDayTransition();
         }
     }
 

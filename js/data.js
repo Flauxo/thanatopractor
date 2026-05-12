@@ -1241,6 +1241,23 @@ const DATA = {
             ]
         }
     ],
+    dailyNews: [
+        "Today is Undertaker's Day! The local association is giving away free coffee to all professionals.",
+        "Gravedigger strike at the municipal cemetery. Bodies are piling up in the morgues.",
+        "Extreme heat wave. It is recommended to lower the temperature in the viewing rooms to avoid... odors.",
+        "A client claims to be a real vampire from Transylvania. He asks for a coffin with red velvet lining.",
+        "Ivan has won the 'Grimmest Voice' of the year award. He is insufferably celebrating it.",
+        "Rumor has it a ghost is wandering the halls of Eternal Rest. Some clients have asked for 'fright' discounts.",
+        "Inflation in embalming supplies. Formaldehyde is through the roof today.",
+        "Vandals overturned several tombstones last night. Neighbors are outraged at local security.",
+        "The competing funeral home is giving away second-hand coffins. It's a price war!",
+        "Thunderstorm predicted for tonight. Risk of power outages in the crematorium.",
+        "A time capsule has been found under the porch. It contains... a gold tooth?",
+        "A famous 'funeral critic' is in town. Make sure everything shines!",
+        "The cafeteria received a batch of especially sweet 'Soul Cakes' today.",
+        "The city council announces new fees for every gram of ash. More paperwork!",
+        "UFO sightings near the mortuary. The alien family is very excited."
+    ],
     // ===== ACHIEVEMENTS =====
     achievements: [
         { id: "first_client", title: "Welcome to the Trade", desc: "Process your first family successfully.", icon: "skull", image: "assets/achievements/first_client.png" },

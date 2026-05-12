@@ -40,6 +40,8 @@ I18n.register('en', {
 'hub.day': 'Day', 'hub.reputation': 'REPUTATION', 'hub.schedule': "TODAY'S SCHEDULE",
 'hub.no_appointments': 'No appointments yet...', 'hub.eternal_rest': 'ETERNAL REST',
 'hub.funeral_house': 'FUNERAL HOUSE', 'hub.motto': '"We care to the end"',
+'hub.news_btn': 'DAILY NEWS',
+'hub.news_title': 'THE GRAVE GAZETTE',
 'hub.welcome': '☠ Welcome, {0}. The dead await.',
 'hub.locked': '🔒 Unlock this improvement in the Upgrades menu!',
 // Nav

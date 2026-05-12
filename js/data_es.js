@@ -1136,6 +1136,23 @@ const DATA_ES = {
                 { text: "Podemos añadirle esencia de coco y protector solar por 20 monedas.", roll: 11, success: { text: "Huele a vacaciones eternas. ¡Perfecto!", sat: 20, money: 20 }, fail: { text: "Huele a rayos. No les gusta nada.", sat: -15 } }
             ]
         }
+    ],
+    dailyNews: [
+        "¡Hoy es el Día del Tanatopractor! La asociación local regala café a todos los profesionales del sector.",
+        "Huelga de enterradores en el cementerio municipal. Los cuerpos se acumulan en los depósitos.",
+        "Ola de calor extrema. Se recomienda bajar la temperatura de las salas de velatorio para evitar... olores.",
+        "Un cliente afirma ser un vampiro real de Transilvania. Pide un ataúd con revestimiento de terciopelo rojo.",
+        "Iván ha ganado el premio a la 'Voz más Tétrica' del año. Está insoportable celebrándolo.",
+        "Se rumorea que un fantasma vaga por los pasillos de Eternal Rest. Algunos clientes han pedido descuentos por 'susto'.",
+        "Inflación en los suministros de embalsamamiento. El formaldehído está por las nubes hoy.",
+        "Gamberros volcaron varias lápidas anoche. Los vecinos están indignados con la seguridad local.",
+        "La funeraria de la competencia regala ataúdes de segunda mano. ¡Es una guerra de precios!",
+        "Tormenta eléctrica prevista para esta noche. Riesgo de apagones en el crematorio.",
+        "Se ha encontrado una cápsula del tiempo bajo el porche. Contiene... ¿un diente de oro?",
+        "Un famoso 'crítico de funerales' está en la ciudad. ¡Asegúrate de que todo brille!",
+        "La cafetería ha recibido una partida de 'Pasteles de Alma' especialmente dulces hoy.",
+        "El ayuntamiento anuncia nuevas tasas por cada gramo de ceniza. ¡Más papeleo!",
+        "Avistamiento de OVNIs cerca del tanatorio. La familia alienígena está muy emocionada."
     ]
 };
 

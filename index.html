@@ -616,9 +616,25 @@
 
     <!-- Scripts (loaded in dependency order) -->
     <!-- Day Transition Overlay -->
-    <div id="day-transition-overlay" class="overlay" style="background: black; z-index: 10000; display: none;">
-        <div id="day-text" style="color: #bc4a9c; font-size: 48px; font-family: var(--font-press-start); text-align: center; animation: fadeInOut 3s forwards;">
+    <div id="day-transition-overlay" class="overlay" style="background: black; z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center;">
+        <div id="day-text" style="color: #bc4a9c; font-size: 48px; font-family: 'Press Start 2P', cursive; text-align: center;">
             DAY 1
+        </div>
+        <div id="newspaper-container" style="display: none; flex-direction: column; align-items: center; margin-top: 40px;">
+            <img id="newspaper-img" src="assets/ui/newspaper.png" alt="Newspaper" style="width: 220px; height: auto; image-rendering: pixelated; border: 4px solid #fff;">
+            <button id="btn-news-open" class="pixel-btn pink-btn" style="margin-top: 30px; font-size: 16px;">
+                <span data-i18n="hub.news_btn">NOTICIAS DEL DÍA</span>
+            </button>
+        </div>
+        <!-- News Modal (Popup) -->
+        <div id="news-modal" class="overlay" style="display: none; background: rgba(0,0,0,0.9); z-index: 10001;">
+             <div class="screen-panel centered-panel" style="max-width: 400px; text-align: center; border-color: #bc4a9c;">
+                 <h2 data-i18n="hub.news_title" style="color: #bc4a9c; margin-bottom: 20px;">EL CLARÍN DE LA TUMBA</h2>
+                 <div style="background: #222; padding: 20px; border: 2px solid #444; margin-bottom: 20px;">
+                    <p id="news-content-text" class="vt-text" style="font-size: 20px; line-height: 1.4; color: #eee;"></p>
+                 </div>
+                 <button id="btn-news-ok" class="pixel-btn pink-btn">OK</button>
+             </div>
         </div>
     </div>
 

@@ -95,3 +95,17 @@
 /* Dice result animations */
 .dice-crit-fail { animation: shake 0.3s ease-in-out 3; color: var(--danger); }
 .dice-crit-success { animation: money-pop 0.5s ease-out 2; color: var(--gold); }
+
+@keyframes day-move-up {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-160px); }
+}
+
+@keyframes newspaper-spin-zoom {
+    0% { transform: rotate(0deg) scale(0); opacity: 0; }
+    80% { transform: rotate(1800deg) scale(1.1); opacity: 1; }
+    100% { transform: rotate(2160deg) scale(1); opacity: 1; }
+}
+
+.anim-day-up { animation: day-move-up 0.8s ease-in-out forwards; }
+.anim-news-spin { animation: newspaper-spin-zoom 1.5s ease-out forwards; }

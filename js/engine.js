@@ -305,7 +305,7 @@ const Engine = (() => {
         // Prompt for early sleep if all tasks done
         const remainingArrivals = state.schedule.filter(s => s.type === 'arrival' && !s.triggered).length;
         const isAnyCremating = state.families.some(f => f.active && f.cremationStarted && !f.cremated);
-        const allDone = remainingArrivals === 0 && activeFams === 0 && waitingFams === 0 && !state.activePaperwork && !state.cremaRepairing && !isAnyCremating;
+        const allDone = remainingArrivals === 0 && (state.pendingArrivals || 0) === 0 && activeFams === 0 && waitingFams === 0 && !state.activePaperwork && !state.cremaRepairing && !isAnyCremating;
         
         const dayProgress = (state.time - 480) / 720; // 8:00 to 20:00
         if (allDone && !state.dayEndPrompted && dayProgress > 0.1) {
@@ -359,13 +359,21 @@ const Engine = (() => {
         if (typeof Audio8Bit !== 'undefined') Audio8Bit.fadeOut(1.0);
         await new Promise(r => setTimeout(r, 1000));
 
-        // Disposal logic: bodies left in crematorium (not finished) disappear
-        const discarded = state.families.filter(f => f.active && f.wantsCremation && !f.cremated);
-        if (discarded.length > 0) {
-            discarded.forEach(f => {
-                f.active = false;
+        // Deactivate ALL families still marked as active to prevent "ghost families" blocking future prompts
+        const activeFamsAtEnd = state.families.filter(f => f.active);
+        let showDisposalWarning = false;
+        
+        activeFamsAtEnd.forEach(f => {
+            f.active = false;
+            if (f.wantsCremation && !f.cremated) {
                 f.discardedOvernight = true;
-            });
+                showDisposalWarning = true;
+            } else {
+                f.completedOvernight = true;
+            }
+        });
+
+        if (showDisposalWarning) {
             Engine.showToast(I18n.T('crema.disposal_warning'), 'danger');
         }
         nextDay();

@@ -182,7 +182,7 @@ I18n.register('es', {
 ],
 'emb.needs_embalming': '🧪 ¡{0} necesita embalsamamiento!',
 'emb.still_needs': '🧪 ¡{0} todavía necesita embalsamamiento!',
-'emb.penalty': '({0} Pen)', 'emb.no_penalty': '(Sin pen)',
+'emb.penalty': '({0} Pen)', 'emb.no_penalty': '(Sin penalización)',
 // Tutorial embalsamar
 'emb.tutorial_title': '🧪 PRIMERA VEZ EN LA SALA DE EMBALSAMAR',
 'emb.tutorial_text': 'Acuérdate de tener los suministros al día, tardan una hora en llegar. Quedarte sin material a mitad de procedimiento es... incómodo.',

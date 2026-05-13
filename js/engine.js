@@ -88,20 +88,26 @@ const Engine = (() => {
         return '⭐';
     }
 
+    function hasItem(id) { return state.foundItems && state.foundItems.includes(id); }
+
     // ===== MONEY =====
     function addMoney(amount, reason, silent = false) {
-        state.money += amount;
-        if (amount > 0) state.stats.totalEarnings += amount;
+        let finalAmount = amount;
+        if (amount > 0 && hasItem('gold_tooth')) {
+            finalAmount = Math.floor(amount * 1.05);
+        }
+        state.money += finalAmount;
+        if (finalAmount > 0) state.stats.totalEarnings += finalAmount;
         if (state.money >= 20000) Notifications.unlockAchievement('rich_undertaker');
         updateHUD();
-        if (amount > 0 && !silent) {
+        if (finalAmount > 0 && !silent) {
             Audio8Bit.SFX.money();
-            showToast(`+$${amount} — ${reason}`, 'success');
+            showToast(`+$${finalAmount} — ${reason}`, 'success');
             animateHUD('hud-money', 'money-gain');
-        } else if (amount > 0 && silent) {
+        } else if (finalAmount > 0 && silent) {
             Audio8Bit.SFX.money();
-        } else if (amount < 0 && !silent) {
-            showToast(`-$${Math.abs(amount)} — ${reason}`, 'warning');
+        } else if (finalAmount < 0 && !silent) {
+            showToast(`-$${Math.abs(finalAmount)} — ${reason}`, 'warning');
             animateHUD('hud-money', 'money-loss');
         }
         checkGameOver();
@@ -109,15 +115,22 @@ const Engine = (() => {
 
     // ===== REPUTATION =====
     function addReputation(amount, reason, silent = false) {
-        state.reputation = Math.max(0, Math.min(100, state.reputation + amount));
+        let finalAmount = amount;
+        if (amount < 0 && hasItem('glass_eye')) {
+            finalAmount = Math.ceil(amount * 0.9); // Reduce loss by 10%
+        } else if (amount > 0 && hasItem('concert_ticket')) {
+            finalAmount = Math.floor(amount * 1.05); // Increase gain by 5%
+        }
+        
+        state.reputation = Math.max(0, Math.min(100, state.reputation + finalAmount));
         if (state.reputation >= 100) Notifications.unlockAchievement('reputable');
         updateHUD();
         if (!silent) {
-            if (amount > 0) {
-                showToast(`+${amount} REP — ${reason}`, 'success');
+            if (finalAmount > 0) {
+                showToast(`+${finalAmount} REP — ${reason}`, 'success');
                 animateHUD('hud-rep', 'rep-gain');
-            } else if (amount < 0) {
-                showToast(`${amount} REP — ${reason}`, 'danger');
+            } else if (finalAmount < 0) {
+                showToast(`${finalAmount} REP — ${reason}`, 'danger');
                 animateHUD('hud-rep', 'rep-loss');
             }
         }
@@ -204,7 +217,9 @@ const Engine = (() => {
 
         // Crematorium temperature logic
         if (state.cremaIgnited && state.cremaFuel > 0) {
-            state.cremaTemp = Math.min(1100, state.cremaTemp + 4 * state.speed);
+            let heatGain = 4;
+            if (hasItem('vintage_lighter')) heatGain *= 1.1;
+            state.cremaTemp = Math.min(1100, state.cremaTemp + heatGain * state.speed);
             state.cremaFuel = Math.max(0, state.cremaFuel - 0.02 * state.speed);
             if (state.cremaFuel <= 0) {
                 state.cremaIgnited = false;
@@ -234,7 +249,9 @@ const Engine = (() => {
         // Random event chance
         const currentLevel = getLevel();
         const isAdvanced = currentLevel >= 3;
-        const prob = (isAdvanced ? 0.02 : 0.015) * state.speed;
+        let prob = (isAdvanced ? 0.02 : 0.015) * state.speed;
+        if (hasItem('mystery_cassette')) prob *= 1.1; // 10% more frequent
+        
         const cooldown = 45;
         const boredTimeout = 60; // Max 1 hour of doing nothing
         
@@ -305,10 +322,14 @@ const Engine = (() => {
         // Prompt for early sleep if all tasks done
         const remainingArrivals = state.schedule.filter(s => s.type === 'arrival' && !s.triggered).length;
         const isAnyCremating = state.families.some(f => f.active && f.cremationStarted && !f.cremated);
-        const allDone = remainingArrivals === 0 && (state.pendingArrivals || 0) === 0 && activeFams === 0 && waitingFams === 0 && !state.activePaperwork && !state.cremaRepairing && !isAnyCremating;
+        
+        // Refined allDone: Ignore families that are just waiting for the hearse if it's already ordered
+        const trulyActiveFams = state.families.filter(f => f.active && (!f.transportOrdered || f.waitingForTransport === false)).length;
+        
+        const allDone = remainingArrivals === 0 && (state.pendingArrivals || 0) === 0 && trulyActiveFams === 0 && waitingFams === 0 && !state.activePaperwork && !state.cremaRepairing && !isAnyCremating;
         
         const dayProgress = (state.time - 480) / 720; // 8:00 to 20:00
-        if (allDone && !state.dayEndPrompted && dayProgress > 0.1) {
+        if (allDone && !state.dayEndPrompted && dayProgress > 0.05) {
             if (state.tasksCompletedRealTime === null) {
                 state.tasksCompletedRealTime = Date.now();
             } else if (Date.now() - state.tasksCompletedRealTime >= 3000) {
@@ -648,13 +669,15 @@ const Engine = (() => {
         // Schedule a paperwork task mid-morning
         const pwTime = 570 + Math.floor(Math.random() * 90); // 9:30-11:00 AM
         const pwTask = DATA.paperworkTasks[Math.floor(Math.random() * DATA.paperworkTasks.length)];
+        const dc = 5 + Math.floor(Math.random() * 16); // Difficulty 5-20
         state.schedule.push({
             time: pwTime,
             type: 'paperwork',
             desc: I18n.T('eng.new_pw', getTimeString(pwTime)),
             triggered: false,
             room: null,
-            task: pwTask
+            task: pwTask,
+            difficulty: dc
         });
     }
 
@@ -757,6 +780,9 @@ const Engine = (() => {
 
     // ===== DICE =====
     function rollD20(modifier, callback) {
+        let finalModifier = modifier;
+        if (hasItem('crystal_balls')) finalModifier += 1;
+        
         state.stats.diceRolls++;
         const overlay = document.getElementById('dice-overlay');
         const die = document.getElementById('d20-die');
@@ -1168,7 +1194,9 @@ const Engine = (() => {
     function resetState() { state = defaultState(); }
 
     function rollCollectionDiscovery() {
-        const chance = 0.15; // 15% chance
+        let chance = 0.15; // 15% chance
+        if (hasItem('treasure_map')) chance = 0.20; // 20% if map found
+        
         if (Math.random() < chance) {
             const all = DATA.collections || [];
             const available = all.filter(item => !state.foundItems.includes(item.id));
@@ -1182,7 +1210,7 @@ const Engine = (() => {
                 if (dot) dot.style.display = 'block';
                 
                 // Show discovery dialogue
-                Dialogue.show(I18n.T('col.found_title'), I18n.T('col.found_text', found.name), [
+                Dialogue.enqueue(I18n.T('col.found_title'), I18n.T('col.found_text', found.name) + "\n\n" + found.desc, [
                     { text: I18n.T('ov.dismiss'), action: () => {} }
                 ]);
             }
@@ -1238,6 +1266,7 @@ const Engine = (() => {
         save, load, hasSave, resetState,
         checkGameOver, defaultState,
         rollCollectionDiscovery, showCollection,
-        unlockAchievement: (id) => Notifications.unlockAchievement(id)
+        unlockAchievement: (id) => Notifications.unlockAchievement(id),
+        hasItem
     };
 })();

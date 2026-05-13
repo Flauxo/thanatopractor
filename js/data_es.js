@@ -49,18 +49,18 @@ const DATA_ES = {
         { id: "minimalist", name: "Minimalistas", icon: "📦", desc: "Quieren un ataúd de montaje fácil tipo IKEA." }
     ],
     collections: [
-        { id: "gold_tooth", name: "Diente de oro calavera", desc: "Un molar tallado como una calavera. Puro lujo.", icon: "🦷" },
-        { id: "pizza_letter", name: "Carta de amor a una pizza", desc: "Dedicada a una Pepperoni. Muy romántico.", icon: "🍕" },
-        { id: "magic_sock", name: "Calcetín desparejado mágico", desc: "Siempre parece pertenecer a otra persona.", icon: "🧦" },
-        { id: "ghost_key", name: "Llave de mansión inexistente", desc: "No abre nada, pero pesa mucho.", icon: "🔑" },
-        { id: "crystal_balls", name: "Bolas de cristal de hipnotista", desc: "Si miras fijamente, ves la cara de Iván.", icon: "🔮" },
-        { id: "treasure_map", name: "Mapa del tesoro en servilleta", desc: "La X marca el lugar. Está bajo una tumba local. Tumba: 1418a", icon: "📜" },
-        { id: "glass_eye", name: "Ojo de cristal que mira", desc: "Parece seguirte por toda la oficina.", icon: "👁️" },
-        { id: "concert_ticket", name: "Entrada de concierto Ska", desc: "Concierto de Mephiskapheles con Seiskafés de teloneros.", icon: "🎫" },
-        { id: "returned_ring", name: "Anillo de compromiso devuelto", desc: "Una historia triste en una joya pequeña.", icon: "💍" },
-        { id: "choc_coin", name: "Moneda de chocolate eterna", desc: "Nunca se derrite, pero huele a cacao.", icon: "🍫" },
-        { id: "vintage_lighter", name: "Mechero Vintage", desc: "Grabado con: 'Propiedad de la Muerte'.", icon: "🔥" },
-        { id: "mystery_cassette", name: "Cassette Misterioso", desc: "Etiquetado: 'No escuchar de noche'.", icon: "📼" }
+        { id: "gold_tooth", name: "Diente de oro calavera", desc: "Un molar tallado como una calavera. Puro lujo. (Bonus: +5% dinero extra en servicios)", icon: "🦷" },
+        { id: "pizza_letter", name: "Carta de amor a una pizza", desc: "Dedicada a una Pepperoni. Muy romántico. (Bonus: +10% satisfacción en la cafetería)", icon: "🍕" },
+        { id: "magic_sock", name: "Calcetín desparejado mágico", desc: "Siempre parece pertenecer a otra persona. (Bonus: -5% coste de suministros)", icon: "🧦" },
+        { id: "ghost_key", name: "Llave de mansión inexistente", desc: "No abre nada, pero pesa mucho. (Bonus: Eventos positivos 10% más probables)", icon: "🔑" },
+        { id: "crystal_balls", name: "Bolas de cristal de hipnotista", desc: "Si miras fijamente, ves la cara de Iván. (Bonus: +1 a todas las tiradas de dados)", icon: "🔮" },
+        { id: "treasure_map", name: "Mapa del tesoro en servilleta", desc: "La X marca el lugar. Está bajo una tumba local. Tumba: 1418a. (Bonus: +5% probabilidad de encontrar objetos)", icon: "📜" },
+        { id: "glass_eye", name: "Ojo de cristal que mira", desc: "Parece seguirte por toda la oficina. (Bonus: -10% pérdida de reputación por mala suerte)", icon: "👁️" },
+        { id: "concert_ticket", name: "Entrada de concierto Ska", desc: "Concierto de Mephiskapheles con Seiskafés de teloneros. (Bonus: +5% ganancia de reputación)", icon: "🎫" },
+        { id: "returned_ring", name: "Anillo de compromiso devuelto", desc: "Una historia triste en una joya pequeña. (Bonus: +10% satisfacción en la sala de velatorio)", icon: "💍" },
+        { id: "choc_coin", name: "Moneda de chocolate eterna", desc: "Nunca se derrite, pero huele a cacao. (Bonus: +$2 de beneficio por venta en cafetería)", icon: "🍫" },
+        { id: "vintage_lighter", name: "Mechero Vintage", desc: "Grabado con: 'Propiedad de la Muerte'. (Bonus: El crematorio calienta un 10% más rápido)", icon: "🔥" },
+        { id: "mystery_cassette", name: "Cassette Misterioso", desc: "Etiquetado: 'No escuchar de noche'. (Bonus: Los eventos aleatorios ocurren un 10% más a menudo)", icon: "📼" }
     ],
 
     arrivalIntros: [
@@ -835,7 +835,7 @@ const DATA_ES = {
             text: "El maquillaje del catálogo parece un poco... excesivo. El difunto va a parecer una muñeca.",
             choices: [
                 { text: "Explicar que es la técnica 'Brillo Post-Vida'.", roll: 14, success: { text: "Creen que es artístico.", sat: 20 }, fail: { text: "Quieren que les devuelvas el dinero.", sat: -30 } },
-                { text: "Ofrecerte inmediatamente a arreglarlo gratis.", sat: 15 },
+                { text: "Ofrecerte a arreglarlo gratis si queda mal.", sat: 15 },
                 { text: "Decir: 'Siempre quiso tener más color'.", sat: -20 }
             ]
         },

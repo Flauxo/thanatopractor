@@ -103,6 +103,9 @@ const Families = (() => {
             return `✓ ${s}`;
         }).filter(Boolean).join('<br>');
 
+        const satBonus = f.satisfaction >= 90 ? 2 : 0;
+        const repChange = (rating - 5) + satBonus;
+
         document.getElementById('comp-title').textContent = `☠ ${f.deceasedName} — ${I18n.T('ov.summary_departed')}`;
         document.getElementById('comp-body').innerHTML = `
             <div class="comp-row"><span class="comp-label">${I18n.T('ov.summary_rating')}</span><span class="comp-stars">${stars} (${rating}/10)</span></div>
@@ -110,7 +113,8 @@ const Families = (() => {
             <div class="comp-row"><span class="comp-label">${I18n.T('ov.summary_transport')}</span><span class="comp-value">${transport}</span></div>
             <div class="comp-row"><span class="comp-label">${I18n.T('ov.summary_services')}</span><span class="comp-value" style="font-size:14px;font-family:var(--font-vt)">${services || I18n.T('ov.summary_basic')}</span></div>
             <div class="comp-row"><span class="comp-label">${I18n.T('ov.summary_earned')}</span><span class="comp-value">$${total}</span></div>
-            <div class="comp-row"><span class="comp-label">${I18n.T('ov.summary_reputation')}</span><span class="comp-value">${(rating - 5) >= 0 ? '+' : ''}${(rating - 5)} REP</span></div>
+            ${satBonus > 0 ? `<div class="comp-row" style="color:var(--success)"><span class="comp-label">${I18n.T('ov.summary_sat_bonus')}</span><span class="comp-value">+${satBonus} REP</span></div>` : ''}
+            <div class="comp-row"><span class="comp-label">${I18n.T('ov.summary_reputation')}</span><span class="comp-value">${repChange >= 0 ? '+' : ''}${repChange} REP</span></div>
         `;
         
         document.getElementById('completion-overlay').style.display = 'flex';
@@ -118,7 +122,6 @@ const Families = (() => {
             document.getElementById('completion-overlay').style.display = 'none';
 
             // Process rewards AFTER dismissal
-            const repChange = rating - 5; // 5 is neutral
             Engine.addReputation(repChange, `${f.deceasedName}'s family rated you ${rating}/10`, true);
             Engine.addXP(100 + rating * 20);
             Engine.addMoney(total, `Service for ${f.deceasedName}`, true);

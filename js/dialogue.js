@@ -141,8 +141,10 @@ const Dialogue = (() => {
                     text: text,
                     action: () => {
                         if (c.roll) {
+                            // Randomize DC slightly (+/- 3)
+                            const randomDC = Math.max(5, Math.min(20, c.roll + (Math.floor(Math.random() * 7) - 3)));
                             Engine.rollD20(0, (roll, total) => {
-                                const success = total >= c.roll;
+                                const success = total >= randomDC;
                                 const result = success ? c.success : c.fail;
                                 satisfaction = Math.max(0, Math.min(100, satisfaction + result.sat));
                                 enqueue(I18n.T('dlg.interview_title'), result.text, null, nextStep, { 
@@ -182,8 +184,9 @@ const Dialogue = (() => {
         else pool = I18n.T('dlg.sat_perfect');
 
         const resultText = Array.isArray(pool) ? pool[Math.floor(Math.random() * pool.length)] : pool;
+        const satBonusText = finalSat >= 90 ? `<br><span style="color:var(--success)">+ ${I18n.T('ov.summary_sat_bonus')}!</span>` : '';
 
-        const summary = `${I18n.T('dlg.interview_completed')}<br><br><strong>${I18n.T('view.mood')}: ${finalSat}%</strong><br>${resultText}`;
+        const summary = `${I18n.T('dlg.interview_completed')}<br><br><strong>${I18n.T('view.mood')}: ${finalSat}%</strong>${satBonusText}<br>${resultText}`;
         
         enqueue(I18n.T('dlg.interview_title'), summary, null, () => {
             showRegistrationSummary(family);
@@ -230,12 +233,40 @@ const Dialogue = (() => {
         let text = dialogue.textKey ? I18n.T(dialogue.textKey) : dialogue.text;
         text = text.replace(/\{name\}/g, family.deceasedName).replace(/\{relation\}/g, relation);
 
-        const choices = dialogue.choices.map(c => ({
-            text: (c.textKey ? I18n.T(c.textKey) : c.text).replace(/\{name\}/g, family.deceasedName),
-            rep: c.rep,
-            money: c.money,
-            action: () => {
-                if (c.rep) Families.updateSatisfaction(family.id, c.rep * 5, c.rep > 0 ? 'Good first impression' : 'Bad first impression');
+        const choices = dialogue.choices.map(c => {
+            let choiceText = (c.textKey ? I18n.T(c.textKey) : c.text).replace(/\{name\}/g, family.deceasedName);
+            if (c.roll || c.dc) {
+                choiceText += ` (${I18n.T('dlg.roll_check')})`;
+            }
+            return {
+                text: choiceText,
+                rep: c.rep,
+                money: c.money,
+                action: () => {
+                if (c.roll || c.dc) {
+                    const targetDC = Math.max(5, Math.min(20, (c.roll || c.dc) + (Math.floor(Math.random() * 7) - 3)));
+                    Engine.rollD20(0, (roll, total) => {
+                        const success = total >= targetDC;
+                        if (success) {
+                            if (c.success) {
+                                if (c.success.rep) Families.updateSatisfaction(family.id, c.success.rep * 5, 'Good first impression');
+                                if (c.success.money) Engine.addMoney(c.success.money, 'Dialogue success');
+                                Engine.showToast(c.success.text || 'Success!', 'success');
+                            } else {
+                                Families.updateSatisfaction(family.id, 10, 'Good first impression');
+                            }
+                        } else {
+                            if (c.fail) {
+                                if (c.fail.rep) Families.updateSatisfaction(family.id, c.fail.rep * 5, 'Bad first impression');
+                                Engine.showToast(c.fail.text || 'Failure...', 'danger');
+                            } else {
+                                Families.updateSatisfaction(family.id, -10, 'Bad first impression');
+                            }
+                        }
+                    });
+                } else {
+                    if (c.rep) Families.updateSatisfaction(family.id, c.rep * 5, c.rep > 0 ? 'Good first impression' : 'Bad first impression');
+                }
             }
         }));
 

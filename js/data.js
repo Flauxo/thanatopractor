@@ -45,21 +45,20 @@ const DATA = {
         { id: "detective", name: "Detective", icon: "🕵️", desc: "They are investigating the causes themselves." },
         { id: "occult", name: "Occultist", icon: "🕯️", desc: "They want to hold a séance during the viewing." },
         { id: "techie", name: "Techie", icon: "💻", desc: "They want to upload the deceased to the cloud." },
-        { id: "romantic", name: "Romantic", icon: "🌹", desc: "Looking for their next partner among the mourners." },
-        { id: "minimalist", name: "Minimalist", icon: "📦", desc: "They want a flat-pack, self-assembly coffin." }
+        { id: "romantic", name: "Romantic", icon: "🌹", desc: "Looking for their next partner among the mourners." }
     ],
     collections: [
-        { id: "gold_tooth", name: "Skull-shaped gold tooth", desc: "A molar carved into a tiny skull. Pure luxury.", icon: "🦷" },
-        { id: "pizza_letter", name: "Love letter to a pizza", desc: "Dedicated to a Pepperoni Pizza. Very romantic.", icon: "🍕" },
-        { id: "magic_sock", name: "Magic mismatched sock", desc: "It always feels like it belongs to someone else.", icon: "🧦" },
-        { id: "ghost_key", name: "Key to a non-existent mansion", desc: "It doesn't open anything, but it feels heavy.", icon: "🔑" },
-        { id: "crystal_balls", name: "Hypnotist's crystal balls", desc: "If you stare long enough, you see Ivan's face.", icon: "🔮" },
-        { id: "treasure_map", name: "Treasure map on a napkin", desc: "X marks the spot. It's under a local tombstone. Tomb: 1418a", icon: "📜" },
-        { id: "glass_eye", name: "Glass eye that stares", desc: "It seems to follow you around the office.", icon: "👁️" },
-        { id: "concert_ticket", name: "Ska Concert Ticket", desc: "Mephiskapheles live, with Seiskafés as opening act.", icon: "🎫" },
-        { id: "returned_ring", name: "Returned engagement ring", desc: "A sad story in a small piece of jewelry.", icon: "💍" },
-        { id: "choc_coin", name: "Ever-melting chocolate coin", desc: "It never melts, but it always smells like cocoa.", icon: "🍫" },
-        { id: "vintage_lighter", name: "Vintage Lighter", desc: "Engraved with 'Property of Death'.", icon: "🔥" },
+        { id: "gold_tooth", name: "Skull-shaped gold tooth", desc: "A molar carved into a tiny skull. Pure luxury. (Bonus: +5% extra money from services)", icon: "🦷" },
+        { id: "pizza_letter", name: "Love letter to a pizza", desc: "Dedicated to a Pepperoni Pizza. Very romantic. (Bonus: +10% satisfaction from cafeteria food)", icon: "🍕" },
+        { id: "magic_sock", name: "Magic mismatched sock", desc: "It always feels like it belongs to someone else. (Bonus: -5% cost of all supplies)", icon: "🧦" },
+        { id: "ghost_key", name: "Key to a non-existent mansion", desc: "It doesn't open anything, but it feels heavy. (Bonus: Positive random events are 10% more likely)", icon: "🔑" },
+        { id: "crystal_balls", name: "Hypnotist's crystal balls", desc: "If you stare long enough, you see Ivan's face. (Bonus: +1 to all dice rolls)", icon: "🔮" },
+        { id: "treasure_map", name: "Treasure map on a napkin", desc: "X marks the spot. It's under a local tombstone. Tomb: 1418a. (Bonus: +5% chance to find more items)", icon: "📜" },
+        { id: "glass_eye", name: "Glass eye that stares", desc: "It seems to follow you around the office. (Bonus: -10% reputation loss from bad luck events)", icon: "👁️" },
+        { id: "concert_ticket", name: "Ska Concert Ticket", desc: "Mephiskapheles live, with Seiskafés as opening act. (Bonus: +5% reputation gain from ceremonies)", icon: "🎫" },
+        { id: "returned_ring", name: "Returned engagement ring", desc: "A sad story in a small piece of jewelry. (Bonus: +10% satisfaction from viewing room visitors)", icon: "💍" },
+        { id: "choc_coin", name: "Ever-melting chocolate coin", desc: "It never melts, but it always smells like cocoa. (Bonus: +$2 profit per cafeteria sale)", icon: "🍫" },
+        { id: "vintage_lighter", name: "Vintage Lighter", desc: "Engraved with 'Property of Death'. (Bonus: Crematorium heats up 10% faster)", icon: "🔥" },
         { id: "mystery_cassette", name: "Mystery Cassette", desc: "Labelled: 'Do Not Listen at Night'.", icon: "📼" }
     ],
 
@@ -79,36 +78,36 @@ const DATA = {
         crying: [
             { text: "\"Our beloved {name} has... has...\" *uncontrollable sobbing*", choices: [
                 { text: "\"Take your time. Here's a tissue... and another... and the whole box.\"", rep: 2, money: 0 },
-                { text: "\"I understand. Let's handle this with dignity and care.\"", rep: 1, money: 0 },
-                { text: "\"Look, I charge by the hour, so whenever you're ready...\"", rep: -3, money: 0 }
+                { text: "\"I understand. We offer a 'Dignity Pack' that includes emotional support.\"", dc: 12, success: { text: "They appreciate the professional support.", rep: 5, money: 50 }, fail: { text: "They find it opportunistic.", rep: -5 } },
+                { text: "\"Look, I charge by the hour, so whenever you're ready...\"", rep: -10, money: 0 }
             ]},
         ],
         celebrating: [
             { text: "\"Uncle {name} is FINALLY dead! I mean... may he rest in peace. Party at our place after!\"", choices: [
                 { text: "\"Every life deserves celebration. Let's give {name} a proper sendoff!\"", rep: 2, money: 0 },
-                { text: "\"That's... one way to handle grief. We offer full services.\"", rep: 1, money: 0 },
-                { text: "\"Can I come to the party? I'll bring the embalming fluid cocktails.\"", rep: 0, money: 0 }
+                { text: "\"Maybe you can still go... with the urn?\"", dc: 15, success: { text: "They find the idea strangely poetic.", rep: 8 }, fail: { text: "They are horrified by the suggestion.", rep: -15 } },
+                { text: "\"Can I come to the party? I'll bring the embalming fluid cocktails.\"", rep: -20, money: 0 }
             ]},
         ],
         zen: [
             { text: "\"Death is merely a transition. {name} has transcended. We seek your earthly services.\"", choices: [
                 { text: "\"What a beautiful perspective. We'll make this transition seamless.\"", rep: 2, money: 0 },
-                { text: "\"Right. Transcended. Let's talk packages.\"", rep: 0, money: 0 },
-                { text: "\"Cool, cool. Has {name}'s spirit mentioned a budget for all this?\"", rep: -2, money: 0 }
+                { text: "\"Tell me more about this 'transcendence'. Is there a budget?\"", dc: 14, success: { text: "They explain their spiritual economy.", rep: 5, money: 100 }, fail: { text: "They think you're mocking their beliefs.", rep: -10 } },
+                { text: "\"Cool, cool. Does transcendence cover the basic burial fee?\"", rep: -5, money: 0 }
             ]},
         ],
         drunk: [
             { text: "*hiccup* \"Sho... my {relation} {name}... they died... or did they? No wait, yeah, they did.\"", choices: [
-                { text: "\"Let me get you some water first. We can discuss everything once you're comfortable.\"", rep: 2, money: 0 },
-                { text: "\"I can confirm: yes, they are definitely deceased. Let's proceed.\"", rep: 0, money: 0 },
-                { text: "\"Sir/Ma'am, this is a funeral home, not a bar. Although we do have a cafeteria...\"", rep: -1, money: 0 }
+                { text: "\"Let me get you some water first. We can discuss everything later.\"", rep: 3, money: 0 },
+                { text: "\"I can confirm: yes, they are definitely deceased. Let's sign here.\"", dc: 10, success: { text: "They sign without looking. +$50.", rep: 0, money: 50 }, fail: { text: "They throw up on the contract.", rep: -10 } },
+                { text: "\"Sir/Ma'am, this is a funeral home, not a bar.\"", rep: -5, money: 0 }
             ]},
         ],
         arguing: [
             { text: "\"I TOLD you mom wanted to be cremated!\" \"SHE SAID BURIED!\" \"YOU NEVER LISTENED TO HER!\"", choices: [
                 { text: "\"Families, let's take a breath. We can explore all options together.\"", rep: 2, money: 0 },
-                { text: "\"How about we do both? Cremate half, bury half. Everyone wins!\"", rep: -1, money: 0 },
-                { text: "\"I have a coin we can flip. Professional funeral coin. Very dignified.\"", rep: -2, money: 50 }
+                { text: "\"I have a coin we can flip. Professional funeral coin. $20 fee.\"", dc: 13, success: { text: "They pay the fee and abide by the result.", rep: 5, money: 20 }, fail: { text: "They unite... against you.", rep: -15 } },
+                { text: "\"How about we do both? Cremate half, bury half.\"", rep: -10, money: 0 }
             ]},
         ],
         flirty: [

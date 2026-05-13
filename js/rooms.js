@@ -253,11 +253,12 @@ const Rooms = (() => {
             const taskText = I18n.T(task.id);
             Dialogue.show(I18n.T('rec.pw_title'), `${taskText}\n\n${I18n.T('rec.pw_dc', task.dc)}`, [
                 { text: I18n.T('rec.pw_roll'), action: () => {
+                    const randomDC = Math.max(5, Math.min(20, task.dc + (Math.floor(Math.random() * 7) - 3)));
                     Engine.rollD20(0, (roll, total, result) => {
-                        if (total >= task.dc) {
+                        if (total >= randomDC) {
                             Engine.addMoney(task.reward, I18n.T('eng.paperwork_success'));
                             if (task.repReward) Engine.addReputation(task.repReward, I18n.T('eng.paperwork_success'));
-                            Engine.showToast(I18n.T('rec.pw_success', task.reward), 'success');
+                            Engine.showToast(I18n.T('rec.pw_success', task.reward) + ` (DC: ${randomDC})`, 'success');
                             
                             // Check if this was the niece's car paperwork
                             if (task.id === 'pw_niece') {
@@ -443,7 +444,7 @@ const Rooms = (() => {
                     excellent: I18n.getRandom('emb.q_excellent_list', embalmTarget.deceasedName)
                 };
                 Engine.showToast(msgs[quality], quality === 'good' || quality === 'excellent' ? 'success' : 'warning');
-                Dialogue.show(I18n.T('emb.quality_title', I18n.T('dice.' + quality)), msgs[quality], [
+                Dialogue.enqueue(I18n.T('emb.quality_title', I18n.T('dice.' + quality)), msgs[quality], [
                     { text: I18n.T('ov.dismiss'), action: () => {
                         showEmbalming(); // Still update the room state
                         if (typeof Main !== 'undefined') Main.showScreen('hub');
@@ -519,7 +520,8 @@ const Rooms = (() => {
             else if (roll < 0.85) mult = 1.5 + Math.random() * 1.5;   // 1.5–3x expensive
             else                  mult = 3.0 + Math.random() * 2.5;   // 3–5.5x extortionate
  
-            prices[key] = Math.ceil(item.base * mult * (s.priceMod || 1));
+            let discount = Engine.hasItem('magic_sock') ? 0.95 : 1.0;
+            prices[key] = Math.ceil(item.base * mult * (s.priceMod || 1) * discount);
             quantities[key] = 0;
         });
  
@@ -644,10 +646,12 @@ const Rooms = (() => {
             else if (itemName === 'Sandwich') itemName = I18n.T('cafe.sandwich');
             else if (itemName === 'Soul Cake') itemName = I18n.T('cafe.soul_cake');
             
-            const qualityStr = quality === 2 ? '+++' : quality === 1 ? '++' : quality === 0 ? '+' : '---';
+            let qualityStr = quality === 2 ? '+++' : quality === 1 ? '++' : quality === 0 ? '+' : '---';
+            if (Engine.hasItem('choc_coin')) finalPrice += 2;
             Engine.addMoney(finalPrice, I18n.T('cafe.sold_reason', itemName, qualityStr));
             
             let satBonus = quality === 2 ? 8 : quality === 1 ? 3 : quality === 0 ? 0 : -10;
+            if (Engine.hasItem('pizza_letter')) satBonus += 2;
             Families.updateSatisfaction(order.familyId, satBonus, `${I18n.T('nav.cafeteria')}: ${itemName}`);
             
             const fam = Families.getById(order.familyId);
@@ -769,11 +773,15 @@ const Rooms = (() => {
 
         document.getElementById('btn-ignite').onclick = () => {
             const s = Engine.getState();
-            if (s.cremaFuel <= 0) { Engine.showToast(I18n.T('crema.add_fuel_first'), 'warning'); return; }
-            if (s.cremaIgnited) { Engine.showToast(I18n.T('crema.already_burning'), 'warning'); return; }
-            s.cremaIgnited = true;
-            Audio8Bit.SFX.fire();
-            Engine.showToast(I18n.T('crema.ignited'), '');
+            if (!s.cremaIgnited) {
+                if (s.cremaFuel <= 0) { Engine.showToast(I18n.T('crema.add_fuel_first'), 'warning'); return; }
+                s.cremaIgnited = true;
+                Audio8Bit.SFX.fire();
+                Engine.showToast(I18n.T('crema.ignited'), '');
+            } else {
+                s.cremaIgnited = false;
+                Engine.showToast(I18n.T('crema.extinguished'), '');
+            }
             updateCrematorium();
         };
     }
@@ -789,6 +797,11 @@ const Rooms = (() => {
 
         const eff = s.cremaTemp >= 780 && s.cremaTemp <= 820 ? I18n.T('crema.eff_perfect') : s.cremaTemp >= 600 ? I18n.T('crema.eff_heating') : s.cremaTemp > 100 ? I18n.T('crema.eff_warming') : '—';
         document.getElementById('crema-efficiency').textContent = eff;
+
+        const igniteBtn = document.getElementById('btn-ignite');
+        if (igniteBtn) {
+            igniteBtn.textContent = s.cremaIgnited ? I18n.T('crema.btn_extinguish') : I18n.T('crema.btn_ignite');
+        }
 
         // Schedule list update
         const schedList = document.getElementById('crema-schedule-list');
@@ -1027,7 +1040,9 @@ const Rooms = (() => {
         const reaction = reactions[Math.floor(Math.random() * reactions.length)].replace('{name}', viewingFamily.deceasedName);
 
         const satMap = { excellent: 15, good: 8, mediocre: 0, bad: -20, catastrophic: -35 };
-        Families.updateSatisfaction(viewingFamily.id, satMap[q], `Saw body (${q})`);
+        let finalSat = satMap[q];
+        if (Engine.hasItem('returned_ring')) finalSat += 10;
+        Families.updateSatisfaction(viewingFamily.id, finalSat, `Saw body (${q})`);
         
         const repMap = { excellent: 8, good: 4, mediocre: 0, bad: -10, catastrophic: -20 };
         Engine.addReputation(repMap[q], `Saw body (${q})`);

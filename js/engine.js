@@ -797,6 +797,69 @@ const Engine = (() => {
         rollBtn.style.display = 'block';
         closeBtn.style.display = 'none';
 
+        // ── VFX helper (pure DOM, no game logic) ──────────────────────────
+        function triggerDiceVFX(roll, cls) {
+            const flashEl = document.getElementById('dice-flash');
+
+            if (roll === 1) {
+                // PIFIA: flash rojo + screen shake
+                if (flashEl) {
+                    flashEl.className = '';
+                    void flashEl.offsetWidth; // reflow to restart animation
+                    flashEl.className = 'flash-red';
+                    flashEl.addEventListener('animationend', () => { flashEl.className = ''; }, { once: true });
+                }
+                document.body.classList.add('screen-shaking');
+                document.body.addEventListener('animationend', () => {
+                    document.body.classList.remove('screen-shaking');
+                }, { once: true });
+
+            } else if (roll === 20) {
+                // CRÍTICO: flash dorado + estrellas
+                if (flashEl) {
+                    flashEl.className = '';
+                    void flashEl.offsetWidth;
+                    flashEl.className = 'flash-gold';
+                    flashEl.addEventListener('animationend', () => { flashEl.className = ''; }, { once: true });
+                }
+                // Spawn 12 estrellas desde el centro del dado
+                const dieRect = die.getBoundingClientRect();
+                const cx = dieRect.left + dieRect.width / 2;
+                const cy = dieRect.top + dieRect.height / 2;
+                const EMOJIS = ['⭐','✨','💫','🌟'];
+                for (let i = 0; i < 12; i++) {
+                    const star = document.createElement('span');
+                    star.className = 'dice-star';
+                    star.textContent = EMOJIS[i % EMOJIS.length];
+                    const angle = (i / 12) * 2 * Math.PI;
+                    const dist = 60 + Math.random() * 80;
+                    const sx = Math.round(Math.cos(angle) * dist) + 'px';
+                    const sy = Math.round(Math.sin(angle) * dist - 40) + 'px';
+                    const sr = Math.round((Math.random() - 0.5) * 360) + 'deg';
+                    star.style.cssText = `left:${cx}px; top:${cy}px; --sx:${sx}; --sy:${sy}; --sr:${sr}; animation-delay:${i * 30}ms;`;
+                    document.body.appendChild(star);
+                    star.addEventListener('animationend', () => star.remove(), { once: true });
+                }
+            } else if (cls === 'good' || cls === 'crit-success') {
+                // BUENO: flash blanco suave
+                if (flashEl) {
+                    flashEl.className = '';
+                    void flashEl.offsetWidth;
+                    flashEl.className = 'flash-white';
+                    flashEl.addEventListener('animationend', () => { flashEl.className = ''; }, { once: true });
+                }
+            } else if (cls === 'crit-fail' || cls === 'bad') {
+                // MALO: flash rojo tenue
+                if (flashEl) {
+                    flashEl.className = '';
+                    void flashEl.offsetWidth;
+                    flashEl.className = 'flash-red';
+                    flashEl.addEventListener('animationend', () => { flashEl.className = ''; }, { once: true });
+                }
+            }
+        }
+        // ─────────────────────────────────────────────────────────────────
+
         const doRoll = () => {
             rollBtn.style.display = 'none';
             die.classList.add('rolling');
@@ -829,6 +892,10 @@ const Engine = (() => {
                     resultEl.textContent = I18n.T('dice.result', roll + (modifier ? (modifier > 0 ? ' + ' + modifier : ' ' + modifier) : ''), total, result);
                     resultEl.className = `dice-result ${cls}`;
                     Audio8Bit.SFX.diceResult(total > 12);
+
+                    // 🎆 Trigger VFX (no game logic inside)
+                    try { triggerDiceVFX(roll, cls); } catch(e) { console.warn('Dice VFX error:', e); }
+
                     closeBtn.style.display = 'block';
                     closeBtn.onclick = () => {
                         overlay.style.display = 'none';

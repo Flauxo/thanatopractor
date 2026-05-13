@@ -1183,6 +1183,28 @@ html, body {
 .dice-result.good { color: var(--success); }
 .dice-result.crit-success { color: var(--gold); }
 
+/* Dice VFX flash overlay */
+#dice-flash {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 9999;
+    opacity: 0;
+}
+#dice-flash.flash-white { animation: dice-flash-white 0.5s ease-out forwards; }
+#dice-flash.flash-red   { animation: dice-flash-red   0.5s ease-out forwards; }
+#dice-flash.flash-gold  { animation: dice-flash-gold  0.7s ease-out forwards; }
+
+/* Screen shake: applied to body */
+body.screen-shaking { animation: screen-shake 0.55s ease-in-out; }
+
+/* Dice star particles */
+.dice-star {
+    position: fixed;
+    font-size: 22px;
+    pointer-events: none;
+    z-index: 9998;
+    animation: star-rise 0.8s ease-out forwards;
+}
+
 /* Toast Notifications */
 .toast-container {
     position: fixed; top: 60px; left: 50%;

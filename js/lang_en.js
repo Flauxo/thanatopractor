@@ -446,6 +446,8 @@ I18n.register('en', {
 'mood.paranoid.name': 'Suspicious', 'mood.paranoid.desc': 'They keep asking if you\'re SURE their relative is dead.',
 'mood.cheerful.name': 'Relieved', 'mood.cheerful.desc': '"To be honest, Uncle was kind of a jerk."',
 'dlg.cheerful.text': '"Look, Uncle {name} lived to 94, ate bacon every day, and outlived all his rivals. Legend."',
+'dlg.cheerful.c1': '"What a life! Let\'s honor that legacy with a service worthy of a legend."',
+'dlg.cheerful.c2': '"94 and bacon daily? We should study that man\'s arteries."',
 'dlg.cheerful.c3': '"All his rivals? We can arrange separate viewing times to avoid any... unpleasant encounters between families."',
 'mood.vampire.name': 'Gothic', 'mood.vampire.desc': 'They seem to be waiting for the deceased to wake up.',
 'mood.alien.name': 'Extraterrestrial', 'mood.alien.desc': 'They suspect the deceased was a cosmic observer.',

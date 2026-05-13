@@ -125,10 +125,10 @@ const DATA_ES = {
             ]},
         ],
         cheerful: [
-            { text: "\"Mira, el tío {name} vivió hasta los 94, comió tocino todos los días y sobrevivió a tres esposas. Leyenda.\"", choices: [
-                { text: "\"¡Menuda vida! Honremos ese legado con un servicio digno de una leyenda.\"", rep: 2, money: 0 },
-                { text: "\"¿94 y tocino a diario? Deberíamos estudiar las arterias de ese hombre.\"", rep: 0, money: 0 },
-                { text: "\"¿Tres esposas? Podemos arreglar horarios de visita separados. Créame, ya nos ha pasado.\"", rep: 1, money: 50 }
+            { textKey: "dlg.cheerful.text", choices: [
+                { textKey: "dlg.cheerful.c1", rep: 2, money: 0 },
+                { textKey: "dlg.cheerful.c2", rep: 0, money: 0 },
+                { textKey: "dlg.cheerful.c3", rep: 1, money: 50 }
             ]},
         ],
         vampire: [

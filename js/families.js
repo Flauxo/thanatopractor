@@ -171,7 +171,19 @@ const Families = (() => {
         nextId = 1;
     }
 
+    function getNextPending() {
+        const s = Engine.getState();
+        if ((s.pendingArrivals || 0) > 0) {
+            s.pendingArrivals--;
+            const fam = generate();
+            addFamily(fam);
+            return fam;
+        }
+        return null;
+    }
+
     return {
-        generate, getActive, getById, addFamily, completeFamily, updateSatisfaction, updateFamiliesLog, reset
+        generate, getActive, getById, addFamily, completeFamily, updateSatisfaction, updateFamiliesLog, reset, getNextPending
     };
+
 })();

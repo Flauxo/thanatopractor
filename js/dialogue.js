@@ -243,32 +243,33 @@ const Dialogue = (() => {
                 rep: c.rep,
                 money: c.money,
                 action: () => {
-                if (c.roll || c.dc) {
-                    const targetDC = Math.max(5, Math.min(20, (c.roll || c.dc) + (Math.floor(Math.random() * 7) - 3)));
-                    Engine.rollD20(0, (roll, total) => {
-                        const success = total >= targetDC;
-                        if (success) {
-                            if (c.success) {
-                                if (c.success.rep) Families.updateSatisfaction(family.id, c.success.rep * 5, 'Good first impression');
-                                if (c.success.money) Engine.addMoney(c.success.money, 'Dialogue success');
-                                Engine.showToast(c.success.text || 'Success!', 'success');
+                    if (c.roll || c.dc) {
+                        const targetDC = Math.max(5, Math.min(20, (c.roll || c.dc) + (Math.floor(Math.random() * 7) - 3)));
+                        Engine.rollD20(0, (roll, total) => {
+                            const success = total >= targetDC;
+                            if (success) {
+                                if (c.success) {
+                                    if (c.success.rep) Families.updateSatisfaction(family.id, c.success.rep * 5, 'Good first impression');
+                                    if (c.success.money) Engine.addMoney(c.success.money, 'Dialogue success');
+                                    Engine.showToast(c.success.text || 'Success!', 'success');
+                                } else {
+                                    Families.updateSatisfaction(family.id, 10, 'Good first impression');
+                                }
                             } else {
-                                Families.updateSatisfaction(family.id, 10, 'Good first impression');
+                                if (c.fail) {
+                                    if (c.fail.rep) Families.updateSatisfaction(family.id, c.fail.rep * 5, 'Bad first impression');
+                                    Engine.showToast(c.fail.text || 'Failure...', 'danger');
+                                } else {
+                                    Families.updateSatisfaction(family.id, -10, 'Bad first impression');
+                                }
                             }
-                        } else {
-                            if (c.fail) {
-                                if (c.fail.rep) Families.updateSatisfaction(family.id, c.fail.rep * 5, 'Bad first impression');
-                                Engine.showToast(c.fail.text || 'Failure...', 'danger');
-                            } else {
-                                Families.updateSatisfaction(family.id, -10, 'Bad first impression');
-                            }
-                        }
-                    });
-                } else {
-                    if (c.rep) Families.updateSatisfaction(family.id, c.rep * 5, c.rep > 0 ? 'Good first impression' : 'Bad first impression');
+                        });
+                    } else {
+                        if (c.rep) Families.updateSatisfaction(family.id, c.rep * 5, c.rep > 0 ? 'Good first impression' : 'Bad first impression');
+                    }
                 }
-            }
-        }));
+            };
+        });
 
         shuffle(choices);
 

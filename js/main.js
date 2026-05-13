@@ -37,22 +37,27 @@ window.Main = (() => {
         }
 
         // Init room when shown
-        switch (name) {
-            case 'reception': Rooms.showReception(); break;
-            case 'embalming': Rooms.showEmbalming(); break;
-            case 'cafeteria': Rooms.showCafeteria(); break;
-            case 'crematorium': Rooms.showCrematorium(); break;
-            case 'viewing': Rooms.showViewing(); break;
-            case 'chapel': Rooms.showChapel(); break;
-            case 'office': Rooms.showOffice(); break;
-            case 'families': Families.updateFamiliesLog(); break;
-            case 'achievements': Main.showAchievements(); break;
-            case 'hub': {
-                Rooms.activeRoom = null;
-                updateHubSchedule();
-                break;
+        try {
+            switch (name) {
+                case 'reception': Rooms.showReception(); break;
+                case 'embalming': Rooms.showEmbalming(); break;
+                case 'cafeteria': Rooms.showCafeteria(); break;
+                case 'crematorium': Rooms.showCrematorium(); break;
+                case 'viewing': Rooms.showViewing(); break;
+                case 'chapel': Rooms.showChapel(); break;
+                case 'office': Rooms.showOffice(); break;
+                case 'families': Families.updateFamiliesLog(); break;
+                case 'achievements': Main.showAchievements(); break;
+                case 'hub': {
+                    Rooms.activeRoom = null;
+                    updateHubSchedule();
+                    break;
+                }
             }
+        } catch (e) {
+            console.error(`Error showing screen ${name}:`, e);
         }
+
 
         // Handle Global Back Button Visibility & Destination
         const globalBack = document.getElementById('btn-global-back');

@@ -46,26 +46,49 @@ const Rooms = (() => {
 
     // ===== RECEPTION =====
     function initReception() {
-        document.getElementById('btn-new-arrival').onclick = () => {
-            const s = Engine.getState();
-            if ((s.pendingArrivals || 0) <= 0) {
-                Engine.showToast(I18n.T('rec.no_waiting'), 'warning');
-                return;
+        try {
+            const btnArrival = document.getElementById('btn-new-arrival');
+            if (btnArrival) {
+                btnArrival.onclick = () => {
+                    const s = Engine.getState();
+                    if ((s.pendingArrivals || 0) <= 0) {
+                        Engine.showToast(I18n.T('rec.no_waiting'), 'warning');
+                        return;
+                    }
+                    try {
+                        Audio8Bit.SFX.bell();
+                        // Fix: getNextPending already decrements pendingArrivals
+                        const family = typeof Families.getNextPending === 'function' ? Families.getNextPending() : (() => {
+                            s.pendingArrivals--;
+                            const fam = Families.generate();
+                            Families.addFamily(fam);
+                            return fam;
+                        })();
+                        
+                        if (!family) {
+                            alert("Family generation returned null! pendingArrivals=" + s.pendingArrivals);
+                            return;
+                        }
+                        s.activeFamilyId = family.id;
+                        Dialogue.playArrivalSequence(family);
+                        Engine.Notifications.updateReceptionBadge();
+                    } catch (err) {
+                        alert("ERROR EN NUEVA LLEGADA: " + err.message + "\n" + err.stack);
+                    }
+                };
             }
-            s.pendingArrivals--;
-            Audio8Bit.SFX.bell();
-            const family = Families.generate();
-            Families.addFamily(family);
-            s.activeFamilyId = family.id;
-            Dialogue.playArrivalSequence(family);
-            Engine.Notifications.updateReceptionBadge();
-        };
-        document.getElementById('btn-phone-call').onclick = () => {
-            Audio8Bit.SFX.click();
-            Engine.Notifications.updateReceptionBadge();
-            const s = Engine.getState();
-            
-            const phoneChoices = [
+        } catch (e) {
+            console.error("Error setting up new arrival button", e);
+        }
+        try {
+            const btnPhoneCall = document.getElementById('btn-phone-call');
+            if (btnPhoneCall) {
+                btnPhoneCall.onclick = () => {
+                    Audio8Bit.SFX.click();
+                    Engine.Notifications.updateReceptionBadge();
+                    const s = Engine.getState();
+                    
+                    const phoneChoices = [
                 { text: I18n.T('rec.job_interview'), action: () => {
                     if (s.money < 50) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }
                     Engine.addMoney(-50, I18n.T('eng.job_call'));
@@ -240,18 +263,26 @@ const Rooms = (() => {
 
             Dialogue.show(I18n.T('rec.phone_title'), I18n.T('rec.phone_subtitle'), phoneChoices);
         };
-        document.getElementById('btn-paperwork').onclick = () => {
-            Audio8Bit.SFX.click();
-            Engine.Notifications.updateReceptionBadge();
-            const s = Engine.getState();
-            if (!s.activePaperwork) {
-                Engine.showToast(I18n.T('rec.no_paperwork'), '');
-                return;
             }
+        } catch(e) {
+            console.error("Error setting up phone call button", e);
+        }
+        try {
+            const btnPaperwork = document.getElementById('btn-paperwork');
+            if (btnPaperwork) {
+                btnPaperwork.onclick = () => {
+                    try {
+                        Audio8Bit.SFX.click();
+                        Engine.Notifications.updateReceptionBadge();
+                        const s = Engine.getState();
+                        if (!s.activePaperwork) {
+                            Engine.showToast(I18n.T('rec.no_paperwork'), '');
+                            return;
+                        }
 
-            const task = s.activePaperwork;
-            const taskText = I18n.T(task.id);
-            Dialogue.show(I18n.T('rec.pw_title'), `${taskText}\n\n${I18n.T('rec.pw_dc', task.dc)}`, [
+                        const task = s.activePaperwork;
+                        const taskText = I18n.T(task.id);
+                        Dialogue.show(I18n.T('rec.pw_title'), `${taskText}\n\n${I18n.T('rec.pw_dc', task.dc)}`, [
                 { text: I18n.T('rec.pw_roll'), action: () => {
                     const randomDC = Math.max(5, Math.min(20, task.dc + (Math.floor(Math.random() * 7) - 3)));
                     Engine.rollD20(0, (roll, total, result) => {
@@ -299,7 +330,14 @@ const Rooms = (() => {
                     }
                 }}
             ], null, { showReaper: true });
-        };
+                    } catch (err) {
+                        alert("ERROR EN PAPELEO: " + err.message + "\n" + err.stack);
+                    }
+                };
+            }
+        } catch(e) {
+            console.error("Error setting up paperwork button", e);
+        }
     }
 
     function showReception() {

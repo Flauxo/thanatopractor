@@ -135,6 +135,11 @@ const Families = (() => {
         if (!f) return;
         f.satisfaction = Math.max(0, Math.min(100, f.satisfaction + amount));
         if (reason) f.notes.push(reason);
+        // Show floating indicator anchored to the rep bar (always visible)
+        if (amount !== 0 && typeof Engine !== 'undefined' && Engine.showFloatingIndicator) {
+            const label = (amount > 0 ? '+' : '') + amount + ' SAT';
+            Engine.showFloatingIndicator('hud-rep', label, amount > 0);
+        }
     }
 
     function updateFamiliesLog() {

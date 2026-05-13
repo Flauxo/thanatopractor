@@ -1205,6 +1205,21 @@ body.screen-shaking { animation: screen-shake 0.55s ease-in-out; }
     animation: star-rise 0.8s ease-out forwards;
 }
 
+/* HUD Floating indicators (+200$, -10 REP, etc.) */
+.float-indicator {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9997;
+    font-family: var(--font-pixel);
+    font-size: 11px;
+    font-weight: bold;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+    animation: float-indicator 1s ease-out forwards;
+    white-space: nowrap;
+}
+.float-indicator.positive { color: #4ade80; }
+.float-indicator.negative { color: #ef4444; }
+
 /* Toast Notifications */
 .toast-container {
     position: fixed; top: 60px; left: 50%;

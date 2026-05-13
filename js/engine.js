@@ -102,12 +102,12 @@ const Engine = (() => {
         updateHUD();
         if (finalAmount > 0 && !silent) {
             Audio8Bit.SFX.money();
-            showToast(`+$${finalAmount} — ${reason}`, 'success');
+            showFloatingIndicator('hud-money', `+$${finalAmount}`, true);
             animateHUD('hud-money', 'money-gain');
         } else if (finalAmount > 0 && silent) {
             Audio8Bit.SFX.money();
         } else if (finalAmount < 0 && !silent) {
-            showToast(`-$${Math.abs(finalAmount)} — ${reason}`, 'warning');
+            showFloatingIndicator('hud-money', `-$${Math.abs(finalAmount)}`, false);
             animateHUD('hud-money', 'money-loss');
         }
         checkGameOver();
@@ -127,10 +127,10 @@ const Engine = (() => {
         updateHUD();
         if (!silent) {
             if (finalAmount > 0) {
-                showToast(`+${finalAmount} REP — ${reason}`, 'success');
+                showFloatingIndicator('hud-rep', `+${finalAmount} REP`, true);
                 animateHUD('hud-rep', 'rep-gain');
             } else if (finalAmount < 0) {
-                showToast(`${finalAmount} REP — ${reason}`, 'danger');
+                showFloatingIndicator('hud-rep', `${finalAmount} REP`, false);
                 animateHUD('hud-rep', 'rep-loss');
             }
         }
@@ -1142,6 +1142,24 @@ const Engine = (() => {
         setTimeout(() => el.classList.remove(cls), 500);
     }
 
+    // ===== FLOATING INDICATORS =====
+    function showFloatingIndicator(anchorId, text, positive) {
+        try {
+            const anchor = document.getElementById(anchorId);
+            if (!anchor) return;
+            const rect = anchor.getBoundingClientRect();
+            // Jitter horizontal slightly so stacked ones don't overlap
+            const jitter = (Math.random() - 0.5) * 30;
+            const el = document.createElement('span');
+            el.className = 'float-indicator ' + (positive ? 'positive' : 'negative');
+            el.textContent = text;
+            el.style.left = (rect.left + rect.width / 2 + jitter) + 'px';
+            el.style.top  = (rect.top - 4) + 'px';
+            document.body.appendChild(el);
+            el.addEventListener('animationend', () => el.remove(), { once: true });
+        } catch(e) { /* non-critical, ignore */ }
+    }
+
     // ===== GAME OVER =====
     function checkGameOver() {
         if (state.gameOver) return;
@@ -1329,7 +1347,7 @@ const Engine = (() => {
         addMoney, addReputation, addXP,
         startTime, stopTime, setSpeed, tick,
         generateDailySchedule, hasUpgrade, buyUpgrade,
-        rollD20, Notifications, showToast, updateHUD,
+        rollD20, Notifications, showToast, showFloatingIndicator, updateHUD,
         save, load, hasSave, resetState,
         checkGameOver, defaultState,
         rollCollectionDiscovery, showCollection,

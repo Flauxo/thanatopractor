@@ -396,8 +396,8 @@ const Audio8Bit = (() => {
             currentTime = ctx.currentTime + 0.1;
         }
         
-        // Schedule a small chunk (2 beats) to allow virtually instant responsiveness to speed changes
-        const chunkBeats = 2; 
+        // Schedule a larger chunk (8 beats) for better stability and fewer timeouts
+        const chunkBeats = 8; 
         
         // We need to know which beat index we are on.
         // For simplicity in this 8-bit engine, we'll store the progress in the track state or pass it.

@@ -13,7 +13,7 @@ const Rooms = (() => {
 
     function orderSingleHearse(f) {
         const s = Engine.getState();
-        if (s.money < 150) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }
+        // Removed money check to allow bankruptcy
         
         Engine.addMoney(-150, I18n.T('eng.ordered_hearse'));
         f.transportOrdered = true;
@@ -91,7 +91,7 @@ const Rooms = (() => {
                     
                     const phoneChoices = [
                 { text: I18n.T('rec.job_interview'), action: () => {
-                    if (s.money < 50) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }
+                    // Removed money check to allow bankruptcy
                     Engine.addMoney(-50, I18n.T('eng.job_call'));
                     Engine.showToast(I18n.T('rec.job_result'), 'warning');
                     if (typeof Main !== 'undefined') Main.showScreen('hub');
@@ -128,7 +128,7 @@ const Rooms = (() => {
                 phoneChoices.splice(phoneChoices.length - 1, 0, { 
                     text: I18n.T('rec.order_flowers') + ' 🌸', 
                     action: () => {
-                        if (s.money < 50) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }
+                        // Removed money check to allow bankruptcy
                         Engine.addMoney(-50, I18n.T('eng.ordered_flowers'));
                         Engine.showToast(I18n.T('rec.flowers_result'), 'success');
                         Engine.addReputation(5, 'Fresh flowers delivered');
@@ -157,7 +157,7 @@ const Rooms = (() => {
                     }
                     
                     const cost = 200 + Math.floor(Math.random() * 201);
-                    if (s.money < cost) { Engine.showToast(I18n.T('eng.not_enough'), 'danger'); return; }
+                    // Removed money check to allow bankruptcy
 
                     const quotes = I18n.T('crema.maintenance_quotes');
                     const quote = Array.isArray(quotes) ? quotes[Math.floor(Math.random() * quotes.length)] : quotes;
@@ -614,7 +614,7 @@ const Rooms = (() => {
         document.getElementById('btn-shop-buy').onclick = () => {
             const total = Object.keys(supplies).reduce((sum, k) => sum + prices[k] * quantities[k], 0);
             if (total === 0) { Engine.showToast(I18n.T('shop.select_item'), 'warning'); return; }
-            if (s.money < total) { Engine.showToast(I18n.T('shop.no_money', total), 'danger'); return; }
+            // Removed money check to allow bankruptcy
 
             Engine.addMoney(-total, I18n.T('eng.supply_purchase'));
             

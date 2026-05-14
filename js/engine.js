@@ -760,7 +760,7 @@ const Engine = (() => {
             }
         } else if (hasUpgrade(id)) return false;
         if (state.level < upg.level) { showToast(I18n.T('eng.need_level', upg.level), 'warning'); return false; }
-        if (state.money < upg.cost) { showToast(I18n.T('eng.not_enough'), 'danger'); return false; }
+        // Removed money check to allow bankruptcy
         
         addMoney(-upg.cost, `${I18n.T('office.title')}: ${upg.name}`);
         if (upg.repeatable) {

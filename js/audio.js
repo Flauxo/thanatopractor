@@ -402,78 +402,99 @@ const Audio8Bit = (() => {
             gainNode.trackBeatOffset = 0;
         }
         
-        let beatOffset = gainNode.trackBeatOffset || 0;
-        let tEnd = currentTime;
+        const totalTrackBeats = Math.max(
+            track.notes ? track.notes.reduce((sum, note) => sum + note.d, 0) : 0,
+            track.bass ? track.bass.reduce((sum, note) => sum + note.d, 0) : 0,
+            track.drums ? track.drums.reduce((sum, step) => sum + step.d, 0) : 0
+        ) || 1;
+        
+        let chunkStart = gainNode.trackBeatOffset || 0;
+        let chunkEnd = chunkStart + chunkBeats;
 
-        // Schedule Melody notes that fall within this chunk
-        let melodyTime = currentTime;
+        // Schedule Melody
         let melodyBeat = 0;
-        track.notes.forEach(note => {
-            const dur = note.d * beatDur;
-            if (melodyBeat >= beatOffset && melodyBeat < beatOffset + chunkBeats) {
-                const freq = NOTE_FREQS[note.n];
-                if (freq > 0) {
-                    try {
-                        const osc = ctx.createOscillator();
-                        const g = ctx.createGain();
-                        osc.type = 'square';
-                        osc.frequency.setValueAtTime(freq, melodyTime);
-                        g.gain.setValueAtTime(0.12, melodyTime);
-                        g.gain.exponentialRampToValueAtTime(0.001, melodyTime + dur * 0.9);
-                        osc.connect(g); g.connect(gainNode);
-                        osc.start(melodyTime); osc.stop(melodyTime + dur);
-                        trackOscillators.push({ osc, node: gainNode, endTime: melodyTime + dur });
-                    } catch(e) { /* Ignore notes scheduled in the past */ }
+        if (track.notes) {
+            track.notes.forEach(note => {
+                const dur = note.d * beatDur;
+                let k = Math.floor((chunkStart - melodyBeat) / totalTrackBeats);
+                if (k < 0) k = 0;
+                let baseBeat = melodyBeat + k * totalTrackBeats;
+
+                for (let b = baseBeat; b < chunkEnd; b += totalTrackBeats) {
+                    if (b >= chunkStart && b < chunkEnd) {
+                        const freq = NOTE_FREQS[note.n];
+                        if (freq > 0) {
+                            const melodyTime = currentTime + (b - chunkStart) * beatDur;
+                            try {
+                                const osc = ctx.createOscillator();
+                                const g = ctx.createGain();
+                                osc.type = 'square';
+                                osc.frequency.setValueAtTime(freq, melodyTime);
+                                g.gain.setValueAtTime(0.12, melodyTime);
+                                g.gain.exponentialRampToValueAtTime(0.001, melodyTime + dur * 0.9);
+                                osc.connect(g); g.connect(gainNode);
+                                osc.start(melodyTime); osc.stop(melodyTime + dur);
+                                trackOscillators.push({ osc, node: gainNode, endTime: melodyTime + dur });
+                            } catch(e) {}
+                        }
+                    }
                 }
-            }
-            melodyTime += dur;
-            melodyBeat += note.d;
-        });
+                melodyBeat += note.d;
+            });
+        }
 
         // Bass
-        let bassTime = currentTime;
         let bassBeat = 0;
         if (track.bass) {
             track.bass.forEach(note => {
                 const dur = note.d * beatDur;
-                if (bassBeat >= beatOffset && bassBeat < beatOffset + chunkBeats) {
-                    const freq = NOTE_FREQS[note.n];
-                    if (freq > 0) {
-                    try {
-                        const osc = ctx.createOscillator();
-                        const g = ctx.createGain();
-                        osc.type = 'triangle';
-                        osc.frequency.setValueAtTime(freq, bassTime);
-                        g.gain.setValueAtTime(0.18, bassTime);
-                        g.gain.exponentialRampToValueAtTime(0.001, bassTime + dur * 0.9);
-                        osc.connect(g); g.connect(gainNode);
-                        osc.start(bassTime); osc.stop(bassTime + dur);
-                        trackOscillators.push({ osc, node: gainNode, endTime: bassTime + dur });
-                    } catch(e) {}
+                let k = Math.floor((chunkStart - bassBeat) / totalTrackBeats);
+                if (k < 0) k = 0;
+                let baseBeat = bassBeat + k * totalTrackBeats;
+
+                for (let b = baseBeat; b < chunkEnd; b += totalTrackBeats) {
+                    if (b >= chunkStart && b < chunkEnd) {
+                        const freq = NOTE_FREQS[note.n];
+                        if (freq > 0) {
+                            const bassTime = currentTime + (b - chunkStart) * beatDur;
+                            try {
+                                const osc = ctx.createOscillator();
+                                const g = ctx.createGain();
+                                osc.type = 'triangle';
+                                osc.frequency.setValueAtTime(freq, bassTime);
+                                g.gain.setValueAtTime(0.18, bassTime);
+                                g.gain.exponentialRampToValueAtTime(0.001, bassTime + dur * 0.9);
+                                osc.connect(g); g.connect(gainNode);
+                                osc.start(bassTime); osc.stop(bassTime + dur);
+                                trackOscillators.push({ osc, node: gainNode, endTime: bassTime + dur });
+                            } catch(e) {}
+                        }
                     }
                 }
-                bassTime += dur;
                 bassBeat += note.d;
             });
         }
 
         // Drums
-        let drumTime = currentTime;
         let drumBeat = 0;
         if (track.drums) {
             track.drums.forEach(step => {
-                const dur = step.d * beatDur;
-                if (drumBeat >= beatOffset && drumBeat < beatOffset + chunkBeats) {
-                    step.c.forEach(type => playDrumInternal(type, drumTime, gainNode));
+                let k = Math.floor((chunkStart - drumBeat) / totalTrackBeats);
+                if (k < 0) k = 0;
+                let baseBeat = drumBeat + k * totalTrackBeats;
+
+                for (let b = baseBeat; b < chunkEnd; b += totalTrackBeats) {
+                    if (b >= chunkStart && b < chunkEnd) {
+                        const drumTime = currentTime + (b - chunkStart) * beatDur;
+                        step.c.forEach(type => playDrumInternal(type, drumTime, gainNode));
+                    }
                 }
-                drumTime += dur;
                 drumBeat += step.d;
             });
         }
 
         // Update offset for next chunk
-        const totalTrackBeats = Math.max(melodyBeat, bassBeat, drumBeat);
-        gainNode.trackBeatOffset = (beatOffset + chunkBeats) % totalTrackBeats;
+        gainNode.trackBeatOffset = chunkEnd;
         
         // Schedule next chunk safely before this one ends (500ms lookahead)
         const chunkDur = chunkBeats * beatDur;

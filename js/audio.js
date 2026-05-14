@@ -401,6 +401,8 @@ const Audio8Bit = (() => {
         } else if (currentTime === null) {
             currentTime = ctx.currentTime + 0.1;
         }
+
+        const isFirstChunk = (startTime === null || Math.abs(startTime - ctx.currentTime) < 0.15);
         
         // Schedule a larger chunk (8 beats) for better stability and fewer timeouts
         const chunkBeats = 8; 
@@ -430,7 +432,10 @@ const Audio8Bit = (() => {
                 let baseBeat = melodyBeat + k * totalTrackBeats;
 
                 for (let b = baseBeat; b < chunkEnd; b += totalTrackBeats) {
-                    if (b < chunkEnd && b + note.d > chunkStart) {
+                    const startsInChunk = b >= chunkStart && b < chunkEnd;
+                    const overlapsStart = isFirstChunk && b < chunkStart && b + note.d > chunkStart;
+                    
+                    if (startsInChunk || overlapsStart) {
                         const freq = NOTE_FREQS[note.n];
                         if (freq > 0) {
                             const noteStart = currentTime + (b - chunkStart) * beatDur;
@@ -466,7 +471,10 @@ const Audio8Bit = (() => {
                 let baseBeat = bassBeat + k * totalTrackBeats;
 
                 for (let b = baseBeat; b < chunkEnd; b += totalTrackBeats) {
-                    if (b < chunkEnd && b + note.d > chunkStart) {
+                    const startsInChunk = b >= chunkStart && b < chunkEnd;
+                    const overlapsStart = isFirstChunk && b < chunkStart && b + note.d > chunkStart;
+                    
+                    if (startsInChunk || overlapsStart) {
                         const freq = NOTE_FREQS[note.n];
                         if (freq > 0) {
                             const noteStart = currentTime + (b - chunkStart) * beatDur;
@@ -501,7 +509,10 @@ const Audio8Bit = (() => {
                 let baseBeat = drumBeat + k * totalTrackBeats;
 
                 for (let b = baseBeat; b < chunkEnd; b += totalTrackBeats) {
-                    if (b < chunkEnd && b + step.d > chunkStart) {
+                    const startsInChunk = b >= chunkStart && b < chunkEnd;
+                    const overlapsStart = isFirstChunk && b < chunkStart && b + step.d > chunkStart;
+                    
+                    if (startsInChunk || overlapsStart) {
                         const noteStart = currentTime + (b - chunkStart) * beatDur;
                         const actualStart = Math.max(currentTime, noteStart);
                         step.c.forEach(type => playDrumInternal(type, actualStart, gainNode));

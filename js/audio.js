@@ -382,7 +382,10 @@ const Audio8Bit = (() => {
         if (!track) return;
         
         const s = (typeof Engine !== 'undefined') ? Engine.getState().speed : 1;
-        const speedMultiplier = s > 0 ? s : 1;
+        let speedMultiplier = 1;
+        if (s === 2) speedMultiplier = 1.3;
+        else if (s > 0) speedMultiplier = s;
+
         const beatDur = 60 / (track.bpm * speedMultiplier);
         
         // Start from where we left off or current time
@@ -393,8 +396,8 @@ const Audio8Bit = (() => {
             currentTime = ctx.currentTime + 0.1;
         }
         
-        // Schedule a small chunk to allow better responsiveness
-        const chunkBeats = 8; // Increased from 4 for more stable buffering
+        // Schedule a small chunk (2 beats) to allow virtually instant responsiveness to speed changes
+        const chunkBeats = 2; 
         
         // We need to know which beat index we are on.
         // For simplicity in this 8-bit engine, we'll store the progress in the track state or pass it.

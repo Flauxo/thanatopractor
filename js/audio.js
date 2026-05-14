@@ -21,11 +21,11 @@ const Audio8Bit = (() => {
         try {
             ctx = new (window.AudioContext || window.webkitAudioContext)();
             masterGain = ctx.createGain();
-            masterGain.gain.value = 0.6;
+            masterGain.gain.value = 0.7;
             masterGain.connect(ctx.destination);
             
             musicGainA = ctx.createGain();
-            musicGainA.gain.value = 0.25;
+            musicGainA.gain.value = 0.45;
             musicGainA.connect(masterGain);
             
             musicGainB = ctx.createGain();
@@ -185,7 +185,7 @@ const Audio8Bit = (() => {
         if (masterGain.gain.value > 0.55) return;
         masterGain.gain.cancelScheduledValues(t);
         masterGain.gain.setValueAtTime(masterGain.gain.value, t);
-        masterGain.gain.linearRampToValueAtTime(0.6, t + duration);
+        masterGain.gain.linearRampToValueAtTime(0.7, t + duration);
     }
 
     function startAmbience() {
@@ -368,7 +368,7 @@ const Audio8Bit = (() => {
         currentGainNode = newNode;
         currentGainNode.gain.cancelScheduledValues(t);
         currentGainNode.gain.setValueAtTime(0, t);
-        currentGainNode.gain.linearRampToValueAtTime(0.25, t + fadeTime);
+        currentGainNode.gain.linearRampToValueAtTime(0.45, t + fadeTime);
 
         if (trackTimeout) clearTimeout(trackTimeout);
         currentTrackName = name;
@@ -629,7 +629,7 @@ const Audio8Bit = (() => {
             if (masterGain) {
                 const t = ctx.currentTime;
                 masterGain.gain.cancelScheduledValues(t);
-                masterGain.gain.linearRampToValueAtTime(muted ? 0 : 0.6, t + 0.1);
+                masterGain.gain.linearRampToValueAtTime(muted ? 0 : 0.7, t + 0.1);
             }
             return muted;
         }

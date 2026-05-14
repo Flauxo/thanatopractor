@@ -420,7 +420,7 @@ html, body {
 #embalming-screen { background: url('../assets/scenes/embalming.png') center/cover no-repeat; image-rendering: pixelated; }
 #cafeteria-screen { background: url('../assets/scenes/cafeteria.png') center/cover no-repeat; image-rendering: pixelated; }
 #crematorium-screen { background: url('../assets/scenes/crematorium.png') center/cover no-repeat; image-rendering: pixelated; }
-#viewing-screen { background: url('../assets/scenes/reception.png') center/cover no-repeat; image-rendering: pixelated; }
+#viewing-screen { background: url('../assets/scenes/viewing.png') center/cover no-repeat; image-rendering: pixelated; }
 #chapel-screen { background: url('../assets/scenes/chapel.png') center/cover no-repeat; image-rendering: pixelated; }
 #office-screen { background: url('../assets/scenes/reception.png') center/cover no-repeat; image-rendering: pixelated; }
 .room-header {

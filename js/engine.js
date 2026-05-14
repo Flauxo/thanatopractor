@@ -56,7 +56,8 @@ const Engine = (() => {
             interviewPool: [],
             newsPool: [],
             priceMod: 1,
-            cremaLock: null
+            cremaLock: null,
+            dayEnding: false
         };
     };
 
@@ -365,13 +366,14 @@ const Engine = (() => {
     }
 
     async function endDay() {
-        console.log('[ENDDAY] called. dayEndTriggered='+state.dayEndTriggered+' tickInterval='+(tickInterval!==null));
-        if (state.dayEndTriggered && tickInterval === null) { console.log('[ENDDAY] aborted - already ending'); return; }
+        if (state.dayEndTriggered && tickInterval === null) return;
+        if (state.dayEnding) return; // New flag to prevent re-entry
+        state.dayEnding = true;
         state.dayEndTriggered = true;
         stopTime();
 
         // Force-close any open overlays that could block the transition
-        ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay', 'credits-overlay', 'levelup-overlay'].forEach(id => {
+        ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay', 'levelup-overlay', 'day-transition-overlay', 'newspaper-container', 'news-modal'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.style.display = 'none';
         });
@@ -405,7 +407,7 @@ const Engine = (() => {
         state.day++;
         if (state.day >= 7) Notifications.unlockAchievement('daily_grind');
         state.time = 480;
-        setSpeed(1);
+        state.speed = 1; // Don't call setSpeed(1) yet, it starts the clock
         state.cremaTemp = 20;
         state.cremaFuel = 0;
         state.cremaIgnited = false;
@@ -423,6 +425,7 @@ const Engine = (() => {
         state.tasksCompletedRealTime = null;
         state.priceMod = 1;
         state.cremaLock = null;
+        state.dayEnding = false;
         
         // Daily costs
         const dailyCost = 100 + (state.upgrades.length * 20);
@@ -1227,7 +1230,7 @@ const Engine = (() => {
         } catch (e) { console.error('Audio error during game over:', e); }
 
         // Force-close all overlays
-        ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay', 'credits-overlay', 'collection-overlay', 'levelup-overlay', 'cafe-game-overlay', 'day-transition-overlay'].forEach(id => {
+        ['dialogue-overlay', 'dice-overlay', 'completion-overlay', 'supplies-overlay', 'credits-overlay', 'collection-overlay', 'levelup-overlay', 'cafe-game-overlay', 'day-transition-overlay', 'newspaper-container', 'news-modal'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.style.display = 'none';
         });
@@ -1275,7 +1278,12 @@ const Engine = (() => {
             }
         } catch (e) { console.error('Error filling game over stats:', e); }
 
-        // Finally show the screen
+        const goScreen = document.getElementById('gameover-screen');
+        if (goScreen) {
+            goScreen.style.display = 'block';
+            goScreen.classList.add('active');
+        }
+        
         if (typeof window.Main !== 'undefined') {
             window.Main.showScreen('gameover');
         } else if (typeof Main !== 'undefined') {

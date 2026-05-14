@@ -171,14 +171,20 @@ const Audio8Bit = (() => {
     function fadeOut(duration = 1.0) {
         if (!ctx || !masterGain) return;
         const t = ctx.currentTime;
+        // Only fade if volume is not already near 0
+        if (masterGain.gain.value < 0.01) return;
         masterGain.gain.cancelScheduledValues(t);
+        masterGain.gain.setValueAtTime(masterGain.gain.value, t);
         masterGain.gain.linearRampToValueAtTime(0, t + duration);
     }
 
     function fadeIn(duration = 1.0) {
         if (!ctx || !masterGain) return;
         const t = ctx.currentTime;
+        // Only fade if volume is not already near 0.6
+        if (masterGain.gain.value > 0.55) return;
         masterGain.gain.cancelScheduledValues(t);
+        masterGain.gain.setValueAtTime(masterGain.gain.value, t);
         masterGain.gain.linearRampToValueAtTime(0.6, t + duration);
     }
 

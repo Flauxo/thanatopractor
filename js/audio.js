@@ -388,11 +388,15 @@ const Audio8Bit = (() => {
         const beatDur = 60 / (track.bpm * speedMultiplier);
         
         // Start from where we left off or current time
-        let currentTime = startTime || (ctx.currentTime + 0.1);
+        let currentTime = startTime;
+        if (currentTime !== null && currentTime < ctx.currentTime) {
+            currentTime = ctx.currentTime + 0.05; // We fell behind, catch up to now
+        } else if (currentTime === null) {
+            currentTime = ctx.currentTime + 0.1;
+        }
         
-        // Schedule a small chunk (e.g. 4 beats) to allow better responsiveness
-        const lookAheadBeats = 4;
-        const chunkBeats = 4;
+        // Schedule a small chunk to allow better responsiveness
+        const chunkBeats = 8; // Increased from 4 for more stable buffering
         
         // We need to know which beat index we are on.
         // For simplicity in this 8-bit engine, we'll store the progress in the track state or pass it.
@@ -411,15 +415,17 @@ const Audio8Bit = (() => {
             if (melodyBeat >= beatOffset && melodyBeat < beatOffset + chunkBeats) {
                 const freq = NOTE_FREQS[note.n];
                 if (freq > 0) {
-                    const osc = ctx.createOscillator();
-                    const g = ctx.createGain();
-                    osc.type = 'square';
-                    osc.frequency.setValueAtTime(freq, melodyTime);
-                    g.gain.setValueAtTime(0.12, melodyTime);
-                    g.gain.exponentialRampToValueAtTime(0.001, melodyTime + dur * 0.9);
-                    osc.connect(g); g.connect(gainNode);
-                    osc.start(melodyTime); osc.stop(melodyTime + dur);
-                    trackOscillators.push({ osc, node: gainNode, endTime: melodyTime + dur });
+                    try {
+                        const osc = ctx.createOscillator();
+                        const g = ctx.createGain();
+                        osc.type = 'square';
+                        osc.frequency.setValueAtTime(freq, melodyTime);
+                        g.gain.setValueAtTime(0.12, melodyTime);
+                        g.gain.exponentialRampToValueAtTime(0.001, melodyTime + dur * 0.9);
+                        osc.connect(g); g.connect(gainNode);
+                        osc.start(melodyTime); osc.stop(melodyTime + dur);
+                        trackOscillators.push({ osc, node: gainNode, endTime: melodyTime + dur });
+                    } catch(e) { /* Ignore notes scheduled in the past */ }
                 }
             }
             melodyTime += dur;
@@ -435,6 +441,7 @@ const Audio8Bit = (() => {
                 if (bassBeat >= beatOffset && bassBeat < beatOffset + chunkBeats) {
                     const freq = NOTE_FREQS[note.n];
                     if (freq > 0) {
+                    try {
                         const osc = ctx.createOscillator();
                         const g = ctx.createGain();
                         osc.type = 'triangle';
@@ -444,6 +451,7 @@ const Audio8Bit = (() => {
                         osc.connect(g); g.connect(gainNode);
                         osc.start(bassTime); osc.stop(bassTime + dur);
                         trackOscillators.push({ osc, node: gainNode, endTime: bassTime + dur });
+                    } catch(e) {}
                     }
                 }
                 bassTime += dur;
@@ -469,13 +477,13 @@ const Audio8Bit = (() => {
         const totalTrackBeats = Math.max(melodyBeat, bassBeat, drumBeat);
         gainNode.trackBeatOffset = (beatOffset + chunkBeats) % totalTrackBeats;
         
-        // Schedule next chunk slightly before this one ends
+        // Schedule next chunk safely before this one ends (500ms lookahead)
         const chunkDur = chunkBeats * beatDur;
         trackTimeout = setTimeout(() => {
             if (currentTrackName === name && musicPlaying) {
                 scheduleTrack(name, gainNode, currentTime + chunkDur);
             }
-        }, (chunkDur * 1000) - 50);
+        }, Math.max(10, (chunkDur * 1000) - 500));
     }
 
     function playDrumInternal(type, start, gainNode) {

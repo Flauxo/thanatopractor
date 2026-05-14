@@ -505,6 +505,8 @@ const Audio8Bit = (() => {
             });
         }
 
+        const chunkDur = chunkBeats * beatDur;
+        
         gainNode.currentChunk = {
             startBeat: chunkStart,
             endBeat: chunkEnd,
@@ -517,7 +519,6 @@ const Audio8Bit = (() => {
         gainNode.trackBeatOffset = chunkEnd;
         
         // Schedule next chunk safely before this one ends (500ms lookahead)
-        const chunkDur = chunkBeats * beatDur;
         trackTimeout = setTimeout(() => {
             if (currentTrackName === name && musicPlaying) {
                 scheduleTrack(name, gainNode, currentTime + chunkDur);

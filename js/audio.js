@@ -539,7 +539,7 @@ const Audio8Bit = (() => {
             g.gain.exponentialRampToValueAtTime(0.01, start + 0.12);
             osc.connect(g); g.connect(gainNode || masterGain);
             osc.start(start); osc.stop(start + 0.12);
-            trackOscillators.push({ osc, node: gainNode });
+            trackOscillators.push({ osc, node: gainNode, startTime: start, endTime: start + 0.12 });
         } else if (type === 's' || type === 'h') { // Snare or Hi-hat (noise-based)
             const bufferSize = ctx.sampleRate * 0.1;
             const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
@@ -564,7 +564,7 @@ const Audio8Bit = (() => {
             }
             noise.connect(filter); filter.connect(g); g.connect(gainNode || masterGain);
             noise.start(start); noise.stop(start + 0.1);
-            trackOscillators.push({ osc: noise, node: gainNode });
+            trackOscillators.push({ osc: noise, node: gainNode, startTime: start, endTime: start + 0.1 });
         }
     }
 

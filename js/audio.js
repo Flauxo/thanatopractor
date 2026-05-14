@@ -383,7 +383,7 @@ const Audio8Bit = (() => {
         
         const s = (typeof Engine !== 'undefined') ? Engine.getState().speed : 1;
         let speedMultiplier = 1;
-        if (s > 1) speedMultiplier = 1.30; // Correctly handle fast-forward (s=2 or s=5)
+        if (s > 1) speedMultiplier = 1.40; // Correctly handle fast-forward (s=2 or s=5)
         else if (s > 0) speedMultiplier = s;
 
         const beatDur = 60 / (track.bpm * speedMultiplier);
@@ -588,7 +588,7 @@ const Audio8Bit = (() => {
             if (!musicPlaying || !currentGainNode) return;
             const s = (typeof Engine !== 'undefined') ? Engine.getState().speed : 1;
             let newMult = 1;
-            if (s > 1) newMult = 1.30;
+            if (s > 1) newMult = 1.40;
             else if (s > 0) newMult = s;
 
             if (currentMultiplier === newMult) return;

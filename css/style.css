@@ -42,6 +42,11 @@ html, body {
 }
 .screen.active { display: flex; }
 
+#hub-screen {
+    background: url('../assets/scenes/reception.png') center bottom/cover no-repeat;
+    image-rendering: pixelated;
+}
+
 .lang-btn {
     background: none !important;
     border: none !important;
@@ -267,7 +272,7 @@ html, body {
 /* Hub Scene */
 .hub-scene {
     flex: 1; padding: 12px 12px 0 12px;
-    background: url('../assets/scenes/reception.png') center top/cover no-repeat;
+    background: transparent;
     image-rendering: pixelated;
     overflow-y: auto;
     position: relative;
@@ -326,8 +331,9 @@ html, body {
 .hub-nav {
     display: grid; grid-template-columns: repeat(4, 1fr);
     gap: 4px; padding: 8px;
-    background: var(--bg-panel); border-top: 2px solid var(--bg-panel-border);
+    background: rgba(30, 20, 51, 0.7); border-top: 2px solid var(--bg-panel-border);
     flex-shrink: 0;
+    backdrop-filter: blur(4px);
 }
 .nav-btn {
     display: flex; flex-direction: column; align-items: center;
@@ -395,8 +401,9 @@ html, body {
 /* Time Controls */
 .time-controls {
     display: flex; justify-content: center; gap: 8px;
-    padding: 6px; background: var(--bg-darkest);
+    padding: 6px; background: rgba(10, 6, 16, 0.6);
     flex-shrink: 0;
+    backdrop-filter: blur(4px);
 }
 .time-btn {
     font-size: 18px; background: var(--bg-panel);

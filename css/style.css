@@ -43,7 +43,7 @@ html, body {
 .screen.active { display: flex; }
 
 #hub-screen {
-    background: url('../assets/scenes/reception.png') center bottom/cover no-repeat;
+    background: url('../assets/scenes/reception.png') center top/cover no-repeat;
     image-rendering: pixelated;
 }
 

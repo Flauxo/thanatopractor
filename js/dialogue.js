@@ -15,9 +15,10 @@ const Dialogue = (() => {
     function show(speaker, text, choices, onClose, options = {}) {
         if (!isShowing && typeof Engine !== 'undefined') {
             const s = Engine.getState().speed;
-            if (s === 5) speedBeforeDialogue = 2;
-            else if (s === 1) speedBeforeDialogue = 1;
-            else speedBeforeDialogue = 1;
+            if (s > 0) {
+                if (s === 5) speedBeforeDialogue = 2;
+                else if (s === 1) speedBeforeDialogue = 1;
+            }
         }
         isShowing = true;
         const overlay = document.getElementById('dialogue-overlay');

@@ -11,7 +11,7 @@ const Audio8Bit = (() => {
     let musicPlaying = false;
     let muted = false;
     let initialized = false;
-    let lastPlayedSpeed = 1;
+
     let trackOscillators = [];
     let trackTimeout = null;
     let ambienceNodes = null;
@@ -341,9 +341,7 @@ const Audio8Bit = (() => {
         if (!ctx) return;
         if (ctx.state === 'suspended' && !document.hidden) ctx.resume();
 
-        const engineSpeed = (typeof Engine !== 'undefined') ? Engine.getState().speed : 1;
-        if (currentTrackName === name && musicPlaying && lastPlayedSpeed === engineSpeed) return;
-        lastPlayedSpeed = engineSpeed;
+        if (currentTrackName === name && musicPlaying) return;
         
         console.log("Playing Track:", name);
         const fadeTime = 1.0;

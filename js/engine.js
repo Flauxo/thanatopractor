@@ -427,6 +427,11 @@ const Engine = (() => {
         // Daily costs
         const dailyCost = 100 + (state.upgrades.length * 20);
         addMoney(-dailyCost, I18n.T('eng.daily_expenses', state.day - 1));
+        
+        if (state.gameOver) {
+            console.log('[NEXTDAY] Game Over triggered by expenses. Aborting transition.');
+            return;
+        }
 
         // Transition Overlay
         const overlay = document.getElementById('day-transition-overlay');
@@ -595,6 +600,7 @@ const Engine = (() => {
                     const fam = typeof Families !== 'undefined' ? Families.getById(event.familyId) : null;
                     if (fam) {
                         fam.cremated = true;
+                        fam.cremationStarted = false;
                         fam.services.push('cremation');
                         let msg, satChange;
                         
@@ -612,7 +618,11 @@ const Engine = (() => {
 
                         showToast(msg, fam.cremationTempFailure ? 'danger' : 'success');
                         if (typeof Families !== 'undefined') Families.updateSatisfaction(fam.id, satChange, 'Cremation quality');
+                        
+                        // Ensure the family is ready for transport
                         if (typeof Rooms !== 'undefined') Rooms.checkServiceComplete(fam);
+                        
+                        Engine.save();
                         rollCollectionDiscovery();
 
                         // Breakdown chance: 20%
@@ -1243,6 +1253,24 @@ const Engine = (() => {
                     ${I18n.T('go.earnings')}: $${s.totalEarnings || 0}<br>
                     ${I18n.T('go.best_roll')}: ${s.bestRoll || 0}<br>
                     ${I18n.T('go.level')}: ${getLevel()}
+                `;
+            }
+
+            // Share buttons
+            const shareContainer = document.getElementById('gameover-share');
+            if (shareContainer) {
+                const s = state.stats || {};
+                const rawMsg = I18n.T('go.share_msg', state.day, getLevel(), s.familiesServed || 0);
+                const shareText = encodeURIComponent(rawMsg);
+                const shareUrl = encodeURIComponent(window.location.href);
+                
+                shareContainer.innerHTML = `
+                    <div style="margin-top:20px; font-size:14px; color:#888;">${I18n.T('go.share_title')}</div>
+                    <div class="share-links">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${shareText}" target="_blank" class="share-btn fb" title="Facebook"></a>
+                        <a href="https://www.instagram.com/" target="_blank" class="share-btn ig" title="Instagram"></a>
+                        <a href="https://api.whatsapp.com/send?text=${shareText}%20${shareUrl}" target="_blank" class="share-btn wa" title="WhatsApp"></a>
+                    </div>
                 `;
             }
         } catch (e) { console.error('Error filling game over stats:', e); }

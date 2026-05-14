@@ -319,6 +319,9 @@ I18n.register('es', {
 'fam.transfer_desc': '🚐 Trasladar a {0}',
 // Game Over
 'go.title': 'FIN DEL JUEGO', 'go.try_again': 'REINTENTAR',
+'go.share_title': 'COMPARTIR ESTADÍSTICAS',
+'go.share_msg': '¡He sobrevivido {0} días en Thanatopractor! Nivel {1}, {2} familias atendidas. ¿Podrás superarme? #ThanatopractorGame',
+'go.share_mail_subject': 'Mira mi puntuación en Thanatopractor',
 'go.bankrupt_title': 'BANCARROTA', 'go.bankrupt_reason': 'Te quedaste sin dinero. Hasta la muerte cuesta dinero, por lo visto.',
 'go.disgraced_title': 'DESHONRADO', 'go.disgraced_reason': 'Tu reputación tocó fondo. Nadie te confía a sus muertos.',
 'go.money_warning': '⚠️ AVISO: ¡Dinero bajo! (${0})',

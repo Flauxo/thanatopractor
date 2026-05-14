@@ -314,6 +314,9 @@ I18n.register('en', {
 // Game Over
 'cafe.denied_alcohol': 'Denied alcohol',
 'go.title': 'GAME OVER', 'go.try_again': 'TRY AGAIN',
+'go.share_title': 'SHARE STATS',
+'go.share_msg': 'I survived {0} days in Thanatopractor! Level {1}, {2} families served. Can you beat me? #ThanatopractorGame',
+'go.share_mail_subject': 'Check out my Thanatopractor score!',
 'go.bankrupt_title': 'BANKRUPT', 'go.bankrupt_reason': 'You ran out of money. Even death costs money, apparently.',
 'go.disgraced_title': 'DISGRACED', 'go.disgraced_reason': 'Your reputation hit rock bottom. Nobody trusts you with their dead.',
 'go.money_warning': '⚠️ WARNING: Money running low! (${0})',

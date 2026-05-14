@@ -86,6 +86,7 @@ const Rooms = (() => {
                 btnPhoneCall.onclick = () => {
                     Audio8Bit.SFX.click();
                     Engine.Notifications.updateReceptionBadge();
+                    Engine.Notifications.clearBadge('phone');
                     const s = Engine.getState();
                     
                     const phoneChoices = [
@@ -847,7 +848,11 @@ const Rooms = (() => {
             const active = Families.getActive().filter(f => f.embalmed && f.wantsCremation && !f.cremated && (f.viewed || f.cooldownDone) && (!f.wantsChapel || f.chapelDone));
             
             // Sort: currently cremating families first
-            active.sort((a, b) => (b.cremationStarted ? 1 : 0) - (a.cremationStarted ? 1 : 0));
+            active.sort((a, b) => {
+                const aVal = (a.cremationStarted && !a.cremated) ? 1 : 0;
+                const bVal = (b.cremationStarted && !b.cremated) ? 1 : 0;
+                return bVal - aVal;
+            });
             
             const isAnyCremating = active.some(f => f.cremationStarted && !f.cremated);
             const displayed = active.slice(0, 3);
@@ -916,6 +921,7 @@ const Rooms = (() => {
             triggered: false
         });
         
+        Engine.save();
         showCrematorium();
     }
 
@@ -1318,15 +1324,9 @@ const Rooms = (() => {
                 family.waitingForTransport = true;
                 Engine.showToast(I18n.T('rec.services_complete', family.deceasedName), 'success');
                 Engine.Notifications.addBadge('reception');
+                Engine.Notifications.addBadge('phone');
                 
-                Engine.getState().schedule.push({
-                    time: Math.round(Engine.getState().time),
-                    type: 'transport_ready',
-                    familyId: family.id,
-                    desc: I18n.T('rec.transfer_ready', family.deceasedName),
-                    triggered: true,
-                    completed: false
-                });
+                Engine.save();
             }
         }
     }

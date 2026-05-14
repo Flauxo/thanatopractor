@@ -39,6 +39,7 @@ const Families = (() => {
             viewed: false,
             chapelDone: false,
             cremated: false,
+            cremationStarted: false,
             rating: null,
             services: [],
             totalCharged: 0,

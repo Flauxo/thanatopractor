@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Debug Game Over</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a1a1a;
+            --panel: #2d2d2d;
+            --pink: #bc4a9c;
+            --font-main: 'VT323', monospace;
+            --font-pixel: 'Press Start 2P', cursive;
+        }
+        body {
+            background: var(--bg);
+            color: #eee;
+            font-family: var(--font-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .screen-panel {
+            background: var(--panel);
+            border: 4px solid var(--pink);
+            padding: 30px;
+            text-align: center;
+            width: 400px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        h2 {
+            font-family: var(--font-pixel);
+            color: var(--pink);
+            font-size: 24px;
+            margin-top: 0;
+        }
+        .gameover-skull {
+            font-size: 60px;
+            margin: 20px 0;
+        }
+        .vt-text {
+            font-size: 22px;
+            line-height: 1.4;
+        }
+        .gameover-stats {
+            margin: 20px 0;
+            font-size: 20px;
+            line-height: 1.6;
+            border-top: 1px solid #444;
+            border-bottom: 1px solid #444;
+            padding: 10px 0;
+        }
+        .share-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .share-btn {
+            width: 32px;
+            height: 32px;
+            background: #333;
+            border: 2px solid #555;
+            border-radius: 4px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            image-rendering: pixelated;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .share-btn:hover {
+            border-color: var(--pink);
+            transform: scale(1.1);
+            background-color: #444;
+        }
+        .share-btn.fb { background-image: url('assets/ui/facebook_icon.png'); }
+        .share-btn.ig { background-image: url('assets/ui/insta_icon.png'); }
+        .share-btn.wa { background-image: url('assets/ui/Whatsapp_icon.png'); }
+        
+        .pixel-btn {
+            background: var(--pink);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-family: var(--font-pixel);
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 4px 4px 0 #8a2e6f;
+        }
+    </style>
+</head>
+<body>
+    <div class="screen-panel">
+        <h2>💸 BANCARROTA</h2>
+        <div class="gameover-skull">💀</div>
+        <p class="vt-text">Te quedaste sin dinero. Hasta la muerte cuesta dinero, por lo visto.</p>
+        <div class="gameover-stats">
+            Días sobrevividos: 12<br>
+            Familias servidas: 45<br>
+            Ganancias totales: $12,500<br>
+            Mejor tirada: 20<br>
+            Nivel alcanzado: 5
+        </div>
+        <div style="font-size:14px; color:#888;">COMPARTIR ESTADÍSTICAS</div>
+        <div class="share-links">
+            <div class="share-btn fb" title="Facebook"></div>
+            <div class="share-btn ig" title="Instagram"></div>
+            <div class="share-btn wa" title="WhatsApp"></div>
+        </div>
+        <button class="pixel-btn">REINTENTAR</button>
+    </div>
+</body>
+</html>

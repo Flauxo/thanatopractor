@@ -352,7 +352,9 @@ const Audio8Bit = (() => {
         const newNode = activeGain === 'A' ? musicGainA : musicGainB;
         
         trackOscillators = trackOscillators.filter(item => {
-            if (item.node === newNode) {
+            // Stop oscillators for the node we are about to use OR ones that finished naturally
+            const isFinished = ctx.currentTime > item.endTime;
+            if (item.node === newNode || isFinished) {
                 try { item.osc.stop(); } catch(e) {}
                 return false;
             }
@@ -370,7 +372,7 @@ const Audio8Bit = (() => {
         scheduleTrack(name, currentGainNode);
     }
 
-    function scheduleTrack(name, gainNode) {
+    function scheduleTrack(name, gainNode, startTime = null) {
         if (!musicPlaying || !ctx || currentTrackName !== name) return;
         const track = TRACKS[name];
         if (!track) return;
@@ -378,65 +380,99 @@ const Audio8Bit = (() => {
         const s = (typeof Engine !== 'undefined') ? Engine.getState().speed : 1;
         const speedMultiplier = s > 0 ? s : 1;
         const beatDur = 60 / (track.bpm * speedMultiplier);
-        let currentTime = ctx.currentTime + 0.1;
+        
+        // Start from where we left off or current time
+        let currentTime = startTime || (ctx.currentTime + 0.1);
+        
+        // Schedule a small chunk (e.g. 4 beats) to allow better responsiveness
+        const lookAheadBeats = 4;
+        const chunkBeats = 4;
+        
+        // We need to know which beat index we are on.
+        // For simplicity in this 8-bit engine, we'll store the progress in the track state or pass it.
+        if (startTime === null) {
+            gainNode.trackBeatOffset = 0;
+        }
+        
+        let beatOffset = gainNode.trackBeatOffset || 0;
+        let tEnd = currentTime;
 
-        // Melody
-        let tNotes = currentTime;
+        // Schedule Melody notes that fall within this chunk
+        let melodyTime = currentTime;
+        let melodyBeat = 0;
         track.notes.forEach(note => {
-            const freq = NOTE_FREQS[note.n];
             const dur = note.d * beatDur;
-            if (freq > 0) {
-                const osc = ctx.createOscillator();
-                const g = ctx.createGain();
-                osc.type = 'square';
-                osc.frequency.setValueAtTime(freq, tNotes);
-                g.gain.setValueAtTime(0.12, tNotes);
-                g.gain.exponentialRampToValueAtTime(0.001, tNotes + dur * 0.9);
-                osc.connect(g); g.connect(gainNode);
-                osc.start(tNotes); osc.stop(tNotes + dur);
-                trackOscillators.push({ osc, node: gainNode });
-            }
-            tNotes += dur;
-        });
-
-        // Bass
-        let tBass = currentTime;
-        if (track.bass) {
-            track.bass.forEach(note => {
+            if (melodyBeat >= beatOffset && melodyBeat < beatOffset + chunkBeats) {
                 const freq = NOTE_FREQS[note.n];
-                const dur = note.d * beatDur;
                 if (freq > 0) {
                     const osc = ctx.createOscillator();
                     const g = ctx.createGain();
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(freq, tBass);
-                    g.gain.setValueAtTime(0.18, tBass);
-                    g.gain.exponentialRampToValueAtTime(0.001, tBass + dur * 0.9);
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(freq, melodyTime);
+                    g.gain.setValueAtTime(0.12, melodyTime);
+                    g.gain.exponentialRampToValueAtTime(0.001, melodyTime + dur * 0.9);
                     osc.connect(g); g.connect(gainNode);
-                    osc.start(tBass); osc.stop(tBass + dur);
-                    trackOscillators.push({ osc, node: gainNode });
+                    osc.start(melodyTime); osc.stop(melodyTime + dur);
+                    trackOscillators.push({ osc, node: gainNode, endTime: melodyTime + dur });
                 }
-                tBass += dur;
+            }
+            melodyTime += dur;
+            melodyBeat += note.d;
+        });
+
+        // Bass
+        let bassTime = currentTime;
+        let bassBeat = 0;
+        if (track.bass) {
+            track.bass.forEach(note => {
+                const dur = note.d * beatDur;
+                if (bassBeat >= beatOffset && bassBeat < beatOffset + chunkBeats) {
+                    const freq = NOTE_FREQS[note.n];
+                    if (freq > 0) {
+                        const osc = ctx.createOscillator();
+                        const g = ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, bassTime);
+                        g.gain.setValueAtTime(0.18, bassTime);
+                        g.gain.exponentialRampToValueAtTime(0.001, bassTime + dur * 0.9);
+                        osc.connect(g); g.connect(gainNode);
+                        osc.start(bassTime); osc.stop(bassTime + dur);
+                        trackOscillators.push({ osc, node: gainNode, endTime: bassTime + dur });
+                    }
+                }
+                bassTime += dur;
+                bassBeat += note.d;
             });
         }
 
         // Drums
-        let tDrums = currentTime;
+        let drumTime = currentTime;
+        let drumBeat = 0;
         if (track.drums) {
             track.drums.forEach(step => {
                 const dur = step.d * beatDur;
-                step.c.forEach(type => playDrumInternal(type, tDrums));
-                tDrums += dur;
+                if (drumBeat >= beatOffset && drumBeat < beatOffset + chunkBeats) {
+                    step.c.forEach(type => playDrumInternal(type, drumTime, gainNode));
+                }
+                drumTime += dur;
+                drumBeat += step.d;
             });
         }
 
-        const totalDur = Math.max(tNotes, tBass, tDrums) - ctx.currentTime;
+        // Update offset for next chunk
+        const totalTrackBeats = Math.max(melodyBeat, bassBeat, drumBeat);
+        gainNode.trackBeatOffset = (beatOffset + chunkBeats) % totalTrackBeats;
+        
+        // Schedule next chunk slightly before this one ends
+        const chunkDur = chunkBeats * beatDur;
         trackTimeout = setTimeout(() => {
-            if (currentTrackName === name && musicPlaying) scheduleTrack(name, gainNode);
-        }, totalDur * 1000 - 100);
+            if (currentTrackName === name && musicPlaying) {
+                scheduleTrack(name, gainNode, currentTime + chunkDur);
+            }
+        }, (chunkDur * 1000) - 50);
     }
 
-    function playDrumInternal(type, start) {
+    function playDrumInternal(type, start, gainNode) {
         if (!ctx) return;
         
         // Simple 8-bit drum synthesis
@@ -447,8 +483,9 @@ const Audio8Bit = (() => {
             osc.frequency.exponentialRampToValueAtTime(0.01, start + 0.12);
             g.gain.setValueAtTime(0.15, start);
             g.gain.exponentialRampToValueAtTime(0.01, start + 0.12);
-            osc.connect(g); g.connect(masterGain);
+            osc.connect(g); g.connect(gainNode || masterGain);
             osc.start(start); osc.stop(start + 0.12);
+            trackOscillators.push({ osc, node: gainNode });
         } else if (type === 's' || type === 'h') { // Snare or Hi-hat (noise-based)
             const bufferSize = ctx.sampleRate * 0.1;
             const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
@@ -471,8 +508,9 @@ const Audio8Bit = (() => {
                 g.gain.setValueAtTime(0.04, start);
                 g.gain.exponentialRampToValueAtTime(0.01, start + 0.05);
             }
-            noise.connect(filter); filter.connect(g); g.connect(masterGain);
+            noise.connect(filter); filter.connect(g); g.connect(gainNode || masterGain);
             noise.start(start); noise.stop(start + 0.1);
+            trackOscillators.push({ osc: noise, node: gainNode });
         }
     }
 

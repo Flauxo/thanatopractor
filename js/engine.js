@@ -822,6 +822,13 @@ const Engine = (() => {
                     flashEl.className = 'flash-gold';
                     flashEl.addEventListener('animationend', () => { flashEl.className = ''; }, { once: true });
                 }
+
+                // SCREEN SHAKE
+                document.body.classList.add('screen-shaking');
+                document.body.addEventListener('animationend', () => {
+                    document.body.classList.remove('screen-shaking');
+                }, { once: true });
+
                 // Spawn 12 estrellas desde el centro del dado
                 const dieRect = die.getBoundingClientRect();
                 const cx = dieRect.left + dieRect.width / 2;

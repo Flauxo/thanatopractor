@@ -674,8 +674,8 @@ const Rooms = (() => {
 
         CafeGames.start(order, (quality) => {
             order.served = true;
-            // Reward based on quality: -1=fail, 0=weak, 1=good, 2=perfect
-            let rewardMult = quality === 2 ? 1.5 : quality === 1 ? 1 : quality === 0 ? 0.7 : 0.2;
+            // Reward based on quality: -1=fail, 0=weak, 1=good, 2+=perfect
+            let rewardMult = quality >= 2 ? 1.5 : (quality === 1 ? 1 : (quality === 0 ? 0.7 : 0.2));
             let finalPrice = Math.ceil(order.item.price * rewardMult);
             
             let itemName = order.item.item;
@@ -684,11 +684,11 @@ const Rooms = (() => {
             else if (itemName === 'Sandwich') itemName = I18n.T('cafe.sandwich');
             else if (itemName === 'Soul Cake') itemName = I18n.T('cafe.soul_cake');
             
-            let qualityStr = quality === 2 ? '+++' : quality === 1 ? '++' : quality === 0 ? '+' : '---';
+            let qualityStr = quality >= 2 ? '+++' : (quality === 1 ? '++' : (quality === 0 ? '+' : '---'));
             if (Engine.hasItem('choc_coin')) finalPrice += 2;
             Engine.addMoney(finalPrice, I18n.T('cafe.sold_reason', itemName, qualityStr));
             
-            let satBonus = quality === 2 ? 8 : quality === 1 ? 3 : quality === 0 ? 0 : -10;
+            let satBonus = quality >= 2 ? 10 : (quality === 1 ? 5 : (quality === 0 ? 0 : -15));
             if (Engine.hasItem('pizza_letter')) satBonus += 2;
             Families.updateSatisfaction(order.familyId, satBonus, `${I18n.T('nav.cafeteria')}: ${itemName}`);
             

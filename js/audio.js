@@ -587,6 +587,8 @@ const Audio8Bit = (() => {
         updateSpeed() { 
             if (!musicPlaying || !currentGainNode) return;
             const s = (typeof Engine !== 'undefined') ? Engine.getState().speed : 1;
+            if (s === 0) return; // Keep current music speed during pause/menus
+            
             let newMult = 1;
             if (s > 1) newMult = 1.40;
             else if (s > 0) newMult = s;

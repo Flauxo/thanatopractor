@@ -383,8 +383,14 @@ const Audio8Bit = (() => {
         
         const s = (typeof Engine !== 'undefined') ? Engine.getState().speed : 1;
         let speedMultiplier = 1;
-        if (s > 1) speedMultiplier = 1.40; // Correctly handle fast-forward (s=2 or s=5)
-        else if (s > 0) speedMultiplier = s;
+        
+        // Use the current multiplier if s=0 to maintain tempo during pause
+        if (s === 0) {
+            speedMultiplier = currentMultiplier; 
+        } else {
+            if (s > 1) speedMultiplier = 1.40; 
+            else speedMultiplier = s;
+        }
 
         const beatDur = 60 / (track.bpm * speedMultiplier);
         
@@ -587,7 +593,10 @@ const Audio8Bit = (() => {
         updateSpeed() { 
             if (!musicPlaying || !currentGainNode) return;
             const s = (typeof Engine !== 'undefined') ? Engine.getState().speed : 1;
-            if (s === 0) return; // Keep current music speed during pause/menus
+            
+            // If the game is paused (speed 0), we don't update the multiplier.
+            // This ensures the music stays at the "active" speed during menus.
+            if (s === 0) return; 
             
             let newMult = 1;
             if (s > 1) newMult = 1.40;

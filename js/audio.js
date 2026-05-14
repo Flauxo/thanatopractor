@@ -11,7 +11,7 @@ const Audio8Bit = (() => {
     let musicPlaying = false;
     let muted = false;
     let initialized = false;
-
+    let currentMultiplier = 1;
     let trackOscillators = [];
     let trackTimeout = null;
     let ambienceNodes = null;
@@ -419,26 +419,30 @@ const Audio8Bit = (() => {
         if (track.notes) {
             track.notes.forEach(note => {
                 const dur = note.d * beatDur;
-                let k = Math.floor((chunkStart - melodyBeat) / totalTrackBeats);
+                let k = Math.floor((chunkStart - melodyBeat - note.d) / totalTrackBeats);
                 if (k < 0) k = 0;
                 let baseBeat = melodyBeat + k * totalTrackBeats;
 
                 for (let b = baseBeat; b < chunkEnd; b += totalTrackBeats) {
-                    if (b >= chunkStart && b < chunkEnd) {
+                    if (b < chunkEnd && b + note.d > chunkStart) {
                         const freq = NOTE_FREQS[note.n];
                         if (freq > 0) {
-                            const melodyTime = currentTime + (b - chunkStart) * beatDur;
-                            try {
-                                const osc = ctx.createOscillator();
-                                const g = ctx.createGain();
-                                osc.type = 'square';
-                                osc.frequency.setValueAtTime(freq, melodyTime);
-                                g.gain.setValueAtTime(0.12, melodyTime);
-                                g.gain.exponentialRampToValueAtTime(0.001, melodyTime + dur * 0.9);
-                                osc.connect(g); g.connect(gainNode);
-                                osc.start(melodyTime); osc.stop(melodyTime + dur);
-                                trackOscillators.push({ osc, node: gainNode, endTime: melodyTime + dur });
-                            } catch(e) {}
+                            const noteStart = currentTime + (b - chunkStart) * beatDur;
+                            const noteEnd = noteStart + dur;
+                            const actualStart = Math.max(currentTime, noteStart);
+                            if (noteEnd > actualStart) {
+                                try {
+                                    const osc = ctx.createOscillator();
+                                    const g = ctx.createGain();
+                                    osc.type = 'square';
+                                    osc.frequency.setValueAtTime(freq, actualStart);
+                                    g.gain.setValueAtTime(0.12, actualStart);
+                                    g.gain.exponentialRampToValueAtTime(0.001, Math.max(actualStart, noteEnd - dur * 0.1));
+                                    osc.connect(g); g.connect(gainNode);
+                                    osc.start(actualStart); osc.stop(noteEnd);
+                                    trackOscillators.push({ osc, node: gainNode, startTime: actualStart, endTime: noteEnd });
+                                } catch(e) {}
+                            }
                         }
                     }
                 }
@@ -451,26 +455,30 @@ const Audio8Bit = (() => {
         if (track.bass) {
             track.bass.forEach(note => {
                 const dur = note.d * beatDur;
-                let k = Math.floor((chunkStart - bassBeat) / totalTrackBeats);
+                let k = Math.floor((chunkStart - bassBeat - note.d) / totalTrackBeats);
                 if (k < 0) k = 0;
                 let baseBeat = bassBeat + k * totalTrackBeats;
 
                 for (let b = baseBeat; b < chunkEnd; b += totalTrackBeats) {
-                    if (b >= chunkStart && b < chunkEnd) {
+                    if (b < chunkEnd && b + note.d > chunkStart) {
                         const freq = NOTE_FREQS[note.n];
                         if (freq > 0) {
-                            const bassTime = currentTime + (b - chunkStart) * beatDur;
-                            try {
-                                const osc = ctx.createOscillator();
-                                const g = ctx.createGain();
-                                osc.type = 'triangle';
-                                osc.frequency.setValueAtTime(freq, bassTime);
-                                g.gain.setValueAtTime(0.18, bassTime);
-                                g.gain.exponentialRampToValueAtTime(0.001, bassTime + dur * 0.9);
-                                osc.connect(g); g.connect(gainNode);
-                                osc.start(bassTime); osc.stop(bassTime + dur);
-                                trackOscillators.push({ osc, node: gainNode, endTime: bassTime + dur });
-                            } catch(e) {}
+                            const noteStart = currentTime + (b - chunkStart) * beatDur;
+                            const noteEnd = noteStart + dur;
+                            const actualStart = Math.max(currentTime, noteStart);
+                            if (noteEnd > actualStart) {
+                                try {
+                                    const osc = ctx.createOscillator();
+                                    const g = ctx.createGain();
+                                    osc.type = 'triangle';
+                                    osc.frequency.setValueAtTime(freq, actualStart);
+                                    g.gain.setValueAtTime(0.18, actualStart);
+                                    g.gain.exponentialRampToValueAtTime(0.001, Math.max(actualStart, noteEnd - dur * 0.1));
+                                    osc.connect(g); g.connect(gainNode);
+                                    osc.start(actualStart); osc.stop(noteEnd);
+                                    trackOscillators.push({ osc, node: gainNode, startTime: actualStart, endTime: noteEnd });
+                                } catch(e) {}
+                            }
                         }
                     }
                 }
@@ -482,19 +490,28 @@ const Audio8Bit = (() => {
         let drumBeat = 0;
         if (track.drums) {
             track.drums.forEach(step => {
-                let k = Math.floor((chunkStart - drumBeat) / totalTrackBeats);
+                let k = Math.floor((chunkStart - drumBeat - step.d) / totalTrackBeats);
                 if (k < 0) k = 0;
                 let baseBeat = drumBeat + k * totalTrackBeats;
 
                 for (let b = baseBeat; b < chunkEnd; b += totalTrackBeats) {
-                    if (b >= chunkStart && b < chunkEnd) {
-                        const drumTime = currentTime + (b - chunkStart) * beatDur;
-                        step.c.forEach(type => playDrumInternal(type, drumTime, gainNode));
+                    if (b < chunkEnd && b + step.d > chunkStart) {
+                        const noteStart = currentTime + (b - chunkStart) * beatDur;
+                        const actualStart = Math.max(currentTime, noteStart);
+                        step.c.forEach(type => playDrumInternal(type, actualStart, gainNode));
                     }
                 }
                 drumBeat += step.d;
             });
         }
+
+        gainNode.currentChunk = {
+            startBeat: chunkStart,
+            endBeat: chunkEnd,
+            startTime: currentTime,
+            endTime: currentTime + chunkDur,
+            beatDur: beatDur
+        };
 
         // Update offset for next chunk
         gainNode.trackBeatOffset = chunkEnd;
@@ -566,7 +583,39 @@ const Audio8Bit = (() => {
             const idx = names.indexOf(currentTrackName);
             playTrack(names[(idx + 1) % names.length]);
         },
-        updateSpeed() { if (musicPlaying) playTrack(currentTrackName); },
+        updateSpeed() { 
+            if (!musicPlaying || !currentGainNode) return;
+            const s = (typeof Engine !== 'undefined') ? Engine.getState().speed : 1;
+            let newMult = 1;
+            if (s === 2) newMult = 1.3;
+            else if (s > 0) newMult = s;
+
+            if (currentMultiplier === newMult) return;
+            currentMultiplier = newMult;
+
+            const t = ctx.currentTime;
+            const chunk = currentGainNode.currentChunk;
+            let currentBeat = currentGainNode.trackBeatOffset || 0;
+
+            if (chunk && t >= chunk.startTime && t <= chunk.endTime) {
+                const progress = (t - chunk.startTime) / (chunk.endTime - chunk.startTime);
+                currentBeat = chunk.startBeat + progress * (chunk.endBeat - chunk.startBeat);
+            }
+
+            // Stop future oscillators immediately
+            trackOscillators.forEach(item => {
+                if (item.node === currentGainNode && item.endTime > t) {
+                    try { item.osc.stop(t); } catch(e) {}
+                }
+            });
+            trackOscillators = trackOscillators.filter(item => item.node !== currentGainNode || item.endTime <= t);
+
+            if (trackTimeout) clearTimeout(trackTimeout);
+
+            // Reschedule from exact sub-beat position
+            currentGainNode.trackBeatOffset = currentBeat;
+            scheduleTrack(currentTrackName, currentGainNode, t);
+        },
         suspend() { if (ctx && ctx.state === 'running') ctx.suspend(); },
         resume() { if (ctx && ctx.state === 'suspended') ctx.resume(); },
         get initialized() { return initialized; },

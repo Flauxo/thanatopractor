@@ -2,7 +2,6 @@
 const Dialogue = (() => {
     let queue = [];
     let isShowing = false;
-    let speedBeforeDialogue = 1;
 
     function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
@@ -13,13 +12,6 @@ const Dialogue = (() => {
     }
 
     function show(speaker, text, choices, onClose, options = {}) {
-        if (!isShowing && typeof Engine !== 'undefined') {
-            const s = Engine.getState().speed;
-            if (s > 0) {
-                if (s === 5) speedBeforeDialogue = 2;
-                else if (s === 1) speedBeforeDialogue = 1;
-            }
-        }
         isShowing = true;
         const overlay = document.getElementById('dialogue-overlay');
         const speakerEl = document.getElementById('dlg-speaker');
@@ -98,7 +90,7 @@ const Dialogue = (() => {
     function processQueue() {
         if (queue.length === 0) {
             isShowing = false;
-            if (typeof Engine !== 'undefined') Engine.setSpeed(speedBeforeDialogue); 
+            if (typeof Engine !== 'undefined') Engine.restoreSpeed(); 
             return;
         }
         const d = queue.shift();

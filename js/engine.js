@@ -30,7 +30,8 @@ const Engine = (() => {
             cafeOrders: [],
             alcoholServedToday: 0,
             viewingRooms: 1,
-            speed: 1, // 0=pause, 1=normal, 2=fast
+            speed: 1, // Current multiplier state (0, 1, or 5)
+            lastActiveSpeed: 1, // Store user preference (1 for normal, 2 for fast)
             gameOver: false,
             activePaperwork: null,
             pendingArrivals: 0,
@@ -191,9 +192,15 @@ const Engine = (() => {
         if (tickInterval) { clearInterval(tickInterval); tickInterval = null; }
     }
     function setSpeed(s) {
-        if (s === 0) state.speed = 0;
-        else if (s === 1) state.speed = 1; // Normal is 1x
-        else if (s === 2) state.speed = 5; // Fast is 5x
+        if (s === 0) {
+            state.speed = 0;
+        } else if (s === 1) {
+            state.speed = 1; 
+            state.lastActiveSpeed = 1;
+        } else if (s === 2) {
+            state.speed = 5; 
+            state.lastActiveSpeed = 2;
+        }
         
         document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
         if (s === 0) document.getElementById('btn-pause').classList.add('active');
@@ -203,6 +210,10 @@ const Engine = (() => {
         if (typeof Audio8Bit !== 'undefined') Audio8Bit.updateSpeed();
         
         if (s > 0) startTime();
+    }
+
+    function restoreSpeed() {
+        setSpeed(state.lastActiveSpeed || 1);
     }
 
     function tick() {
@@ -1395,6 +1406,6 @@ const Engine = (() => {
         checkGameOver, defaultState,
         rollCollectionDiscovery, showCollection,
         unlockAchievement: (id) => Notifications.unlockAchievement(id),
-        hasItem
+        hasItem, restoreSpeed
     };
 })();

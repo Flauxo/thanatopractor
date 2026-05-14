@@ -259,14 +259,11 @@ const Audio8Bit = (() => {
                 { n: 'A1', d: 1 }, { n: 'G1', d: 1 }, { n: 'F1', d: 1 }, { n: 'E1', d: 1 },
                 { n: 'D1', d: 1 }, { n: 'C1', d: 1 }, { n: 'B0', d: 1 }, { n: 'A0', d: 1 },
                 { n: 'A1', d: 1 }, { n: 'A1', d: 1 }, { n: 'G1', d: 1 }, { n: 'G1', d: 1 },
-                { n: 'F1', d: 1 }, { n: 'F1', d: 1 }, { n: 'E1', d: 2 }
+                { n: 'F1', d: 1 }, { n: 'F1', d: 1 }, { n: 'E1', d: 1 }, { n: 'E1', d: 1 },
+                { n: 'D1', d: 1 }, { n: 'C1', d: 1 }, { n: 'B0', d: 1 }, { n: 'E1', d: 1 },
+                { n: 'A1', d: 4 }
             ],
-            drums: [
-                { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] },
-                { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] },
-                { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] },
-                { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }
-            ]
+            drums: []
         },
         eternalRest: {
             bpm: 110,
@@ -283,15 +280,21 @@ const Audio8Bit = (() => {
                 { n: 'B4', d: 2 }, { n: 'A4', d: 2 }, { n: 'G4', d: 4 }
             ],
             bass: [
-                { n: 'E2', d: 1 }, { n: 'G2', d: 1 }, { n: 'A2', d: 1 }, { n: 'B1', d: 1 },
-                { n: 'E2', d: 1 }, { n: 'D2', d: 1 }, { n: 'B1', d: 2 },
-                { n: 'E2', d: 1 }, { n: 'G2', d: 1 }, { n: 'A2', d: 1 }, { n: 'D3', d: 1 },
-                { n: 'C2', d: 1 }, { n: 'B1', d: 1 }, { n: 'E2', d: 2 },
-                { n: 'A2', d: 1 }, { n: 'B2', d: 1 }, { n: 'C3', d: 1 }, { n: 'G2', d: 1 },
-                { n: 'F2', d: 1 }, { n: 'E2', d: 1 }, { n: 'D2', d: 1 }, { n: 'C2', d: 1 },
-                { n: 'B2', d: 4 }
+                { n: 'E1', d: 2 }, { n: 'G1', d: 2 }, { n: 'A1', d: 2 }, { n: 'B0', d: 2 },
+                { n: 'E1', d: 2 }, { n: 'D1', d: 2 }, { n: 'B0', d: 4 },
+                { n: 'E1', d: 2 }, { n: 'G1', d: 2 }, { n: 'A1', d: 2 }, { n: 'D2', d: 2 },
+                { n: 'C1', d: 2 }, { n: 'B0', d: 2 }, { n: 'E1', d: 4 },
+                { n: 'A1', d: 2 }, { n: 'B1', d: 2 }, { n: 'C2', d: 2 }, { n: 'G1', d: 2 },
+                { n: 'B1', d: 4 }
             ],
             drums: [
+                { d: 1, c: ['k','h'] }, { d: 1, c: ['h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['h'] },
+                { d: 1, c: ['k','h'] }, { d: 1, c: ['h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['h'] },
+                { d: 1, c: ['k','h'] }, { d: 1, c: ['h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['h'] },
+                { d: 1, c: ['k','h'] }, { d: 1, c: ['h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['h'] },
+                { d: 1, c: ['k','h'] }, { d: 1, c: ['h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['h'] },
+                { d: 1, c: ['k','h'] }, { d: 1, c: ['h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['h'] },
+                { d: 1, c: ['k','h'] }, { d: 1, c: ['h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['h'] },
                 { d: 1, c: ['k','h'] }, { d: 1, c: ['h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['h'] },
                 { d: 1, c: ['k','h'] }, { d: 1, c: ['h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['h'] },
                 { d: 1, c: ['k','h'] }, { d: 1, c: ['h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['h'] },
@@ -313,13 +316,9 @@ const Audio8Bit = (() => {
                 { n: 'C2', d: 1 }, { n: 'E2', d: 1 }, { n: 'G2', d: 1 }, { n: 'B1', d: 1 },
                 { n: 'F1', d: 1 }, { n: 'A1', d: 1 }, { n: 'C2', d: 1 }, { n: 'E2', d: 1 },
                 { n: 'G1', d: 1 }, { n: 'B1', d: 1 }, { n: 'D2', d: 1 }, { n: 'F2', d: 1 },
-                { n: 'C2', d: 4 }, { n: 'G1', d: 4 }
+                { n: 'C2', d: 2 }, { n: 'B1', d: 2 }, { n: 'A1', d: 2 }, { n: 'G1', d: 4 }
             ],
-            drums: [
-                { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] },
-                { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] },
-                { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }, { d: 1, c: ['k','h'] }, { d: 1, c: ['s','h'] }
-            ]
+            drums: []
         }
     };
 
@@ -379,8 +378,10 @@ const Audio8Bit = (() => {
         const s = (typeof Engine !== 'undefined') ? Engine.getState().speed : 1;
         const speedMultiplier = s > 0 ? s : 1;
         const beatDur = 60 / (track.bpm * speedMultiplier);
-        let t = ctx.currentTime + 0.1;
+        let currentTime = ctx.currentTime + 0.1;
 
+        // Melody
+        let tNotes = currentTime;
         track.notes.forEach(note => {
             const freq = NOTE_FREQS[note.n];
             const dur = note.d * beatDur;
@@ -388,20 +389,91 @@ const Audio8Bit = (() => {
                 const osc = ctx.createOscillator();
                 const g = ctx.createGain();
                 osc.type = 'square';
-                osc.frequency.setValueAtTime(freq, t);
-                g.gain.setValueAtTime(0.15, t);
-                g.gain.exponentialRampToValueAtTime(0.001, t + dur * 0.9);
+                osc.frequency.setValueAtTime(freq, tNotes);
+                g.gain.setValueAtTime(0.12, tNotes);
+                g.gain.exponentialRampToValueAtTime(0.001, tNotes + dur * 0.9);
                 osc.connect(g); g.connect(gainNode);
-                osc.start(t); osc.stop(t + dur);
+                osc.start(tNotes); osc.stop(tNotes + dur);
                 trackOscillators.push({ osc, node: gainNode });
             }
-            t += dur;
+            tNotes += dur;
         });
 
-        const totalDur = (t - ctx.currentTime);
+        // Bass
+        let tBass = currentTime;
+        if (track.bass) {
+            track.bass.forEach(note => {
+                const freq = NOTE_FREQS[note.n];
+                const dur = note.d * beatDur;
+                if (freq > 0) {
+                    const osc = ctx.createOscillator();
+                    const g = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, tBass);
+                    g.gain.setValueAtTime(0.18, tBass);
+                    g.gain.exponentialRampToValueAtTime(0.001, tBass + dur * 0.9);
+                    osc.connect(g); g.connect(gainNode);
+                    osc.start(tBass); osc.stop(tBass + dur);
+                    trackOscillators.push({ osc, node: gainNode });
+                }
+                tBass += dur;
+            });
+        }
+
+        // Drums
+        let tDrums = currentTime;
+        if (track.drums) {
+            track.drums.forEach(step => {
+                const dur = step.d * beatDur;
+                step.c.forEach(type => playDrumInternal(type, tDrums));
+                tDrums += dur;
+            });
+        }
+
+        const totalDur = Math.max(tNotes, tBass, tDrums) - ctx.currentTime;
         trackTimeout = setTimeout(() => {
             if (currentTrackName === name && musicPlaying) scheduleTrack(name, gainNode);
         }, totalDur * 1000 - 100);
+    }
+
+    function playDrumInternal(type, start) {
+        if (!ctx) return;
+        
+        // Simple 8-bit drum synthesis
+        if (type === 'k') { // Kick
+            const osc = ctx.createOscillator();
+            const g = ctx.createGain();
+            osc.frequency.setValueAtTime(150, start);
+            osc.frequency.exponentialRampToValueAtTime(0.01, start + 0.12);
+            g.gain.setValueAtTime(0.15, start);
+            g.gain.exponentialRampToValueAtTime(0.01, start + 0.12);
+            osc.connect(g); g.connect(masterGain);
+            osc.start(start); osc.stop(start + 0.12);
+        } else if (type === 's' || type === 'h') { // Snare or Hi-hat (noise-based)
+            const bufferSize = ctx.sampleRate * 0.1;
+            const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+
+            const noise = ctx.createBufferSource();
+            noise.buffer = buffer;
+            const filter = ctx.createBiquadFilter();
+            const g = ctx.createGain();
+
+            if (type === 's') {
+                filter.type = 'highpass';
+                filter.frequency.setValueAtTime(1000, start);
+                g.gain.setValueAtTime(0.08, start);
+                g.gain.exponentialRampToValueAtTime(0.01, start + 0.1);
+            } else {
+                filter.type = 'highpass';
+                filter.frequency.setValueAtTime(5000, start);
+                g.gain.setValueAtTime(0.04, start);
+                g.gain.exponentialRampToValueAtTime(0.01, start + 0.05);
+            }
+            noise.connect(filter); filter.connect(g); g.connect(masterGain);
+            noise.start(start); noise.stop(start + 0.1);
+        }
     }
 
     function stopMusic() {

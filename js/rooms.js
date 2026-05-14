@@ -122,7 +122,10 @@ const Rooms = (() => {
             ];
 
             // Only show flower ordering when requested by a family in viewing
-            const hasFlowerRequest = s.families.some(f => f.active && f.activeRequests && f.activeRequests.includes('flowers'));
+            const hasFlowerRequest = s.families.some(f => 
+                f.active && f.embalmed && f.wantsViewing && !f.viewed &&
+                f.activeRequests && f.activeRequests.includes('flowers')
+            );
             if (hasFlowerRequest) {
                 // Insert before 'Nevermind'
                 phoneChoices.splice(phoneChoices.length - 1, 0, { 

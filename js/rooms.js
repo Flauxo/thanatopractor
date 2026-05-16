@@ -540,10 +540,25 @@ const Rooms = (() => {
         const s = Engine.getState();
         const overlay = document.getElementById('supplies-overlay');
 
-        // Generate fluctuating prices fresh each visit
+        if (s.shopDay !== s.day || !s.shopMults || s.shopRoll === undefined) {
+            s.shopDay = s.day;
+            s.shopRoll = Math.random();
+            s.shopMults = {};
+            const baseSupplies = getSupplyBase();
+            Object.keys(baseSupplies).forEach(key => {
+                let mult;
+                if (s.shopRoll < 0.15)      mult = 0.4 + Math.random() * 0.4;   // 0.4–0.8x cheap
+                else if (s.shopRoll < 0.6)  mult = 0.8 + Math.random() * 0.6;   // 0.8–1.4x normal
+                else if (s.shopRoll < 0.85) mult = 1.5 + Math.random() * 1.5;   // 1.5–3x expensive
+                else                        mult = 3.0 + Math.random() * 2.5;   // 3–5.5x extortionate
+                s.shopMults[key] = mult;
+            });
+            Engine.save();
+        }
+
         const prices = {};
         let marketMood = '';
-        const roll = Math.random();
+        const roll = s.shopRoll;
         if (roll < 0.15) { marketMood = I18n.T('shop.mood_clearance'); }
         else if (roll < 0.6) { marketMood = I18n.T('shop.mood_normal'); }
         else if (roll < 0.85) { marketMood = I18n.T('shop.mood_high'); }
@@ -555,13 +570,7 @@ const Rooms = (() => {
         const quantities = {};
         Object.keys(supplies).forEach(key => {
             const item = supplies[key];
-            // Price multiplier: 0.5x to 5x depending on market
-            let mult;
-            if (roll < 0.15)      mult = 0.4 + Math.random() * 0.4;   // 0.4–0.8x cheap
-            else if (roll < 0.6)  mult = 0.8 + Math.random() * 0.6;   // 0.8–1.4x normal
-            else if (roll < 0.85) mult = 1.5 + Math.random() * 1.5;   // 1.5–3x expensive
-            else                  mult = 3.0 + Math.random() * 2.5;   // 3–5.5x extortionate
- 
+            const mult = s.shopMults[key];
             let discount = Engine.hasItem('magic_sock') ? 0.95 : 1.0;
             prices[key] = Math.ceil(item.base * mult * (s.priceMod || 1) * discount);
             quantities[key] = 0;

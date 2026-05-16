@@ -165,6 +165,105 @@ const Audio8Bit = (() => {
             playNote(220, 0.5, 'sawtooth', sfxGain, t, 0.3);
             playNote(164.8, 0.5, 'sawtooth', sfxGain, t + 0.4, 0.3);
             playNote(110, 1.0, 'sawtooth', sfxGain, t + 0.8, 0.4);
+        },
+        newspaperSpin() {
+            if (!ctx) return;
+            const t = ctx.currentTime;
+            const spinDuration = 1.5;
+
+            // 1. WIND SPINNING FASTER AND FASTER
+            const bufferSize = ctx.sampleRate * 2; // 2 seconds buffer
+            const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+
+            const noise = ctx.createBufferSource();
+            noise.buffer = buffer;
+            noise.loop = true;
+
+            const filter = ctx.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(600, t);
+            filter.Q.setValueAtTime(3.0, t);
+
+            // LFO to modulate filter frequency (creates the spinning whoosh)
+            const lfo = ctx.createOscillator();
+            lfo.type = 'sine';
+            lfo.frequency.setValueAtTime(2, t); // Starts at 2 spins/sec
+            lfo.frequency.exponentialRampToValueAtTime(16, t + spinDuration); // Ramps to 16 spins/sec
+
+            const lfoGain = ctx.createGain();
+            lfoGain.gain.setValueAtTime(400, t); // Frequency modulation depth ±400Hz
+
+            lfo.connect(lfoGain);
+            lfoGain.connect(filter.frequency);
+
+            const noiseGain = ctx.createGain();
+            noiseGain.gain.setValueAtTime(0.01, t);
+            noiseGain.gain.exponentialRampToValueAtTime(0.35, t + spinDuration); // Swells up
+            noiseGain.gain.setValueAtTime(0.35, t + spinDuration);
+            noiseGain.gain.linearRampToValueAtTime(0.001, t + spinDuration + 0.05); // Quick cut when it hits
+
+            noise.connect(filter);
+            filter.connect(noiseGain);
+            noiseGain.connect(sfxGain);
+
+            noise.start(t);
+            lfo.start(t);
+            noise.stop(t + spinDuration + 0.1);
+            lfo.stop(t + spinDuration + 0.1);
+
+            // 2. BOOM WITH ECHO AT t + spinDuration (1.5s)
+            const boomT = t + spinDuration;
+
+            // Create Echo / Delay network for the BOOM
+            const delay = ctx.createDelay();
+            delay.delayTime.value = 0.25; // 250ms echo
+            const feedback = ctx.createGain();
+            feedback.gain.value = 0.4; // Echo decay
+
+            delay.connect(feedback);
+            feedback.connect(delay);
+            delay.connect(sfxGain);
+
+            // Boom Sub-Oscillator
+            const boomOsc = ctx.createOscillator();
+            boomOsc.type = 'sine';
+            boomOsc.frequency.setValueAtTime(180, boomT);
+            boomOsc.frequency.exponentialRampToValueAtTime(30, boomT + 0.6);
+
+            const boomGain = ctx.createGain();
+            boomGain.gain.setValueAtTime(0, boomT);
+            boomGain.gain.linearRampToValueAtTime(0.6, boomT + 0.02); // Punchy attack
+            boomGain.gain.exponentialRampToValueAtTime(0.001, boomT + 0.7);
+
+            boomOsc.connect(boomGain);
+            boomGain.connect(sfxGain);
+            boomGain.connect(delay); // Send to echo
+
+            boomOsc.start(boomT);
+            boomOsc.stop(boomT + 0.75);
+
+            // Boom Impact Noise (for the "slap/hit" of the paper landing)
+            const hitNoise = ctx.createBufferSource();
+            hitNoise.buffer = buffer; // reuse white noise buffer
+            const hitFilter = ctx.createBiquadFilter();
+            hitFilter.type = 'lowpass';
+            hitFilter.frequency.setValueAtTime(800, boomT);
+            hitFilter.frequency.exponentialRampToValueAtTime(100, boomT + 0.4);
+
+            const hitGain = ctx.createGain();
+            hitGain.gain.setValueAtTime(0, boomT);
+            hitGain.gain.linearRampToValueAtTime(0.4, boomT + 0.01);
+            hitGain.gain.exponentialRampToValueAtTime(0.001, boomT + 0.4);
+
+            hitNoise.connect(hitFilter);
+            hitFilter.connect(hitGain);
+            hitGain.connect(sfxGain);
+            hitGain.connect(delay); // Send to echo
+
+            hitNoise.start(boomT);
+            hitNoise.stop(boomT + 0.45);
         }
     };
 

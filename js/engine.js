@@ -335,10 +335,8 @@ const Engine = (() => {
         const remainingArrivals = state.schedule.filter(s => s.type === 'arrival' && !s.triggered).length;
         const isAnyCremating = state.families.some(f => f.active && f.cremationStarted && !f.cremated);
         
-        // Refined allDone: Ignore families that are just waiting for the hearse if it's already ordered
-        const trulyActiveFams = state.families.filter(f => f.active && (!f.transportOrdered || f.waitingForTransport === false)).length;
-        
-        const allDone = remainingArrivals === 0 && (state.pendingArrivals || 0) === 0 && trulyActiveFams === 0 && waitingFams === 0 && !state.activePaperwork && !state.cremaRepairing && !isAnyCremating;
+        // allDone: Do not prompt for sleep until ALL active families (including those awaiting hearse arrival) are fully completed
+        const allDone = remainingArrivals === 0 && (state.pendingArrivals || 0) === 0 && activeFams === 0 && waitingFams === 0 && !state.activePaperwork && !state.cremaRepairing && !isAnyCremating;
         
         const dayProgress = (state.time - 480) / 720; // 8:00 to 20:00
         if (allDone && !state.dayEndPrompted && dayProgress > 0.05) {
@@ -438,6 +436,12 @@ const Engine = (() => {
         state.cremaLock = null;
         state.dayEnding = false;
         
+        if (state.cremaRepairing) {
+            state.cremaRepairing = false;
+            state.cremaBroken = false;
+            state.cremaRepairFinishTime = 0;
+        }
+        
         // Daily costs
         const dailyCost = 100 + (state.upgrades.length * 20);
         addMoney(-dailyCost, I18n.T('eng.daily_expenses', state.day - 1));
@@ -513,6 +517,9 @@ const Engine = (() => {
                     // Phase 3: Newspaper spin
                     newspaperContainer.style.display = 'flex';
                     newspaperImg.className = 'anim-news-spin';
+                    if (typeof Audio8Bit !== 'undefined' && Audio8Bit.SFX.newspaperSpin) {
+                        Audio8Bit.SFX.newspaperSpin();
+                    }
 
                     setTimeout(() => {
                         // Phase 4: Show news button

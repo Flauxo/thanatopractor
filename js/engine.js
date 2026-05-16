@@ -1286,7 +1286,7 @@ const Engine = (() => {
             const shareContainer = document.getElementById('gameover-share');
             if (shareContainer) {
                 const s = state.stats || {};
-                const rawMsg = I18n.T('go.share_msg', state.day, getLevel(), s.familiesServed || 0);
+                const rawMsg = I18n.T('go.share_msg', state.day, getLevel(), s.familiesServed || 0, s.totalEarnings || 0, s.bestRoll || 0);
                 const shareText = encodeURIComponent(rawMsg);
                 const shareUrl = encodeURIComponent(window.location.href);
                 
@@ -1295,7 +1295,7 @@ const Engine = (() => {
                     <div class="share-links">
                         <a href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${shareText}" target="_blank" class="share-btn fb" title="Facebook"></a>
                         <a href="https://www.instagram.com/" target="_blank" class="share-btn ig" title="Instagram"></a>
-                        <a href="https://api.whatsapp.com/send?text=${shareText}%20${shareUrl}" target="_blank" class="share-btn wa" title="WhatsApp"></a>
+                        <a href="https://api.whatsapp.com/send?text=${shareText}" target="_blank" class="share-btn wa" title="WhatsApp"></a>
                     </div>
                 `;
             }

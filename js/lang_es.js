@@ -320,7 +320,7 @@ I18n.register('es', {
 // Game Over
 'go.title': 'FIN DEL JUEGO', 'go.try_again': 'REINTENTAR',
 'go.share_title': 'COMPARTIR ESTADÍSTICAS',
-'go.share_msg': '¡He sobrevivido {0} días en Thanatopractor! Nivel {1}, {2} familias atendidas. ¿Podrás superarme? #ThanatopractorGame',
+'go.share_msg': 'Resumen de mi partida en Thanatopractor:\n- Días sobrevividos: {0}\n- Familias servidas: {2}\n- Ganancias totales: ${3}\n- Mejor tirada: {4}\n- Nivel alcanzado: {1}\n\nSi aún no has jugado a Thanatopractor descargatelo ya de la Play Store o de la Apple Store.',
 'go.share_mail_subject': 'Mira mi puntuación en Thanatopractor',
 'go.bankrupt_title': 'BANCARROTA', 'go.bankrupt_reason': 'Te quedaste sin dinero. Hasta la muerte cuesta dinero, por lo visto.',
 'go.disgraced_title': 'DESHONRADO', 'go.disgraced_reason': 'Tu reputación tocó fondo. Nadie te confía a sus muertos.',

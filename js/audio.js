@@ -201,7 +201,6 @@ const Audio8Bit = (() => {
             const noiseGain = ctx.createGain();
             noiseGain.gain.setValueAtTime(0.01, t);
             noiseGain.gain.exponentialRampToValueAtTime(0.35, t + spinDuration); // Swells up
-            noiseGain.gain.setValueAtTime(0.35, t + spinDuration);
             noiseGain.gain.linearRampToValueAtTime(0.001, t + spinDuration + 0.05); // Quick cut when it hits
 
             noise.connect(filter);
@@ -268,23 +267,33 @@ const Audio8Bit = (() => {
     };
 
     function fadeOut(duration = 1.0) {
-        if (!ctx || !masterGain) return;
+        if (!ctx || !currentGainNode) return;
         const t = ctx.currentTime;
-        // Only fade if volume is not already near 0
-        if (masterGain.gain.value < 0.01) return;
-        masterGain.gain.cancelScheduledValues(t);
-        masterGain.gain.setValueAtTime(masterGain.gain.value, t);
-        masterGain.gain.linearRampToValueAtTime(0, t + duration);
+        if (currentGainNode.gain.value < 0.01) return;
+        currentGainNode.gain.cancelScheduledValues(t);
+        currentGainNode.gain.setValueAtTime(currentGainNode.gain.value, t);
+        currentGainNode.gain.linearRampToValueAtTime(0, t + duration);
+
+        if (ambienceNodes && ambienceNodes.gainNode) {
+            ambienceNodes.gainNode.gain.cancelScheduledValues(t);
+            ambienceNodes.gainNode.gain.setValueAtTime(ambienceNodes.gainNode.gain.value, t);
+            ambienceNodes.gainNode.gain.linearRampToValueAtTime(0, t + duration);
+        }
     }
 
     function fadeIn(duration = 1.0) {
-        if (!ctx || !masterGain) return;
+        if (!ctx || !currentGainNode) return;
         const t = ctx.currentTime;
-        // Only fade if volume is not already near 0.6
-        if (masterGain.gain.value > 0.55) return;
-        masterGain.gain.cancelScheduledValues(t);
-        masterGain.gain.setValueAtTime(masterGain.gain.value, t);
-        masterGain.gain.linearRampToValueAtTime(0.7, t + duration);
+        if (currentGainNode.gain.value > 0.4) return;
+        currentGainNode.gain.cancelScheduledValues(t);
+        currentGainNode.gain.setValueAtTime(currentGainNode.gain.value, t);
+        currentGainNode.gain.linearRampToValueAtTime(0.45, t + duration);
+
+        if (ambienceNodes && ambienceNodes.gainNode) {
+            ambienceNodes.gainNode.gain.cancelScheduledValues(t);
+            ambienceNodes.gainNode.gain.setValueAtTime(ambienceNodes.gainNode.gain.value, t);
+            ambienceNodes.gainNode.gain.linearRampToValueAtTime(0.03, t + duration);
+        }
     }
 
     function startAmbience() {

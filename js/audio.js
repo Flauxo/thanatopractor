@@ -21,7 +21,7 @@ const Audio8Bit = (() => {
         try {
             ctx = new (window.AudioContext || window.webkitAudioContext)();
             masterGain = ctx.createGain();
-            masterGain.gain.value = 0.7;
+            masterGain.gain.value = 0.84;
             masterGain.connect(ctx.destination);
             
             musicGainA = ctx.createGain();
@@ -757,7 +757,7 @@ const Audio8Bit = (() => {
             if (masterGain) {
                 const t = ctx.currentTime;
                 masterGain.gain.cancelScheduledValues(t);
-                masterGain.gain.linearRampToValueAtTime(muted ? 0 : 0.7, t + 0.1);
+                masterGain.gain.linearRampToValueAtTime(muted ? 0 : 0.84, t + 0.1);
             }
             return muted;
         }

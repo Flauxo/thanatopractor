@@ -58,7 +58,8 @@ const Engine = (() => {
             newsPool: [],
             priceMod: 1,
             cremaLock: null,
-            dayEnding: false
+            dayEnding: false,
+            badLuckEventsToday: 0
         };
     };
 
@@ -435,6 +436,7 @@ const Engine = (() => {
         state.priceMod = 1;
         state.cremaLock = null;
         state.dayEnding = false;
+        state.badLuckEventsToday = 0;
         
         if (state.cremaRepairing) {
             state.cremaRepairing = false;
@@ -747,6 +749,8 @@ const Engine = (() => {
     }
 
     function triggerBadLuckEvent() {
+        if ((state.badLuckEventsToday || 0) >= 2) return;
+        state.badLuckEventsToday = (state.badLuckEventsToday || 0) + 1;
         state.lastRandomEventTime = state.time; // Share cooldown with random events
         if (!DATA.badLuckEvents) return;
         const event = DATA.badLuckEvents[Math.floor(Math.random() * DATA.badLuckEvents.length)];

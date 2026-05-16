@@ -11,7 +11,7 @@ const Audio8Bit = (() => {
     let musicPlaying = false;
     let muted = false;
     let initialized = false;
-    let currentMultiplier = 1;
+    let currentMultiplier = 1.10;
     let trackOscillators = [];
     let trackTimeout = null;
     let ambienceNodes = null;
@@ -496,8 +496,8 @@ const Audio8Bit = (() => {
         if (s === 0) {
             speedMultiplier = currentMultiplier; 
         } else {
-            if (s > 1) speedMultiplier = 1.40; 
-            else speedMultiplier = s;
+            if (s > 1) speedMultiplier = 1.54; 
+            else speedMultiplier = s * 1.10;
         }
 
         const beatDur = 60 / (track.bpm * speedMultiplier);
@@ -717,9 +717,9 @@ const Audio8Bit = (() => {
             // This ensures the music stays at the "active" speed during menus.
             if (s === 0) return; 
             
-            let newMult = 1;
-            if (s > 1) newMult = 1.40;
-            else if (s > 0) newMult = s;
+            let newMult = 1.10;
+            if (s > 1) newMult = 1.54;
+            else if (s > 0) newMult = s * 1.10;
 
             if (currentMultiplier === newMult) return;
             currentMultiplier = newMult;

@@ -558,10 +558,11 @@ const Engine = (() => {
                             }
 
                             newsModal.style.display = 'flex';
-                            if (Audio8Bit.SFX.paperwork) Audio8Bit.SFX.paperwork();
+                            if (typeof Audio8Bit !== 'undefined' && Audio8Bit.SFX.click) Audio8Bit.SFX.click();
                         };
 
                         btnNewsOk.onclick = () => {
+                            if (typeof Audio8Bit !== 'undefined' && Audio8Bit.SFX.click) Audio8Bit.SFX.click();
                             finishDayTransition();
                         };
                     }, 1500); // Wait for spin animation

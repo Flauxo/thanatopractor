@@ -6,7 +6,16 @@ window.Main = (() => {
         // Block screen change if a dialogue or critical overlay is open (except for gameover)
         if (name !== 'gameover' && isOverlayOpen()) return;
 
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        // Block screen change if game is over (except for gameover or title when restarting)
+        if (name !== 'gameover' && name !== 'title' && typeof Engine !== 'undefined') {
+            const st = Engine.getState();
+            if (st && st.gameOver) return;
+        }
+
+        document.querySelectorAll('.screen').forEach(s => {
+            s.classList.remove('active');
+            s.style.display = '';
+        });
         const screen = document.getElementById(`${name}-screen`);
         if (screen) {
             screen.classList.add('active');

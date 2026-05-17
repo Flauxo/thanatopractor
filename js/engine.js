@@ -1303,7 +1303,7 @@ const Engine = (() => {
 
         const goScreen = document.getElementById('gameover-screen');
         if (goScreen) {
-            goScreen.style.display = 'flex';
+            goScreen.style.display = '';
             goScreen.classList.add('active');
         }
         

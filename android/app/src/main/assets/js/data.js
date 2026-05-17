@@ -1,0 +1,1279 @@
+/* ===== THANATOPRACTOR - Game Data ===== */
+const DATA = {
+    // ===== NAME GENERATION =====
+    firstNames: {
+        male: ["Reginald","Cornelius","Mortimer","Barnaby","Ignatius","Archibald","Thaddeus","Alistair","Percival","Montague","Horatio","Clarence","Aubrey","Crispin","Sylvester","Algernon","Ambrose","Humphrey","Alistair","Phineas"],
+        female: ["Mildred","Ethel","Constance","Prudence","Patience","Gertrude","Agatha","Millicent","Dorothea","Harriet","Perpetua","Winifred","Beatrice","Lavinia","Hildegard","Brunhilde","Morticia","Wilhelmina","Cordelia","Eunice"]
+    },
+    lastNames: ["Death","Graves","Hollow","Bones","Gloom","Tombstone","Shroud","Ash","Dust","Spirit","Forgotten","Eternal","Silence","Darkness","Shadow","Repose","Cypress","Marble","Cinder","Cobwebb"],
+    
+    religions: [
+        { id: "pastafarian", name: "Pastafarian", icon: "🍝" },
+        { id: "satanist", name: "LaVeyan Satanist", icon: "🐐" },
+        { id: "caffeinated", name: "Order of the Caffeinated", icon: "☕" },
+        { id: "rpg", name: "Cult of the RPG", icon: "🎲" },
+        { id: "nap", name: "Church of the Final Nap", icon: "⚰" },
+        { id: "void", name: "Children of the Void", icon: "💀" },
+        { id: "jedi", name: "Jedi Order", icon: "⚔️" },
+        { id: "viking", name: "Norse Pagan", icon: "⚡" }
+    ],
+
+    familyMoods: [
+        { id: "crying", name: "Devastated", icon: "😭", desc: "They can barely speak through the tears." },
+        { id: "celebrating", name: "Celebrating", icon: "🎉", desc: "They brought confetti. To a funeral home." },
+        { id: "zen", name: "Zen", icon: "🧘", desc: "Eerily calm. Like, unsettlingly calm." },
+        { id: "drunk", name: "Intoxicated", icon: "🍺", desc: "They smell like a distillery had a baby with a pharmacy." },
+        { id: "arguing", name: "Fighting", icon: "😡", desc: "The inheritance discussion started in the parking lot." },
+        { id: "flirty", name: "Flirtatious", icon: "😏", desc: "Someone is definitely hitting on you. At their relative's funeral intake." },
+        { id: "paranoid", name: "Suspicious", icon: "🤨", desc: "They keep asking if you're SURE their relative is dead." },
+        { id: "cheerful", name: "Relieved", icon: "😌", desc: "\"To be honest, Uncle was kind of a jerk.\"" },
+        { id: "vampire", name: "Gothic", icon: "🧛", desc: "They seem to be waiting for the deceased to wake up." },
+        { id: "alien", name: "Extraterrestrial", icon: "👽", desc: "They suspect the deceased was a cosmic observer." },
+        { id: "influencer", name: "Trending", icon: "📸", desc: "Everything is a photo opportunity. Even this." },
+        { id: "gamer", name: "Gamer", icon: "🎮", desc: "They keep looking for the 'respawn' button." },
+        { id: "clone", name: "Suspicious", icon: "👥", desc: "They are convinced this body is a government clone." },
+        { id: "tax", name: "Scheming", icon: "💼", desc: "They need one last 'signature' from the deceased." },
+        { id: "steampunk", name: "Mechanized", icon: "⚙️", desc: "They want to add brass gears to the coffin." },
+        { id: "reality", name: "Dramatic", icon: "📺", desc: "They are treating this like a season finale." },
+        { id: "coupon", name: "Frugal", icon: "🎫", desc: "They brought a stack of expired coupons." },
+        { id: "traveler", name: "Temporal", icon: "⏳", desc: "They claim the deceased will revive in a week." },
+        { id: "conspiracy", name: "Conspiracy", icon: "🛸", desc: "They think the government is tracking the coffin." },
+        { id: "fitness", name: "Fitness", icon: "🏋️", desc: "They want to know if the deceased hit their step goal." },
+        { id: "chef", name: "Chef", icon: "👨‍🍳", desc: "More interested in the cafeteria than the burial." },
+        { id: "musician", name: "Musician", icon: "🎸", desc: "They want to turn the funeral into a world tour." },
+        { id: "superstitious", name: "Superstitious", icon: "🧿", desc: "They need to cover every mirror in the building." },
+        { id: "detective", name: "Detective", icon: "🕵️", desc: "They are investigating the causes themselves." },
+        { id: "occult", name: "Occultist", icon: "🕯️", desc: "They want to hold a séance during the viewing." },
+        { id: "techie", name: "Techie", icon: "💻", desc: "They want to upload the deceased to the cloud." },
+        { id: "romantic", name: "Romantic", icon: "🌹", desc: "Looking for their next partner among the mourners." }
+    ],
+    collections: [
+        { id: "gold_tooth", name: "Skull-shaped gold tooth", desc: "A molar carved into a tiny skull. Pure luxury. (Bonus: +5% extra money from services)", icon: "🦷" },
+        { id: "pizza_letter", name: "Love letter to a pizza", desc: "Dedicated to a Pepperoni Pizza. Very romantic. (Bonus: +10% satisfaction from cafeteria food)", icon: "🍕" },
+        { id: "magic_sock", name: "Magic mismatched sock", desc: "It always feels like it belongs to someone else. (Bonus: -5% cost of all supplies)", icon: "🧦" },
+        { id: "ghost_key", name: "Key to a non-existent mansion", desc: "It doesn't open anything, but it feels heavy. (Bonus: Positive random events are 10% more likely)", icon: "🔑" },
+        { id: "crystal_balls", name: "Hypnotist's crystal balls", desc: "If you stare long enough, you see Ivan's face. (Bonus: +1 to all dice rolls)", icon: "🔮" },
+        { id: "treasure_map", name: "Treasure map on a napkin", desc: "X marks the spot. It's under a local tombstone. Tomb: 1418a. (Bonus: +5% chance to find more items)", icon: "📜" },
+        { id: "glass_eye", name: "Glass eye that stares", desc: "It seems to follow you around the office. (Bonus: -10% reputation loss from bad luck events)", icon: "👁️" },
+        { id: "concert_ticket", name: "Ska Concert Ticket", desc: "Mephiskapheles live, with Seiskafés as opening act. (Bonus: +5% reputation gain from ceremonies)", icon: "🎫" },
+        { id: "returned_ring", name: "Returned engagement ring", desc: "A sad story in a small piece of jewelry. (Bonus: +10% satisfaction from viewing room visitors)", icon: "💍" },
+        { id: "choc_coin", name: "Ever-melting chocolate coin", desc: "It never melts, but it always smells like cocoa. (Bonus: +$2 profit per cafeteria sale)", icon: "🍫" },
+        { id: "vintage_lighter", name: "Vintage Lighter", desc: "Engraved with 'Property of Death'. (Bonus: Crematorium heats up 10% faster)", icon: "🔥" },
+        { id: "mystery_cassette", name: "Mystery Cassette", desc: "Labelled: 'Do Not Listen at Night'.", icon: "📼" }
+    ],
+
+    // ===== ARRIVAL DIALOGUES =====
+    arrivalIntros: [
+        "A family walks in through the door. The bell rings. Someone sniffles.",
+        "The door creaks open dramatically. A family enters as if auditioning for a telenovela.",
+        "A group stumbles in. One of them is wearing sunglasses. Indoors. At 9 AM.",
+        "The doorbell rings. You put down your 'DEAD TIRED' coffee mug and put on your professional face.",
+        "A car pulls up blasting reggaeton. Three people emerge, one holding a framed photo.",
+        "Someone kicks the door open. \"WE NEED YOUR SERVICES!\" they announce to the empty lobby.",
+        "A very composed person in a tailored suit walks in and places a business card on the counter.",
+        "The door opens. A woman enters carrying a Tupperware. \"The deceased loved my lasagna,\" she explains."
+    ],
+
+    arrivalDialogues: {
+        crying: [
+            { text: "\"Our beloved {name} has... has...\" *uncontrollable sobbing*", choices: [
+                { text: "\"Take your time. Here's a tissue... and another... and the whole box.\"", rep: 2, money: 0 },
+                { text: "\"I understand. We offer a 'Dignity Pack' that includes emotional support.\"", dc: 12, success: { text: "They appreciate the professional support.", rep: 5, money: 50 }, fail: { text: "They find it opportunistic.", rep: -5 } },
+                { text: "\"Look, I charge by the hour, so whenever you're ready...\"", rep: -10, money: 0 }
+            ]},
+        ],
+        celebrating: [
+            { text: "\"Uncle {name} is FINALLY dead! I mean... may he rest in peace. Party at our place after!\"", choices: [
+                { text: "\"Every life deserves celebration. Let's give {name} a proper sendoff!\"", rep: 2, money: 0 },
+                { text: "\"Maybe you can still go... with the urn?\"", dc: 15, success: { text: "They find the idea strangely poetic.", rep: 8 }, fail: { text: "They are horrified by the suggestion.", rep: -15 } },
+                { text: "\"Can I come to the party? I'll bring the embalming fluid cocktails.\"", rep: -20, money: 0 }
+            ]},
+        ],
+        zen: [
+            { text: "\"Death is merely a transition. {name} has transcended. We seek your earthly services.\"", choices: [
+                { text: "\"What a beautiful perspective. We'll make this transition seamless.\"", rep: 2, money: 0 },
+                { text: "\"Tell me more about this 'transcendence'. Is there a budget?\"", dc: 14, success: { text: "They explain their spiritual economy.", rep: 5, money: 100 }, fail: { text: "They think you're mocking their beliefs.", rep: -10 } },
+                { text: "\"Cool, cool. Does transcendence cover the basic burial fee?\"", rep: -5, money: 0 }
+            ]},
+        ],
+        drunk: [
+            { text: "*hiccup* \"Sho... my {relation} {name}... they died... or did they? No wait, yeah, they did.\"", choices: [
+                { text: "\"Let me get you some water first. We can discuss everything later.\"", rep: 3, money: 0 },
+                { text: "\"I can confirm: yes, they are definitely deceased. Let's sign here.\"", dc: 10, success: { text: "They sign without looking. +$50.", rep: 0, money: 50 }, fail: { text: "They throw up on the contract.", rep: -10 } },
+                { text: "\"Sir/Ma'am, this is a funeral home, not a bar.\"", rep: -5, money: 0 }
+            ]},
+        ],
+        arguing: [
+            { text: "\"I TOLD you mom wanted to be cremated!\" \"SHE SAID BURIED!\" \"YOU NEVER LISTENED TO HER!\"", choices: [
+                { text: "\"Families, let's take a breath. We can explore all options together.\"", rep: 2, money: 0 },
+                { text: "\"I have a coin we can flip. Professional funeral coin. $20 fee.\"", dc: 13, success: { text: "They pay the fee and abide by the result.", rep: 5, money: 20 }, fail: { text: "They unite... against you.", rep: -15 } },
+                { text: "\"How about we do both? Cremate half, bury half.\"", rep: -10, money: 0 }
+            ]},
+        ],
+        flirty: [
+            { text: "\"So... you work with the dead all day? That must make you really appreciate the *living*.\" *wink*", choices: [
+                { text: "\"I appreciate ALL my clients. Now, about the deceased...\"", rep: 2, money: 0 },
+                { text: "\"Is this really the time? ...But yes, I do have great hands. For embalming.\"", rep: 0, money: 0 },
+                { text: "\"My heart is as cold as my clients. Let's talk business.\"", rep: 1, money: 0 }
+            ]},
+        ],
+        paranoid: [
+            { text: "\"Are you ABSOLUTELY sure {name} is dead? Check again. I saw a documentary once...\"", choices: [
+                { text: "\"I assure you, our medical certifications are thorough. {name} is at peace.\"", rep: 2, money: 0 },
+                { text: "\"Would you like to poke them with a stick? We have a professional poking stick.\"", rep: -1, money: 0 },
+                { text: "\"If they wake up, services are free. Deal?\"", rep: 0, money: 0 }
+            ]},
+        ],
+        cheerful: [
+            { textKey: "dlg.cheerful.text", choices: [
+                { textKey: "dlg.cheerful.c1", rep: 2, money: 0 },
+                { textKey: "dlg.cheerful.c2", rep: 0, money: 0 },
+                { textKey: "dlg.cheerful.c3", rep: 1, money: 50 }
+            ]},
+        ],
+        vampire: [
+            { textKey: "dlg.vampire.text", choices: [
+                { textKey: "dlg.vampire.c1", rep: 2, money: 0 },
+                { textKey: "dlg.vampire.c2", rep: 0, money: 150 },
+                { textKey: "dlg.vampire.c3", rep: -3, money: 0 }
+            ]}
+        ],
+        alien: [
+            { textKey: "dlg.alien.text", choices: [
+                { textKey: "dlg.alien.c1", rep: 2, money: 0 },
+                { textKey: "dlg.alien.c2", rep: -5, money: 400 },
+                { textKey: "dlg.alien.c3", rep: 1, money: 0 }
+            ]}
+        ],
+        influencer: [
+            { textKey: "dlg.influencer.text", choices: [
+                { textKey: "dlg.influencer.c1", rep: 5, money: 0 },
+                { textKey: "dlg.influencer.c2", rep: 0, money: 200 },
+                { textKey: "dlg.influencer.c3", rep: -10, money: 0 }
+            ]}
+        ],
+        gamer: [
+            { textKey: "dlg.gamer.text", choices: [
+                { textKey: "dlg.gamer.c1", rep: 2, money: 0 },
+                { textKey: "dlg.gamer.c2", rep: 1, money: 0 },
+                { textKey: "dlg.gamer.c3", rep: -2, money: 0 }
+            ]}
+        ],
+        clone: [
+            { textKey: "dlg.clone.text", choices: [
+                { textKey: "dlg.clone.c1", rep: 2, money: 0 },
+                { textKey: "dlg.clone.c2", rep: 5, money: 0 },
+                { textKey: "dlg.clone.c3", rep: -3, money: 0 }
+            ]}
+        ],
+        tax: [
+            { textKey: "dlg.tax.text", choices: [
+                { textKey: "dlg.tax.c1", rep: 1, money: 0 },
+                { textKey: "dlg.tax.c2", rep: -15, money: 500 },
+                { textKey: "dlg.tax.c3", rep: -5, money: 0 }
+            ]}
+        ],
+        steampunk: [
+            { textKey: "dlg.steampunk.text", choices: [
+                { textKey: "dlg.steampunk.c1", rep: 0, money: 300 },
+                { textKey: "dlg.steampunk.c2", rep: 2, money: 0 },
+                { textKey: "dlg.steampunk.c3", rep: -2, money: 0 }
+            ]}
+        ],
+        reality: [
+            { textKey: "dlg.reality.text", choices: [
+                { textKey: "dlg.reality.c1", rep: 2, money: 0 },
+                { textKey: "dlg.reality.c2", rep: 1, money: 0 },
+                { textKey: "dlg.reality.c3", rep: 5, money: 0 }
+            ]}
+        ],
+        coupon: [
+            { textKey: "dlg.coupon.text", choices: [
+                { textKey: "dlg.coupon.c1", rep: 1, money: -50 },
+                { textKey: "dlg.coupon.c2", rep: -2, money: 0 },
+                { textKey: "dlg.coupon.c3", rep: -5, money: 0 }
+            ]}
+        ],
+        traveler: [
+            { textKey: "dlg.traveler.text", choices: [
+                { textKey: "dlg.traveler.c1", rep: 2, money: 0 },
+                { textKey: "dlg.traveler.c2", rep: 10, money: -500 },
+                { textKey: "dlg.traveler.c3", rep: 1, money: 0 }
+            ]}
+        ],
+        conspiracy: [
+            { textKey: "dlg.conspiracy.text", choices: [
+                { textKey: "dlg.conspiracy.c1", rep: 2, money: 0 },
+                { textKey: "dlg.conspiracy.c2", rep: 0, money: 200 },
+                { textKey: "dlg.conspiracy.c3", rep: 5, money: 0 }
+            ]}
+        ],
+        fitness: [
+            { textKey: "dlg.fitness.text", choices: [
+                { textKey: "dlg.fitness.c1", rep: 1, money: 0 },
+                { textKey: "dlg.fitness.c2", rep: 2, money: 0 },
+                { textKey: "dlg.fitness.c3", rep: -2, money: 0 }
+            ]}
+        ],
+        chef: [
+            { textKey: "dlg.chef.text", choices: [
+                { textKey: "dlg.chef.c1", rep: 2, money: 0 },
+                { textKey: "dlg.chef.c2", rep: 1, money: 0 },
+                { textKey: "dlg.chef.c3", rep: -1, money: 100 }
+            ]}
+        ],
+        musician: [
+            { textKey: "dlg.musician.text", choices: [
+                { textKey: "dlg.musician.c1", rep: 2, money: 0 },
+                { textKey: "dlg.musician.c2", rep: -2, money: 300 },
+                { textKey: "dlg.musician.c3", rep: 1, money: 0 }
+            ]}
+        ],
+        superstitious: [
+            { textKey: "dlg.superstitious.text", choices: [
+                { textKey: "dlg.superstitious.c1", rep: 3, money: 0 },
+                { textKey: "dlg.superstitious.c2", rep: 0, money: 150 },
+                { textKey: "dlg.superstitious.c3", rep: -1, money: 0 }
+            ]}
+        ],
+        detective: [
+            { textKey: "dlg.detective.text", choices: [
+                { textKey: "dlg.detective.c1", rep: 2, money: 0 },
+                { textKey: "dlg.detective.c2", rep: 0, money: 100 },
+                { textKey: "dlg.detective.c3", rep: -5, money: 0 }
+            ]}
+        ],
+        occult: [
+            { textKey: "dlg.occult.text", choices: [
+                { textKey: "dlg.occult.c1", rep: 1, money: 0 },
+                { textKey: "dlg.occult.c2", rep: -2, money: 200 },
+                { textKey: "dlg.occult.c3", rep: 5, money: 0 }
+            ]}
+        ],
+        techie: [
+            { textKey: "dlg.techie.text", choices: [
+                { textKey: "dlg.techie.c1", rep: 2, money: 0 },
+                { textKey: "dlg.techie.c2", rep: 0, money: 500 },
+                { textKey: "dlg.techie.c3", rep: -3, money: 0 }
+            ]}
+        ],
+        romantic: [
+            { textKey: "dlg.romantic.text", choices: [
+                { textKey: "dlg.romantic.c1", rep: 2, money: 0 },
+                { textKey: "dlg.romantic.c2", rep: 0, money: 0 },
+                { textKey: "dlg.romantic.c3", rep: -2, money: 0 }
+            ]}
+        ],
+        minimalist: [
+            { textKey: "dlg.minimalist.text", choices: [
+                { textKey: "dlg.minimalist.c1", rep: 1, money: -100 },
+                { textKey: "dlg.minimalist.c2", rep: 2, money: 0 },
+                { textKey: "dlg.minimalist.c3", rep: -2, money: 0 }
+            ]}
+        ]
+    },
+
+    deathCauses: [
+        "natural causes", "extreme old age", "a tragic gardening accident",
+        "choking on an olive at a wedding", "ironic circumstances",
+        "a heated argument about parking spaces", "excessive napping",
+        "complications from an allergic reaction to Mondays",
+        "fell off a ladder while changing a lightbulb (the lightbulb survived)",
+        "spontaneous combustion (allegedly)", "a disagreement with gravity",
+        "too much excitement at a bingo game", "miscalculation during a leap of faith",
+        "failed attempt to domesticate a badger with a selfie stick",
+        "shock from seeing the electric bill", "mistook the wrong mushroom for a risotto",
+        "ill-timed sneeze while operating a chainsaw", "bite from a radioactive hamster (allegedly)",
+        "choked trying to say 'supercalifragilisticexpialidocious' underwater",
+        "laughing fit while watching someone else's funeral", "allergic reaction to reality",
+        "got locked in a fridge looking for the last yogurt",
+        "impact from a marble-sized meteorite in the left eye"
+    ],
+
+    // ===== CAFETERIA =====
+    cafeOrders: [
+        { item: 'Coffee', price: 5, icon: '☕' },
+        { item: 'Tea', price: 4, icon: '🍵' },
+        { item: 'Sandwich', price: 8, icon: '🥪' },
+        { item: 'Soul Cake', price: 12, icon: '🧁' }
+    ],
+    cafeAlcoholRequests: [
+        "\"Look, it's been a long day. Do you have anything... stronger than coffee?\"",
+        "\"My brother always said a funeral without a toast is just a meeting.\"",
+        "\"I need something to numb the pain. And the smell of formaldehyde.\"",
+        "\"Is that a bottle of bourbon behind the counter? Asking for a friend.\""
+    ],
+    cafeAlcoholChoices: [
+        { text: "\"I'm sorry, we don't serve alcohol here.\"", rep: 2, satisfaction: -5 },
+        { text: "\"I could look the other way for a 'grief tax' of {bribe}.\"", isBribe: true, rep: -10, satisfaction: 15 },
+        { text: "\"It's on the house. We all need a drink today.\"", rep: -15, money: 0, satisfaction: 25 }
+    ],
+
+    // ===== CHAPEL - IVAN'S SERMONS =====
+    sermons: {
+        caffeinated: {
+            correct: [
+                "\"In the name of the Roast, the Brew, and the Holy Bean. {name} has ascended to the great espresso machine in the sky.\"",
+                "\"The Lord giveth and the Lord taketh... especially when the caffeine wears off. {name} is fully decaffeinated now.\"",
+            ],
+            name: "Caffeinated Rite"
+        },
+        rpg: {
+            correct: [
+                "\"By the luck of the dice, {name} has been called away. Their HP dropped to zero, and the Cleric was out of spell slots.\"",
+                "\"{name} lived by the roll. Unfortunately, their last saving throw was a natural 1. We honor their character sheet.\""
+            ],
+            name: "RPG Service"
+        },
+        nap: {
+            correct: [
+                "\"Hush now. {name} has entered the Deep Sleep. The alarm clock is forever silenced. May their pillows always be cool.\"",
+                "\"{name} has returned to the ultimate mattress. Do not disturb. Housekeeping has been notified.\""
+            ],
+            name: "Slumber Ceremony"
+        },
+        void: {
+            correct: [
+                "\"The Void calls us all. {name} simply answered early. We return this borrowed stardust to the infinite emptiness.\"",
+                "\"Nothing matters, and that's beautiful. {name} embraces the beautiful nothingness. Fade to black.\""
+            ],
+            name: "Void Invocation"
+        },
+        pastafarian: {
+            correct: [
+                "\"By His Noodly Appendage, {name} has been embraced by the Flying Spaghetti Monster. May the sauce be with them. R'amen.\"",
+                "\"{name} now sails the great Beer Volcano in the sky. Touched by His Noodly Appendage forevermore. R'amen.\""
+            ],
+            name: "Pastafarian Blessing"
+        },
+        jedi: {
+            correct: [
+                "\"The Force was strong with {name}. Now they are one with it. Like Obi-Wan, but with less dramatic disappearing.\"",
+                "\"Do or do not, there is no try. {name} did. And now they rest. May the Force be with them. Always.\""
+            ],
+            name: "Jedi Memorial"
+        },
+
+        satanist: {
+            correct: [
+                "\"Hail thyself! {name} lived by their own rules. LaVey would be proud. Probably. He's also dead, so...\"",
+                "\"{name} embraced the darkness within. Now they embrace the darkness without. Full circle. Very poetic.\""
+            ],
+            name: "LaVeyan Ritual"
+        },
+        viking: {
+            correct: [
+                "\"ODIN WELCOMES {name} TO VALHALLA! Unfortunately we can't do the burning boat thing. Fire codes.\"",
+                "\"By Thor's hammer and Freya's grace, {name} feasts with the gods tonight! We feast with sandwiches. Close enough.\""
+            ],
+            name: "Norse Send-off"
+        },
+        wrong: [
+            "chapel.wrong_1", "chapel.wrong_2", "chapel.wrong_3", "chapel.wrong_4", "chapel.wrong_5",
+            "chapel.wrong_6", "chapel.wrong_7", "chapel.wrong_8", "chapel.wrong_9", "chapel.wrong_10"
+        ]
+    },
+
+    ivanQuotes: [
+        "\"Death is just God's way of telling you your subscription expired.\"",
+        "\"I've officiated 400 funerals. My success rate is... well, everyone stays dead.\"",
+        "\"People say I have a gift for making the dead feel welcome. The living, less so.\"",
+        "\"Another day, another soul. Let's give them a show!\"",
+        "\"I was going to be a comedian, but this gig kills. Literally.\"",
+        "\"Ready when you are. Death waits for no one, but I charge by the hour.\"",
+        "\"Fun fact: I'm the most popular guy at funerals. Low bar, but still.\""
+    ],
+
+    // ===== VIEWING ROOM EVENTS =====
+    viewingRequests: [
+        { type: "see_body", text: "\"We'd like to see {name} one last time.\"", icon: "👁️" },
+        { type: "water", text: "\"Could we get some water, please?\"", icon: "💧" },
+        { type: "temperature", text: "\"It's freezing/boiling in here!\"", icon: "🌡️" },
+        { type: "faint", text: "\"Oh no, someone just fainted!\"", icon: "😵" },
+        { type: "flowers", text: "\"The flowers look wilted. Can we get fresh ones? (use the phone, hurry)\"", icon: "💐" },
+        { type: "lighting", text: "\"Could we adjust the lighting? It's too bright/dark.\"", icon: "💡" },
+        { type: "privacy", text: "\"We need a moment alone with {name}, come back in 5 min.\"", icon: "🚪" },
+        { type: "music", text: "\"Can you play some music? {name} loved jazz.\"", icon: "🎵" }
+    ],
+
+    viewingBodyReactions: {
+        excellent: [
+            "{name} looks... at peace. Like they're just sleeping. Thank you so much.",
+            "You've done a beautiful job. {name} would have loved it. Well... you know.",
+            "{name} looks ready to party. What a bodywork and paint job!",
+            "Incredible. I swear I saw {name} wink at me. Great job!"
+        ],
+        good: [
+            "{name} looks good. A bit sallow perhaps, but good.",
+            "That's... more or less how I remember them. Fairly close.",
+            "He looks... acceptable. {name} was never a runway model, but you did what you could.",
+            "Pretty good. At least his jaw doesn't fall off like old man Garcia's."
+        ],
+        mediocre: [
+            "Is {name} supposed to be that... orange?",
+            "Something feels off. Did {name} always have that expression?",
+            "Was {name} always this... grayish? He looks like he's out of a 1920s movie.",
+            "Well, at least he's presentable. If you squint really hard, it looks like him."
+        ],
+        bad: [
+            "WHAT DID YOU DO TO {name}?! They look like a cursed doll!",
+            "I'm going to need therapy after seeing this. A LOT of therapy.",
+            "My goodness! {name} looks like he fought a makeup jar and lost.",
+            "Why does {name} have that sinister smile? It's giving me the creeps."
+        ],
+        catastrophic: [
+            "IS THAT EVEN {name}?! OH GOD! *screaming and crying*",
+            "I'm going to sue this place into THE GROUND! I have my lawyer on speed dial!",
+            "WHAT IS THIS?! He looks like a badly made lasagna! Sacrilege!",
+            "Call the exorcist! You've turned {name} into something not of this world!"
+        ]
+    },
+
+    // ===== RANDOM EVENTS =====
+    randomEvents: [
+        { type: "phone_prank", text: "📞 Phone rings: \"Hello, is this where I book a reservation? For the afterlife?\" *click*", effect: null },
+        { type: "cat", text: "🐈 A stray cat has wandered into the viewing room and refuses to leave.", choices: [
+            { text: "Gently remove the cat", rep: 0, money: 0 },
+            { text: "Let it stay. Cats are therapeutic.", rep: 1, money: 0 },
+            { text: "Adopt it as the funeral home mascot", rep: 2, money: -50 }
+        ]},
+        { type: "power_outage", text: "💡 Power outage! The crematorium temperature is dropping!", effect: "crema_cool" },
+        { type: "newspaper", text: "📰 Local newspaper wants to feature Eternal Rest. Interview?", choices: [
+            { text: "Accept the interview graciously", rep: 5, money: 0 },
+            { text: "Decline — too busy with the dead", rep: 0, money: 0 },
+            { text: "Only if the headline is 'Dying to Get In'", rep: 3, money: 0 }
+        ]},
+        { type: "ghost", text: "👻 A family member claims they saw a ghost in the hallway.", choices: [
+            { text: "\"That's just the A/C draft. Nothing supernatural.\"", rep: 1, money: 0 },
+            { text: "\"We offer ghost-detection for only $200 extra.\"", rep: -1, money: 200 },
+            { text: "\"Oh, that's just Gerald. He never left.\"", rep: 0, money: 0 }
+        ]},
+        { type: "supplier", text: "📦 Embalming supply delivery! Sign for the package?", effect: "supplies" },
+        
+        { type: "flood", text: "💧 A pipe burst in the basement! The embalming fluid is mixing with the water...", choices: [
+            { text: "Call an emergency plumber ($500)", rep: 2, money: -500 },
+            { text: "Mop it up yourself and hope for the best", rep: -5, money: 0 },
+            { text: "Sell it as 'premium scented water' to the neighbors", rep: -15, money: 300 }
+        ]},
+        { type: "casino", text: "🎰 A shady businessman offers to buy the funeral home to build a casino.", choices: [
+            { text: "\"This is sacred ground! Leave immediately!\"", rep: 10, money: 0 },
+            { text: "\"I'll consider it... for the right price.\"", rep: -5, money: 2000 },
+            { text: "\"Can we combine them? A funeral casino?\"", rep: -2, money: 500 }
+        ]},
+        { type: "debt_collector", text: "💼 A debt collector arrives demanding payment from one of the deceased.", choices: [
+            { text: "\"They are dead. Take it up with God.\"", rep: 5, money: 0 },
+            { text: "Pay them off to avoid a scene ($300)", rep: 2, money: -300 },
+            { text: "Let them into the viewing room to collect", rep: -20, money: 100 }
+        ]},
+        { type: "secret_lover", text: "💋 A mysterious person in a veil claims to be the deceased's secret lover.", choices: [
+            { text: "Allow them a private goodbye", rep: 5, money: 0 },
+            { text: "Turn them away to respect the family", rep: 2, money: 0 },
+            { text: "Charge them an 'undisclosed visit fee' ($200)", rep: -10, money: 200 }
+        ]},
+        { type: "blackout", text: "⚡ Complete blackout! Families are panicking in the dark.", choices: [
+            { text: "Hand out premium scented candles (Costs $100)", rep: 8, money: -100 },
+            { text: "Tell Ivan to sing louder to calm them", rep: 0, money: 0 },
+            { text: "Use the opportunity to cut the A/C costs", rep: -15, money: 50 }
+        ]},
+        { type: "gold_rush", text: "💍 A valuable gold ring was found in the incinerator filters.", choices: [
+            { text: "Return it to the grieving family", rep: 12, money: 0 },
+            { text: "Sell it to a shady pawn shop downtown", rep: -15, money: 450 },
+            { text: "Use it as a 'decoration' for a budget funeral", rep: -5, money: 100 }
+        ]},
+        { type: "funeral_critic", text: "🧐 A famous 'Funeral Critic' is in town to review your services.", choices: [
+            { text: "Prepare a 'VIP Death Experience' ($600)", rep: 25, money: -600 },
+            { text: "Treat them like anyone else (dead or alive)", rep: 2, money: 0 },
+            { text: "Bribe them with 'complimentary burial plots'", rep: -10, money: -300 }
+        ]},
+        { type: "wrong_urn", text: "⚱️ You realize you just handed the wrong ashes to a family.", choices: [
+            { text: "Run after them and admit the mistake", rep: -25, money: 0 },
+            { text: "Pretend nothing happened. Ashes are ashes.", rep: 5, money: 0 },
+            { text: "Sell them a 'Multicultural Mix' certificate ($200)", rep: -15, money: 200 }
+        ]},
+        { type: "escapee", text: "🏃 A corpse is missing from the table! Wait, it's just Ivan taking a nap.", choices: [
+            { text: "Wake him up and get back to work", rep: 2, money: 0 },
+            { text: "Charge the family for a 'spontaneous resurrection' show", rep: -20, money: 500 },
+            { text: "Let him sleep, he looks peaceful", rep: 0, money: 0 }
+        ]},
+        { type: "mixup", text: "👯 Two families booked the same viewing room. They are starting to argue.", choices: [
+            { text: "Offer a joint 'Double Death' ceremony discount", rep: -10, money: -200 },
+            { text: "Flip a coin to see who gets the room", rep: -5, money: 0 },
+            { text: "Bribe one family with free 'premium' coffee to wait", rep: 5, money: -100 }
+        ]},
+        { type: "tax_audit", text: "⚖️ A tax inspector arrives. He looks like he hasn't smiled since 1994.", choices: [
+            { text: "Show him the (clean) books", rep: 5, money: 0 },
+            { text: "Offer a 'Consultation Fee' to ignore the gold teeth sales", rep: -25, money: -400 },
+            { text: "Claim the corpses are all 'unpaid interns'", rep: -5, money: 100 }
+        ]},
+        { type: "celebrity", text: "📸 A minor local Tik-Tok celebrity has passed away. The press is outside.", choices: [
+            { text: "Keep it private and respectful", rep: 15, money: 0 },
+            { text: "Sell exclusive 'Last Selfie' rights to a tabloid", rep: -40, money: 1500 },
+            { text: "Use it to promote your own social media", rep: -10, money: 200 }
+        ]},
+        { type: "the_will", text: "📜 You found a hidden will in a jacket. It says 'Leave everything to my mortician'.", choices: [
+            { text: "Report it to the authorities immediately", rep: 20, money: 0 },
+            { text: "Cash it in and book a trip to the Bahamas", rep: -60, money: 5000 },
+            { text: "Accidentally drop it into the furnace", rep: -10, money: 0 }
+        ]},
+        { type: "ghost_hunters", text: "🎥 A TV show called 'Ghost Bros' wants to film in your basement.", choices: [
+            { text: "Let them in for a 'location fee' ($500)", rep: -10, money: 500 },
+            { text: "Rig some fishing wire to make it look haunted ($800)", rep: -20, money: 800 },
+            { text: "Refuse. The dead deserve silence.", rep: 10, money: 0 }
+        ]},
+        { type: "pet_cemetery", text: "🐹 A child wants a full funeral for their hamster, Mr. Fluffles.", choices: [
+            { text: "Give Mr. Fluffles a hero's send-off ($100)", rep: 8, money: 100 },
+            { text: "Offer a 'Viking Burial' in the coffee machine", rep: -15, money: 50 },
+            { text: "Explain that this is a humans-only facility", rep: 0, money: 0 }
+        ]},
+        { type: "cryogenics", text: "❄️ A client wants to be frozen in your supply freezer until 2099.", choices: [
+            { text: "Accept the contract and the cash ($1000)", rep: -20, money: 1000 },
+            { text: "Tell them to try the local ice cream shop instead", rep: 2, money: 0 },
+            { text: "Charge them for a 'Pre-Frozen' viewing package", rep: -10, money: 400 }
+        ]},
+        { type: "musical_tribute", text: "🎸 A family wants a 10-piece death metal band to play in the chapel.", choices: [
+            { text: "Let them rock out for a 'Noise Fee' ($300)", rep: -15, money: 300 },
+            { text: "Tell them Ivan will do a 'heavy' acoustic cover instead", rep: 5, money: 0 },
+            { text: "Suggest a more traditional organist", rep: 2, money: 0 }
+        ]},
+        { type: "heirloom", text: "💎 You found a massive diamond inside the deceased's mouth while cleaning.", choices: [
+            { text: "Discreetly return it to the family", rep: 25, money: 0 },
+            { text: "It's finders keepers in this business!", rep: -35, money: 2000 },
+            { text: "Sell it and donate half to 'charity' (yourself)", rep: -15, money: 1000 }
+        ]},
+        { type: "lookalike", text: "🎭 A professional lookalike of the deceased shows up and starts performing.", choices: [
+            { text: "Accept it as an artistic tribute", rep: 5, money: 0 },
+            { text: "Kick them out for disrespect", rep: 2, money: 0 },
+            { text: "Charge admission as an 'Extra Show' ($100)", rep: -10, money: 100 }
+        ]},
+        { type: "ikea_coffin", text: "📦 A family brings their own IKEA-style cardboard coffin and asks you to assemble it.", choices: [
+            { text: "Charge an 'Assembly Fee' ($200)", rep: 0, money: 200 },
+            { text: "Claim it doesn't meet safety standards", rep: -5, money: 0 },
+            { text: "Accept it for the ecological cause", rep: 10, money: 0 }
+        ]},
+        { type: "parrot", text: "🦜 The deceased's parrot won't stop insulting mourners using the owner's voice.", choices: [
+            { text: "Cover the cage discreetly", rep: 2, money: 0 },
+            { text: "Claim it's the spirit manifesting", rep: 8, money: 0 },
+            { text: "Charge a 'Chatty Pet Fee' ($50)", rep: -5, money: 50 }
+        ]},
+        { type: "strike", text: "🪧 Local gravediggers are on a 'shovels down' strike.", choices: [
+            { text: "Dig it yourself (Lose 2h game time)", rep: 15, money: 0 },
+            { text: "Pay for expensive 'Minimum Services' ($400)", rep: 5, money: -400 },
+            { text: "Delay burial and blame the government", rep: -10, money: 0 }
+        ]},
+        { type: "goth_teen", text: "📸 A gothic teen wants to take 'aesthetic' photos inside the coffins.", choices: [
+            { text: "Let them if they tag the business", rep: 5, money: 0 },
+            { text: "Kick them out before they scratch the wood", rep: 2, money: 0 },
+            { text: "Charge $50 per photo session", rep: -5, money: 50 }
+        ]},
+        { type: "prank_show", text: "🎥 You suspect a hidden camera prank show is filming in the lobby.", choices: [
+            { text: "Act extremely professional", rep: 10, money: 0 },
+            { text: "Wave to the camera and act goofy", rep: -15, money: 0 },
+            { text: "Charge a 'Filming Fee' of $300", rep: -5, money: 300 }
+        ]},
+        { type: "melting_urn", text: "⚱️ The biodegradable urn starts dissolving due to high humidity.", choices: [
+            { text: "Fix it with duct tape discreetly", rep: -5, money: 0 },
+            { text: "Sell them a premium marble urn ($300)", rep: 2, money: 300 },
+            { text: "Claim it's 'Sacred Dust' melting away", rep: 5, money: 0 }
+        ]},
+        { type: "psychic", text: "🔮 A psychic claims the deceased's spirit hates their chosen tie.", choices: [
+            { text: "Change it for a more colorful one", rep: 5, money: 0 },
+            { text: "Ignore her, the dead don't talk (usually)", rep: 0, money: 0 },
+            { text: "Charge for a 'Direct Spirit Consultation' ($100)", rep: -5, money: 100 }
+        ]},
+        { type: "pizza", text: "🍕 A family pizza arrives that the deceased ordered 'for the final journey'.", choices: [
+            { text: "Distribute it among hungry mourners", rep: 12, money: 0 },
+            { text: "Eat it yourself in the office (Energy boost)", rep: 5, money: 0 },
+            { text: "Claim it's a ritual offering to the Cheese God", rep: 2, money: 0 }
+        ]},
+        { type: "zombie_prank", text: "🧟 Someone rigged a mechanical spring to make the body sit up suddenly.", choices: [
+            { text: "Panic! Call an exorcist!", rep: -20, money: 0 },
+            { text: "Laugh and say it was their last joke", rep: 5, money: 0 },
+            { text: "Fine the family for disrespect ($200)", rep: -10, money: 200 }
+        ]},
+        { type: "grief_influencer", text: "🤳 An influencer is doing a 'Get Ready With Me: Funeral Edition' next to the body.", choices: [
+            { text: "Photo-bomb them with a peace sign", rep: -10, money: 0 },
+            { text: "Cut the funeral home's Wi-Fi", rep: 5, money: 0 },
+            { text: "Charge a 'Funeral Streaming Fee' ($150)", rep: -2, money: 150 }
+        ]},
+        { type: "static_voices", text: "📻 The speakers are emitting static that sounds like voices from beyond.", choices: [
+            { text: "Claim it's 'Direct Communication' ($200)", rep: -5, money: 200 },
+            { text: "Turn off the system and apologize", rep: 5, money: 0 },
+            { text: "Turn it up to hear the message", rep: 0, money: 0 }
+        ]},
+        { type: "salesman", text: "👔 An aggressive salesman is trying to sell plots to weeping relatives.", choices: [
+            { text: "Kick them off the premises", rep: 15, money: 0 },
+            { text: "Ask for a 20% commission on each sale", rep: -20, money: 200 },
+            { text: "Claim all plots are already sold out", rep: 5, money: 0 }
+        ]},
+        { type: "dog_heir", text: "🐕 The deceased's dog inherits the fortune and 'pays' with barks.", choices: [
+            { text: "Accept the 'payment' for good publicity", rep: 10, money: 0 },
+            { text: "Urgent search for the animal's legal guardian", rep: 2, money: 0 },
+            { text: "Kick the dog out and keep the gold collar", rep: -30, money: 300 }
+        ]},
+        { type: "lightning", text: "⚡ Lightning hits the rod and blows all the building's fuses.", choices: [
+            { text: "Use emergency candles (Gothic vibe)", rep: 8, money: 0 },
+            { text: "Charge an 'Ambient Lighting Fee' ($100)", rep: -15, money: 100 },
+            { text: "Claim it's a direct divine message", rep: 5, money: 0 }
+        ]}
+    ],
+
+    badLuckEvents: [
+        { id: "roof_rats", textKey: "bad.roof_rats", rep: -10, money: -300 },
+        { id: "broken_lighter", textKey: "bad.broken_lighter", rep: 0, money: -200 },
+        { id: "coffee_explosion", textKey: "bad.coffee_explosion", rep: -15, money: 0 },
+        { id: "termite_coffin", textKey: "bad.termite_coffin", rep: 0, money: -400 },
+        { id: "wrong_air", textKey: "bad.wrong_air", rep: -5, money: 0 },
+        { id: "ghost_complaint", textKey: "bad.ghost_complaint", rep: -8, money: 0 },
+        { id: "tax_error", textKey: "bad.tax_error", rep: 0, money: -500 },
+        { id: "slip_fall", textKey: "bad.slip_fall", rep: -20, money: -150 },
+        { id: "stolen_urn", textKey: "bad.stolen_urn", rep: -12, money: 0 },
+        { id: "cursed_phone", textKey: "bad.cursed_phone", rep: -5, money: 0 },
+        { id: "clown_delivery", textKey: "bad.clown_delivery", rep: -15, money: -50 },
+        { id: "organ_tuning", textKey: "bad.organ_tuning", rep: -5, money: -100 },
+        { id: "coffin_leak", textKey: "bad.coffin_leak", rep: -20, money: -200 },
+        { id: "power_surge", textKey: "bad.power_surge", rep: 0, money: -300 },
+        { id: "mold_scare", textKey: "bad.mold_scare", rep: -10, money: -150 },
+        { id: "angry_neighbor", textKey: "bad.angry_neighbor", rep: -5, money: -50 },
+        { id: "lost_key", textKey: "bad.lost_key", rep: 0, money: -80 },
+        { id: "wet_floor", textKey: "bad.wet_floor", rep: -12, money: 0 },
+        { id: "fly_infestation", textKey: "bad.fly_infestation", rep: -18, money: -120 },
+        { id: "stuck_elevator", textKey: "bad.stuck_elevator", rep: -25, money: -400 },
+        { id: "shroud_mixup", textKey: "bad.shroud_mixup", rep: -8, money: 0 },
+        { id: "pigeon_invasion", textKey: "bad.pigeon_invasion", rep: -10, money: -60 },
+        { id: "rotten_wood", textKey: "bad.rotten_wood", rep: -15, money: -300 },
+        { id: "hearse_flat", textKey: "bad.hearse_flat", rep: 0, money: -100 },
+        { id: "skeleton_closet", textKey: "bad.skeleton_closet", rep: -5, money: -200 },
+        { id: "expired_embalm", textKey: "bad.expired_embalm", rep: -5, money: -200 },
+        { id: "grave_mixup", textKey: "bad.grave_mixup", rep: -30, money: -500 },
+        { id: "leaky_roof", textKey: "bad.leaky_roof", rep: -10, money: -150 },
+        { id: "broken_urn", textKey: "bad.broken_urn", rep: -20, money: -100 },
+        { id: "angry_ex", textKey: "bad.angry_ex", rep: -15, money: 0 },
+        { id: "missing_teeth", textKey: "bad.missing_teeth", rep: -10, money: -200 },
+        { id: "wrong_music", textKey: "bad.wrong_music", rep: -8, money: 0 },
+        { id: "cat_attack", textKey: "bad.cat_attack", rep: -5, money: -50 },
+        { id: "slippery_stairs", textKey: "bad.slippery_stairs", rep: -15, money: -300 },
+        { id: "flowers_wilt", textKey: "bad.flowers_wilt", rep: -10, money: -80 },
+        { id: "statue_fall", textKey: "bad.statue_fall", rep: -12, money: -250 },
+        { id: "bad_smell", textKey: "bad.bad_smell", rep: -18, money: 0 },
+        { id: "tax_hike", textKey: "bad.tax_hike", rep: 0, money: -600 },
+        { id: "window_shatter", textKey: "bad.window_shatter", rep: -5, money: -400 },
+        { id: "identity_theft", textKey: "bad.identity_theft", rep: -25, money: -100 }
+    ],
+
+    // ===== HEARSE DRIVER =====
+    hearseDriverQuotes: [
+        "\"Buckle up! Wait, wrong audience. The cargo doesn't buckle.\"",
+        "\"Another day, another body. I should start a podcast about this.\"",
+        "\"I've seen things, man. Things that would make an undertaker cry. Wait, you ARE an undertaker.\"",
+        "\"My GPS says 'arrive at final destination' for EVERY trip. Dark, right?\"",
+        "\"I used to drive an ice cream truck. Surprisingly similar skill set.\""
+    ],
+
+    // ===== PAPERWORK TASKS =====
+    paperworkTasks: [
+        { id: "pw_florist", dc: 12, reward: 100, penalty: -50 },
+        { id: "pw_ivan", dc: 15, reward: 200, penalty: 0 },
+        { id: "pw_niece", dc: 10, reward: 150, penalty: -100, repPenalty: -5 },
+        { id: "pw_cleaning", dc: 8, reward: 50, penalty: -150, repPenalty: -10 },
+        { id: "pw_sign", dc: 5, reward: 50, penalty: -200, repPenalty: -20 },
+        { id: "pw_formal", dc: 16, reward: 120, penalty: 0 },
+        { id: "pw_urn", dc: 13, reward: 250, penalty: -150, repPenalty: -15 },
+        { id: "pw_teeth", dc: 14, reward: 400, penalty: 0, repReward: -15, repPenalty: -25 },
+        { id: "pw_gin", dc: 12, reward: 300, penalty: -100, repReward: -10, repPenalty: -15 },
+        { id: "pw_charity", dc: 6, reward: -400, penalty: -500, repReward: 20, repPenalty: 0 },
+        { id: "pw_weekend", dc: 17, reward: 600, penalty: 0, repReward: -30, repPenalty: -15 },
+        { id: "pw_mourner", dc: 9, reward: -200, penalty: -300, repReward: 12, repPenalty: -5 },
+        { id: "pw_outfits", dc: 11, reward: 250, penalty: -150, repReward: -15, repPenalty: -25 },
+        { id: "pw_ghosts", dc: 18, reward: 500, penalty: -200, repReward: -5, repPenalty: -15 },
+        { id: "pw_used_coffin", dc: 12, reward: 300, penalty: -100, repPenalty: -10 },
+        { id: "pw_gym", dc: 10, reward: 100, penalty: -50, repPenalty: -2 },
+        { id: "pw_reggaeton", dc: 16, reward: 150, penalty: -100, repReward: 10, repPenalty: -15 },
+        { id: "pw_scare", dc: 8, reward: 200, penalty: 0, repPenalty: -5 },
+        { id: "pw_celestial", dc: 11, reward: 150, penalty: -50, repPenalty: -12 },
+        { id: "pw_ivan_support", dc: 14, reward: 400, penalty: -200, repPenalty: -5 },
+        { id: "pw_2x1", dc: 15, reward: 500, penalty: 0, repPenalty: -20 },
+        { id: "pw_ganges", dc: 13, reward: 350, penalty: -150, repPenalty: -25 },
+        { id: "pw_youth", dc: 9, reward: 250, penalty: -300, repPenalty: -10 },
+        { id: "pw_fridge", dc: 17, reward: 600, penalty: -100, repPenalty: -15 },
+        { id: "pw_organic", dc: 10, reward: 120, penalty: -50, repPenalty: -5 },
+        { id: "pw_selfie", dc: 12, reward: 180, penalty: -80, repPenalty: -10 },
+        { id: "pw_air", dc: 7, reward: 50, penalty: 0, repPenalty: -2 },
+        { id: "pw_viking", dc: 14, reward: 100, penalty: -200, repPenalty: -15 },
+        { id: "pw_insurance", dc: 18, reward: 800, penalty: -400, repPenalty: -30 },
+        { id: "pw_ghost_tax", dc: 12, reward: 200, penalty: -50, repReward: 5 },
+        { id: "pw_coffin_permit", dc: 10, reward: 150, penalty: -100, repPenalty: -5 },
+        { id: "pw_license_smell", dc: 14, reward: 300, penalty: -200, repPenalty: -10 },
+        { id: "pw_ouija_cert", dc: 16, reward: 400, penalty: -250, repReward: 10 },
+        { id: "pw_netflix_cancel", dc: 8, reward: 100, penalty: -50, repPenalty: -2 },
+        { id: "pw_grave_dig", dc: 15, reward: 500, penalty: -300, repPenalty: -20 },
+        { id: "pw_deli_mixup", dc: 13, reward: 250, penalty: -400, repPenalty: -15 },
+        { id: "pw_vampire_reg", dc: 17, reward: 600, penalty: -350, repPenalty: -10 },
+        { id: "pw_bone_count", dc: 11, reward: 180, penalty: -90, repReward: 5 },
+        { id: "pw_sponsor_grave", dc: 14, reward: 700, penalty: -200, repReward: -15, repPenalty: -10 }
+    ],
+
+    paperworkExcuses: [
+        "Maybe another time...",
+        "I don't have the nerve for this right now.",
+        "This is way too risky.",
+        "My mother would not approve of this.",
+        "I don't want to go to hell for this.",
+        "Maybe if I close my eyes it'll disappear.",
+        "My lawyer told me not to comment.",
+        "I don't have steady enough hands for this today."
+    ],
+
+    // ===== UPGRADES =====
+    upgrades: [
+        { id: "firstaid", name: "First Aid Kit", desc: "Handle fainting in viewing room", cost: 1500, level: 1, icon: "🩹", room: null },
+        { id: "embalm_kit", name: "Premium Embalming Kit", desc: "+2 to embalming rolls", cost: 2500, level: 1, icon: "🧪", room: null },
+        { id: "ac_system", name: "A/C System", desc: "Control viewing room temperature", cost: 3000, level: 1, icon: "❄️", room: null },
+        { id: "coffee_machine", name: "Espresso Machine", desc: "+10% cafeteria satisfaction", cost: 1200, level: 1, icon: "☕", room: null },
+        { id: "cafeteria", name: "Full Cafeteria", desc: "Serve drinks & food to families", cost: 7500, level: 1, icon: "☕", room: "cafeteria" },
+        { id: "crematorium", name: "Crematorium", desc: "Cremate on-site", cost: 5000, level: 1, icon: "🔥", room: "crematorium" },
+        { id: "chapel", name: "The Chapel", desc: "Hold ceremonies on-site", cost: 10000, level: 1, icon: "⛪", room: "chapel" },
+        { id: "hearse", name: "Own Hearse", desc: "No more rental fees", cost: 20000, level: 1, icon: "🚗", room: null },
+        { id: "viewing2", name: "Viewing Room #2", desc: "Handle 2 families at once", cost: 5000, level: 1, icon: "🪦", room: null },
+        { id: "viewing3", name: "Viewing Room #3", desc: "Handle 3 families at once", cost: 9000, level: 1, icon: "🪦", room: null },
+        { id: "embalm_train", name: "Embalming Training", desc: "+1 permanent modifier", cost: 2000, level: 1, icon: "📚", room: null, repeatable: true, maxRepeats: 5 },
+    ],
+
+    // ===== GAME OVER QUOTES =====
+    gameOverMoney: [
+        "\"Turns out, death doesn't pay... YOUR bills.\"",
+        "\"Bankrupt. Even the ghosts left — they couldn't afford the rent.\"",
+        "\"Your funeral home needs a funeral. For its finances.\""
+    ],
+    gameOverRep: [
+        "\"Your reputation is deader than your clients.\"",
+        "\"Google reviews: ★☆☆☆☆ 'Would rather stay dead than go here.'\"",
+        "\"Even the stray cat left a 1-star review.\""
+    ],
+
+    // ===== LEVEL THRESHOLDS =====
+    levelXP: [0, 500, 1200, 2500, 4000, 6000, 8500, 12000, 16000, 21000, 27000],
+    
+    // Service pricing
+    serviceBasePrices: {
+        basic: 800,
+        standard: 1500,
+        premium: 2500,
+        cremation: 1200,
+        chapelService: 500,
+        hearseRental: 300
+    },
+
+    tips: [
+        "TIP: Keep your supplies stocked. Running out mid-embalming is... awkward.",
+        "TIP: Match the sermon to the family's religion. Ivan won't check for you.",
+        "TIP: The crematorium needs time to preheat. Plan ahead!",
+        "TIP: Some families want alcohol. It's forbidden. But is it, really?",
+        "TIP: Your reputation is everything. One bad review can spiral.",
+        "TIP: The external hearse driver is weird, but reliable. Mostly."
+    ],
+
+    levelUpPhrases: [
+        "Congratulations. One level closer to being the one on the table.",
+        "Level up. Too bad your life expectancy doesn't do the same.",
+        "Great job. Your clients are dying to see what you do next.",
+        "Level achieved. The cemetery is full of people who thought they were indispensable.",
+        "Your career is taking off. Just like that poor soul in Room 2.",
+        "New level. More money to spend before your debts are inherited.",
+        "You're getting more professional. Formaldehyde is probably in your veins now.",
+        "Congratulations. You've unlocked new ways to ignore your own mortality.",
+        "Keep this up and you'll soon be the king of the worms.",
+        "One more level. Enjoy it; eternity is very long and boring.",
+        "You're so good at this, the Grim Reaper is considering a franchise.",
+        "New level! Your dark future looks... slightly more profitable."
+    ],
+
+    // ===== INTERVIEW SCENARIOS =====
+    interviewScenarios: [
+        {
+            id: "tissues",
+            text: "The family starts crying. You need to offer something.",
+            choices: [
+                { text: "Offer a single, high-quality silk tissue.", sat: 10 },
+                { text: "Push the whole box toward them. 'You'll need it.'", sat: 20 },
+                { text: "Tell them crying is bad for the skin.", sat: -30 }
+            ]
+        },
+        {
+            id: "coffee",
+            text: "They look exhausted. Ivan, the chaplain, whispers: 'Sell them the expensive coffee'.",
+            choices: [
+                { text: "Offer free artisanal coffee samples.", sat: 15 },
+                { text: "Try to sell 'Grief-Roasted' espresso ($5).", roll: 12, success: { text: "They love it!", sat: 25 }, fail: { text: "They find it insensitive.", sat: -10 } },
+                { text: "Mention our coffee is better than the competition's.", sat: 5 }
+            ]
+        },
+        {
+            id: "cremation_pitch",
+            text: "The topic of cremation comes up. How do you handle it?",
+            choices: [
+                { text: "Explain it's 'Eco-friendly and efficient'.", sat: 10 },
+                { text: "Describe the 'Beautiful transformation through fire'.", roll: 14, success: { text: "Very poetic!", sat: 20 }, fail: { text: "Too graphic...", sat: -15 } },
+                { text: "Mention it's the cheapest option we have.", sat: -10 }
+            ]
+        },
+        {
+            id: "mistaken_identity",
+            text: "You accidentally call the son by the deceased's name.",
+            choices: [
+                { text: "Quickly apologize and blame the paperwork.", sat: -5 },
+                { text: "Try to play it off: 'You have his noble eyes!'", roll: 10, success: { text: "They are touched.", sat: 15 }, fail: { text: "They are weirded out.", sat: -20 } },
+                { text: "Insist that you are right and they are wrong.", sat: -40 }
+            ]
+        },
+        {
+            id: "flower_talk",
+            text: "They ask about the flower arrangements.",
+            choices: [
+                { text: "Suggest the 'Eternal Bloom' package.", sat: 10 },
+                { text: "Explain that flowers are just 'dying plants'.", sat: -25 },
+                { text: "Call the florist right now to show dedication.", sat: 20 }
+            ]
+        },
+        {
+            id: "gold_tooth",
+            text: "You found a gold tooth during preparation. Do you mention it?",
+            choices: [
+                { text: "Discreetly hand it back in a velvet pouch.", sat: 30 },
+                { text: "Tell them it was 'lost in the process' (keep it).", roll: 15, success: { text: "They believe you. +$200 later.", sat: 0 }, fail: { text: "They see right through you!", sat: -40 } },
+                { text: "Ask if they want to pay for the funeral with it.", sat: -20 }
+            ]
+        },
+        {
+            id: "ivan_outfit",
+            text: "Ivan, the chaplain, walks in wearing a 'I Heart Cemeteries' t-shirt.",
+            choices: [
+                { text: "Apologize and say it's our 'casual Friday'.", sat: -5 },
+                { text: "Explain it's a high-fashion ironic brand.", roll: 13, success: { text: "They think you're trendy.", sat: 15 }, fail: { text: "They find it disrespectful.", sat: -15 } },
+                { text: "Force Ivan to change into a trash bag immediately.", sat: 10 }
+            ]
+        },
+        {
+            id: "memory_foam",
+            text: "A relative asks if the coffin is comfortable enough.",
+            choices: [
+                { text: "Offer the 'Memory Foam Deluxe' upgrade.", sat: 15 },
+                { text: "Assure them: 'They won't be complaining'.", sat: -10 },
+                { text: "Pretend to test the softness yourself.", roll: 11, success: { text: "They appreciate your thoroughness.", sat: 10 }, fail: { text: "You look ridiculous.", sat: -10 } }
+            ]
+        },
+        {
+            id: "ghost_insurance",
+            text: "They are terrified of hauntings. Sell them insurance?",
+            choices: [
+                { text: "Offer the 'Spectral Protection' policy ($100).", roll: 14, success: { text: "Sold! They feel safer.", sat: 20 }, fail: { text: "They think you're a scammer.", sat: -25 } },
+                { text: "Explain that our walls are 'ghost-proofed'.", sat: 5 },
+                { text: "Tell them ghosts only haunt 'boring' people.", sat: -30 }
+            ]
+        },
+        {
+            id: "qr_grave",
+            text: "They want a QR code on the tombstone for a Tik-Tok tribute.",
+            choices: [
+                { text: "Embrace the future! 'Digital Immortality' pack.", sat: 20 },
+                { text: "Politely suggest a traditional epitaph.", sat: 5 },
+                { text: "Laugh and say 'Over my dead body'.", sat: -20 }
+            ]
+        },
+        {
+            id: "wrong_ashes",
+            text: "You realize the urn you're holding is slightly dusty.",
+            choices: [
+                { text: "Polish it right in front of them with your tie.", sat: 5 },
+                { text: "Pretend it's 'Ancient Blessing Dust'.", roll: 16, success: { text: "They are in awe.", sat: 25 }, fail: { text: "That's just gross.", sat: -30 } },
+                { text: "Go get a clean one and blame 'The Vault Protocol'.", sat: 15 }
+            ]
+        },
+        {
+            id: "scent_choice",
+            text: "They ask about the smell. Formaldehyde is strong today.",
+            choices: [
+                { text: "Tell them it's 'The Scent of Eternity'.", sat: 10 },
+                { text: "Blame the cooking of Ivan, the chaplain, in the cafeteria.", sat: -5 },
+                { text: "Use your 'Empathy' to describe it as 'Cleanliness'.", roll: 12, success: { text: "They are reassured.", sat: 15 }, fail: { text: "It still smells like a lab.", sat: -10 } }
+            ]
+        },
+        {
+            id: "neighbor_grave",
+            text: "They want to know who is buried in the next plot.",
+            choices: [
+                { text: "Tell them it's a very 'quiet and prestigious' family.", sat: 15 },
+                { text: "Check the ledger and 'fudge' the details to sound better.", roll: 13, success: { text: "They love the neighbors!", sat: 20 }, fail: { text: "You get the names mixed up.", sat: -10 } },
+                { text: "Say 'Neighbors don't matter when you're 6 feet down'.", sat: -15 }
+            ]
+        },
+        {
+            id: "heirloom_ring",
+            text: "A ring is stuck on the deceased's finger. The family wants it.",
+            choices: [
+                { text: "Use your 'Professional Hands' to remove it (Skill).", roll: 14, success: { text: "Removed with dignity.", sat: 25 }, fail: { text: "You struggle awkwardly.", sat: -20 } },
+                { text: "Suggest burying it as a 'Sacrifice to the Beyond'.", sat: -5 },
+                { text: "Tell them to 'Let it go, it's just shiny metal'.", sat: -35 }
+            ]
+        },
+        {
+            id: "metal_service",
+            text: "They want a Heavy Metal tribute in the chapel.",
+            choices: [
+                { text: "Accept and call the local band 'Rotten Souls'.", sat: 20 },
+                { text: "Suggest Ivan, the chaplain, does a 'Heavy' acoustic version.", roll: 15, success: { text: "Ivan rocks! They love it.", sat: 30 }, fail: { text: "It's embarrassing.", sat: -20 } },
+                { text: "Insist on Gregorian chants for 'Soul Stability'.", sat: -10 }
+            ]
+        },
+        {
+            id: "viewing_snacks",
+            text: "A cousin starts eating popcorn during the viewing.",
+            choices: [
+                { text: "Politely ask them to stop out of respect.", sat: 15 },
+                { text: "Try to 'Sell' them a proper snack from the cafe.", roll: 11, success: { text: "Business is booming!", sat: 10 }, fail: { text: "They find you greedy.", sat: -15 } },
+                { text: "Join them and ask for a handful.", sat: -40 }
+            ]
+        },
+        {
+            id: "makeup_fail",
+            text: "The makeup from the catalogue looks a bit... much. The deceased is going to look like a doll.",
+            choices: [
+                { text: "Explain it's the 'Post-Life Glow' technique.", roll: 14, success: { text: "They think it's artistic.", sat: 20 }, fail: { text: "They want a refund.", sat: -30 } },
+                { text: "Immediately offer to fix it 'For free'.", sat: 15 },
+                { text: "Say 'He always wanted to be more colorful'.", sat: -20 }
+            ]
+        },
+        {
+            id: "pet_goodbye",
+            text: "They want to bring a goat for a 'Final Blessing'.",
+            choices: [
+                { text: "Accept, but charge a 'Livestock Cleaning' fee.", sat: 10 },
+                { text: "Use 'Persuasion' to convince them a cat is better.", roll: 15, success: { text: "They bring a kitten. Cute!", sat: 20 }, fail: { text: "They want the goat.", sat: -5 } },
+                { text: "Tell them this is a mortuary, not a farm.", sat: -25 }
+            ]
+        },
+        {
+            id: "eco_cardboard",
+            text: "They want a cardboard coffin to be 'Eco-friendly'.",
+            choices: [
+                { text: "Support their green choice! +20 Satisfaction.", sat: 20 },
+                { text: "Sell them 'Reinforced Eco-Oak' ($500 extra).", roll: 14, success: { text: "They buy the premium wood!", sat: 15 }, fail: { text: "They see the scam.", sat: -20 } },
+                { text: "Mention it might collapse if it rains.", sat: -15 }
+            ]
+        },
+        {
+            id: "selfie_grief",
+            text: "The daughter wants to take a 'Grief Selfie' with you.",
+            choices: [
+                { text: "Strike a 'Professional but Sad' pose.", sat: 15 },
+                { text: "Charge a 'Media Appearance' fee ($50).", roll: 12, success: { text: "She pays! #Profit", sat: 5 }, fail: { text: "She's offended.", sat: -20 } },
+                { text: "Explain the 'Soul-stealing' properties of cameras.", sat: -10 }
+            ]
+        },
+        {
+            id: "live_pet",
+            text: "The family asks if the deceased can be buried with their favorite pet... which is currently alive.",
+            choices: [
+                { text: "Say no, that's illegal.", sat: -10 },
+                { text: "Convince them the pet prefers to stay alive.", roll: 14, success: { text: "They agree, the dog is safe.", sat: 20 }, fail: { text: "They call you insensitive to their bond.", sat: -15 } },
+                { text: "Offer to taxidermy the pet later.", sat: -30 }
+            ]
+        },
+        {
+            id: "widow_discount",
+            text: "The widow asks for a discount because 'he wasn't that good of a husband anyway.'",
+            choices: [
+                { text: "Apologize, prices are fixed.", sat: 0 },
+                { text: "Gossip about terrible men for a sympathy tip.", roll: 12, success: { text: "She loves the tea. Great tip!", sat: 25 }, fail: { text: "She gets offended you insulted her husband.", sat: -20 } },
+                { text: "Tell her the crematorium burns sinners equally.", sat: -25 }
+            ]
+        },
+        {
+            id: "bribe_dental",
+            text: "A mysterious man in a trench coat offers an extra $500 to 'lose' the dental records.",
+            choices: [
+                { text: "Refuse politely.", sat: 10 },
+                { text: "Accept the bribe smoothly.", roll: 15, success: { text: "Smooth transaction. +$500.", sat: 5, money: 500 }, fail: { text: "You drop the money awkwardly. They leave.", sat: -40, rep: -10 } },
+                { text: "Threaten to call the police.", sat: -15 }
+            ]
+        },
+        {
+            id: "heavy_metal_viewing",
+            text: "The family wants to play extremely inappropriate heavy metal music during the viewing.",
+            choices: [
+                { text: "Refuse, it disturbs other grieving families.", sat: -15 },
+                { text: "Suggest an acoustic, instrumental cover.", roll: 13, success: { text: "They actually love the acoustic version.", sat: 20 }, fail: { text: "They call you a poser.", sat: -10 } },
+                { text: "Offer to crank up the volume to 'wake the dead'.", sat: 10, rep: -5 }
+            ]
+        },
+        {
+            id: "secret_families",
+            text: "The deceased's two secret families accidentally meet in your office.",
+            choices: [
+                { text: "Slowly back out of the room.", sat: -10 },
+                { text: "Intervene as a grief counselor to calm everyone.", roll: 16, success: { text: "Crisis averted! You're a hero.", sat: 35, rep: 10 }, fail: { text: "A massive fight breaks out. Vases are broken.", sat: -40, rep: -10 } },
+                { text: "Offer a 'Buy One, Get One 50% Off' viewing deal.", sat: -50 }
+            ]
+        },
+        {
+            id: "casket_selfie",
+            text: "The son insists on taking a selfie with the open casket.",
+            choices: [
+                { text: "Remind him it's highly disrespectful.", sat: -10 },
+                { text: "Offer to take the picture with professional lighting.", roll: 11, success: { text: "The lighting is great. He posts it.", sat: 20 }, fail: { text: "You drop his phone.", sat: -15 } },
+                { text: "Photobomb the picture making a peace sign.", sat: -40 }
+            ]
+        },
+        {
+            id: "gold_teeth",
+            text: "They ask what happens to the gold teeth during cremation.",
+            choices: [
+                { text: "State standard legal procedure.", sat: 5 },
+                { text: "Reassure them they melt to 'enrich his spirit'.", roll: 14, success: { text: "They find it very poetic.", sat: 25 }, fail: { text: "They demand the gold back.", sat: -10 } },
+                { text: "'What gold teeth? I didn't see any gold teeth.'", sat: -30 }
+            ]
+        },
+        {
+            id: "vegan_embalm",
+            text: "The daughter wants to know if the embalming fluid is vegan and cruelty-free.",
+            choices: [
+                { text: "Explain it's literally formaldehyde.", sat: -10 },
+                { text: "Invent a story about ethically sourced botanicals.", roll: 13, success: { text: "She is relieved and impressed.", sat: 30 }, fail: { text: "She Googles it and calls you a liar.", sat: -20 } },
+                { text: "Tell her the only cruelty was the cause of death.", sat: -40 }
+            ]
+        },
+        {
+            id: "keg_urn",
+            text: "They brought a custom urn shaped like a beer keg, but it's leaking.",
+            choices: [
+                { text: "Demand they buy one of your urns.", sat: -15 },
+                { text: "Fix it with duct tape, call it 'rustic character'.", roll: 12, success: { text: "They agree it adds personality.", sat: 20 }, fail: { text: "The duct tape rips. Ashes everywhere.", sat: -15 } },
+                { text: "Suggest they just drink the ashes later.", sat: -50 }
+            ]
+        },
+        {
+            id: "face_down",
+            text: "The deceased requested to be buried face down 'so the world can kiss my a**.'",
+            choices: [
+                { text: "Refuse to accommodate such vulgarity.", sat: -20 },
+                { text: "Convince them closing the casket achieves the same goal.", roll: 15, success: { text: "Philosophically, they agree.", sat: 25 }, fail: { text: "They insist on the exact positioning.", sat: -15 } },
+                { text: "Charge double for 'special ergonomic positioning'.", sat: 10 }
+            ]
+        },
+        {
+            id: "inheritance_watch",
+            text: "Two siblings are fighting over the deceased's gold watch. They want YOU to decide who gets it.",
+            choices: [
+                { text: "Suggest donating it to the funeral home for 'Safe Keeping'.", roll: 16, success: { text: "They agree it's the most neutral option. +$300.", sat: 10, money: 300 }, fail: { text: "They both turn their anger on you!", sat: -30 } },
+                { text: "Suggest giving it to the one who cries more.", sat: -15 },
+                { text: "Bury the deceased with the watch to end the debate.", sat: 20 }
+            ]
+        },
+        {
+            id: "wrong_face",
+            text: "The widow claims the deceased has 'too much hair' and it's not her husband.",
+            choices: [
+                { text: "Offer a free 'Emergency Shave' right now.", sat: 15 },
+                { text: "Explain that hair grows after death (A total lie).", roll: 14, success: { text: "She believes the pseudo-science.", sat: 20 }, fail: { text: "She calls her lawyer.", sat: -35 } },
+                { text: "Show her the ID tag on the toe.", sat: 5 }
+            ]
+        },
+        {
+            id: "tapping_sound",
+            text: "Someone claims they heard a 'thump' from inside the casket.",
+            choices: [
+                { text: "Explain it's just 'Gas escaping'. Standard stuff.", sat: 10 },
+                { text: "Open it immediately to reassure them.", roll: 12, success: { text: "It's empty. I mean, just the body. All good.", sat: 15 }, fail: { text: "The lid gets stuck. Panic ensues!", sat: -25 } },
+                { text: "Tell them the deceased always was a 'restless sleeper'.", sat: -20 }
+            ]
+        },
+        {
+            id: "clown_request",
+            text: "The family wants the deceased buried in full clown makeup and a red nose.",
+            choices: [
+                { text: "Honor the final wish. 'The show must go on'.", sat: 20 },
+                { text: "Suggest a 'Classy Clown' compromise (nose only).", roll: 13, success: { text: "They love the subtle tribute.", sat: 15 }, fail: { text: "They want the full Bozo experience.", sat: -10 } },
+                { text: "Tell them this is a funeral, not a circus.", sat: -30 }
+            ]
+        },
+        {
+            id: "rival_widows",
+            text: "The ex-wife and the current wife are having a 'staring contest' in the lobby.",
+            choices: [
+                { text: "Offer two separate viewing rooms ($400 extra).", roll: 15, success: { text: "They both pay to avoid each other!", sat: 25, money: 400 }, fail: { text: "They unite... against you.", sat: -20 } },
+                { text: "Ask Iván to play some 'calming' music at max volume.", sat: 5 },
+                { text: "Try to mediate the inheritance talk right here.", sat: -40 }
+            ]
+        },
+        {
+            id: "pigeon_blessing",
+            text: "A pigeon flew in and... 'blessed' the deceased's suit.",
+            choices: [
+                { text: "Claim it's a 'Sign from the Heavens'.", roll: 14, success: { text: "They are deeply moved by the sign.", sat: 30 }, fail: { text: "They want a dry-cleaning refund.", sat: -20 } },
+                { text: "Clean it up discreetly with a tissue.", sat: 10 },
+                { text: "Tell them it's better than a crow.", sat: -15 }
+            ]
+        },
+        {
+            id: "lasagna_complaint",
+            text: "They complain the room smells like garlic. Ivan was cooking in the back.",
+            choices: [
+                { text: "Explain it's a 'Special Mediterranean Incense'.", roll: 13, success: { text: "They find it exotic and soothing.", sat: 20 }, fail: { text: "They realize it's just pasta.", sat: -10 } },
+                { text: "Apologize and open all the windows.", sat: 10 },
+                { text: "Ask if they want some lasagna. Only $10.", sat: -25 }
+            ]
+        },
+        {
+            id: "gold_teeth_rumor",
+            text: "A nephew whispers: 'Grandpa had a mouth full of gold. Where is it?'",
+            choices: [
+                { text: "Reassure him it's all accounted for in the urn.", sat: 10 },
+                { text: "Offer a 'Dental Recovery' service for a fee.", roll: 16, success: { text: "He pays the fee. You find... nothing.", sat: 5, money: 200 }, fail: { text: "He suspects you already took it.", sat: -30 } },
+                { text: "Tell him to go dig it out himself.", sat: -40 }
+            ]
+        },
+        {
+            id: "viking_arrow",
+            text: "They want to shoot a flaming arrow at the casket in the parking lot.",
+            choices: [
+                { text: "Explain the local fire codes and offer a 'Fire Lamp'.", sat: 15 },
+                { text: "Let them do it if they pay the 'Insurance Waiver' ($300).", roll: 14, success: { text: "Spectacular! No trees were harmed.", sat: 25, money: 300 }, fail: { text: "They miss and hit your hearse.", sat: -40, rep: -10 } },
+                { text: "Suggest a 'Water Burial' in the sink instead.", sat: -20 }
+            ]
+        },
+        {
+            id: "ghost_bros_tv",
+            text: "The family wants to film a 'Ghost Hunting' special during the viewing.",
+            choices: [
+                { text: "Accept for a 'Production Fee' ($500).", roll: 15, success: { text: "You're going to be on TV! +$500.", sat: 10, money: 500 }, fail: { text: "The equipment keeps tripping the breakers.", sat: -20 } },
+                { text: "Politely decline to maintain dignity.", sat: 15 },
+                { text: "Offer to play the ghost for an extra $100.", sat: -35 }
+            ]
+        },
+        {
+            id: "pacemaker",
+            text: "The family asks if the pacemaker has been removed before cremation. 'We heard they explode.'",
+            choices: [
+                { text: "Of course, safety is our top priority here.", sat: 15 },
+                { text: "I bet Ivan 50 coins it would explode. I just lost.", sat: -30 },
+                { text: "The pacemaker is now an eternal 'spiritual battery'. Don't worry.", roll: 14, success: { text: "They find the idea comforting.", sat: 25 }, fail: { text: "They think you're mocking them.", sat: -15 } }
+            ]
+        },
+        {
+            id: "ash_taste",
+            text: "A very distressed relative wants to taste the ashes to 'connect with their essence'.",
+            choices: [
+                { text: "Sir, that is... unsanitary. Try our complimentary coffee instead.", sat: 10 },
+                { text: "They taste like barbecue and regret. 20 coins for the tasting.", sat: -20, money: 20 },
+                { text: "Ivan says they taste much better with a pinch of salt.", sat: -45 }
+            ]
+        },
+        {
+            id: "swallowed_key",
+            text: "They suspect Grandpa swallowed the safe key right before passing away.",
+            choices: [
+                { text: "We can perform a 'deep inspection' for a recovery fee.", roll: 15, success: { text: "You found it! +200 coins.", sat: 20, money: 200 }, fail: { text: "Nothing in there. They are disappointed.", sat: -25 } },
+                { text: "If he rattles like a piggy bank when moved, there's a prize.", sat: -30 },
+                { text: "Honesty is key. If it shows up during the process, we'll let you know.", sat: 15 }
+            ]
+        },
+        {
+            id: "fridge_box",
+            text: "They brought an empty refrigerator box to use as a coffin to save costs.",
+            choices: [
+                { text: "Recycling is the noblest way to return to the earth.", sat: 15 },
+                { text: "If it rains during the burial, Grandpa is going to be cardboard mush.", sat: -40 },
+                { text: "We can paint it brown to look like oak from a distance.", roll: 12, success: { text: "They happily accept the workaround.", sat: 20 }, fail: { text: "They realize how ridiculous that sounds.", sat: -15 } }
+            ]
+        },
+        {
+            id: "dead_selfie",
+            text: "They want you to put the deceased in a 'dynamic' pose for one last family selfie.",
+            choices: [
+                { text: "The dignity of our clients is non-negotiable, I'm sorry.", sat: 10 },
+                { text: "I have an 'Instagram Poses' pack for 100 coins.", roll: 14, success: { text: "Looks great in the photo! #RIP", sat: 25, money: 100 }, fail: { text: "An arm falls off during the pose. Disaster.", sat: -35 } },
+                { text: "If I put sunglasses on him, he'll look like he's on vacation.", sat: -15 }
+            ]
+        },
+        {
+            id: "sweating_body",
+            text: "A relative screams in horror because the deceased 'is sweating'. It's just condensation.",
+            choices: [
+                { text: "It's the natural cooling process, no need to worry at all.", sat: 15 },
+                { text: "Well, it's hot in hell, you know? Bad sign.", sat: -55 },
+                { text: "He's just nervous to see you one last time; it's a sign of pure love.", roll: 13, success: { text: "They are moved by the 'phenomenon'.", sat: 20 }, fail: { text: "They think you're pulling their leg.", sat: -25 } }
+            ]
+        },
+        {
+            id: "boring_music",
+            text: "They complain loudly that the chapel music is boring and 'too thin'.",
+            choices: [
+                { text: "We always aim for an atmosphere of maximum peace and reflection.", sat: 10 },
+                { text: "Ivan can DJ some 'Death-Techno' if you pay for the sound system.", roll: 15, success: { text: "The party of his life! I mean, death.", sat: 30, money: 150 }, fail: { text: "Ivan plays old reggaeton. They are horrified.", sat: -25 } },
+                { text: "The dead love it; they've never complained until now.", sat: -15 }
+            ]
+        },
+        {
+            id: "twin_cremation",
+            text: "A pair of identical twins wants to know if there's a 2-for-1 discount if they die together.",
+            choices: [
+                { text: "The logistics are the same, but I can do 10% for loyalty.", sat: 15 },
+                { text: "If they fit in the same oven, we save fuel and time. Deal.", sat: -35 },
+                { text: "The 'Eternal Duo Pack' includes a very elegant shared urn.", roll: 12, success: { text: "They love the idea of being together forever.", sat: 20 }, fail: { text: "They find it to be a tasteless offer.", sat: -15 } }
+            ]
+        },
+        {
+            id: "psychic_insult",
+            text: "A psychic in the room claims the deceased is insulting her from the other side.",
+            choices: [
+                { text: "Grief sometimes makes us hear things; rest a bit in the cafeteria.", sat: 10 },
+                { text: "Tell her if he keeps it up, I'll charge a post-mortem misconduct fee.", sat: -25 },
+                { text: "I hear it too; he says you owe him 50 coins.", roll: 16, success: { text: "The psychic pays up out of fear! +50 coins.", sat: 20, money: 50 }, fail: { text: "They think you're all crazy.", sat: -35 } }
+            ]
+        },
+        {
+            id: "beach_urn",
+            text: "They want to mix the ashes with beach sand so it feels like he's 'still on vacation'.",
+            choices: [
+                { text: "A very original summer tribute. We'll prepare it with care.", sat: 15 },
+                { text: "Just be careful not to mistake it for the hotel ashtray this summer.", sat: -30 },
+                { text: "We can add coconut scent and sunscreen for 20 coins.", roll: 11, success: { text: "Smells like eternal vacation. Perfect!", sat: 20, money: 20 }, fail: { text: "Smells terrible. They don't like it at all.", sat: -15 } }
+            ]
+        }
+    ],
+    dailyNews: [
+        { id: "day_tanato", text: "Today is Undertaker's Day! The local association is giving away free coffee to all professionals.", effect: { rep: 5, msg: "+5 Reputation" } },
+        { id: "strike_gravediggers", text: "Gravedigger strike at the municipal cemetery. Bodies are piling up in the morgues.", effect: { money: -100, msg: "-$100 (Storage fees)" } },
+        { id: "heat_wave", text: "Extreme heat wave. It is recommended to lower the temperature in the viewing rooms to avoid odors.", effect: { priceMod: 1.3, msg: "Supplies +30% more expensive" } },
+        { id: "vampire_client", text: "A client claims to be a real vampire from Transylvania. He asks for a coffin with red velvet lining.", effect: { rep: -5, msg: "-5 Reputation" } },
+        { id: "ivan_award", text: "Ivan has won the 'Grimmest Voice' of the year award. He is insufferably celebrating it.", effect: { rep: 5, msg: "+5 Reputation" } },
+        { id: "ghost_rumors", text: "Rumor has it a ghost is wandering the halls of Eternal Rest. Some clients ask for discounts.", effect: { rep: -10, msg: "-10 Reputation" } },
+        { id: "inflation_formal", text: "Inflation in embalming supplies. Formaldehyde is through the roof today.", effect: { priceMod: 2.0, msg: "Supplies +100% more expensive" } },
+        { id: "vandalism", text: "Vandals overturned several tombstones last night. Neighbors are outraged at local security.", effect: { rep: -5, msg: "-5 Reputation" } },
+        { id: "comp_war", text: "The competing funeral home is giving away second-hand coffins. It's a price war!", effect: { rep: -5, msg: "-5 Reputation" } },
+        { id: "storm_crema", text: "Thunderstorm predicted tonight. Risk of power outages. The crematorium will not work from 11 AM to 12 PM.", effect: { cremaLock: [660, 720], msg: "Crematorium locked (11 AM - 12 PM)" } },
+        { id: "rat_report", text: "Investigative report reveals presence of rats at 'Eternal Rest'. Sanitary scandal.", effect: { rep: -10, msg: "-10 Reputation" } },
+        { id: "pollution_alert", text: "Pollution alert: Incineration prohibited from 2 PM to 4 PM today by municipal order.", effect: { cremaLock: [840, 960], msg: "Crematorium locked (2 PM - 4 PM)" } },
+        { id: "transport_strike", text: "Transport strike: Suppliers triple shipping costs due to shortages.", effect: { priceMod: 1.8, msg: "Supplies +80% more expensive" } },
+        { id: "lucky_find", text: "A time capsule has been found under the porch with ancient gold coins.", effect: { money: 500, msg: "+$500" } },
+        { id: "inspector_visit", text: "The health inspector is in town. Standards are higher today.", effect: { rep: 5, msg: "+5 Reputation (for cleanliness)" } }
+    ],
+    // ===== ACHIEVEMENTS =====
+    achievements: [
+        { id: "first_client", title: "Welcome to the Trade", desc: "Process your first family successfully.", icon: "skull", image: "assets/achievements/first_client.png" },
+        { id: "nat_20", title: "Natural Precision", desc: "Roll a natural 20 on any check.", icon: "star", image: "assets/achievements/nat_20.png" },
+        { id: "nat_1", title: "The Clumsy Mortician", desc: "Roll a natural 1. How professional.", icon: "firstaid", image: "assets/achievements/nat_1.png" },
+        { id: "rich_undertaker", title: "Rich Undertaker", desc: "Amass $20,000 in your bank account.", icon: "money", image: "assets/achievements/rich_undertaker.png" },
+        { id: "daily_grind", title: "One Week Later", desc: "Survive until Day 7.", icon: "calendar", image: "assets/achievements/daily_grind.png" },
+        { id: "bribe_master", title: "Shadow Deals", desc: "Accept 5 bribes in the cafeteria.", icon: "drunk", image: "assets/achievements/bribe_master.png" },
+        { id: "reputable", title: "Eternal Trust", desc: "Reach 100 Reputation.", icon: "star", image: "assets/achievements/reputable.png" },
+        { id: "collector", title: "Curiosity Shop", desc: "Find 5 different items for your collection.", icon: "viewing", image: "assets/achievements/collector.png" },
+        { id: "paperwork_ninja", title: "Bureaucracy King", desc: "Complete 10 paperwork tasks without failing.", icon: "paperwork", image: "assets/achievements/paperwork_ninja.png" },
+        { id: 'crema_pro', title: 'Professional Pyromaniac', desc: 'Complete 5 cremations with perfect temperature.', icon: 'fire', image: "assets/achievements/crema_pro.png" },
+        { id: 'perfectionist', title: 'The Perfectionist', desc: 'Perform 20 Excellent embalmings.', icon: 'sparkles', image: "assets/achievements/perfectionist.png" },
+        { id: 'grave_robber', title: 'Curiosity Master', desc: 'Find all 12 items for your collection.', icon: 'skull', image: "assets/achievements/grave_robber.png" },
+        { id: 'capitalist', title: 'Morbid Tycoon', desc: 'Accumulate $50,000.', icon: 'money', image: "assets/achievements/capitalist.png" },
+        { id: 'overtime', title: 'Two Weeks in Hell', desc: 'Survive until Day 14.', icon: 'calendar', image: "assets/achievements/overtime.png" },
+        { id: 'social_butterfly', title: 'Corrupt Official', desc: 'Accept 10 bribes in the cafeteria.', icon: 'drink', image: "assets/achievements/social_butterfly.png" },
+        { id: 'burn_it_all', title: 'Incinerator King', desc: 'Cremate 20 bodies.', icon: 'fire', image: "assets/achievements/burn_it_all.png" }
+    ]
+};

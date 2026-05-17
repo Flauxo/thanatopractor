@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <meta name="description" content="THANATOPRACTOR - A dark humor management RPG about running a funeral house">
+    <title>THANATOPRACTOR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=6">
+    <link rel="stylesheet" href="css/animations.css?v=6">
+</head>
+<body>
+    <!-- ===== SPLASH SCREEN ===== -->
+    <div id="splash-screen" class="screen active">
+        <div class="splash-content">
+            <div class="grave-container">
+                <div class="splash-mist"></div>
+                <img src="assets/ui/gravee.png" alt="RIP Grave" class="pixel-grave-img">
+            </div>
+            <p class="loading-text" data-i18n="splash.loading">Cargando gusanos...</p>
+            <div class="splash-progress-container">
+                <div class="splash-progress-bar" id="splash-progress"></div>
+            </div>
+            <button id="btn-enter-game" class="pixel-btn pink-btn" style="display: none; margin: 75px auto 0; padding: 4px 10px; font-size: 0.6rem;">
+                <span data-i18n="splash.enter">ENTER THE MORTUARY</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== TITLE SCREEN ===== -->
+    <div id="title-screen" class="screen">
+        <div class="title-bg">
+            <div class="moon"></div>
+            <div class="cemetery-silhouette"></div>
+        </div>
+        <div class="title-content">
+            <h1 class="game-title">THANATO<span class="pink">PRACTOR</span></h1>
+            <p class="tagline" data-i18n="title.tagline">A Management RPG About Life in a Funeral House</p>
+
+            <p class="title-quote" data-i18n="title.quote">"You don't save lives. You help end them... professionally."</p>
+            <div class="title-menu">
+                <div class="lang-selector" style="margin-bottom: 24px; display: flex; gap: 16px; justify-content: center;">
+                    <button class="lang-btn" data-lang="en" title="English">
+                        <svg width="24" height="16" viewBox="0 0 16 11" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="16" height="11" fill="#012169"/>
+                            <path d="M0,0 L16,11 M16,0 L0,11" stroke="#fff" stroke-width="2"/>
+                            <path d="M0,0 L16,11 M16,0 L0,11" stroke="#C8102E" stroke-width="1"/>
+                            <path d="M8,0 L8,11 M0,5.5 L16,5.5" stroke="#fff" stroke-width="3"/>
+                            <path d="M8,0 L8,11 M0,5.5 L16,5.5" stroke="#C8102E" stroke-width="2"/>
+                        </svg>
+                    </button>
+                    <button class="lang-btn" data-lang="es" title="Español">
+                        <svg width="24" height="16" viewBox="0 0 16 11" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="16" height="3" y="0" fill="#AA151B"/>
+                            <rect width="16" height="5" y="3" fill="#F1BF00"/>
+                            <rect width="16" height="3" y="8" fill="#AA151B"/>
+                        </svg>
+                    </button>
+                </div>
+                <button id="btn-resume-game" class="pixel-btn pink-btn" style="display:none"><span class="custom-icon" data-icon="reception" style="width:12px;height:12px"></span> <span data-i18n="title.resume">RESUME</span></button>
+                <button id="btn-new-game" class="pixel-btn pink-btn"><span class="custom-icon" data-icon="skull" style="width:12px;height:12px"></span> <span data-i18n="title.new_game">NEW GAME</span></button>
+                <button id="btn-continue" class="pixel-btn" style="display:none"><span class="custom-icon" data-icon="coffin" style="width:12px;height:12px"></span> <span data-i18n="title.continue">CONTINUE</span></button>
+                <button id="btn-save-game" class="pixel-btn" style="display:none"><span class="custom-icon" data-icon="paperwork" style="width:12px;height:12px"></span> <span data-i18n="title.save">SAVE</span></button>
+                <button id="btn-achievements-title" class="pixel-btn dim-btn"><span class="custom-icon" data-icon="star" style="width:12px;height:12px"></span> <span data-i18n="title.achievements">ACHIEVEMENTS</span></button>
+                <button id="btn-credits" class="pixel-btn dim-btn"><span class="custom-icon" data-icon="cross" style="width:12px;height:12px"></span> <span data-i18n="title.credits">CREDITS</span></button>
+            </div>
+            <p class="title-footer" data-i18n="title.footer">GAME DESIGN & CONCEPT BY K. ARLÓN<br>DARK HUMOR CONTENT — RATED BY DEATH INC.</p>
+        </div>
+    </div>
+
+    <!-- ===== NAME INPUT SCREEN ===== -->
+    <div id="name-screen" class="screen">
+        <div class="screen-panel centered-panel">
+            <h2 data-i18n="name.title">WHO DARES RUN A FUNERAL HOME?</h2>
+            <p class="vt-text" data-i18n="name.subtitle">Enter your name, future undertaker:</p>
+            <input type="text" id="player-name-input" class="pixel-input" data-i18n="name.placeholder" placeholder="Your name..." maxlength="16" autocomplete="off">
+            <p class="vt-text dim" id="name-flavor" data-i18n="name.f1">"Every great mortician started somewhere."</p>
+            <button id="btn-start-game" class="pixel-btn pink-btn"><span data-i18n="name.begin">BEGIN YOUR CAREER</span> <span class="custom-icon" data-icon="skull" style="width:12px;height:12px"></span></button>
+        </div>
+    </div>
+    
+    <!-- ===== WELCOME SCREEN ===== -->
+    <div id="welcome-screen" class="screen">
+        <div class="title-bg">
+            <div class="moon"></div>
+            <div class="cemetery-silhouette"></div>
+        </div>
+        <div class="screen-panel centered-panel" style="max-width: 450px; text-align: center;">
+            <img src="assets/ui/Masterpj.png" class="reaper-welcome" alt="Tired Reaper">
+            <h2 data-i18n="welcome.title">WELCOME TO THANATOPRACTOR</h2>
+            <div class="vt-text" style="line-height:1.5; margin: 20px 0; font-size: 19px; text-align: center;">
+                <p data-i18n="welcome.p1">Here we don't save lives, we just tie them up with a bow. Your job is simple: make up the dead so they look alive, burn them if the family doesn't want to see them anymore, and above all, don't ask questions about the strange stains.</p>
+                <br>
+                <p data-i18n="welcome.p2">By clicking below, you accept that formaldehyde is your new favorite cologne, that ghosts don't pay rent, and that we are not responsible for recurring nightmares or the sudden loss of your own soul.</p>
+            </div>
+            <button id="btn-accept-terms" class="pixel-btn pink-btn"><span data-i18n="welcome.accept">I ACCEPT THE TERMS</span> <span class="custom-icon" data-icon="paperwork" style="width:12px;height:12px"></span></button>
+        </div>
+    </div>
+
+    <!-- ===== HUB SCREEN (MAIN) ===== -->
+    <div id="hub-screen" class="screen">
+        <!-- Top Status Bar -->
+        <div class="status-bar">
+            <div class="status-group status-left">
+                <div class="status-item"><span class="custom-icon" data-icon="calendar"></span> <span data-i18n="hub.day">DAY</span> <span id="hud-day">1</span></div>
+                <div class="status-item"><span class="custom-icon" data-icon="clock"></span> <span id="hud-time">08:00</span></div>
+            </div>
+            <div class="status-group status-right">
+                <div class="status-item"><span class="custom-icon" data-icon="star"></span> LV.<span id="hud-level">1</span></div>
+                <div class="status-item"><span class="custom-icon" data-icon="money"></span>$<span id="hud-money">5000</span></div>
+            </div>
+        </div>
+        <!-- Reputation Bar -->
+        <div class="rep-bar">
+            <span class="rep-label"><span class="custom-icon" data-icon="star" style="width:10px;height:10px"></span> <span data-i18n="hub.reputation">REPUTATION</span></span>
+            <div class="rep-meter"><div class="rep-fill" id="hud-rep-fill" style="width:50%"></div></div>
+            <span class="rep-value" id="hud-rep">50</span>
+        </div>
+
+        <!-- Hub Scene -->
+        <div class="hub-scene">
+            <div class="hub-building">
+                <div class="hub-sign" data-i18n="hub.eternal_rest">ETERNAL REST</div>
+                <div class="hub-sign" style="font-size: 10px; margin-top: -8px;" data-i18n="hub.funeral_house">FUNERAL HOUSE</div>
+                <div class="hub-desk">
+                    <div class="hub-character" id="hub-player-char"><span class="custom-icon" data-icon="skull" style="width:32px;height:32px"></span></div>
+                    <div class="hub-coffee"><span class="custom-icon" data-icon="cafeteria" style="width:32px;height:32px"></span></div>
+                    <div class="hub-bell"><span class="custom-icon" data-icon="bell" style="width:32px;height:32px"></span></div>
+                </div>
+                <p class="hub-motto" data-i18n="hub.motto">"We care to the end"</p>
+            </div>
+            <!-- Today's Schedule -->
+            <div class="hub-schedule" id="hub-schedule">
+                <h3 data-i18n="hub.schedule">📋 TODAY'S SCHEDULE</h3>
+                <div id="schedule-list" class="schedule-list">
+                    <p class="dim-text" data-i18n="hub.no_appointments">No appointments yet...</p>
+                </div>
+            </div>
+            
+            <!-- Hub Extras (Moved inside) -->
+            <div class="hub-extras">
+                <button id="btn-achievements-hub" class="extra-icon-btn" title="Achievements">
+                     <span class="custom-icon" data-icon="star" style="width:40px;height:40px"></span>
+                     <div id="ach-notification" class="notification-dot" style="display:none"></div>
+                </button>
+                <button id="btn-collection" class="extra-icon-btn" title="Collection">
+                    <img src="assets/ui/collection_box.png" alt="Collection Box">
+                    <div id="col-notification" class="notification-dot" style="display:none"></div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Hub Navigation -->
+        <div class="hub-nav">
+            <div class="nav-btn" data-room="reception" id="nav-reception">
+                <span class="custom-icon" data-icon="reception"></span>
+                <span class="nav-label" data-i18n="nav.reception">Reception</span>
+                <span class="nav-badge" id="badge-reception" style="display:none">!</span>
+            </div>
+            <div class="nav-btn" data-room="embalming" id="nav-embalming">
+                <span class="custom-icon" data-icon="embalming"></span>
+                <span class="nav-label" data-i18n="nav.embalming">Embalming</span>
+                <span class="nav-badge" id="badge-embalming" style="display:none">!</span>
+            </div>
+            <div class="nav-btn locked" id="nav-cafeteria" data-room="cafeteria">
+                <span class="nav-lock">🔒</span>
+                <span class="custom-icon" data-icon="cafeteria"></span>
+                <div class="cafe-order-dot" id="cafe-order-dot" style="display:none"></div>
+                <span class="nav-label" data-i18n="nav.cafeteria">Cafeteria</span>
+                <span class="nav-badge" id="badge-cafeteria" style="display:none">!</span>
+            </div>
+            <div class="nav-btn locked" id="nav-crematorium" data-room="crematorium">
+                <span class="nav-lock">🔒</span>
+                <div class="nav-broken-x" id="nav-crema-broken" style="display:none"></div>
+                <span class="custom-icon" data-icon="crematorium"></span>
+                <div class="nav-temp-bar" id="nav-crema-temp-bar" style="display:none">
+                    <div class="nav-temp-fill" id="nav-crema-temp-fill"></div>
+                </div>
+                <span class="nav-label" data-i18n="nav.crematorium">Cremator.</span>
+                <span class="nav-badge" id="badge-crematorium" style="display:none">!</span>
+            </div>
+            <button class="nav-btn" data-room="viewing" id="nav-viewing">
+                <span class="custom-icon" data-icon="viewing"></span>
+                <span class="nav-label" data-i18n="nav.viewing">Viewing</span>
+                <span class="nav-badge" id="badge-viewing" style="display:none">!</span>
+            </button>
+            <div class="nav-btn locked" id="nav-chapel" data-room="chapel">
+                <span class="nav-lock">🔒</span>
+                <span class="custom-icon" data-icon="chapel"></span>
+                <span class="nav-label" data-i18n="nav.chapel">Chapel</span>
+                <span class="nav-badge" id="badge-chapel" style="display:none">!</span>
+            </div>
+            <div class="nav-btn" data-room="office">
+                <span class="custom-icon" data-icon="office"></span>
+                <span class="nav-label" data-i18n="nav.upgrades">Upgrades</span>
+            </div>
+            <div class="nav-btn" data-room="families">
+                <span class="custom-icon" data-icon="families"></span>
+                <span class="nav-label" data-i18n="nav.families">Families</span>
+            </div>
+        </div>
+
+        <!-- Time Controls -->
+        <div class="time-controls">
+            <button id="btn-pause" class="time-btn"><span class="custom-icon" data-icon="pause"></span></button>
+            <button id="btn-play" class="time-btn active"><span class="custom-icon" data-icon="play"></span></button>
+            <button id="btn-fast" class="time-btn"><span class="custom-icon" data-icon="fast"></span></button>
+        </div>
+    </div>
+
+    <!-- ===== RECEPTION SCREEN ===== -->
+    <div class="screen room-screen" id="reception-screen">
+        <div class="room-header">
+            <button class="back-btn" data-back="hub">◀</button>
+            <h2 data-i18n="rec.title">RECEPTION</h2>
+        </div>
+        <div class="room-status-bar">
+            <span>📅 <span data-i18n="hub.day">DAY</span> <span class="rs-day">1</span></span>
+            <span>🕐 <span class="rs-time">08:00</span></span>
+            <span>💰 $<span class="rs-money">5000</span></span>
+        </div>
+        <div class="room-content">
+            <div class="reception-desk-scene">
+                <div class="reception-sign" data-i18n="hub.eternal_rest">ETERNAL REST</div><div class="reception-sign" style="font-size:12px; margin-top:-5px;" data-i18n="hub.funeral_house">FUNERAL HOUSE</div>
+                <div class="reception-character"><span class="custom-icon" data-icon="skull" style="width:48px;height:48px;"></span></div>
+            </div>
+            <div class="reception-actions">
+                <button class="action-btn" id="btn-new-arrival" style="position:relative">
+                    <span class="custom-icon" data-icon="skull"></span> <span data-i18n="rec.new_arrival">NEW ARRIVAL</span>
+                    <span class="nav-badge" id="badge-arrival" style="display:none">!</span>
+                </button>
+                <button class="action-btn" id="btn-phone-call" style="position:relative">
+                    <span class="custom-icon" data-icon="phone"></span> <span data-i18n="rec.phone">PHONE CALL</span>
+                    <span class="nav-badge" id="badge-phone" style="display:none">!</span>
+                </button>
+                <button class="action-btn" id="btn-paperwork" style="position:relative">
+                    <span class="custom-icon" data-icon="paperwork"></span> <span data-i18n="rec.paperwork">PAPERWORK</span>
+                    <span class="nav-badge" id="badge-paperwork" style="display:none">!</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== EMBALMING SCREEN ===== -->
+    <div id="embalming-screen" class="screen room-screen">
+        <div class="room-header">
+            <button class="back-btn" data-back="hub">◀</button>
+            <h2 data-i18n="emb.title">EMBALMING ROOM</h2>
+            <span class="room-subtitle" data-i18n="emb.subtitle">Preserve dignity.</span>
+        </div>
+        <div class="room-status-bar">
+            <span>📅 <span data-i18n="hub.day">DAY</span> <span class="rs-day">1</span></span>
+            <span>🕐 <span class="rs-time">08:00</span></span>
+            <span>💰 $<span class="rs-money">5000</span></span>
+        </div>
+        <div class="room-content" id="embalming-content">
+            <div class="embalming-body-area">
+                <div class="embalming-table"><span class="custom-icon" data-icon="coffin" style="width:40px;height:40px"></span></div>
+                <div class="embalming-status" id="embalm-status">No body to prepare</div>
+            </div>
+            <div class="embalming-tasks" id="embalm-tasks">
+                <h3 data-i18n="emb.tasks">TASKS</h3>
+                <div class="task-item" data-task="clean"><span class="task-check">☐</span> <span data-i18n="emb.clean">Clean</span></div>
+                <div class="task-item" data-task="treat"><span class="task-check">☐</span> <span data-i18n="emb.treat">Treat</span></div>
+                <div class="task-item" data-task="dress"><span class="task-check">☐</span> <span data-i18n="emb.dress">Dress</span></div>
+                <div class="task-item" data-task="prepare"><span class="task-check">☐</span> <span data-i18n="emb.prepare">Prepare</span></div>
+            </div>
+            <div class="embalming-supplies">
+                <h3 data-i18n="emb.supplies">SUPPLIES</h3>
+                <div class="supply-grid" id="supply-grid">
+                    <div class="supply-item"><span class="custom-icon" data-icon="embalming"></span> <span data-i18n="shop.formaldehyde">Formaldehyde</span>: <span id="supply-formal">10</span></div>
+                    <div class="supply-item"><span class="custom-icon" data-icon="water"></span> <span data-i18n="shop.humectant">Humectant</span>: <span id="supply-humect">8</span></div>
+                    <div class="supply-item"><span class="custom-icon" data-icon="flowers"></span> <span data-i18n="shop.dye">Dye</span>: <span id="supply-dye">6</span></div>
+                    <div class="supply-item"><span class="custom-icon" data-icon="cross"></span> <span data-i18n="shop.outfit">Outfits</span>: <span id="supply-outfits">4</span></div>
+                </div>
+                <button class="action-btn" id="btn-buy-supplies" data-i18n="emb.buy">🛒 BUY SUPPLIES</button>
+            </div>
+            <div class="embalming-quality">
+                <h3 data-i18n="emb.quality">QUALITY</h3>
+                <div class="quality-bar"><div class="quality-fill" id="embalm-quality-fill"></div></div>
+                <span id="embalm-quality-text">—</span>
+            </div>
+            <button class="action-btn pink-btn" id="btn-embalm-roll" style="display:none"><span class="custom-icon" data-icon="d20"></span> <span data-i18n="emb.roll">ROLL D20 — EMBALM!</span></button>
+        </div>
+    </div>
+
+    <!-- ===== CAFETERIA SCREEN ===== -->
+    <div id="cafeteria-screen" class="screen room-screen">
+        <div class="room-header">
+            <button class="back-btn" data-back="hub">◀</button>
+            <h2 data-i18n="cafe.title">CAFETERIA</h2>
+            <span class="room-subtitle" data-i18n="cafe.subtitle">For the living, too.</span>
+        </div>
+        <div class="room-status-bar">
+            <span>📅 <span data-i18n="hub.day">DAY</span> <span class="rs-day">1</span></span>
+            <span>🕐 <span class="rs-time">08:00</span></span>
+            <span>💰 $<span class="rs-money">5000</span></span>
+        </div>
+        <div class="room-content" id="cafeteria-content">
+            <div class="cafe-menu-board">
+                <h3 data-i18n="cafe.menu">☕ DEADLY GOOD MENU</h3>
+                <div class="menu-items">
+                    <div>Coffee.........$2</div>
+                    <div>Tea............$2</div>
+                    <div>Sandwich.......$4</div>
+                    <div>Soul Cake......$5</div>
+                </div>
+            </div>
+            <div class="cafe-orders" id="cafe-orders">
+                <h3 data-i18n="cafe.orders">📝 ORDERS</h3>
+                <div id="cafe-order-list"><p class="dim-text" data-i18n="cafe.no_orders_yet">No orders yet</p></div>
+            </div>
+            <div class="cafe-satisfaction">
+                <h3 data-i18n="cafe.satisfaction">😊 SATISFACTION</h3>
+                <div class="satisfaction-bar"><div class="satisfaction-fill" id="cafe-sat-fill" style="width:100%"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== CREMATORIUM SCREEN ===== -->
+    <div id="crematorium-screen" class="screen room-screen">
+        <div class="room-header">
+            <button class="back-btn" data-back="hub">◀</button>
+            <h2 data-i18n="crema.title">CREMATORIUM</h2>
+            <span class="room-subtitle" data-i18n="crema.subtitle">Reduction to essentials.</span>
+        </div>
+        <div class="room-status-bar">
+            <span>📅 <span data-i18n="hub.day">DAY</span> <span class="rs-day">1</span></span>
+            <span>🕐 <span class="rs-time">08:00</span></span>
+            <span>💰 $<span class="rs-money">5000</span></span>
+        </div>
+        <div class="room-content" id="crematorium-content">
+            <div class="crema-furnace">
+                <div class="furnace-visual" id="furnace-visual">
+                    <div class="furnace-fire" id="furnace-fire"></div>
+                </div>
+            </div>
+            <div class="crema-stats">
+                <div class="crema-stat">
+                    <span data-i18n="crema.temp">🌡️ TEMPERATURE</span>
+                    <span class="stat-value" id="crema-temp">20°C</span>
+                </div>
+                <div class="crema-stat">
+                    <span data-i18n="crema.fuel">⛽ FUEL</span>
+                    <div class="fuel-bar"><div class="fuel-fill" id="crema-fuel-fill" style="width:0%"></div></div>
+                    <span class="stat-value" id="crema-fuel">0/10</span>
+                </div>
+                <div class="crema-stat">
+                    <span data-i18n="crema.efficiency">📊 EFFICIENCY</span>
+                    <span class="stat-value" id="crema-efficiency">—</span>
+                </div>
+            </div>
+            <div class="crema-schedule" id="crema-schedule">
+                <h3 data-i18n="crema.schedule">TODAY'S SCHEDULE</h3>
+                <div id="crema-schedule-list"><p class="dim-text" data-i18n="crema.no_scheduled">No cremations scheduled</p></div>
+            </div>
+            <div class="crema-controls">
+                <button class="action-btn" id="btn-add-fuel" data-i18n="crema.add_fuel">⛽ ADD FUEL ($50)</button>
+                <button class="action-btn pink-btn" id="btn-ignite" data-i18n="crema.ignite">🔥 IGNITE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== VIEWING ROOM SCREEN ===== -->
+    <div id="viewing-screen" class="screen room-screen">
+        <div class="room-header">
+            <button class="back-btn" data-back="hub">◀</button>
+            <h2 data-i18n="view.title">VIEWING ROOM</h2>
+            <span class="room-subtitle" data-i18n="view.subtitle">A final goodbye.</span>
+        </div>
+        <div class="room-status-bar">
+            <span>📅 <span data-i18n="hub.day">DAY</span> <span class="rs-day">1</span></span>
+            <span>🕐 <span class="rs-time">08:00</span></span>
+            <span>💰 $<span class="rs-money">5000</span></span>
+        </div>
+        <div class="room-content" id="viewing-content">
+            <div class="viewing-family-mood">
+                <h3 data-i18n="view.mood">👨‍👩‍👧 FAMILY MOOD</h3>
+                <div class="mood-bar"><div class="mood-fill" id="view-mood-fill" style="width:65%"></div></div>
+                <span id="view-mood-val">65%</span>
+            </div>
+            <div class="viewing-requests" id="viewing-requests">
+                <h3 data-i18n="view.requests">📋 REQUESTS</h3>
+                <div id="view-request-list"><p class="dim-text" data-i18n="view.no_active">No active viewing</p></div>
+            </div>
+            <div class="viewing-controls" id="viewing-controls" style="display:none">
+                <button class="action-btn pink-btn" id="btn-view-body"><span class="custom-icon" data-icon="viewing"></span> <span data-i18n="view.show_body">SHOW BODY</span></button>
+                <button class="action-btn pink-btn" id="btn-view-water"><span class="custom-icon" data-icon="water"></span> <span data-i18n="view.water">BRING WATER</span></button>
+                <button class="action-btn pink-btn" id="btn-view-temp"><span class="custom-icon" data-icon="ac"></span> <span data-i18n="view.temp">ADJUST TEMP</span></button>
+                <button class="action-btn pink-btn" id="btn-view-firstaid"><span class="custom-icon" data-icon="firstaid"></span> <span data-i18n="view.firstaid">FIRST AID</span></button>
+                <button class="action-btn pink-btn" id="btn-view-privacy" style="display:none"><span class="custom-icon" data-icon="hub"></span> <span data-i18n="view.leave_alone">LEAVE ALONE</span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== CHAPEL SCREEN ===== -->
+    <div id="chapel-screen" class="screen room-screen">
+        <div class="room-header">
+            <button class="back-btn" data-back="hub">◀</button>
+            <h2 data-i18n="chapel.title">THE CHAPEL</h2>
+            <span class="room-subtitle" data-i18n="chapel.subtitle">Faith. Ritual. Comfort.</span>
+        </div>
+        <div class="room-status-bar">
+            <span>📅 <span data-i18n="hub.day">DAY</span> <span class="rs-day">1</span></span>
+            <span>🕐 <span class="rs-time">08:00</span></span>
+            <span>💰 $<span class="rs-money">5000</span></span>
+        </div>
+        <div class="room-content" id="chapel-content">
+            <div class="chapel-orator">
+                <div class="orator-avatar"><span class="custom-icon" data-icon="music" style="width:40px;height:40px"></span></div>
+                <div class="orator-name" data-i18n="chapel.ivan">Iván — The Orator</div>
+                <div class="orator-speech" id="ivan-speech">"I'm here whenever you need me. Death waits for no one, but I do."</div>
+            </div>
+            <div class="chapel-service" id="chapel-service-area">
+                <h3 data-i18n="chapel.service">🕯️ SERVICE TYPE</h3>
+                <div id="chapel-service-info"><p class="dim-text" data-i18n="chapel.no_service">No service scheduled</p></div>
+            </div>
+            <div class="chapel-sermon-select" id="chapel-sermon-select" style="display:none">
+                <h3 data-i18n="chapel.select_sermon">📜 SELECT SERMON</h3>
+                <div id="sermon-options"></div>
+            </div>
+            <div class="chapel-comfort">
+                <span data-i18n="chapel.comfort">COMFORT</span>
+                <div class="comfort-bar"><div class="comfort-fill" id="chapel-comfort-fill" style="width:78%"></div></div>
+                <span id="chapel-comfort-val">78%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== OFFICE SCREEN ===== -->
+    <div id="office-screen" class="screen room-screen">
+        <div class="room-header">
+            <button class="back-btn" data-back="hub">◀</button>
+            <h2 data-i18n="office.title">UPGRADES</h2>
+            <span class="room-subtitle" data-i18n="office.subtitle">Invest in death.</span>
+        </div>
+        <div class="room-status-bar">
+            <span>📅 <span data-i18n="hub.day">DAY</span> <span class="rs-day">1</span></span>
+            <span>🕐 <span class="rs-time">08:00</span></span>
+            <span>💰 $<span class="rs-money">5000</span></span>
+        </div>
+        <div class="room-content" id="office-content">
+            <div class="upgrades-list" id="upgrades-list"></div>
+        </div>
+    </div>
+
+    <!-- ===== FAMILIES LOG SCREEN ===== -->
+    <div id="families-screen" class="screen room-screen">
+        <div class="room-header">
+            <button class="back-btn" data-back="hub">◀</button>
+            <h2 data-i18n="fam.title">FAMILIES LOG</h2>
+            <span class="room-subtitle" data-i18n="fam.subtitle">Those we've served.</span>
+        </div>
+        <div class="room-status-bar">
+            <span>📅 <span data-i18n="hub.day">DAY</span> <span class="rs-day">1</span></span>
+            <span>🕐 <span class="rs-time">08:00</span></span>
+            <span>💰 $<span class="rs-money">5000</span></span>
+        </div>
+        <div class="room-content" id="families-content">
+            <div id="families-list" class="families-list">
+                <p class="dim-text" data-i18n="fam.no_families">No families yet. Death takes a day off?</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ACHIEVEMENTS SCREEN ===== -->
+    <div id="achievements-screen" class="screen room-screen">
+        <div class="room-header">
+            <h2 data-i18n="ach.title">MACABRE ACHIEVEMENTS</h2>
+            <span class="room-subtitle" data-i18n="ach.subtitle">Your legacy in the trade.</span>
+        </div>
+        <div class="room-status-bar ach-status-bar" style="display:none">
+            <span>📅 <span data-i18n="hub.day">DAY</span> <span class="rs-day">1</span></span>
+            <span>🕐 <span class="rs-time">08:00</span></span>
+            <span>💰 $<span class="rs-money">5000</span></span>
+        </div>
+        <div class="room-content" id="achievements-content">
+            <div id="achievements-list" class="achievements-list">
+                <!-- Achievements will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== GAME OVER SCREEN ===== -->
+    <div id="gameover-screen" class="screen">
+        <div class="screen-panel centered-panel">
+            <h2 id="gameover-title" data-i18n="go.title">GAME OVER</h2>
+            <div class="gameover-skull"><span class="custom-icon" data-icon="skull" style="width:80px;height:80px"></span></div>
+            <p class="vt-text" id="gameover-reason"></p>
+            <div class="gameover-stats" id="gameover-stats"></div>
+            <p class="title-quote" id="gameover-quote"></p>
+            <div id="gameover-share"></div>
+            <button class="pixel-btn pink-btn" id="btn-restart" style="margin-top:20px"><span data-i18n="go.try_again">TRY AGAIN</span> <span class="custom-icon" data-icon="skull" style="width:12px;height:12px"></span></button>
+        </div>
+    </div>
+
+    <!-- ===== OVERLAYS ===== -->
+    <!-- Dialogue Overlay -->
+    <div id="dialogue-overlay" class="overlay" style="display:none">
+        <div class="dialogue-box">
+            <img src="assets/ui/Masterpj.png" id="dlg-reaper" class="reaper-dialogue" alt="Tutorial Reaper">
+            <div id="dlg-satisfaction-container" class="dlg-sat-container" style="display:none">
+                <div class="dlg-sat-label" data-i18n="view.mood">FAMILY SATISFACTION</div>
+                <div class="dlg-sat-bar"><div id="dlg-sat-fill" class="dlg-sat-fill" style="width:50%"></div></div>
+                <div id="dlg-sat-value" class="dlg-sat-value">50%</div>
+            </div>
+            <div class="dialogue-speaker" id="dlg-speaker"></div>
+            <div class="dialogue-text" id="dlg-text"></div>
+            <div class="dialogue-choices" id="dlg-choices"></div>
+        </div>
+    </div>
+
+    <!-- D20 Dice Overlay -->
+    <div id="dice-overlay" class="overlay" style="display:none">
+        <div class="dice-box">
+            <div class="d20" id="d20-die">
+                <span id="d20-value">?</span>
+            </div>
+            <div class="dice-result" id="dice-result"></div>
+            <button class="pixel-btn pink-btn" id="btn-dice-roll"><span class="custom-icon" data-icon="d20" style="width:12px;height:12px"></span> <span data-i18n="ov.roll">ROLL!</span></button>
+            <button class="pixel-btn" id="btn-dice-close" style="display:none">OK</button>
+        </div>
+    </div>
+
+    <!-- Dice VFX flash layer -->
+    <div id="dice-flash"></div>
+
+    <!-- Family Completion Summary Overlay -->
+    <div id="completion-overlay" class="overlay" style="display:none">
+        <div class="completion-panel">
+            <h2 id="comp-title" data-i18n="ov.service_complete">☠ SERVICE COMPLETE</h2>
+            <div id="comp-body" class="comp-body"></div>
+            <button class="pixel-btn pink-btn" id="btn-comp-dismiss" data-i18n="ov.dismiss">DISMISS</button>
+        </div>
+    </div>
+
+    <!-- Supplies Shop Overlay -->
+    <div id="supplies-overlay" class="overlay" style="display:none">
+        <div class="supplies-shop">
+            <h2 class="shop-title" data-i18n="ov.shop_title">🛒 SUPPLY MARKET</h2>
+            <p class="shop-subtitle" id="shop-subtitle" data-i18n="ov.shop_subtitle">Prices fluctuate daily. Buy wisely.</p>
+            <div id="shop-items" class="shop-items"></div>
+            <div class="shop-footer">
+                <div class="shop-total">TOTAL: $<span id="shop-total">0</span></div>
+                <div class="shop-actions">
+                    <button class="pixel-btn" id="btn-shop-cancel" data-i18n="ov.shop_cancel">CANCEL</button>
+                    <button class="pixel-btn pink-btn" id="btn-shop-buy" data-i18n="ov.shop_buy">BUY ALL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Credits Overlay -->
+    <div id="credits-overlay" class="overlay" style="display:none">
+        <div class="screen-panel centered-panel">
+            <h2 data-i18n="credits.title">♱ CREDITS</h2>
+            <p class="vt-text">THANATOPRACTOR</p>
+            <p class="vt-text dim" data-i18n="credits.desc">A game about death, paperwork, and terrible coffee.</p>
+            <p class="vt-text" data-i18n="credits.design">Game Design & Concept: K. Arlón</p>
+            <p class="vt-text" data-i18n="credits.orator">Orator: Iván (he insisted)</p>
+            <p class="vt-text dim" data-i18n="credits.quote">"Life is temporary. Paperwork is eternal."</p>
+            <button class="pixel-btn" id="btn-close-credits" data-i18n="credits.back">BACK</button>
+        </div>
+    </div>
+
+    <!-- Menu Toggle -->
+    <button class="menu-toggle" id="btn-main-menu">
+        <span class="custom-icon" data-icon="menu"></span>
+    </button>
+
+    <!-- Audio Toggle -->
+    <button id="audio-toggle" class="audio-toggle" title="Toggle audio"></button>
+
+    <!-- Global Back Button -->
+    <button id="btn-global-back" class="global-back-btn" title="Back" style="display:none"></button>
+
+    <!-- Level Up Overlay -->
+    <div id="levelup-overlay" class="overlay" style="display:none">
+        <div class="levelup-panel">
+            <div class="levelup-glow"></div>
+            <h2 data-i18n="ov.level_up">NEW RANK ACHIEVED!</h2>
+            <div class="levelup-content">
+                <div class="levelup-rank">
+                    <div class="levelup-icon-container">
+                        <span class="custom-icon" data-icon="star" style="width:64px;height:64px"></span>
+                    </div>
+                    <div id="lvl-up-num">LEVEL 2</div>
+                </div>
+                <div class="levelup-reward">
+                    <span data-i18n="ov.reward">REWARD:</span> <span id="lvl-up-reward" class="gold">+$10,000</span>
+                </div>
+                <p class="levelup-quote" id="lvl-up-quote">"One level closer to being the one on the table."</p>
+            </div>
+            <button class="pixel-btn pink-btn" id="btn-lvl-up-dismiss" data-i18n="ov.dismiss">CONTINUE</button>
+        </div>
+    </div>
+
+    <!-- Cafeteria Mini-game Overlay -->
+    <div id="cafe-game-overlay" class="overlay" style="display:none">
+        <div class="cafe-game-panel">
+            <h2 id="cafe-game-title">PREPARING...</h2>
+            <div id="cafe-game-tutorial" class="cafe-tutorial"></div>
+            <div id="cafe-game-container">
+                <!-- Content injected via JS -->
+            </div>
+            <div id="cafe-game-feedback" class="cafe-feedback"></div>
+            <div class="cafe-game-controls" id="cafe-game-controls">
+                <!-- Action buttons injected via JS -->
+            </div>
+            <div id="cafe-abort-container" style="display: flex; justify-content: center; margin-top: 10px;">
+                <button class="action-btn pink-btn small-btn" id="btn-cafe-game-abort">✕</button>
+            </div>
+            <button class="action-btn pink-btn" id="btn-cafe-game-close" style="display:none; margin-top: 15px;" data-i18n="ov.dismiss">CONTINUE</button>
+        </div>
+    </div>
+
+    <!-- Scripts (loaded in dependency order) -->
+    <!-- Day Transition Overlay -->
+    <div id="day-transition-overlay" class="overlay" style="background: black; z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center;">
+        <div id="day-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #bc4a9c; font-size: 32px; font-family: 'Press Start 2P', cursive; text-align: center; transition: top 1.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 10002;">
+            DAY 1
+        </div>
+        <div id="newspaper-container" style="display: none; flex-direction: column; align-items: center; margin-top: 60px;">
+            <img id="newspaper-img" src="assets/ui/newspaper.png" alt="Newspaper" style="width: 220px; height: auto; image-rendering: pixelated; border: 4px solid #fff;">
+            <button id="btn-news-open" class="pixel-btn pink-btn" style="margin-top: 30px; font-size: 16px;">
+                <span data-i18n="hub.news_btn">NOTICIAS DEL DÍA</span>
+            </button>
+        </div>
+        <!-- News Modal (Popup) -->
+        <div id="news-modal" class="overlay" style="display: none; background: rgba(0,0,0,0.9); z-index: 10001;">
+             <div class="screen-panel centered-panel" style="max-width: 400px; text-align: center; border-color: #bc4a9c;">
+                 <h2 data-i18n="hub.news_title" style="color: #bc4a9c; margin-bottom: 20px;">EL CLARÍN DE LA TUMBA</h2>
+                 <div style="background: #222; padding: 20px; border: 2px solid #444; margin-bottom: 20px;">
+                    <p id="news-content-text" class="vt-text" style="font-size: 20px; line-height: 1.4; color: #eee;"></p>
+                    <p id="news-effect-text" style="color: #ffcc00; font-size: 16px; margin-top: 15px; font-weight: bold; border-top: 1px dashed #444; padding-top: 10px; display: none;"></p>
+                 </div>
+                 <button id="btn-news-ok" class="pixel-btn pink-btn">OK</button>
+             </div>
+        </div>
+    </div>
+
+    <script src="js/i18n.js?v=7"></script>
+    <script src="js/lang_en.js?v=7"></script>
+    <script src="js/lang_es.js?v=7"></script>
+    <script src="js/icons.js?v=7"></script>
+    <script src="js/data.js?v=7"></script>
+    <script src="js/data_es.js?v=7"></script>
+    <script src="js/audio.js?v=7"></script>
+    <script src="js/cafe_games.js?v=7"></script>
+    <script src="js/engine.js?v=7"></script>
+    <script src="js/families.js?v=7"></script>
+    <script src="js/dialogue.js?v=7"></script>
+    <script src="js/rooms.js?v=7"></script>
+    <script src="js/main.js?v=7"></script>
+    <!-- Collection Overlay -->
+    <div id="collection-overlay" class="overlay" style="display:none">
+        <div class="levelup-panel collection-panel" style="max-width: 500px; max-height: 90vh; overflow-y: auto;">
+            <h2 data-i18n="col.title">LOST & FOUND</h2>
+            <div class="collection-grid" id="collection-grid">
+                <!-- Items will be injected here -->
+            </div>
+            <button class="action-btn" id="btn-collection-close" data-i18n="ov.dismiss">CLOSE</button>
+        </div>
+    </div>
+
+</body>
+</html>

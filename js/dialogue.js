@@ -132,8 +132,9 @@ const Dialogue = (() => {
             }
 
             // Always re-fetch from live DATA so language is always current
+            const sourceData = (typeof DATA_ES !== 'undefined' && I18n.getLanguage() === 'es') ? DATA_ES : DATA;
             const id = selectedIds[currentStep];
-            const scenario = DATA.interviewScenarios.find(s => s.id === id);
+            const scenario = sourceData.interviewScenarios.find(s => s.id === id);
             currentStep++;
 
             if (!scenario) { nextStep(); return; }
@@ -154,7 +155,8 @@ const Dialogue = (() => {
                             Engine.rollD20(0, (roll, total) => {
                                 const success = total >= randomDC;
                                 // Re-fetch result text from live DATA at the time of display
-                                const liveScenario = DATA.interviewScenarios.find(s => s.id === id);
+                                const liveSourceData = (typeof DATA_ES !== 'undefined' && I18n.getLanguage() === 'es') ? DATA_ES : DATA;
+                                const liveScenario = liveSourceData.interviewScenarios.find(s => s.id === id);
                                 const liveC = liveScenario ? liveScenario.choices.find(ch => ch.roll === c.roll) : null;
                                 const result = success
                                     ? (liveC || c).success
@@ -241,8 +243,9 @@ const Dialogue = (() => {
     // ===== ARRIVAL SEQUENCE =====
     function playArrivalSequence(family) {
         // Always fetch from live DATA (may have been swapped to current language)
+        const sourceData = (typeof DATA_ES !== 'undefined' && I18n.getLanguage() === 'es') ? DATA_ES : DATA;
         const moodId = family.mood ? family.mood.id : 'crying';
-        const moodPool = DATA.arrivalDialogues[moodId] || DATA.arrivalDialogues['crying'];
+        const moodPool = sourceData.arrivalDialogues[moodId] || sourceData.arrivalDialogues['crying'];
         const dialogue = moodPool[Math.floor(Math.random() * moodPool.length)];
 
         const relations = ['father', 'mother', 'uncle', 'aunt', 'grandmother', 'grandfather', 'cousin', 'spouse', 'friend'];
@@ -266,7 +269,8 @@ const Dialogue = (() => {
                         Engine.rollD20(0, (roll, total) => {
                             const success = total >= targetDC;
                             // Re-read result texts from live DATA at toast time
-                            const liveMoodPool = DATA.arrivalDialogues[moodId] || DATA.arrivalDialogues['crying'];
+                            const liveSourceData = (typeof DATA_ES !== 'undefined' && I18n.getLanguage() === 'es') ? DATA_ES : DATA;
+                            const liveMoodPool = liveSourceData.arrivalDialogues[moodId] || liveSourceData.arrivalDialogues['crying'];
                             const liveDialogue = liveMoodPool[moodPool.indexOf(dialogue)] || liveMoodPool[0];
                             const liveC = liveDialogue ? liveDialogue.choices.find(ch => (ch.roll || ch.dc) === (c.roll || c.dc)) : null;
                             if (success) {

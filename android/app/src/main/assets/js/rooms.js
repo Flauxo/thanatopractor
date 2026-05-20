@@ -1090,7 +1090,8 @@ const Rooms = (() => {
             reqList.innerHTML = `<p class="dim-text">${I18n.T('view.all_fulfilled')}</p>`;
         } else {
             reqList.innerHTML = viewingFamily.activeRequests.map(type => {
-                const r = DATA.viewingRequests.find(req => req.type === type);
+                const sourceData = (typeof DATA_ES !== 'undefined' && I18n.getLanguage() === 'es') ? DATA_ES : DATA;
+                const r = sourceData.viewingRequests.find(req => req.type === type);
                 if (!r) return '';
                 return `<div class="action-btn" style="pointer-events:none">${Icons.getHTML(r.icon)} ${r.text.replace('{name}', viewingFamily.deceasedName)}</div>`;
             }).join('');
@@ -1100,7 +1101,8 @@ const Rooms = (() => {
     function showBody() {
         if (!viewingFamily) return;
         const q = viewingFamily.embalmQuality || 'mediocre';
-        const reactions = DATA.viewingBodyReactions[q] || DATA.viewingBodyReactions.mediocre;
+        const sourceData = (typeof DATA_ES !== 'undefined' && I18n.getLanguage() === 'es') ? DATA_ES : DATA;
+        const reactions = sourceData.viewingBodyReactions[q] || sourceData.viewingBodyReactions.mediocre;
         const reaction = reactions[Math.floor(Math.random() * reactions.length)].replace('{name}', viewingFamily.deceasedName);
 
         const satMap = { excellent: 15, good: 8, mediocre: 0, bad: -20, catastrophic: -35 };
@@ -1147,7 +1149,8 @@ const Rooms = (() => {
             ], null, { showReaper: true });
         }
 
-        const ivanQuote = DATA.ivanQuotes[Math.floor(Math.random() * DATA.ivanQuotes.length)];
+        const sourceData = (typeof DATA_ES !== 'undefined' && I18n.getLanguage() === 'es') ? DATA_ES : DATA;
+        const ivanQuote = sourceData.ivanQuotes[Math.floor(Math.random() * sourceData.ivanQuotes.length)];
         document.getElementById('ivan-speech').textContent = ivanQuote;
 
         const active = Families.getActive().filter(f => f.embalmed && f.wantsChapel && !f.chapelDone && (f.viewed || f.cooldownDone));

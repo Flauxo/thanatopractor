@@ -1339,17 +1339,26 @@ const DATA_ES = {
 // Store original EN data
 let DATA_EN = null;
 
-// Hot-swap script
-document.addEventListener('languageChanged', (e) => {
+function _applyDataLanguage(lang) {
     if (!DATA_EN) DATA_EN = JSON.parse(JSON.stringify(DATA));
-    
-    const lang = e.detail;
     const source = lang === 'es' ? DATA_ES : DATA_EN;
-    
     // Replace all text fields in DATA with the ones from source
     for (const key in source) {
         if (DATA[key] !== undefined) {
             DATA[key] = source[key];
         }
     }
+}
+
+// Hot-swap on language change event
+document.addEventListener('languageChanged', (e) => {
+    _applyDataLanguage(e.detail);
 });
+
+// Apply immediately when script loads if a language is already saved
+(function() {
+    try {
+        const savedLang = localStorage.getItem('thanatopractor_lang');
+        if (savedLang) _applyDataLanguage(savedLang);
+    } catch(e) {}
+})();

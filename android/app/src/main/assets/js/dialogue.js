@@ -109,21 +109,18 @@ const Dialogue = (() => {
             state.interviewPool = [];
         }
 
-        let selectedScenarios = [];
+        let selectedIds = [];
         for (let i = 0; i < steps; i++) {
             if (state.interviewPool.length === 0) {
                 // Replenish the pool with all scenarios, excluding those already selected in this interview
                 let allIds = DATA.interviewScenarios.map(s => s.id);
-                allIds = allIds.filter(id => !selectedScenarios.some(s => s.id === id));
+                allIds = allIds.filter(id => !selectedIds.includes(id));
                 // Shuffle
                 allIds.sort(() => 0.5 - Math.random());
                 state.interviewPool = allIds;
             }
             const id = state.interviewPool.pop();
-            const scenario = DATA.interviewScenarios.find(s => s.id === id);
-            if (scenario) {
-                selectedScenarios.push(scenario);
-            }
+            if (id) selectedIds.push(id);
         }
 
         const portraitOptions = { showReaper: true, imgSrc: `assets/ui/fam0${family.photoIndex}.png` };
@@ -134,11 +131,15 @@ const Dialogue = (() => {
                 return;
             }
 
-            const scenario = selectedScenarios[currentStep];
+            // Always re-fetch from live DATA so language is always current
+            const id = selectedIds[currentStep];
+            const scenario = DATA.interviewScenarios.find(s => s.id === id);
             currentStep++;
 
+            if (!scenario) { nextStep(); return; }
+
             const choices = scenario.choices.map(c => {
-                let text = c.text;
+                let text = c.textKey ? I18n.T(c.textKey) : c.text;
                 if (c.roll) {
                     const skills = I18n.T('dlg.skills') || ['Habilidad'];
                     const randomSkill = skills[Math.floor(Math.random() * skills.length)];
@@ -152,7 +153,12 @@ const Dialogue = (() => {
                             const randomDC = Math.max(5, Math.min(20, c.roll + (Math.floor(Math.random() * 7) - 3)));
                             Engine.rollD20(0, (roll, total) => {
                                 const success = total >= randomDC;
-                                const result = success ? c.success : c.fail;
+                                // Re-fetch result text from live DATA at the time of display
+                                const liveScenario = DATA.interviewScenarios.find(s => s.id === id);
+                                const liveC = liveScenario ? liveScenario.choices.find(ch => ch.roll === c.roll) : null;
+                                const result = success
+                                    ? (liveC || c).success
+                                    : (liveC || c).fail;
                                 satisfaction = Math.max(0, Math.min(100, satisfaction + result.sat));
                                 enqueue(I18n.T('dlg.interview_title'), result.text, null, nextStep, { 
                                     ...portraitOptions, 
@@ -170,7 +176,8 @@ const Dialogue = (() => {
 
             shuffle(choices);
 
-            enqueue(I18n.T('dlg.interview_title'), scenario.text, choices, null, { 
+            const scenarioText = scenario.textKey ? I18n.T(scenario.textKey) : scenario.text;
+            enqueue(I18n.T('dlg.interview_title'), scenarioText, choices, null, { 
                 ...portraitOptions, 
                 showSatBar: true, 
                 currentSat: satisfaction 

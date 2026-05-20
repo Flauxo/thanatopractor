@@ -124,7 +124,7 @@ const Rooms = (() => {
                     }
                 }},
                 { text: I18n.T('rec.nevermind'), action: () => {} }
-            ];
+            );
 
             // Only show flower ordering when requested by a family in viewing
             const hasFlowerRequest = s.families.some(f => 

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        window.onerror = function(message, source, lineno, colno, error) {
+            console.log("ERROR: " + message + " at " + source + ":" + lineno + ":" + colno);
+            document.body.innerHTML += "ERROR: " + message + " at " + lineno + ":" + colno + "<br>";
+        };
+    </script>
+    <script src="js/data_v11.js"></script>
+    <script src="js/data_es_v11.js"></script>
+</head>
+<body>
+    <h1>Syntax Check</h1>
+    <script>
+        if (typeof DATA_ES !== 'undefined') {
+            document.body.innerHTML += "DATA_ES loaded successfully!<br>";
+        } else {
+            document.body.innerHTML += "DATA_ES is undefined!<br>";
+        }
+    </script>
+</body>
+</html>

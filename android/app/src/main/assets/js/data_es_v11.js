@@ -742,7 +742,7 @@ const DATA_ES = {
             text: "Parecen agotados. Iván, el orador, susurra: 'Véndeles el café caro'.",
             choices: [
                 { text: "Ofrecer muestras gratuitas de café artesanal.", sat: 15 },
-                { text: "Intentar vender el espresso 'Tueste de Duelo' ($5).", roll: 12, success: { text: "¡Les encanta!", sat: 25 }, fail: { text: "Les parece insensible.", sat: -10 } },
+                { text: "Intentar vender el espresso 'Tueste de Duelo' ($5).", roll: 12, success: { text: "¡Les encanta!", sat: 25 }, fail: { text: "Les parece insensible.", sat: -10 } } },
                 { text: "Mencionar que nuestro café es mejor que el de la competencia.", sat: 5 }
             ]
         },
@@ -751,7 +751,7 @@ const DATA_ES = {
             text: "Surge el tema de la incineración. ¿Cómo lo manejas?",
             choices: [
                 { text: "Explicar que es 'Ecológico y eficiente'.", sat: 10 },
-                { text: "Describir la 'Hermosa transformación a través del fuego'.", roll: 14, success: { text: "¡Muy poético!", sat: 20 }, fail: { text: "Demasiado gráfico...", sat: -15 } },
+                { text: "Describir la 'Hermosa transformación a través del fuego'.", roll: 14, success: { text: "¡Muy poético!", sat: 20 }, fail: { text: "Demasiado gráfico...", sat: -15 } } },
                 { text: "Mencionar que es la opción más barata que tenemos.", sat: -10 }
             ]
         },
@@ -760,7 +760,7 @@ const DATA_ES = {
             text: "Accidentalmente llamas al hijo por el nombre del difunto.",
             choices: [
                 { text: "Pedir disculpas rápidamente y culpar al papeleo.", sat: -5 },
-                { text: "Intentar disimular: '¡Tiene sus mismos ojos nobles!'", roll: 10, success: { text: "Se sienten conmovidos.", sat: 15 }, fail: { text: "Se sienten extrañados.", sat: -20 } },
+                { text: "Intentar disimular: '¡Tiene sus mismos ojos nobles!'", roll: 10, success: { text: "Se sienten conmovidos.", sat: 15 }, fail: { text: "Se sienten extrañados.", sat: -20 } } },
                 { text: "Insistir en que tienes razón y ellos se equivocan.", sat: -40 }
             ]
         },
@@ -778,7 +778,7 @@ const DATA_ES = {
             text: "Has encontrado un diente de oro durante la preparación. ¿Lo mencionas?",
             choices: [
                 { text: "Devolverlo discretamente en una bolsa de terciopelo.", sat: 30 },
-                { text: "Decirles que se 'perdió en el proceso' (quedártelo).", roll: 15, success: { text: "Te creen. +$200 más tarde.", sat: 0 }, fail: { text: "¡Te han pillado!", sat: -40 } },
+                { text: "Decirles que se 'perdió en el proceso' (quedártelo).", roll: 15, success: { text: "Te creen. +$200 más tarde.", sat: 0 }, fail: { text: "¡Te han pillado!", sat: -40 } } },
                 { text: "Preguntar si quieren pagar el funeral con él.", sat: -20 }
             ]
         },
@@ -787,7 +787,7 @@ const DATA_ES = {
             text: "Iván, el orador, entra con una camiseta que dice 'Amo los Cementerios'.",
             choices: [
                 { text: "Pedir disculpas y decir que es nuestro 'viernes informal'.", sat: -5 },
-                { text: "Explicar que es una marca irónica de alta costura.", roll: 13, success: { text: "Creen que estás a la moda.", sat: 15 }, fail: { text: "Les parece irrespetuoso.", sat: -15 } },
+                { text: "Explicar que es una marca irónica de alta costura.", roll: 13, success: { text: "Creen que estás a la moda.", sat: 15 }, fail: { text: "Les parece irrespetuoso.", sat: -15 } } },
                 { text: "Obligar a Iván a cambiarse por una bolsa de basura.", sat: 10 }
             ]
         },
@@ -804,7 +804,7 @@ const DATA_ES = {
             id: "ghost_insurance",
             text: "Están aterrorizados por las apariciones. ¿Seguro de fantasmas?",
             choices: [
-                { text: "Ofrecer la póliza 'Protección Espectral' ($100).", roll: 14, success: { text: "¡Vendido! Se sienten más seguros.", sat: 20 }, fail: { text: "Creen que eres un estafador.", sat: -25 } },
+                { text: "Ofrecer la póliza 'Protección Espectral' ($100).", roll: 14, success: { text: "¡Vendido! Se sienten más seguros.", sat: 20 }, fail: { text: "Creen que eres un estafador.", sat: -25 } } },
                 { text: "Explicar que nuestras paredes están 'a prueba de ectoplasma'.", sat: 5 },
                 { text: "Decirles que los fantasmas solo asustan a gente 'aburrida'.", sat: -30 }
             ]
@@ -823,7 +823,7 @@ const DATA_ES = {
             text: "Te das cuenta de que la urna que sostienes tiene un poco de polvo.",
             choices: [
                 { text: "Pulirla delante de ellos con tu propia corbata.", sat: 5 },
-                { text: "Fingir que es 'Polvo de Bendición Ancestral'.", roll: 16, success: { text: "Se quedan asombrados.", sat: 25 }, fail: { text: "Eso es simplemente asqueroso.", sat: -30 } },
+                { text: "Fingir que es 'Polvo de Bendición Ancestral'.", roll: 16, success: { text: "Se quedan asombrados.", sat: 25 }, fail: { text: "Eso es simplemente asqueroso.", sat: -30 } } },
                 { text: "Ir a por una limpia y culpar al 'Protocolo de la Bóveda'.", sat: 15 }
             ]
         },
@@ -841,7 +841,7 @@ const DATA_ES = {
             text: "Quieren saber quién está enterrado en la parcela de al lado.",
             choices: [
                 { text: "Decirles que es una familia muy 'tranquila y prestigiosa'.", sat: 15 },
-                { text: "Mirar el registro y 'maquillar' los datos para que suene mejor.", roll: 13, success: { text: "¡Les encantan los vecinos!", sat: 20 }, fail: { text: "Mezclas los nombres.", sat: -10 } },
+                { text: "Mirar el registro y 'maquillar' los datos para que suene mejor.", roll: 13, success: { text: "¡Les encantan los vecinos!", sat: 20 }, fail: { text: "Mezclas los nombres.", sat: -10 } } },
                 { text: "Decir: 'Los vecinos no importan a dos metros bajo tierra'.", sat: -15 }
             ]
         },
@@ -849,7 +849,7 @@ const DATA_ES = {
             id: "heirloom_ring",
             text: "Un anillo está atascado en el dedo del difunto. La familia lo quiere.",
             choices: [
-                { text: "Usar tus 'Manos Profesionales' para quitarlo (Habilidad).", roll: 14, success: { text: "Retirado con dignidad.", sat: 25 }, fail: { text: "Forcejeas torpemente.", sat: -20 } },
+                { text: "Usar tus 'Manos Profesionales' para quitarlo (Habilidad).", roll: 14, success: { text: "Retirado con dignidad.", sat: 25 }, fail: { text: "Forcejeas torpemente.", sat: -20 } } },
                 { text: "Sugerir enterrarlo como un 'Sacrificio al Más Allá'.", sat: -5 },
                 { text: "Decirles: 'Déjenlo ir, es solo metal brillante'.", sat: -35 }
             ]
@@ -859,7 +859,7 @@ const DATA_ES = {
             text: "Quieren un tributo de Heavy Metal en la capilla.",
             choices: [
                 { text: "Aceptar y llamar a la banda local 'Almas Podridas'.", sat: 20 },
-                { text: "Sugerir que Iván, el orador, haga una versión acústica 'cañera'.", roll: 15, success: { text: "¡Iván es un crack! Les encanta.", sat: 30 }, fail: { text: "Es vergonzoso.", sat: -20 } },
+                { text: "Sugerir que Iván, el orador, haga una versión acústica 'cañera'.", roll: 15, success: { text: "¡Iván es un crack! Les encanta.", sat: 30 }, fail: { text: "Es vergonzoso.", sat: -20 } } },
                 { text: "Insistir en cantos gregorianos para 'Estabilidad del Alma'.", sat: -10 }
             ]
         },
@@ -868,7 +868,7 @@ const DATA_ES = {
             text: "Un primo empieza a comer palomitas durante el velatorio.",
             choices: [
                 { text: "Pedirle cortésmente que pare por respeto.", sat: 15 },
-                { text: "Intentar 'venderle' un snack adecuado de la cafetería.", roll: 11, success: { text: "¡El negocio prospera!", sat: 10 }, fail: { text: "Les pareces un codicioso.", sat: -15 } },
+                { text: "Intentar 'venderle' un snack adecuado de la cafetería.", roll: 11, success: { text: "¡El negocio prospera!", sat: 10 }, fail: { text: "Les pareces un codicioso.", sat: -15 } } },
                 { text: "Unirte a él y pedirle un puñado.", sat: -40 }
             ]
         },
@@ -876,7 +876,7 @@ const DATA_ES = {
             id: "makeup_fail",
             text: "El maquillaje del catálogo parece un poco... excesivo. El difunto va a parecer una muñeca.",
             choices: [
-                { text: "Explicar que es la técnica 'Brillo Post-Vida'.", roll: 14, success: { text: "Creen que es artístico.", sat: 20 }, fail: { text: "Quieren que les devuelvas el dinero.", sat: -30 } },
+                { text: "Explicar que es la técnica 'Brillo Post-Vida'.", roll: 14, success: { text: "Creen que es artístico.", sat: 20 }, fail: { text: "Quieren que les devuelvas el dinero.", sat: -30 } } },
                 { text: "Ofrecerte a arreglarlo gratis si queda mal.", sat: 15 },
                 { text: "Decir: 'Siempre quiso tener más color'.", sat: -20 }
             ]
@@ -886,7 +886,7 @@ const DATA_ES = {
             text: "Quieren traer una cabra para una 'Bendición Final'.",
             choices: [
                 { text: "Aceptar, pero cobrar una 'Tasa de Limpieza de Ganado'.", sat: 10 },
-                { text: "Usar 'Persuasión' para convencerles de que un gato es mejor.", roll: 15, success: { text: "Traen un gatito. ¡Qué mono!", sat: 20 }, fail: { text: "Quieren la cabra.", sat: -5 } },
+                { text: "Usar 'Persuasión' para convencerles de que un gato es mejor.", roll: 15, success: { text: "Traen un gatito. ¡Qué mono!", sat: 20 }, fail: { text: "Quieren la cabra.", sat: -5 } } },
                 { text: "Decirles que esto es un tanatorio, no una granja.", sat: -25 }
             ]
         },
@@ -895,7 +895,7 @@ const DATA_ES = {
             text: "Quieren un ataúd de cartón para ser 'Ecológicos'.",
             choices: [
                 { text: "¡Apoya su elección verde! +20 Satisfacción.", sat: 20 },
-                { text: "Venderles el 'Eco-Roble Reforzado' ($500 extra).", roll: 14, success: { text: "¡Compran la madera premium!", sat: 15 }, fail: { text: "Ven la estafa.", sat: -20 } },
+                { text: "Venderles el 'Eco-Roble Reforzado' ($500 extra).", roll: 14, success: { text: "¡Compran la madera premium!", sat: 15 }, fail: { text: "Ven la estafa.", sat: -20 } } },
                 { text: "Mencionar que podría colapsar si llueve.", sat: -15 }
             ]
         },
@@ -904,7 +904,7 @@ const DATA_ES = {
             text: "La hija quiere hacerse un selfie de duelo contigo y el ataúd.",
             choices: [
                 { text: "Poner cara 'profesional pero triste'.", sat: 15 },
-                { text: "Cobrar tarifa por 'Aparición en Redes' ($50).", roll: 12, success: { text: "¡Paga sin dudar! #Profit", sat: 5 }, fail: { text: "Se ofende muchísimo.", sat: -20 } },
+                { text: "Cobrar tarifa por 'Aparición en Redes' ($50).", roll: 12, success: { text: "¡Paga sin dudar! #Profit", sat: 5 }, fail: { text: "Se ofende muchísimo.", sat: -20 } } },
                 { text: "Explicarle que las cámaras roban el alma de los difuntos.", sat: -10 }
             ]
         },
@@ -913,7 +913,7 @@ const DATA_ES = {
             text: "La familia pregunta si el difunto puede ser enterrado con su mascota favorita, que sigue viva.",
             choices: [
                 { text: "Decir que no, eso es ilegal.", sat: -10 },
-                { text: "Convencerles de que la mascota preferiría seguir viva.", roll: 14, success: { text: "Están de acuerdo, el perro se salva.", sat: 20 }, fail: { text: "Te llaman insensible ante su vínculo.", sat: -15 } },
+                { text: "Convencerles de que la mascota preferiría seguir viva.", roll: 14, success: { text: "Están de acuerdo, el perro se salva.", sat: 20 }, fail: { text: "Te llaman insensible ante su vínculo.", sat: -15 } } },
                 { text: "Ofrecer taxidermizar a la mascota más adelante.", sat: -30 }
             ]
         },
@@ -922,7 +922,7 @@ const DATA_ES = {
             text: "La viuda pide un descuento porque 'tampoco era tan buen marido'.",
             choices: [
                 { text: "Disculparse, los precios son fijos.", sat: 0 },
-                { text: "Cotillear sobre lo terribles que son los hombres para ganar propina.", roll: 12, success: { text: "Le encanta el chisme. ¡Gran propina!", sat: 25 }, fail: { text: "Se ofende porque has insultado a su marido.", sat: -20 } },
+                { text: "Cotillear sobre lo terribles que son los hombres para ganar propina.", roll: 12, success: { text: "Le encanta el chisme. ¡Gran propina!", sat: 25 }, fail: { text: "Se ofende porque has insultado a su marido.", sat: -20 } } },
                 { text: "Decirle que el crematorio quema a los pecadores por igual.", sat: -25 }
             ]
         },
@@ -931,7 +931,7 @@ const DATA_ES = {
             text: "Un hombre misterioso en gabardina ofrece $500 extra por 'perder' los registros dentales.",
             choices: [
                 { text: "Rechazar amablemente.", sat: 10 },
-                { text: "Aceptar el soborno sutilmente.", roll: 15, success: { text: "Transacción perfecta. +$500.", sat: 5, money: 500 }, fail: { text: "Se te caen los billetes al suelo. Se va.", sat: -40, rep: -10 } },
+                { text: "Aceptar el soborno sutilmente.", roll: 15, success: { text: "Transacción perfecta. +$500.", sat: 5, money: 500 }, fail: { text: "Se te caen los billetes al suelo. Se va.", sat: -40, rep: -10 } } },
                 { text: "Amenazar con llamar a la policía.", sat: -15 }
             ]
         },
@@ -940,7 +940,7 @@ const DATA_ES = {
             text: "La familia quiere poner música heavy metal extremadamente inapropiada durante el velatorio.",
             choices: [
                 { text: "Negarse, molesta a otras familias que están de luto.", sat: -15 },
-                { text: "Sugerir ponerla como una versión instrumental acústica.", roll: 13, success: { text: "Les encanta la versión acústica.", sat: 20 }, fail: { text: "Te llaman 'poser' y lloran.", sat: -10 } },
+                { text: "Sugerir ponerla como una versión instrumental acústica.", roll: 13, success: { text: "Les encanta la versión acústica.", sat: 20 }, fail: { text: "Te llaman 'poser' y lloran.", sat: -10 } } },
                 { text: "Ofrecer subir el volumen al máximo para 'despertar a los muertos'.", sat: 10, rep: -5 }
             ]
         },
@@ -949,7 +949,7 @@ const DATA_ES = {
             text: "Las dos familias secretas del difunto se encuentran por accidente en tu oficina.",
             choices: [
                 { text: "Retroceder lentamente y salir de la habitación.", sat: -10 },
-                { text: "Intervenir como consejero de duelo y calmar a todos.", roll: 16, success: { text: "¡Crisis evitada! Eres un héroe.", sat: 35, rep: 10 }, fail: { text: "Empieza una pelea campal. Rompen un jarrón.", sat: -40, rep: -10 } },
+                { text: "Intervenir como consejero de duelo y calmar a todos.", roll: 16, success: { text: "¡Crisis evitada! Eres un héroe.", sat: 35, rep: 10 }, fail: { text: "Empieza una pelea campal. Rompen un jarrón.", sat: -40, rep: -10 } } },
                 { text: "Ofrecer un descuento del 50% en la segunda sala de velatorio.", sat: -50 }
             ]
         },
@@ -958,7 +958,7 @@ const DATA_ES = {
             text: "El hijo insiste en hacerse un selfie con el ataúd abierto.",
             choices: [
                 { text: "Recordarle que es una gran falta de respeto.", sat: -10 },
-                { text: "Ofrecerte a hacerle tú la foto con iluminación profesional.", roll: 11, success: { text: "La luz es perfecta. La sube a Insta.", sat: 20 }, fail: { text: "Se te cae su móvil al suelo.", sat: -15 } },
+                { text: "Ofrecerte a hacerle tú la foto con iluminación profesional.", roll: 11, success: { text: "La luz es perfecta. La sube a Insta.", sat: 20 }, fail: { text: "Se te cae su móvil al suelo.", sat: -15 } } },
                 { text: "Hacer un 'photobomb' en la foto haciendo el símbolo de la paz.", sat: -40 }
             ]
         },
@@ -967,7 +967,7 @@ const DATA_ES = {
             text: "Preguntan qué pasa con los dientes de oro durante la cremación.",
             choices: [
                 { text: "Explicar el procedimiento legal estándar.", sat: 5 },
-                { text: "Asegurarles que se funden para 'enriquecer su espíritu'.", roll: 14, success: { text: "Les parece un final muy poético.", sat: 25 }, fail: { text: "Exigen que se los devuelvas.", sat: -10 } },
+                { text: "Asegurarles que se funden para 'enriquecer su espíritu'.", roll: 14, success: { text: "Les parece un final muy poético.", sat: 25 }, fail: { text: "Exigen que se los devuelvas.", sat: -10 } } },
                 { text: "¿Qué dientes de oro? Yo no he visto ningún diente de oro.", sat: -30 }
             ]
         },
@@ -976,7 +976,7 @@ const DATA_ES = {
             text: "La hija quiere saber si el líquido de embalsamar es vegano y 'cruelty-free'.",
             choices: [
                 { text: "Explicarle que es literalmente formaldehído cancerígeno.", sat: -10 },
-                { text: "Inventar una historia sobre conservantes botánicos éticos.", roll: 13, success: { text: "Se siente aliviada e impresionada.", sat: 30 }, fail: { text: "Lo busca en Google y te llama mentiroso.", sat: -20 } },
+                { text: "Inventar una historia sobre conservantes botánicos éticos.", roll: 13, success: { text: "Se siente aliviada e impresionada.", sat: 30 }, fail: { text: "Lo busca en Google y te llama mentiroso.", sat: -20 } } },
                 { text: "Decirle que la única crueldad aquí fue la causa de la muerte.", sat: -40 }
             ]
         },
@@ -985,7 +985,7 @@ const DATA_ES = {
             text: "Han traído una urna personalizada en forma de barril de cerveza, pero gotea.",
             choices: [
                 { text: "Exigir que compren una de tus urnas estándar.", sat: -15 },
-                { text: "Arreglarla con cinta americana y llamarlo 'toque rústico'.", roll: 12, success: { text: "Están de acuerdo, le da personalidad.", sat: 20 }, fail: { text: "La cinta se rompe. Cenizas por todas partes.", sat: -15 } },
+                { text: "Arreglarla con cinta americana y llamarlo 'toque rústico'.", roll: 12, success: { text: "Están de acuerdo, le da personalidad.", sat: 20 }, fail: { text: "La cinta se rompe. Cenizas por todas partes.", sat: -15 } } },
                 { text: "Sugerir que se beban las cenizas en un chupito.", sat: -50 }
             ]
         },
@@ -994,7 +994,7 @@ const DATA_ES = {
             text: "El difunto pidió ser enterrado boca abajo 'para que el mundo me bese el c*lo'.",
             choices: [
                 { text: "Negarse a aceptar tal vulgaridad.", sat: -20 },
-                { text: "Convencerles de que cerrar el ataúd logra el mismo objetivo.", roll: 15, success: { text: "Filosóficamente, están de acuerdo.", sat: 25 }, fail: { text: "Insisten en la posición exacta.", sat: -15 } },
+                { text: "Convencerles de que cerrar el ataúd logra el mismo objetivo.", roll: 15, success: { text: "Filosóficamente, están de acuerdo.", sat: 25 }, fail: { text: "Insisten en la posición exacta.", sat: -15 } } },
                 { text: "Cobrar el doble por 'posicionamiento ergonómico especial'.", sat: 10 }
             ]
         },
@@ -1002,7 +1002,7 @@ const DATA_ES = {
             id: "inheritance_watch",
             text: "Dos hermanos se pelean por el reloj de oro del difunto. Quieren que TÚ decidas quién se lo queda.",
             choices: [
-                { text: "Sugerir donarlo a la funeraria para 'custodia segura'.", roll: 16, success: { text: "Aceptan que es la opción más neutral. +$300.", sat: 10, money: 300 }, fail: { text: "¡Ambos vuelcan su ira contra ti!", sat: -30 } },
+                { text: "Sugerir donarlo a la funeraria para 'custodia segura'.", roll: 16, success: { text: "Aceptan que es la opción más neutral. +$300.", sat: 10, money: 300 }, fail: { text: "¡Ambos vuelcan su ira contra ti!", sat: -30 } } },
                 { text: "Sugerir dárselo al que llore más.", sat: -15 },
                 { text: "Enterrar al difunto con el reloj para acabar con el debate.", sat: 20 }
             ]
@@ -1012,7 +1012,7 @@ const DATA_ES = {
             text: "La viuda afirma que el difunto tiene 'demasiado pelo' y que ese no es su marido.",
             choices: [
                 { text: "Ofrecer un 'afeitado de emergencia' gratuito ahora mismo.", sat: 15 },
-                { text: "Explicar que el pelo crece tras la muerte (una mentira total).", roll: 14, success: { text: "Se cree la pseudociencia.", sat: 20 }, fail: { text: "Llama a su abogado.", sat: -35 } },
+                { text: "Explicar que el pelo crece tras la muerte (una mentira total).", roll: 14, success: { text: "Se cree la pseudociencia.", sat: 20 }, fail: { text: "Llama a su abogado.", sat: -35 } } },
                 { text: "Enseñarle la etiqueta de identificación en el pie.", sat: 5 }
             ]
         },
@@ -1021,7 +1021,7 @@ const DATA_ES = {
             text: "Alguien afirma haber oído un 'golpe' desde dentro del ataúd.",
             choices: [
                 { text: "Explicar que son 'gases escapando'. Algo normal.", sat: 10 },
-                { text: "Abrirlo inmediatamente para tranquilizarlos.", roll: 12, success: { text: "Está vacío. Digo, solo el cuerpo. Todo bien.", sat: 15 }, fail: { text: "¡La tapa se atasca! ¡Pánico general!", sat: -25 } },
+                { text: "Abrirlo inmediatamente para tranquilizarlos.", roll: 12, success: { text: "Está vacío. Digo, solo el cuerpo. Todo bien.", sat: 15 }, fail: { text: "¡La tapa se atasca! ¡Pánico general!", sat: -25 } } },
                 { text: "Decirles que el difunto siempre fue de 'sueño inquieto'.", sat: -20 }
             ]
         },
@@ -1030,7 +1030,7 @@ const DATA_ES = {
             text: "La familia quiere que el difunto sea enterrado con maquillaje completo de payaso y nariz roja.",
             choices: [
                 { text: "Honrar el último deseo. 'El espectáculo debe continuar'.", sat: 20 },
-                { text: "Sugerir un compromiso de 'payaso elegante' (solo nariz).", roll: 13, success: { text: "Les encanta el sutil tributo.", sat: 15 }, fail: { text: "Quieren la experiencia Bozo completa.", sat: -10 } },
+                { text: "Sugerir un compromiso de 'payaso elegante' (solo nariz).", roll: 13, success: { text: "Les encanta el sutil tributo.", sat: 15 }, fail: { text: "Quieren la experiencia Bozo completa.", sat: -10 } } },
                 { text: "Decirles que esto es un funeral, no un circo.", sat: -30 }
             ]
         },
@@ -1038,7 +1038,7 @@ const DATA_ES = {
             id: "rival_widows",
             text: "La ex-mujer y la viuda actual están teniendo un 'duelo de miradas' en el vestíbulo.",
             choices: [
-                { text: "Ofrecer dos salas de velatorio separadas ($400 extra).", roll: 15, success: { text: "¡Ambas pagan para evitarse! +$400.", sat: 25, money: 400 }, fail: { text: "Se unen... contra ti.", sat: -20 } },
+                { text: "Ofrecer dos salas de velatorio separadas ($400 extra).", roll: 15, success: { text: "¡Ambas pagan para evitarse! +$400.", sat: 25, money: 400 }, fail: { text: "Se unen... contra ti.", sat: -20 } } },
                 { text: "Pedir a Iván que ponga música 'relajante' a todo volumen.", sat: 5 },
                 { text: "Intentar mediar sobre la herencia aquí mismo.", sat: -40 }
             ]
@@ -1047,7 +1047,7 @@ const DATA_ES = {
             id: "pigeon_blessing",
             text: "Una paloma ha entrado y ha... 'bendecido' el traje del difunto.",
             choices: [
-                { text: "Afirmar que es una 'señal de los cielos'.", roll: 14, success: { text: "Se sienten profundamente conmovidos por la señal.", sat: 30 }, fail: { text: "Exigen un reembolso por la tintorería.", sat: -20 } },
+                { text: "Afirmar que es una 'señal de los cielos'.", roll: 14, success: { text: "Se sienten profundamente conmovidos por la señal.", sat: 30 }, fail: { text: "Exigen un reembolso por la tintorería.", sat: -20 } } },
                 { text: "Limpiarlo discretamente con un pañuelo.", sat: 10 },
                 { text: "Decirles que es mejor que un cuervo.", sat: -15 }
             ]
@@ -1056,7 +1056,7 @@ const DATA_ES = {
             id: "lasagna_complaint",
             text: "Se quejan de que la sala huele a ajo. Iván estaba cocinando al fondo.",
             choices: [
-                { text: "Explicar que es un 'incienso mediterráneo especial'.", roll: 13, success: { text: "Les parece exótico y relajante.", sat: 20 }, fail: { text: "Se dan cuenta de que es pasta.", sat: -10 } },
+                { text: "Explicar que es un 'incienso mediterráneo especial'.", roll: 13, success: { text: "Les parece exótico y relajante.", sat: 20 }, fail: { text: "Se dan cuenta de que es pasta.", sat: -10 } } },
                 { text: "Pedir disculpas y abrir todas las ventanas.", sat: 10 },
                 { text: "Preguntar si quieren un poco de lasaña. Solo $10.", sat: -25 }
             ]
@@ -1066,7 +1066,7 @@ const DATA_ES = {
             text: "Un sobrino susurra: 'El abuelo tenía la boca llena de oro. ¿Dónde está?'",
             choices: [
                 { text: "Asegurarle que todo está contabilizado en la urna.", sat: 10 },
-                { text: "Ofrecer un servicio de 'recuperación dental' previo pago.", roll: 16, success: { text: "Paga la tarifa. No encuentras... nada.", sat: 5, money: 200 }, fail: { text: "Sospecha que ya te lo has llevado tú.", sat: -30 } },
+                { text: "Ofrecer un servicio de 'recuperación dental' previo pago.", roll: 16, success: { text: "Paga la tarifa. No encuentras... nada.", sat: 5, money: 200 }, fail: { text: "Sospecha que ya te lo has llevado tú.", sat: -30 } } },
                 { text: "Decirle que vaya a cavar él mismo.", sat: -40 }
             ]
         },
@@ -1075,7 +1075,7 @@ const DATA_ES = {
             text: "Quieren disparar una flecha incendiaria al ataúd en el parking.",
             choices: [
                 { text: "Explicar las normas de incendios y ofrecer una 'lámpara de fuego'.", sat: 15 },
-                { text: "Dejarles si pagan la 'exención de seguro' ($300).", roll: 14, success: { text: "¡Espectacular! Ningún árbol sufrió daños.", sat: 25, money: 300 }, fail: { text: "Fallan y le dan a tu coche fúnebre.", sat: -40, rep: -10 } },
+                { text: "Dejarles si pagan la 'exención de seguro' ($300).", roll: 14, success: { text: "¡Espectacular! Ningún árbol sufrió daños.", sat: 25, money: 300 }, fail: { text: "Fallan y le dan a tu coche fúnebre.", sat: -40, rep: -10 } } },
                 { text: "Sugerir un 'entierro acuático' en el fregadero.", sat: -20 }
             ]
         },
@@ -1083,7 +1083,7 @@ const DATA_ES = {
             id: "ghost_bros_tv",
             text: "La familia quiere rodar un especial de 'cazadores de fantasmas' durante el velatorio.",
             choices: [
-                { text: "Aceptar por una 'tasa de producción' ($500).", roll: 15, success: { text: "¡Vas a salir en la tele! +$500.", sat: 10, money: 500 }, fail: { text: "Los equipos no paran de saltar los plomos.", sat: -20 } },
+                { text: "Aceptar por una 'tasa de producción' ($500).", roll: 15, success: { text: "¡Vas a salir en la tele! +$500.", sat: 10, money: 500 }, fail: { text: "Los equipos no paran de saltar los plomos.", sat: -20 } } },
                 { text: "Rechazar cortésmente para mantener la dignidad.", sat: 15 },
                 { text: "Ofrecerte para hacer de fantasma por $100 extra.", sat: -35 }
             ]
@@ -1110,7 +1110,7 @@ const DATA_ES = {
             id: "swallowed_key",
             text: "Sospechan que el abuelo se tragó la llave de la caja fuerte antes de morir.",
             choices: [
-                { text: "Podemos hacer una 'inspección profunda' por una tarifa de recuperación.", roll: 15, success: { text: "¡La has encontrado! +200 monedas.", sat: 20, money: 200 }, fail: { text: "No hay nada ahí dentro. Se sienten decepcionados.", sat: -25 } },
+                { text: "Podemos hacer una 'inspección profunda' por una tarifa de recuperación.", roll: 15, success: { text: "¡La has encontrado! +200 monedas.", sat: 20, money: 200 }, fail: { text: "No hay nada ahí dentro. Se sienten decepcionados.", sat: -25 } } },
                 { text: "Si suena como una hucha al moverlo, es que hay premio.", sat: -30 },
                 { text: "La honestidad es clave. Si aparece durante el proceso, les avisamos.", sat: 15 }
             ]
@@ -1129,7 +1129,7 @@ const DATA_ES = {
             text: "Quieren que pongas al difunto en una pose 'dinámica' para un último selfie familiar.",
             choices: [
                 { text: "La dignidad de nuestros clientes es innegociable, lo siento.", sat: 10 },
-                { text: "Tengo un pack de 'Poses de Instagram' por 100 monedas.", roll: 14, success: { text: "¡Sale genial en la foto! #RIP", sat: 25, money: 100 }, fail: { text: "Se le cae un brazo durante la pose. Desastre.", sat: -35 } },
+                { text: "Tengo un pack de 'Poses de Instagram' por 100 monedas.", roll: 14, success: { text: "¡Sale genial en la foto! #RIP", sat: 25, money: 100 }, fail: { text: "Se le cae un brazo durante la pose. Desastre.", sat: -35 } } },
                 { text: "Si le pongo gafas de sol, parecerá que está de vacaciones en Benidorm.", sat: -15 }
             ]
         },
@@ -1147,7 +1147,7 @@ const DATA_ES = {
             text: "Se quejan amargamente de que la música de la capilla es aburrida y 'poca cosa'.",
             choices: [
                 { text: "Buscamos siempre un ambiente de máxima paz y recogimiento.", sat: 10 },
-                { text: "Iván puede pinchar Techno-Muerte si pagan el equipo de sonido.", roll: 15, success: { text: "¡La fiesta de su vida! Digo, de su muerte.", sat: 30, money: 150 }, fail: { text: "Iván pone reguetón antiguo. Les horroriza.", sat: -25 } },
+                { text: "Iván puede pinchar Techno-Muerte si pagan el equipo de sonido.", roll: 15, success: { text: "¡La fiesta de su vida! Digo, de su muerte.", sat: 30, money: 150 }, fail: { text: "Iván pone reguetón antiguo. Les horroriza.", sat: -25 } } },
                 { text: "A los muertos les encanta, no se han quejado nunca hasta ahora.", sat: -15 }
             ]
         },
@@ -1183,7 +1183,7 @@ const DATA_ES = {
             text: "La tía quiere tirar sal por encima de su hombro para ahuyentar la mala suerte, pero apunta directamente a la máquina de café.",
             choices: [
                 { text: "¡Agacharse! (Esquivas la sal, pero el café sabe salado).", sat: 10 },
-                { text: "Intentar atrapar la sal al vuelo (Habilidad).", roll: 13, success: { text: "¡Atrapada como un ninja!", sat: 20 }, fail: { text: "Sal en tus ojos.", sat: -20 } },
+                { text: "Intentar atrapar la sal al vuelo (Habilidad).", roll: 13, success: { text: "¡Atrapada como un ninja!", sat: 20 }, fail: { text: "Sal en tus ojos.", sat: -20 } } },
                 { text: "Decirle que los muertos prefieren la pimienta.", sat: -15 }
             ]
         },
@@ -1192,7 +1192,7 @@ const DATA_ES = {
             text: "Preguntan si el programa del funeral puede incluir un poema de recuerdo escrito por el chihuahua del difunto.",
             choices: [
                 { text: "Incluirlo. Es un 'ladrido' muy conmovedor.", sat: 20 },
-                { text: "Convencerlos de firmar con seudónimo para que parezca más profesional.", roll: 11, success: { text: "Aceptan firmar como 'Un amigo cercano'.", sat: 15 }, fail: { text: "Piensan que odias a los animales.", sat: -15 } },
+                { text: "Convencerlos de firmar con seudónimo para que parezca más profesional.", roll: 11, success: { text: "Aceptan firmar como 'Un amigo cercano'.", sat: 15 }, fail: { text: "Piensan que odias a los animales.", sat: -15 } } },
                 { text: "Decirles que no publicamos literatura canina.", sat: -25 }
             ]
         },
@@ -1201,7 +1201,7 @@ const DATA_ES = {
             text: "La familia quiere tocar un violín que supuestamente perteneció a un pirata maldito.",
             choices: [
                 { text: "Dejarles tocar cobrando un extra por 'seguro contra maldiciones'.", sat: 10, money: 50 },
-                { text: "Ofrecerme a afinarlo yo mismo para evitar la maldición.", roll: 14, success: { text: "¡Suena precioso!", sat: 25 }, fail: { text: "Se te rompe una cuerda. Momento incómodo.", sat: -20 } },
+                { text: "Ofrecerme a afinarlo yo mismo para evitar la maldición.", roll: 14, success: { text: "¡Suena precioso!", sat: 25 }, fail: { text: "Se te rompe una cuerda. Momento incómodo.", sat: -20 } } },
                 { text: "Prohibir todo instrumento pirata en el local.", sat: -15 }
             ]
         },
@@ -1210,7 +1210,7 @@ const DATA_ES = {
             text: "Un tío llora tan fuerte que sus lamentos ahogan el sonido de la reunión.",
             choices: [
                 { text: "Ofrecerle unos tapones para los oídos premium.", sat: -10 },
-                { text: "Consolarlo con profunda empatía.", roll: 12, success: { text: "Se calma y te lo agradece.", sat: 20 }, fail: { text: "Te abraza demasiado fuerte y llora en tu hombro.", sat: 5 } },
+                { text: "Consolarlo con profunda empatía.", roll: 12, success: { text: "Se calma y te lo agradece.", sat: 20 }, fail: { text: "Te abraza demasiado fuerte y llora en tu hombro.", sat: 5 } } },
                 { text: "Entregarle una fregona. 'Ya que está produciendo tanta agua...'", sat: -35 }
             ]
         },
@@ -1219,7 +1219,7 @@ const DATA_ES = {
             text: "Quieren comprimir las cenizas en un diamante, pero han traído un kit de laboratorio de juguete para hacerlo.",
             choices: [
                 { text: "Explicar amablemente que eso requiere maquinaria industrial.", sat: 10 },
-                { text: "Fingir usar el kit con 'magia mortuoria' especial.", roll: 15, success: { text: "¡Se asombran y compran el diamante real ($400)!", sat: 20, money: 400 }, fail: { text: "Rompes su kit de juguete.", sat: -25 } },
+                { text: "Fingir usar el kit con 'magia mortuoria' especial.", roll: 15, success: { text: "¡Se asombran y compran el diamante real ($400)!", sat: 20, money: 400 }, fail: { text: "Rompes su kit de juguete.", sat: -25 } } },
                 { text: "Decirles que solo conseguirán carbón caro.", sat: -15 }
             ]
         },
@@ -1228,7 +1228,7 @@ const DATA_ES = {
             text: "La familia nota una errata en el borrador de la lápida: 'Que descanse en pez'.",
             choices: [
                 { text: "Corregirla de inmediato y pedir disculpas.", sat: 15 },
-                { text: "Decir que es una metáfora poética sobre la transmigración marina.", roll: 13, success: { text: "¡Les parece hermoso y deciden dejarla!", sat: 20 }, fail: { text: "Se sienten insultados por la referencia pesquera.", sat: -25 } },
+                { text: "Decir que es una metáfora poética sobre la transmigración marina.", roll: 13, success: { text: "¡Les parece hermoso y deciden dejarla!", sat: 20 }, fail: { text: "Se sienten insultados por la referencia pesquera.", sat: -25 } } },
                 { text: "Decir que combina con la afición del difunto por la pesca.", sat: -20 }
             ]
         },
@@ -1237,7 +1237,7 @@ const DATA_ES = {
             text: "La familia está convencida de que el gato callejero de fuera es el difunto reencarnado porque se quedó mirando su cartera.",
             choices: [
                 { text: "Darle la bienvenida al gato como invitado VIP.", sat: 20 },
-                { text: "Hacer un pequeño ritual de 'bienvenida' para el gato.", roll: 12, success: { text: "El gato maúlla justo a tiempo. ¡Lloran de alegría!", sat: 30 }, fail: { text: "El gato araña a la viuda.", sat: -30 } },
+                { text: "Hacer un pequeño ritual de 'bienvenida' para el gato.", roll: 12, success: { text: "El gato maúlla justo a tiempo. ¡Lloran de alegría!", sat: 30 }, fail: { text: "El gato araña a la viuda.", sat: -30 } } },
                 { text: "Explicar que la reencarnación suele tardar más de dos días.", sat: -15 }
             ]
         },
@@ -1246,7 +1246,7 @@ const DATA_ES = {
             text: "Han traído un disfraz de superhéroe verde chillón como traje de entierro.",
             choices: [
                 { text: "Honrar su deseo. Todo héroe merece una despedida digna.", sat: 25 },
-                { text: "Sugerir poner un traje sobrio encima y el disfraz debajo.", roll: 13, success: { text: "¡Un compromiso que les encanta!", sat: 15 }, fail: { text: "Te acusan de ser un civil aburrido.", sat: -15 } },
+                { text: "Sugerir poner un traje sobrio encima y el disfraz debajo.", roll: 13, success: { text: "¡Un compromiso que les encanta!", sat: 15 }, fail: { text: "Te acusan de ser un civil aburrido.", sat: -15 } } },
                 { text: "Decirles que el más allá tiene un estricto código de etiqueta.", sat: -25 }
             ]
         },
@@ -1255,7 +1255,7 @@ const DATA_ES = {
             text: "Quieren quedarse con la dentadura de oro del difunto como reliquia familiar.",
             choices: [
                 { text: "Desinfectarla y entregarla en una bolsa de terciopelo.", sat: 25 },
-                { text: "Extraerla con absoluta precisión quirúrgica.", roll: 14, success: { text: "Extracción perfecta sin daños.", sat: 30 }, fail: { text: "Se te cae y se rompe un diente.", sat: -20 } },
+                { text: "Extraerla con absoluta precisión quirúrgica.", roll: 14, success: { text: "Extracción perfecta sin daños.", sat: 30 }, fail: { text: "Se te cae y se rompe un diente.", sat: -20 } } },
                 { text: "Decirles que es ilegal robar tumbas, aunque sea la de su abuelo.", sat: -30 }
             ]
         },
@@ -1264,7 +1264,7 @@ const DATA_ES = {
             text: "Quieren que Iván toque el órgano, pero Iván solo sabe tocar las tres primeras notas de 'Smoke on the Water'.",
             choices: [
                 { text: "Dejar que Iván toque igual. Es un clásico.", sat: -10 },
-                { text: "Convencerlos de que un solo solo minimalista es más solemne.", roll: 12, success: { text: "Creen que Iván es un genio musical.", sat: 20 }, fail: { text: "Suena espantoso.", sat: -20 } },
+                { text: "Convencerlos de que un solo solo minimalista es más solemne.", roll: 12, success: { text: "Creen que Iván es un genio musical.", sat: 20 }, fail: { text: "Suena espantoso.", sat: -20 } } },
                 { text: "Alquilar un piano automático ($100).", sat: 15, money: -100 }
             ]
         },
@@ -1273,7 +1273,7 @@ const DATA_ES = {
             text: "Afirman que el difunto no murió, sino que fue 'recogido' por extraterrestres, y quieren un sermón espacial.",
             choices: [
                 { text: "Decirle a Iván que incluya el 'viaje cósmico' en su discurso.", sat: 20 },
-                { text: "Venderles una baliza láser para enviar un 'Mensaje a las Estrellas' ($150).", roll: 14, success: { text: "¡Vendido! Se sienten conectados con la nave nodriza.", sat: 25, money: 150 }, fail: { text: "Creen que te estás aprovechando de sus creencias.", sat: -20 } },
+                { text: "Venderles una baliza láser para enviar un 'Mensaje a las Estrellas' ($150).", roll: 14, success: { text: "¡Vendido! Se sienten conectados con la nave nodriza.", sat: 25, money: 150 }, fail: { text: "Creen que te estás aprovechando de sus creencias.", sat: -20 } } },
                 { text: "Decirles que pregunten en el observatorio local.", sat: -15 }
             ]
         },
@@ -1282,7 +1282,7 @@ const DATA_ES = {
             text: "Quieren instalar ruedas de patinete en el ataúd para 'hacer la salida más rápida'.",
             choices: [
                 { text: "Aceptar cobrando una tasa de 'montaje de ruedas'.", sat: 10, money: 50 },
-                { text: "Convencerlos de que es más seguro usar el carro tradicional.", roll: 11, success: { text: "Aceptan mantenerlo clásico.", sat: 15 }, fail: { text: "Te acusan de no tener estilo.", sat: -15 } },
+                { text: "Convencerlos de que es más seguro usar el carro tradicional.", roll: 11, success: { text: "Aceptan mantenerlo clásico.", sat: 15 }, fail: { text: "Te acusan de no tener estilo.", sat: -15 } } },
                 { text: "Decirles que el cementerio tiene límite de velocidad.", sat: -20 }
             ]
         },
@@ -1291,7 +1291,7 @@ const DATA_ES = {
             text: "Quieren que usemos el perfume favorito del difunto para embalsamar, pero huele a cebolla y goma quemada.",
             choices: [
                 { text: "Usarlo igualmente. El cliente siempre tiene razón.", sat: 15 },
-                { text: "Rebajarlo con lavanda para mejorar la fragancia.", roll: 13, success: { text: "¡Huele sorprendentemente bien!", sat: 20 }, fail: { text: "La reacción química huele aún peor.", sat: -25 } },
+                { text: "Rebajarlo con lavanda para mejorar la fragancia.", roll: 13, success: { text: "¡Huele sorprendentemente bien!", sat: 20 }, fail: { text: "La reacción química huele aún peor.", sat: -25 } } },
                 { text: "Decirles que el perfume es inflamable y peligroso.", sat: -15 }
             ]
         },
@@ -1300,7 +1300,7 @@ const DATA_ES = {
             text: "Una pizzería local ofrece pagar el funeral si ponemos su logo en la lápida.",
             choices: [
                 { text: "Rotundamente no. Tenemos dignidad.", sat: 15 },
-                { text: "Negociar un anuncio más pequeño en la parte trasera del programa.", roll: 14, success: { text: "¡Trato hecho! Ganamos $200 y ellos tienen un logo discreto.", sat: 10, money: 200 }, fail: { text: "La familia se entera y se horroriza.", sat: -35 },
+                { text: "Negociar un anuncio más pequeño en la parte trasera del programa.", roll: 14, success: { text: "¡Trato hecho! Ganamos $200 y ellos tienen un logo discreto.", sat: 10, money: 200 }, fail: { text: "La familia se entera y se horroriza.", sat: -35 } },
                 { text: "Poner el logo. '¡Pizza gratis para la eternidad!'", sat: -30, money: 300 }
             ]
         },
@@ -1309,7 +1309,7 @@ const DATA_ES = {
             text: "La viuda afirma que el difunto le susurró la combinación de la caja fuerte, pero no funciona.",
             choices: [
                 { text: "Decirle que los espíritus suelen ser pésimos con los números.", sat: 10 },
-                { text: "Ofrecer una sesión espiritual para aclarar el último dígito.", roll: 15, success: { text: "¡Adivinas el número usando el año de nacimiento del difunto! Queda atónita.", sat: 30, money: 100 }, fail: { text: "Se da cuenta de que estás adivinando.", sat: -20 },
+                { text: "Ofrecer una sesión espiritual para aclarar el último dígito.", roll: 15, success: { text: "¡Adivinas el número usando el año de nacimiento del difunto! Queda atónita.", sat: 30, money: 100 }, fail: { text: "Se da cuenta de que estás adivinando.", sat: -20 } },
                 { text: "Sugerir que el difunto la cambió para fastidiarla.", sat: -30 }
             ]
         },
@@ -1318,7 +1318,7 @@ const DATA_ES = {
             text: "Los hermanos discuten: uno quiere el interior de terciopelo rosa, el otro lo quiere negro.",
             choices: [
                 { text: "Sugerir un diseño dividido mitad y mitad.", sat: 15 },
-                { text: "Venderles una tela premium 'camaleón' que cambia de color con la luz ($200).", roll: 13, success: { text: "¡Les encanta la opción de alta tecnología!", sat: 25, money: 200 }, fail: { text: "Les parece que queda cutre.", sat: -15 },
+                { text: "Venderles una tela premium 'camaleón' que cambia de color con la luz ($200).", roll: 13, success: { text: "¡Les encanta la opción de alta tecnología!", sat: 25, money: 200 }, fail: { text: "Les parece que queda cutre.", sat: -15 } },
                 { text: "Decirles que el difunto no lo va a ver de todos modos.", sat: -25 }
             ]
         },
@@ -1327,7 +1327,7 @@ const DATA_ES = {
             text: "Quieren instalar un router Wi-Fi en la cripta para 'seguir conectados'.",
             choices: [
                 { text: "Aceptar cobrando una 'tasa de instalación de red en cripta' ($150).", sat: 20, money: 150 },
-                { text: "Explicar que los muros de hormigón bloquean la señal 5G.", roll: 11, success: { text: "Aceptan la limitación técnica.", sat: 15 }, fail: { text: "Exigen que pasemos un cable ethernet más largo.", sat: -15 },
+                { text: "Explicar que los muros de hormigón bloquean la señal 5G.", roll: 11, success: { text: "Aceptan la limitación técnica.", sat: 15 }, fail: { text: "Exigen que pasemos un cable ethernet más largo.", sat: -15 } },
                 { text: "Decirles que los muertos no miran el correo electrónico.", sat: -20 }
             ]
         },
@@ -1336,7 +1336,7 @@ const DATA_ES = {
             text: "Quieren un velatorio en completo silencio, pero Iván está haciendo escalas vocales ruidosas en el pasillo.",
             choices: [
                 { text: "Correr y sobornar a Iván con un café para que se calle.", sat: 15, money: -10 },
-                { text: "Convencerlos de que los calentamientos de Iván son cánticos ancestrales.", roll: 14, success: { text: "Quedan profundamente impresionados por los 'cánticos'.", sat: 20 }, fail: { text: "Les resulta molesto.", sat: -20 },
+                { text: "Convencerlos de que los calentamientos de Iván son cánticos ancestrales.", roll: 14, success: { text: "Quedan profundamente impresionados por los 'cánticos'.", sat: 20 }, fail: { text: "Les resulta molesto.", sat: -20 } },
                 { text: "Decirle a Iván que vaya a ensayar dentro del horno crematorio.", sat: 5 }
             ]
         },
@@ -1345,7 +1345,7 @@ const DATA_ES = {
             text: "Quieren repartir la receta secreta de chili del difunto al final del servicio.",
             choices: [
                 { text: "Imprimirla detrás de los recordatorios. Un legado delicioso.", sat: 25 },
-                { text: "Ofrecer imprimir un folleto premium 'Sabor del Recuerdo'.", roll: 12, success: { text: "¡Pagan $100 por el diseño del folleto!", sat: 20, money: 100 }, fail: { text: "Piensan que mercantilizas su dolor.", sat: -15 },
+                { text: "Ofrecer imprimir un folleto premium 'Sabor del Recuerdo'.", roll: 12, success: { text: "¡Pagan $100 por el diseño del folleto!", sat: 20, money: 100 }, fail: { text: "Piensan que mercantilizas su dolor.", sat: -15 } },
                 { text: "Decir que el picante es inapropiado para un funeral.", sat: -15 }
             ]
         },
@@ -1354,7 +1354,7 @@ const DATA_ES = {
             text: "Han traído una app detectora de fantasmas y dice que el vestíbulo está 'muy encantado'.",
             choices: [
                 { text: "Asegurarles que nuestros fantasmas son muy amigables.", sat: 10 },
-                { text: "Hacer una 'limpieza espiritual' rápida usando ambientador.", roll: 12, success: { text: "La app marca 'limpio' (tras darle tú a actualizar).", sat: 25 }, fail: { text: "El olor a lavanda les provoca alergia.", sat: -20 },
+                { text: "Hacer una 'limpieza espiritual' rápida usando ambientador.", roll: 12, success: { text: "La app marca 'limpio' (tras darle tú a actualizar).", sat: 25 }, fail: { text: "El olor a lavanda les provoca alergia.", sat: -20 } },
                 { text: "Decirles que los fantasmas solo buscan un descuento.", sat: -20 }
             ]
         }

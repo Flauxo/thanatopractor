@@ -59,7 +59,9 @@ const Engine = (() => {
             priceMod: 1,
             cremaLock: null,
             dayEnding: false,
-            badLuckEventsToday: 0
+            badLuckEventsToday: 0,
+            deferredLevelUps: [],
+            gusSummary: null
         };
     };
 
@@ -146,10 +148,16 @@ const Engine = (() => {
         const newLevel = getLevel();
         if (newLevel > state.level) {
             state.level = newLevel;
-            showLevelUpModal(newLevel);
-            addMoney(newLevel * 1000, I18n.T('eng.level_bonus'), true);
-            if (typeof Audio8Bit !== 'undefined' && Audio8Bit.SFX.levelUp) {
-                Audio8Bit.SFX.levelUp();
+            if (state.isNightShift) {
+                if (!state.deferredLevelUps) state.deferredLevelUps = [];
+                state.deferredLevelUps.push(newLevel);
+                addMoney(newLevel * 1000, I18n.T('eng.level_bonus'), true);
+            } else {
+                showLevelUpModal(newLevel);
+                addMoney(newLevel * 1000, I18n.T('eng.level_bonus'), true);
+                if (typeof Audio8Bit !== 'undefined' && Audio8Bit.SFX.levelUp) {
+                    Audio8Bit.SFX.levelUp();
+                }
             }
         }
     }
@@ -177,9 +185,37 @@ const Engine = (() => {
 
         dismissBtn.onclick = () => {
             overlay.style.display = 'none';
-            // Small delay to ensure isOverlayOpen sees the change
             setTimeout(() => {
-                startTime();
+                if (level === 10) {
+                    if (typeof Dialogue !== 'undefined') {
+                        Dialogue.show(
+                            I18n.T('eng.gus_hired_title'),
+                            I18n.T('eng.gus_hired_msg'),
+                            [{ text: I18n.T('eng.ok'), action: () => {
+                                if (state.deferredLevelUps && state.deferredLevelUps.length > 0) {
+                                    const nextLvl = state.deferredLevelUps.shift();
+                                    showLevelUpModal(nextLvl);
+                                } else {
+                                    startTime();
+                                }
+                            }}]
+                        );
+                    } else {
+                        if (state.deferredLevelUps && state.deferredLevelUps.length > 0) {
+                            const nextLvl = state.deferredLevelUps.shift();
+                            showLevelUpModal(nextLvl);
+                        } else {
+                            startTime();
+                        }
+                    }
+                } else {
+                    if (state.deferredLevelUps && state.deferredLevelUps.length > 0) {
+                        const nextLvl = state.deferredLevelUps.shift();
+                        showLevelUpModal(nextLvl);
+                    } else {
+                        startTime();
+                    }
+                }
             }, 50);
         };
     }
@@ -396,15 +432,119 @@ const Engine = (() => {
         const activeFamsAtEnd = state.families.filter(f => f.active);
         let showDisposalWarning = false;
         
-        activeFamsAtEnd.forEach(f => {
-            f.active = false;
-            if (f.wantsCremation && !f.cremated) {
-                f.discardedOvernight = true;
-                showDisposalWarning = true;
-            } else {
-                f.completedOvernight = true;
+        if (state.level >= 10) {
+            state.isNightShift = true;
+            let gusEarnings = 0;
+            let gusReputation = 0;
+            let gusCompletedFams = [];
+            let gusPaperworkCompleted = 0;
+
+            // 1. Generate families for any pending arrivals first
+            while ((state.pendingArrivals || 0) > 0) {
+                state.pendingArrivals--;
+                if (typeof Families !== 'undefined' && typeof Families.generate === 'function') {
+                    const fam = Families.generate();
+                    if (typeof Families.addFamily === 'function') {
+                        Families.addFamily(fam);
+                    } else {
+                        state.families.push(fam);
+                    }
+                }
             }
-        });
+
+            // Re-fetch active families to include the ones generated
+            const currentActiveFams = state.families.filter(f => f.active);
+            currentActiveFams.forEach(f => {
+                f.embalmed = true;
+                f.embalmQuality = 'excellent';
+                if (!f.services.includes('embalming')) f.services.push('embalming');
+
+                if (f.wantsViewing) {
+                    f.viewed = true;
+                    if (!f.services.includes('viewing')) f.services.push('viewing');
+                }
+                if (f.wantsChapel) {
+                    f.chapelDone = true;
+                    if (!f.services.includes('chapel')) f.services.push('chapel');
+                }
+                if (f.wantsCremation) {
+                    f.cremated = true;
+                    f.cremationStarted = false;
+                    if (!f.services.includes('cremation')) f.services.push('cremation');
+                }
+                
+                f.active = false;
+                
+                // Calculate rewards
+                let total = DATA.serviceBasePrices.basic;
+                if (f.services.includes('cremation')) total += DATA.serviceBasePrices.cremation;
+                if (f.services.includes('chapel')) total += DATA.serviceBasePrices.chapelService;
+                if (!f.wantsCremation && (!state.upgrades || !state.upgrades.includes('hearse'))) {
+                    total -= DATA.serviceBasePrices.hearseRental;
+                    addMoney(-DATA.serviceBasePrices.hearseRental, 'External hearse rental', true);
+                }
+
+                let rating = Math.round(f.satisfaction / 10);
+                rating = Math.max(0, Math.min(10, rating));
+                f.rating = rating;
+                f.totalCharged = total;
+
+                state.stats.familiesServed++;
+                if (state.stats.familiesServed === 1) Notifications.unlockAchievement('first_client');
+
+                const satBonus = f.satisfaction >= 90 ? 2 : 0;
+                const repChange = (rating - 5) + satBonus;
+                const xpGain = 100 + rating * 20;
+
+                addMoney(total, `Service for ${f.deceasedName}`, true);
+                addReputation(repChange, `${f.deceasedName}'s family rated you ${rating}/10`, true);
+                addXP(xpGain);
+
+                gusEarnings += total;
+                gusReputation += repChange;
+                gusCompletedFams.push(f.deceasedName);
+            });
+
+            // 2. Process active paperwork
+            if (state.activePaperwork) {
+                const pw = state.activePaperwork;
+                addMoney(pw.reward, 'Gus completed paperwork', true);
+                if (pw.repReward) addReputation(pw.repReward, 'Gus completed paperwork', true);
+
+                if (pw.id === 'pw_niece') {
+                    state.temporaryHearseAvailable = true;
+                }
+                state.consecutivePaperwork = (state.consecutivePaperwork || 0) + 1;
+                if (state.consecutivePaperwork >= 10) Notifications.unlockAchievement('paperwork_ninja');
+
+                gusEarnings += pw.reward;
+                if (pw.repReward) gusReputation += pw.repReward;
+                gusPaperworkCompleted++;
+                state.activePaperwork = null;
+            }
+
+            state.isNightShift = false;
+
+            if (gusCompletedFams.length > 0 || gusPaperworkCompleted > 0) {
+                state.gusSummary = {
+                    famsCount: gusCompletedFams.length,
+                    famsList: gusCompletedFams.join(', '),
+                    paperworkCount: gusPaperworkCompleted,
+                    earnings: gusEarnings,
+                    reputation: gusReputation
+                };
+            }
+        } else {
+            activeFamsAtEnd.forEach(f => {
+                f.active = false;
+                if (f.wantsCremation && !f.cremated) {
+                    f.discardedOvernight = true;
+                    showDisposalWarning = true;
+                } else {
+                    f.completedOvernight = true;
+                }
+            });
+        }
 
         if (showDisposalWarning) {
             Engine.showToast(I18n.T('crema.disposal_warning'), 'danger');
@@ -492,9 +632,45 @@ const Engine = (() => {
                 
                 stopTime();
                 tickInterval = null;
-                startTime();
-                setSpeed(1);
-                console.log('[NEXTDAY] Clock started. tickInterval=' + (tickInterval !== null) + ' speed=' + state.speed + ' schedule=' + state.schedule.length);
+
+                const checkPostTransitionEvents = () => {
+                    if (state.gusSummary) {
+                        const sum = state.gusSummary;
+                        state.gusSummary = null; // Clear so it doesn't show again
+                        
+                        const title = I18n.T('eng.gus_summary_title');
+                        const msg = I18n.T('eng.gus_summary_msg', 
+                            sum.famsCount, 
+                            sum.famsList, 
+                            sum.paperworkCount, 
+                            sum.earnings, 
+                            sum.reputation >= 0 ? '+' : '', 
+                            sum.reputation
+                        );
+                        
+                        if (typeof Dialogue !== 'undefined') {
+                            stopTime();
+                            Dialogue.show(title, msg, [{
+                                text: I18n.T('eng.ok'),
+                                action: () => {
+                                    checkPostTransitionEvents();
+                                }
+                            }]);
+                        } else {
+                            checkPostTransitionEvents();
+                        }
+                    } else if (state.deferredLevelUps && state.deferredLevelUps.length > 0) {
+                        const nextLvl = state.deferredLevelUps.shift();
+                        showLevelUpModal(nextLvl);
+                    } else {
+                        startTime();
+                        setSpeed(1);
+                        console.log('[NEXTDAY] Clock started. tickInterval=' + (tickInterval !== null) + ' speed=' + state.speed + ' schedule=' + state.schedule.length);
+                    }
+                };
+
+                checkPostTransitionEvents();
+                
                 if (state.foundItems && state.foundItems.length >= 5) Notifications.unlockAchievement('collector');
                 save();
             }

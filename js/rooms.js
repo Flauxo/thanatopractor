@@ -89,14 +89,19 @@ const Rooms = (() => {
                     Engine.Notifications.clearBadge('phone');
                     const s = Engine.getState();
                     
-                    const phoneChoices = [
-                { text: I18n.T('rec.job_interview'), action: () => {
-                    // Removed money check to allow bankruptcy
-                    Engine.addMoney(-50, I18n.T('eng.job_call'));
-                    Engine.showToast(I18n.T('rec.job_result'), 'warning');
-                    if (typeof Main !== 'undefined') Main.showScreen('hub');
-                }},
-                { 
+                    const phoneChoices = [];
+                    if (s.level < 10) {
+                        phoneChoices.push({
+                            text: I18n.T('rec.job_interview'),
+                            action: () => {
+                                // Removed money check to allow bankruptcy
+                                Engine.addMoney(-50, I18n.T('eng.job_call'));
+                                Engine.showToast(I18n.T('rec.job_result'), 'warning');
+                                if (typeof Main !== 'undefined') Main.showScreen('hub');
+                            }
+                        });
+                    }
+                    phoneChoices.push({ 
                     text: I18n.T('rec.order_hearse') + (s.families.filter(f => f.active && f.waitingForTransport && !f.transportOrdered).length > 0 ? ' ❗' : ''), 
                     action: () => {
                     const waitingFams = s.families.filter(f => f.active && f.waitingForTransport && !f.transportOrdered);

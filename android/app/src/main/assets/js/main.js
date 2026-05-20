@@ -118,11 +118,7 @@ window.Main = (() => {
             const name = f ? f.deceasedName : 'Deceased';
 
             if (item.type === 'arrival') {
-                if (item.familyId) {
-                    desc = I18n.T('rec.arrival_expected', name, timeStr);
-                } else {
-                    desc = I18n.T('eng.cremation_family');
-                }
+                desc = I18n.T('rec.arrival_expected');
             } else if (item.type === 'hearse_arrival') {
                 if (item.completed) {
                     desc = I18n.T('rec.car_ordered', name);
@@ -144,9 +140,7 @@ window.Main = (() => {
             } else if (item.type === 'repair_done') {
                 desc = I18n.T('crema.repair_task_desc');
             } else if (item.type === 'paperwork') {
-                if (item.task) {
-                    desc = I18n.T('rec.pw_expected', I18n.T(item.task.id));
-                }
+                desc = I18n.T('rec.pw_expected');
             }
 
             if (isActionPending) {

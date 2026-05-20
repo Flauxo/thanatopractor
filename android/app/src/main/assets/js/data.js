@@ -1238,6 +1238,186 @@ const DATA = {
                 { text: "Just be careful not to mistake it for the hotel ashtray this summer.", sat: -30 },
                 { text: "We can add coconut scent and sunscreen for 20 coins.", roll: 11, success: { text: "Smells like eternal vacation. Perfect!", sat: 20, money: 20 }, fail: { text: "Smells terrible. They don't like it at all.", sat: -15 } }
             ]
+        },
+        {
+            id: "superstition_salt",
+            text: "The aunt wants to throw salt over her shoulder to ward off bad luck, but she's aimed directly at the coffee machine.",
+            choices: [
+                { text: "Duck! (Avoid the salt, but coffee tastes salty).", sat: 10 },
+                { text: "Try to catch the salt mid-air (Skill).", roll: 13, success: { text: "Caught it like a ninja!", sat: 20 }, fail: { text: "Salt in your eyes.", sat: -20 } },
+                { text: "Tell her the dead prefer pepper.", sat: -15 }
+            ]
+        },
+        {
+            id: "deceased_pet_name",
+            text: "They ask if the funeral program can include a memorial poem written by the deceased's chihuahua.",
+            choices: [
+                { text: "Include it. It's a very touching 'bark'.", sat: 20 },
+                { text: "Convince them to write it under a pseudonym to look professional.", roll: 11, success: { text: "They agree to sign it 'A Close Friend'.", sat: 15 }, fail: { text: "They think you hate animals.", sat: -15 } },
+                { text: "Tell them we don't publish dog literature.", sat: -25 }
+            ]
+        },
+        {
+            id: "haunted_violin",
+            text: "The family wants to play a violin that was supposedly owned by a cursed pirate.",
+            choices: [
+                { text: "Let them play it, adding a 'curse insurance' fee.", sat: 10, money: 50 },
+                { text: "Offer to tune it myself to avoid the curse.", roll: 14, success: { text: "Sounds beautiful!", sat: 25 }, fail: { text: "You break a string. Awkward.", sat: -20 } },
+                { text: "Ban all pirate instruments from the premises.", sat: -15 }
+            ]
+        },
+        {
+            id: "crying_uncle",
+            text: "An uncle is crying so loudly he is drowning out the consultation.",
+            choices: [
+                { text: "Offer him some premium earplugs.", sat: -10 },
+                { text: "Console him with deep empathy.", roll: 12, success: { text: "He calms down and thanks you.", sat: 20 }, fail: { text: "He hugs you too tight and cries on your shoulder.", sat: 5 } },
+                { text: "Hand him a mop. 'Since you're producing so much water.'", sat: -35 }
+            ]
+        },
+        {
+            id: "diamond_urn",
+            text: "They want the ashes compressed into a diamond, but they brought a toy lab kit to do it.",
+            choices: [
+                { text: "Politely explain that requires industrial machinery.", sat: 10 },
+                { text: "Pretend to use the kit with special 'mortuary magic'.", roll: 15, success: { text: "They are amazed and buy a real diamond upgrade ($400).", sat: 20, money: 400 }, fail: { text: "You break their toy kit.", sat: -25 } },
+                { text: "Tell them they'll just end up with expensive charcoal.", sat: -15 }
+            ]
+        },
+        {
+            id: "tombstone_typo",
+            text: "The family notices a typo on the tombstone draft: 'Rest in Peas'.",
+            choices: [
+                { text: "Correct it immediately and apologize.", sat: 15 },
+                { text: "Claim it's a poetic metaphor about green rebirth.", roll: 13, success: { text: "They think it's beautiful and keep it!", sat: 20 }, fail: { text: "They are insulted by the vegetable reference.", sat: -25 } },
+                { text: "Say it matches the deceased's favorite soup.", sat: -20 }
+            ]
+        },
+        {
+            id: "reincarnation_cat",
+            text: "The family is convinced the stray cat outside is the deceased reincarnated because it stared at their wallet.",
+            choices: [
+                { text: "Welcome the cat in as a VIP guest.", sat: 20 },
+                { text: "Perform a mini 'welcome back' ritual for the cat.", roll: 12, success: { text: "The cat meows on cue. They are crying tears of joy!", sat: 30 }, fail: { text: "The cat scratches the widow.", sat: -30 } },
+                { text: "Explain that reincarnation takes longer than two days.", sat: -15 }
+            ]
+        },
+        {
+            id: "favorite_suit",
+            text: "They brought a neon green superhero costume as the burial suit.",
+            choices: [
+                { text: "Honor their wish. Every hero deserves a proper send-off.", sat: 25 },
+                { text: "Suggest putting a sober suit on top and the costume underneath.", roll: 13, success: { text: "A compromise they love!", sat: 15 }, fail: { text: "They accuse you of being a boring civilian.", sat: -15 } },
+                { text: "Tell them the afterlife has a strict dress code.", sat: -25 }
+            ]
+        },
+        {
+            id: "heirloom_dentures",
+            text: "They want to keep the deceased's gold dentures as a family heirloom.",
+            choices: [
+                { text: "Sanitize and return them in a velvet pouch.", sat: 25 },
+                { text: "Extract them with absolute surgical precision.", roll: 14, success: { text: "Perfect extraction, no damage.", sat: 30 }, fail: { text: "You drop them and break a tooth.", sat: -20 } },
+                { text: "Tell them it's illegal to rob graves, even if it's their grandpa.", sat: -30 }
+            ]
+        },
+        {
+            id: "organ_request",
+            text: "They want Ivan to play the organ, but Ivan only knows how to play the first three notes of 'Smoke on the Water'.",
+            choices: [
+                { text: "Let Ivan play it anyway. It's a classic.", sat: -10 },
+                { text: "Convince them that a minimalist solo is more solemn.", roll: 12, success: { text: "They think Ivan is a musical genius.", sat: 20 }, fail: { text: "It sounds terrible.", sat: -20 } },
+                { text: "Rent an automated piano player ($100).", sat: 15, money: -100 }
+            ]
+        },
+        {
+            id: "alien_abduction",
+            text: "They claim the deceased didn't die, but was 'retrieved' by aliens, and want a space-themed sermon.",
+            choices: [
+                { text: "Tell Ivan to include 'cosmic travel' in the speech.", sat: 20 },
+                { text: "Sell them a 'Message to the Stars' laser beacon ($150).", roll: 14, success: { text: "Sold! They feel connected to the mothership.", sat: 25, money: 150 }, fail: { text: "They think you are exploiting their beliefs.", sat: -20 } },
+                { text: "Tell them to check the local observatory instead.", sat: -15 }
+            ]
+        },
+        {
+            id: "coffin_wheels",
+            text: "They want to install skate wheels on the casket to 'make the exit faster'.",
+            choices: [
+                { text: "Agree, but charge a 'wheels assembly' fee.", sat: 10, money: 50 },
+                { text: "Convince them it's safer to use the traditional carriage.", roll: 11, success: { text: "They agree to keep it classic.", sat: 15 }, fail: { text: "They accuse you of having no style.", sat: -15 } },
+                { text: "Tell them the cemetery has a speed limit.", sat: -20 }
+            ]
+        },
+        {
+            id: "embalm_perfume",
+            text: "They want us to use the deceased's signature perfume for embalming, but it smells like burnt rubber and onions.",
+            choices: [
+                { text: "Use it anyway. The customer is always right.", sat: 15 },
+                { text: "Dilute it with lavender to improve the scent.", roll: 13, success: { text: "Smells surprisingly pleasant!", sat: 20 }, fail: { text: "The chemical reaction smells even worse.", sat: -25 } },
+                { text: "Tell them the perfume is a fire hazard.", sat: -15 }
+            ]
+        },
+        {
+            id: "tombstone_ad",
+            text: "A local pizzeria offers to pay for the funeral if we put their logo on the tombstone.",
+            choices: [
+                { text: "Absolute no. We have standards.", sat: 15 },
+                { text: "Try to negotiate a smaller ad on the back of the program.", roll: 14, success: { text: "Agreement reached! We get $200 and they get a small logo.", sat: 10, money: 200 }, fail: { text: "The family finds out and is disgusted.", sat: -35 } },
+                { text: "Put the logo. 'Free pizza for eternity!'", sat: -30, money: 300 }
+            ]
+        },
+        {
+            id: "spirit_whisper",
+            text: "The widow claims the deceased whispered the safe combination to her, but it doesn't work.",
+            choices: [
+                { text: "Tell her spirits are notoriously bad with numbers.", sat: 10 },
+                { text: "Offer a spiritual session to clarify the last digit.", roll: 15, success: { text: "You 'guess' the number based on the deceased's birth year! She's amazed.", sat: 30, money: 100 }, fail: { text: "She thinks you're guessing.", sat: -20 } },
+                { text: "Suggest the deceased changed it to spite her.", sat: -30 }
+            ]
+        },
+        {
+            id: "casket_color",
+            text: "The siblings are arguing: one wants pink velvet lining, the other wants black.",
+            choices: [
+                { text: "Suggest a split half-and-half design.", sat: 15 },
+                { text: "Sell them a premium 'chameleon' fabric that shifts in the light ($200).", roll: 13, success: { text: "They love the high-tech option!", sat: 25, money: 200 }, fail: { text: "They think it looks cheap.", sat: -15 } },
+                { text: "Tell them the deceased won't see it anyway.", sat: -25 }
+            ]
+        },
+        {
+            id: "crypt_wifi",
+            text: "They want to install a Wi-Fi router in the crypt to 'stay connected'.",
+            choices: [
+                { text: "Agree and charge a 'crypt network setup' fee ($150).", sat: 20, money: 150 },
+                { text: "Explain that the concrete walls block 5G signals.", roll: 11, success: { text: "They accept the technical limitation.", sat: 15 }, fail: { text: "They demand we use a longer ethernet cable.", sat: -15 } },
+                { text: "Tell them the dead don't check their emails.", sat: -20 }
+            ]
+        },
+        {
+            id: "silent_mourning",
+            text: "They want a completely silent service, but Ivan is currently practicing his vocal exercises in the hallway.",
+            choices: [
+                { text: "Run and bribe Ivan with coffee to shut up.", sat: 15, money: -10 },
+                { text: "Convince them Ivan's warm-ups are ancient chants.", roll: 14, success: { text: "They are deeply impressed by the 'chants'.", sat: 20 }, fail: { text: "They find it annoying.", sat: -20 } },
+                { text: "Tell Ivan to go practice in the crematorium.", sat: 5 }
+            ]
+        },
+        {
+            id: "family_recipe",
+            text: "They want to distribute the deceased's secret chili recipe at the end of the service.",
+            choices: [
+                { text: "Print it on the back of the cards. A delicious legacy.", sat: 25 },
+                { text: "Pitch it as a premium 'taste of memory' cookbook.", roll: 12, success: { text: "They pay us $100 to print a booklet.", sat: 20, money: 100 }, fail: { text: "They think we are commercializing their grief.", sat: -15 } },
+                { text: "Say chili is too spicy for a solemn event.", sat: -15 }
+            ]
+        },
+        {
+            id: "ghost_detector",
+            text: "They brought a ghost-detection app and it says the lobby is 'highly haunted'.",
+            choices: [
+                { text: "Reassure them that our ghosts are very friendly.", sat: 10 },
+                { text: "Perform a quick 'cleansing' using room spray.", roll: 12, success: { text: "The app shows 'clear' (after you tap refresh).", sat: 25 }, fail: { text: "The lavender scent triggers their allergies.", sat: -20 } },
+                { text: "Say the ghosts are just looking for a discount.", sat: -20 }
+            ]
         }
     ],
     dailyNews: [

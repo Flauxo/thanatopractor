@@ -104,18 +104,26 @@ const Dialogue = (() => {
         let steps = 3 + Math.floor(Math.random() * 3); // 3-5 steps
         let currentStep = 0;
 
-        // Interview Rotation Logic: Ensure we use all scenarios before repeating
-        if (!state.interviewPool || state.interviewPool.length < steps) {
-            state.interviewPool = [...DATA.interviewScenarios].map(s => s.id);
-            // Shuffle
-            state.interviewPool.sort(() => 0.5 - Math.random());
+        // Setup the pool if it doesn't exist
+        if (!state.interviewPool) {
+            state.interviewPool = [];
         }
 
         let selectedScenarios = [];
         for (let i = 0; i < steps; i++) {
+            if (state.interviewPool.length === 0) {
+                // Replenish the pool with all scenarios, excluding those already selected in this interview
+                let allIds = DATA.interviewScenarios.map(s => s.id);
+                allIds = allIds.filter(id => !selectedScenarios.some(s => s.id === id));
+                // Shuffle
+                allIds.sort(() => 0.5 - Math.random());
+                state.interviewPool = allIds;
+            }
             const id = state.interviewPool.pop();
             const scenario = DATA.interviewScenarios.find(s => s.id === id);
-            selectedScenarios.push(scenario);
+            if (scenario) {
+                selectedScenarios.push(scenario);
+            }
         }
 
         const portraitOptions = { showReaper: true, imgSrc: `assets/ui/fam0${family.photoIndex}.png` };

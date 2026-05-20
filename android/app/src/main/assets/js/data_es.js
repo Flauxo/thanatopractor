@@ -1135,6 +1135,186 @@ const DATA_ES = {
                 { text: "Tengan cuidado no la confundan con el cenicero del hotel este verano.", sat: -30 },
                 { text: "Podemos añadirle esencia de coco y protector solar por 20 monedas.", roll: 11, success: { text: "Huele a vacaciones eternas. ¡Perfecto!", sat: 20, money: 20 }, fail: { text: "Huele a rayos. No les gusta nada.", sat: -15 } }
             ]
+        },
+        {
+            id: "superstition_salt",
+            text: "La tía quiere tirar sal por encima de su hombro para ahuyentar la mala suerte, pero apunta directamente a la máquina de café.",
+            choices: [
+                { text: "¡Agacharse! (Esquivas la sal, pero el café sabe salado).", sat: 10 },
+                { text: "Intentar atrapar la sal al vuelo (Habilidad).", roll: 13, success: { text: "¡Atrapada como un ninja!", sat: 20 }, fail: { text: "Sal en tus ojos.", sat: -20 } },
+                { text: "Decirle que los muertos prefieren la pimienta.", sat: -15 }
+            ]
+        },
+        {
+            id: "deceased_pet_name",
+            text: "Preguntan si el programa del funeral puede incluir un poema de recuerdo escrito por el chihuahua del difunto.",
+            choices: [
+                { text: "Incluirlo. Es un 'ladrido' muy conmovedor.", sat: 20 },
+                { text: "Convencerlos de firmar con seudónimo para que parezca más profesional.", roll: 11, success: { text: "Aceptan firmar como 'Un amigo cercano'.", sat: 15 }, fail: { text: "Piensan que odias a los animales.", sat: -15 } },
+                { text: "Decirles que no publicamos literatura canina.", sat: -25 }
+            ]
+        },
+        {
+            id: "haunted_violin",
+            text: "La familia quiere tocar un violín que supuestamente perteneció a un pirata maldito.",
+            choices: [
+                { text: "Dejarles tocar cobrando un extra por 'seguro contra maldiciones'.", sat: 10, money: 50 },
+                { text: "Ofrecerme a afinarlo yo mismo para evitar la maldición.", roll: 14, success: { text: "¡Suena precioso!", sat: 25 }, fail: { text: "Se te rompe una cuerda. Momento incómodo.", sat: -20 } },
+                { text: "Prohibir todo instrumento pirata en el local.", sat: -15 }
+            ]
+        },
+        {
+            id: "crying_uncle",
+            text: "Un tío llora tan fuerte que sus lamentos ahogan el sonido de la reunión.",
+            choices: [
+                { text: "Ofrecerle unos tapones para los oídos premium.", sat: -10 },
+                { text: "Consolarlo con profunda empatía.", roll: 12, success: { text: "Se calma y te lo agradece.", sat: 20 }, fail: { text: "Te abraza demasiado fuerte y llora en tu hombro.", sat: 5 } },
+                { text: "Entregarle una fregona. 'Ya que está produciendo tanta agua...'", sat: -35 }
+            ]
+        },
+        {
+            id: "diamond_urn",
+            text: "Quieren comprimir las cenizas en un diamante, pero han traído un kit de laboratorio de juguete para hacerlo.",
+            choices: [
+                { text: "Explicar amablemente que eso requiere maquinaria industrial.", sat: 10 },
+                { text: "Fingir usar el kit con 'magia mortuoria' especial.", roll: 15, success: { text: "¡Se asombran y compran el diamante real ($400)!", sat: 20, money: 400 }, fail: { text: "Rompes su kit de juguete.", sat: -25 } },
+                { text: "Decirles que solo conseguirán carbón caro.", sat: -15 }
+            ]
+        },
+        {
+            id: "tombstone_typo",
+            text: "La familia nota una errata en el borrador de la lápida: 'Que descanse en pez'.",
+            choices: [
+                { text: "Corregirla de inmediato y pedir disculpas.", sat: 15 },
+                { text: "Decir que es una metáfora poética sobre la transmigración marina.", roll: 13, success: { text: "¡Les parece hermoso y deciden dejarla!", sat: 20 }, fail: { text: "Se sienten insultados por la referencia pesquera.", sat: -25 } },
+                { text: "Decir que combina con la afición del difunto por la pesca.", sat: -20 }
+            ]
+        },
+        {
+            id: "reincarnation_cat",
+            text: "La familia está convencida de que el gato callejero de fuera es el difunto reencarnado porque se quedó mirando su cartera.",
+            choices: [
+                { text: "Darle la bienvenida al gato como invitado VIP.", sat: 20 },
+                { text: "Hacer un pequeño ritual de 'bienvenida' para el gato.", roll: 12, success: { text: "El gato maúlla justo a tiempo. ¡Lloran de alegría!", sat: 30 }, fail: { text: "El gato araña a la viuda.", sat: -30 } },
+                { text: "Explicar que la reencarnación suele tardar más de dos días.", sat: -15 }
+            ]
+        },
+        {
+            id: "favorite_suit",
+            text: "Han traído un disfraz de superhéroe verde chillón como traje de entierro.",
+            choices: [
+                { text: "Honrar su deseo. Todo héroe merece una despedida digna.", sat: 25 },
+                { text: "Sugerir poner un traje sobrio encima y el disfraz debajo.", roll: 13, success: { text: "¡Un compromiso que les encanta!", sat: 15 }, fail: { text: "Te acusan de ser un civil aburrido.", sat: -15 } },
+                { text: "Decirles que el más allá tiene un estricto código de etiqueta.", sat: -25 }
+            ]
+        },
+        {
+            id: "heirloom_dentures",
+            text: "Quieren quedarse con la dentadura de oro del difunto como reliquia familiar.",
+            choices: [
+                { text: "Desinfectarla y entregarla en una bolsa de terciopelo.", sat: 25 },
+                { text: "Extraerla con absoluta precisión quirúrgica.", roll: 14, success: { text: "Extracción perfecta sin daños.", sat: 30 }, fail: { text: "Se te cae y se rompe un diente.", sat: -20 } },
+                { text: "Decirles que es ilegal robar tumbas, aunque sea la de su abuelo.", sat: -30 }
+            ]
+        },
+        {
+            id: "organ_request",
+            text: "Quieren que Iván toque el órgano, pero Iván solo sabe tocar las tres primeras notas de 'Smoke on the Water'.",
+            choices: [
+                { text: "Dejar que Iván toque igual. Es un clásico.", sat: -10 },
+                { text: "Convencerlos de que un solo solo minimalista es más solemne.", roll: 12, success: { text: "Creen que Iván es un genio musical.", sat: 20 }, fail: { text: "Suena espantoso.", sat: -20 } },
+                { text: "Alquilar un piano automático ($100).", sat: 15, money: -100 }
+            ]
+        },
+        {
+            id: "alien_abduction",
+            text: "Afirman que el difunto no murió, sino que fue 'recogido' por extraterrestres, y quieren un sermón espacial.",
+            choices: [
+                { text: "Decirle a Iván que incluya el 'viaje cósmico' en su discurso.", sat: 20 },
+                { text: "Venderles una baliza láser para enviar un 'Mensaje a las Estrellas' ($150).", roll: 14, success: { text: "¡Vendido! Se sienten conectados con la nave nodriza.", sat: 25, money: 150 }, fail: { text: "Creen que te estás aprovechando de sus creencias.", sat: -20 } },
+                { text: "Decirles que pregunten en el observatorio local.", sat: -15 }
+            ]
+        },
+        {
+            id: "coffin_wheels",
+            text: "Quieren instalar ruedas de patinete en el ataúd para 'hacer la salida más rápida'.",
+            choices: [
+                { text: "Aceptar cobrando una tasa de 'montaje de ruedas'.", sat: 10, money: 50 },
+                { text: "Convencerlos de que es más seguro usar el carro tradicional.", roll: 11, success: { text: "Aceptan mantenerlo clásico.", sat: 15 }, fail: { text: "Te acusan de no tener estilo.", sat: -15 } },
+                { text: "Decirles que el cementerio tiene límite de velocidad.", sat: -20 }
+            ]
+        },
+        {
+            id: "embalm_perfume",
+            text: "Quieren que usemos el perfume favorito del difunto para embalsamar, pero huele a cebolla y goma quemada.",
+            choices: [
+                { text: "Usarlo igualmente. El cliente siempre tiene razón.", sat: 15 },
+                { text: "Rebajarlo con lavanda para mejorar la fragancia.", roll: 13, success: { text: "¡Huele sorprendentemente bien!", sat: 20 }, fail: { text: "La reacción química huele aún peor.", sat: -25 } },
+                { text: "Decirles que el perfume es inflamable y peligroso.", sat: -15 }
+            ]
+        },
+        {
+            id: "tombstone_ad",
+            text: "Una pizzería local ofrece pagar el funeral si ponemos su logo en la lápida.",
+            choices: [
+                { text: "Rotundamente no. Tenemos dignidad.", sat: 15 },
+                { text: "Negociar un anuncio más pequeño en la parte trasera del programa.", roll: 14, success: { text: "¡Trato hecho! Ganamos $200 y ellos tienen un logo discreto.", sat: 10, money: 200 }, fail: { text: "La familia se entera y se horroriza.", sat: -35 },
+                { text: "Poner el logo. '¡Pizza gratis para la eternidad!'", sat: -30, money: 300 }
+            ]
+        },
+        {
+            id: "spirit_whisper",
+            text: "La viuda afirma que el difunto le susurró la combinación de la caja fuerte, pero no funciona.",
+            choices: [
+                { text: "Decirle que los espíritus suelen ser pésimos con los números.", sat: 10 },
+                { text: "Ofrecer una sesión espiritual para aclarar el último dígito.", roll: 15, success: { text: "¡Adivinas el número usando el año de nacimiento del difunto! Queda atónita.", sat: 30, money: 100 }, fail: { text: "Se da cuenta de que estás adivinando.", sat: -20 },
+                { text: "Sugerir que el difunto la cambió para fastidiarla.", sat: -30 }
+            ]
+        },
+        {
+            id: "casket_color",
+            text: "Los hermanos discuten: uno quiere el interior de terciopelo rosa, el otro lo quiere negro.",
+            choices: [
+                { text: "Sugerir un diseño dividido mitad y mitad.", sat: 15 },
+                { text: "Venderles una tela premium 'camaleón' que cambia de color con la luz ($200).", roll: 13, success: { text: "¡Les encanta la opción de alta tecnología!", sat: 25, money: 200 }, fail: { text: "Les parece que queda cutre.", sat: -15 },
+                { text: "Decirles que el difunto no lo va a ver de todos modos.", sat: -25 }
+            ]
+        },
+        {
+            id: "crypt_wifi",
+            text: "Quieren instalar un router Wi-Fi en la cripta para 'seguir conectados'.",
+            choices: [
+                { text: "Aceptar cobrando una 'tasa de instalación de red en cripta' ($150).", sat: 20, money: 150 },
+                { text: "Explicar que los muros de hormigón bloquean la señal 5G.", roll: 11, success: { text: "Aceptan la limitación técnica.", sat: 15 }, fail: { text: "Exigen que pasemos un cable ethernet más largo.", sat: -15 },
+                { text: "Decirles que los muertos no miran el correo electrónico.", sat: -20 }
+            ]
+        },
+        {
+            id: "silent_mourning",
+            text: "Quieren un velatorio en completo silencio, pero Iván está haciendo escalas vocales ruidosas en el pasillo.",
+            choices: [
+                { text: "Correr y sobornar a Iván con un café para que se calle.", sat: 15, money: -10 },
+                { text: "Convencerlos de que los calentamientos de Iván son cánticos ancestrales.", roll: 14, success: { text: "Quedan profundamente impresionados por los 'cánticos'.", sat: 20 }, fail: { text: "Les resulta molesto.", sat: -20 },
+                { text: "Decirle a Iván que vaya a ensayar dentro del horno crematorio.", sat: 5 }
+            ]
+        },
+        {
+            id: "family_recipe",
+            text: "Quieren repartir la receta secreta de chili del difunto al final del servicio.",
+            choices: [
+                { text: "Imprimirla detrás de los recordatorios. Un legado delicioso.", sat: 25 },
+                { text: "Ofrecer imprimir un folleto premium 'Sabor del Recuerdo'.", roll: 12, success: { text: "¡Pagan $100 por el diseño del folleto!", sat: 20, money: 100 }, fail: { text: "Piensan que mercantilizas su dolor.", sat: -15 },
+                { text: "Decir que el picante es inapropiado para un funeral.", sat: -15 }
+            ]
+        },
+        {
+            id: "ghost_detector",
+            text: "Han traído una app detectora de fantasmas y dice que el vestíbulo está 'muy encantado'.",
+            choices: [
+                { text: "Asegurarles que nuestros fantasmas son muy amigables.", sat: 10 },
+                { text: "Hacer una 'limpieza espiritual' rápida usando ambientador.", roll: 12, success: { text: "La app marca 'limpio' (tras darle tú a actualizar).", sat: 25 }, fail: { text: "El olor a lavanda les provoca alergia.", sat: -20 },
+                { text: "Decirles que los fantasmas solo buscan un descuento.", sat: -20 }
+            ]
         }
     ],
     dailyNews: [

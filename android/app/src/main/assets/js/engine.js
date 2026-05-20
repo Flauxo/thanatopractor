@@ -1290,12 +1290,17 @@ const Engine = (() => {
                 const shareText = encodeURIComponent(rawMsg);
                 const shareUrl = encodeURIComponent(window.location.href);
                 
+                const isNativeApp = window.location.protocol === 'file:';
+                const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${shareText}`;
+                const igUrl = isNativeApp ? 'instagram://' : 'https://www.instagram.com/';
+                const waUrl = isNativeApp ? `whatsapp://send?text=${shareText}` : `https://api.whatsapp.com/send?text=${shareText}`;
+
                 shareContainer.innerHTML = `
                     <div style="margin-top:20px; font-size:14px; color:#888;">${I18n.T('go.share_title')}</div>
                     <div class="share-links">
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${shareText}" target="_blank" class="share-btn fb" title="Facebook"></a>
-                        <a href="https://www.instagram.com/" target="_blank" class="share-btn ig" title="Instagram"></a>
-                        <a href="https://api.whatsapp.com/send?text=${shareText}" target="_blank" class="share-btn wa" title="WhatsApp"></a>
+                        <a href="${fbUrl}" target="_blank" class="share-btn fb" title="Facebook"></a>
+                        <a href="${igUrl}" target="_blank" class="share-btn ig" title="Instagram"></a>
+                        <a href="${waUrl}" target="_blank" class="share-btn wa" title="WhatsApp"></a>
                     </div>
                 `;
             }

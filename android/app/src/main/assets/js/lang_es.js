@@ -651,6 +651,10 @@ I18n.register('es', {
     'dlg.interview_completed': 'Entrevista Completada',
     'dlg.skills': ['persuasión', 'carisma', 'lógica', 'habilidad', 'empatía'],
     'dlg.roll_check': 'Tirada de',
+    'dlg.good_impression': 'Buena primera impresión',
+    'dlg.bad_impression': 'Mala primera impresión',
+    'eng.success': '¡Éxito!',
+    'eng.failure': 'Fracaso...',
     'dlg.sat_low': [
         'Parecen estar al borde de las lágrimas, y no por el difunto.',
         'Han pedido la hoja de reclamaciones tres veces.',

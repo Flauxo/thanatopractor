@@ -635,6 +635,10 @@ I18n.register('en', {
     'dlg.interview_completed': 'Interview Completed',
     'dlg.skills': ['Persuasion', 'Charisma', 'Logic', 'Dexterity', 'Empathy'],
     'dlg.roll_check': 'Roll',
+    'dlg.good_impression': 'Good first impression',
+    'dlg.bad_impression': 'Bad first impression',
+    'eng.success': 'Success!',
+    'eng.failure': 'Failure...',
     'dlg.sat_low': [
         'They look on the verge of tears, and not because of the deceased.',
         'They\'ve asked for the complaint form three times already.',

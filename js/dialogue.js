@@ -240,8 +240,10 @@ const Dialogue = (() => {
 
     // ===== ARRIVAL SEQUENCE =====
     function playArrivalSequence(family) {
-        const moodDialogues = DATA.arrivalDialogues[family.mood.id];
-        const dialogue = moodDialogues[Math.floor(Math.random() * moodDialogues.length)];
+        // Always fetch from live DATA (may have been swapped to current language)
+        const moodId = family.mood ? family.mood.id : 'crying';
+        const moodPool = DATA.arrivalDialogues[moodId] || DATA.arrivalDialogues['crying'];
+        const dialogue = moodPool[Math.floor(Math.random() * moodPool.length)];
 
         const relations = ['father', 'mother', 'uncle', 'aunt', 'grandmother', 'grandfather', 'cousin', 'spouse', 'friend'];
         const relation = relations[Math.floor(Math.random() * relations.length)];
@@ -263,34 +265,37 @@ const Dialogue = (() => {
                         const targetDC = Math.max(5, Math.min(20, (c.roll || c.dc) + (Math.floor(Math.random() * 7) - 3)));
                         Engine.rollD20(0, (roll, total) => {
                             const success = total >= targetDC;
+                            // Re-read result texts from live DATA at toast time
+                            const liveMoodPool = DATA.arrivalDialogues[moodId] || DATA.arrivalDialogues['crying'];
+                            const liveDialogue = liveMoodPool[moodPool.indexOf(dialogue)] || liveMoodPool[0];
+                            const liveC = liveDialogue ? liveDialogue.choices.find(ch => (ch.roll || ch.dc) === (c.roll || c.dc)) : null;
                             if (success) {
-                                if (c.success) {
-                                    if (c.success.rep) Families.updateSatisfaction(family.id, c.success.rep * 5, 'Good first impression');
-                                    if (c.success.money) Engine.addMoney(c.success.money, 'Dialogue success');
-                                    Engine.showToast(c.success.text || 'Success!', 'success');
+                                const successData = (liveC || c).success;
+                                if (successData) {
+                                    if (successData.rep) Families.updateSatisfaction(family.id, successData.rep * 5, I18n.T('dlg.good_impression'));
+                                    if (successData.money) Engine.addMoney(successData.money, 'Dialogue success');
+                                    Engine.showToast(successData.text || I18n.T('eng.success'), 'success');
                                 } else {
-                                    Families.updateSatisfaction(family.id, 10, 'Good first impression');
+                                    Families.updateSatisfaction(family.id, 10, I18n.T('dlg.good_impression'));
                                 }
                             } else {
-                                if (c.fail) {
-                                    if (c.fail.rep) Families.updateSatisfaction(family.id, c.fail.rep * 5, 'Bad first impression');
-                                    Engine.showToast(c.fail.text || 'Failure...', 'danger');
+                                const failData = (liveC || c).fail;
+                                if (failData) {
+                                    if (failData.rep) Families.updateSatisfaction(family.id, failData.rep * 5, I18n.T('dlg.bad_impression'));
+                                    Engine.showToast(failData.text || I18n.T('eng.failure'), 'danger');
                                 } else {
-                                    Families.updateSatisfaction(family.id, -10, 'Bad first impression');
+                                    Families.updateSatisfaction(family.id, -10, I18n.T('dlg.bad_impression'));
                                 }
                             }
                         });
                     } else {
-                        if (c.rep) Families.updateSatisfaction(family.id, c.rep * 5, c.rep > 0 ? 'Good first impression' : 'Bad first impression');
+                        if (c.rep) Families.updateSatisfaction(family.id, c.rep * 5, c.rep > 0 ? I18n.T('dlg.good_impression') : I18n.T('dlg.bad_impression'));
                     }
                 }
             };
         });
 
         shuffle(choices);
-
-        const moodName = I18n.T(`mood.${family.mood.id}.name`) || family.mood.name;
-        const moodDesc = I18n.T(`mood.${family.mood.id}.desc`) || family.mood.desc;
 
         enqueue(`${family.mood.icon} ${I18n.T('dlg.family_title', family.deceasedName)}`, text, choices, () => {
             startInterview(family);

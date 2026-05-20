@@ -1355,10 +1355,11 @@ document.addEventListener('languageChanged', (e) => {
     _applyDataLanguage(e.detail);
 });
 
-// Apply immediately when script loads if a language is already saved
+// Apply immediately when script loads — mirrors i18n.js language detection
 (function() {
     try {
         const savedLang = localStorage.getItem('thanatopractor_lang');
-        if (savedLang) _applyDataLanguage(savedLang);
+        const detectedLang = savedLang || ((navigator.language || navigator.userLanguage || 'en').startsWith('es') ? 'es' : 'en');
+        if (detectedLang === 'es') _applyDataLanguage('es');
     } catch(e) {}
 })();

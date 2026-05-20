@@ -202,11 +202,13 @@ const Dialogue = (() => {
 
     function showRegistrationSummary(family) {
         const portraitOptions = { showReaper: true, imgSrc: `assets/ui/fam0${family.photoIndex}.png` };
+        const rel = Families.getLocalizedReligion(family);
+        const cause = Families.getLocalizedCause(family);
         const serviceInfo = `
             <strong>${I18n.T('dlg.deceased')}</strong> ${family.deceasedName}<br>
             <strong>${I18n.T('dlg.age')}</strong> ${family.age} | <strong>${I18n.T('dlg.sex')}</strong> ${I18n.T('dlg.' + family.sex)}<br>
-            <strong>${I18n.T('dlg.religion')}</strong> ${family.religion.icon} ${family.religion.name}<br>
-            <strong>${I18n.T('dlg.cause')}</strong> ${family.cause}<br>
+            <strong>${I18n.T('dlg.religion')}</strong> ${rel.icon} ${rel.name}<br>
+            <strong>${I18n.T('dlg.cause')}</strong> ${cause}<br>
             <strong>${I18n.T('dlg.service')}</strong> ${family.wantsCremation ? I18n.T('dlg.cremation') : I18n.T('dlg.burial')}<br>
             ${family.wantsViewing ? I18n.T('dlg.viewing_req') : ''}<br>
             ${family.wantsChapel ? I18n.T('dlg.chapel_req') : ''}
@@ -238,7 +240,7 @@ const Dialogue = (() => {
         const relation = relations[Math.floor(Math.random() * relations.length)];
         
         let text = dialogue.textKey ? I18n.T(dialogue.textKey) : dialogue.text;
-        text = text.replace(/\{name\}/g, family.deceasedName).replace(/\{relation\}/g, relation);
+        text = text.replace(/\{name\}/g, family.deceasedName).replace(/\{relation\}/g, I18n.T('relation.' + relation));
 
         const choices = dialogue.choices.map(c => {
             let choiceText = (c.textKey ? I18n.T(c.textKey) : c.text).replace(/\{name\}/g, family.deceasedName);

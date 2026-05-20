@@ -112,16 +112,53 @@ window.Main = (() => {
             const isActionPending = item.triggered && item.completed === false;
             const isDone = item.triggered && item.completed !== false;
             
+            // Localize description dynamically at rendering time!
+            let desc = item.desc || item.type;
+            const f = item.familyId ? Families.getById(item.familyId) : null;
+            const name = f ? f.deceasedName : 'Deceased';
+
+            if (item.type === 'arrival') {
+                if (item.familyId) {
+                    desc = I18n.T('rec.arrival_expected', name, timeStr);
+                } else {
+                    desc = I18n.T('eng.cremation_family');
+                }
+            } else if (item.type === 'hearse_arrival') {
+                if (item.completed) {
+                    desc = I18n.T('rec.car_ordered', name);
+                } else if (item.desc && (item.desc.includes('personal') || item.desc.includes('Personal') || item.desc.includes('sobrina') || item.desc.includes('niece') || item.desc.includes('Coche') || item.desc.includes('coche') || item.desc.includes('en camino') || item.desc.includes('enroute'))) {
+                    desc = I18n.T('rec.personal_pickup', name, timeStr);
+                } else {
+                    desc = I18n.T('rec.hearse_picking', name, timeStr);
+                }
+            } else if (item.type === 'cooldown_done') {
+                if (f && f.wantsCremation && Engine.hasUpgrade('crematorium')) {
+                    desc = I18n.T('crema.ready_desc', name);
+                } else {
+                    desc = I18n.T('rec.arrival_pickup', name);
+                }
+            } else if (item.type === 'cremation_done') {
+                desc = I18n.T('crema.cremation_finished', name, timeStr);
+            } else if (item.type === 'supplies_delivery') {
+                desc = I18n.T('shop.delivery_desc');
+            } else if (item.type === 'repair_done') {
+                desc = I18n.T('crema.repair_task_desc');
+            } else if (item.type === 'paperwork') {
+                if (item.task) {
+                    desc = I18n.T('rec.pw_expected', I18n.T(item.task.id));
+                }
+            }
+
             if (isActionPending) {
                 // Triggered but needs player action (e.g. transport_ready - call hearse)
                 div.className = 'schedule-item action-pending';
-                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span class="sched-icon pending-icon">!</span>`;
+                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${desc}</span><span class="sched-icon pending-icon">!</span>`;
             } else if (isDone) {
                 div.className = 'schedule-item completed';
-                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span class="sched-icon done-icon">✓</span>`;
+                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${desc}</span><span class="sched-icon done-icon">✓</span>`;
             } else {
                 div.className = 'schedule-item';
-                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${item.desc || item.type}</span><span class="sched-icon clock-icon">◷</span>`;
+                div.innerHTML = `<span class="time">${timeStr}</span><span class="type">${desc}</span><span class="sched-icon clock-icon">◷</span>`;
             }
             list.appendChild(div);
         });
@@ -320,6 +357,8 @@ window.Main = (() => {
                 updateLangButtons();
                 // Update dynamic text
                 if (typeof Rooms !== 'undefined' && Rooms.updateActiveRoom) Rooms.updateActiveRoom();
+                if (typeof Families !== 'undefined' && Families.updateFamiliesLog) Families.updateFamiliesLog();
+                updateHubSchedule();
                 Engine.updateHUD();
             };
         });

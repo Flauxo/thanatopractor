@@ -12,6 +12,10 @@ const Families = (() => {
         const mood = DATA.familyMoods[Math.floor(Math.random() * DATA.familyMoods.length)];
         const cause = DATA.deathCauses[Math.floor(Math.random() * DATA.deathCauses.length)];
         
+        const religionIndex = DATA.religions.indexOf(religion);
+        const moodIndex = DATA.familyMoods.indexOf(mood);
+        const causeIndex = DATA.deathCauses.indexOf(cause);
+        
         const s = typeof Engine !== 'undefined' ? Engine.getState() : null;
         
         // Only ask for services the player actually has
@@ -30,6 +34,7 @@ const Families = (() => {
             deceasedName: `${firstName} ${lastName}`,
             firstName, lastName, age, sex,
             religion, mood, cause,
+            religionIndex, moodIndex, causeIndex,
             wantsCremation, wantsViewing, wantsChapel,
             budget,
             active: true,
@@ -49,6 +54,34 @@ const Families = (() => {
             notes: []
         };
         return family;
+    }
+
+    function getLocalizedReligion(family) {
+        if (!family) return null;
+        if (family.religionIndex !== undefined && family.religionIndex >= 0 && family.religionIndex < DATA.religions.length) {
+            return DATA.religions[family.religionIndex];
+        }
+        const relId = family.religion?.id || family.religion;
+        return DATA.religions.find(r => r.id === relId) || family.religion;
+    }
+
+    function getLocalizedCause(family) {
+        if (!family) return '';
+        if (family.causeIndex !== undefined && family.causeIndex >= 0 && family.causeIndex < DATA.deathCauses.length) {
+            return DATA.deathCauses[family.causeIndex];
+        }
+        // Fallback: search in DATA_ES / DATA_EN
+        let idx = DATA.deathCauses.indexOf(family.cause);
+        if (idx === -1 && typeof DATA_ES !== 'undefined' && DATA_ES) {
+            idx = DATA_ES.deathCauses.indexOf(family.cause);
+        }
+        if (idx === -1 && typeof DATA_EN !== 'undefined' && DATA_EN) {
+            idx = DATA_EN.deathCauses.indexOf(family.cause);
+        }
+        if (idx !== -1 && idx < DATA.deathCauses.length) {
+            return DATA.deathCauses[idx];
+        }
+        return family.cause;
     }
 
     function getActive() {
@@ -151,12 +184,15 @@ const Families = (() => {
             list.innerHTML = `<p class="dim-text">${I18n.T('ov.no_families')}</p>`;
             return;
         }
-        list.innerHTML = families.slice(-3).reverse().map(f => `
+        list.innerHTML = families.slice(-3).reverse().map(f => {
+            const rel = getLocalizedReligion(f);
+            const cause = getLocalizedCause(f);
+            return `
             <div class="family-card">
                 <div class="family-name">${Icons.getHTML(f.mood.icon)} ${f.deceasedName}</div>
                 <div class="family-details">
-                    ${I18n.T('dlg.age')} ${f.age} | ${I18n.T('dlg.' + f.sex)} | ${Icons.getHTML(f.religion.icon)} ${f.religion.name}<br>
-                    ${I18n.T('dlg.cause')} ${f.cause}<br>
+                    ${I18n.T('dlg.age')} ${f.age} | ${I18n.T('dlg.' + f.sex)} | ${Icons.getHTML(rel.icon)} ${rel.name}<br>
+                    ${I18n.T('dlg.cause')} ${cause}<br>
                     ${f.wantsCremation ? Icons.getHTML('crematorium') + ' ' + I18n.T('dlg.cremation') : Icons.getHTML('coffin') + ' ' + I18n.T('dlg.burial')} 
                     ${f.wantsViewing ? '| ' + Icons.getHTML('viewing') + ' ' + I18n.T('dlg.viewing_req') : ''} 
                     ${f.wantsChapel ? '| ' + Icons.getHTML('chapel') + ' ' + I18n.T('dlg.chapel_req') : ''}
@@ -170,7 +206,8 @@ const Families = (() => {
                 </div>
                 ${f.notes.length ? `<div class="family-details" style="margin-top:4px;font-size:12px;opacity:0.8;">${f.notes.join(' | ')}</div>` : ''}
             </div>
-        `).join('');
+        `;
+        }).join('');
     }
 
     function reset() {
@@ -189,7 +226,8 @@ const Families = (() => {
     }
 
     return {
-        generate, getActive, getById, addFamily, completeFamily, updateSatisfaction, updateFamiliesLog, reset, getNextPending
+        generate, getActive, getById, addFamily, completeFamily, updateSatisfaction, updateFamiliesLog, reset, getNextPending,
+        getLocalizedReligion, getLocalizedCause
     };
 
 })();

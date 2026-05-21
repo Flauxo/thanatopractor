@@ -142,13 +142,13 @@ const Rooms = (() => {
                         // Removed money check to allow bankruptcy
                         Engine.addMoney(-50, I18n.T('eng.ordered_flowers'));
                         Engine.showToast(I18n.T('rec.flowers_result'), 'success');
-                        Engine.addReputation(5, 'Fresh flowers delivered');
+                        Engine.addReputation(5, I18n.T('room.fresh_flowers'));
                         
                         // Fulfill request for all families that wanted flowers
                         s.families.forEach(f => {
                             if (f.active && f.activeRequests && f.activeRequests.includes('flowers')) {
                                 f.activeRequests = f.activeRequests.filter(r => r !== 'flowers');
-                                if (typeof Families !== 'undefined') Families.updateSatisfaction(f.id, 10, 'Fresh flowers');
+                                if (typeof Families !== 'undefined') Families.updateSatisfaction(f.id, 10, I18n.T('room.fresh_flowers'));
                             }
                         });
 
@@ -500,7 +500,7 @@ const Rooms = (() => {
                         if (typeof Main !== 'undefined') Main.showScreen('hub');
                     } }
                 ]);
-                Families.updateSatisfaction(embalmTarget.id, quality === 'excellent' ? 20 : quality === 'good' ? 10 : quality === 'mediocre' ? 0 : quality === 'bad' ? -15 : -30, `Embalming: ${quality}`);
+                Families.updateSatisfaction(embalmTarget.id, quality === 'excellent' ? 20 : quality === 'good' ? 10 : quality === 'mediocre' ? 0 : quality === 'bad' ? -15 : -30, `${I18n.T('room.embalming_quality')}: ${quality}`);
                 
                 Engine.rollCollectionDiscovery();
 
@@ -695,6 +695,7 @@ const Rooms = (() => {
 
         CafeGames.start(order, (quality) => {
             order.served = true;
+            order.quality = quality;
             // Reward based on quality: -1=fail, 0=weak, 1=good, 2+=perfect
             let rewardMult = quality >= 2 ? 1.5 : (quality === 1 ? 1 : (quality === 0 ? 0.7 : 0.2));
             let finalPrice = Math.ceil(order.item.price * rewardMult);
@@ -709,7 +710,7 @@ const Rooms = (() => {
             if (Engine.hasItem('choc_coin')) finalPrice += 2;
             Engine.addMoney(finalPrice, I18n.T('cafe.sold_reason', itemName, qualityStr));
             
-            let satBonus = quality >= 2 ? 10 : (quality === 1 ? 5 : (quality === 0 ? 0 : -15));
+            let satBonus = quality >= 2 ? 10 : (quality === 1 ? 5 : (quality === 0 ? -5 : -15));
             if (Engine.hasItem('pizza_letter')) satBonus += 2;
             Families.updateSatisfaction(order.familyId, satBonus, `${I18n.T('nav.cafeteria')}: ${itemName}`);
             
@@ -738,22 +739,24 @@ const Rooms = (() => {
                     // If they decide to serve (c.rep < 0 is the check for illegal serving in current logic)
                     if (c.rep < 0 || c.isBribe) {
                         CafeGames.start({ type: 'alcohol', item: { item: 'Alcohol' } }, (quality) => {
+                            order.served = true;
+                            order.quality = quality;
                             if (quality >= 1) {
                                 if (c.isBribe) {
-                                    Engine.addMoney(bribe, 'Alcohol bribe');
+                                    Engine.addMoney(bribe, I18n.T('room.alcohol_bribe'));
                                     s.bribesAccepted = (s.bribesAccepted || 0) + 1;
                                     if (s.bribesAccepted >= 5) Engine.unlockAchievement('bribe_master');
                                 }
-                                else if (c.money) Engine.addMoney(c.money, 'Alcohol-related');
-                                if (c.rep) Engine.addReputation(c.rep, 'Served alcohol illegally');
-                                if (c.satisfaction) Families.updateSatisfaction(order.familyId, c.satisfaction + (quality === 2 ? 10 : 0), 'Got what they wanted');
+                                else if (c.money) Engine.addMoney(c.money, I18n.T('room.alcohol_bribe'));
+                                if (c.rep) Engine.addReputation(c.rep, I18n.T('room.alcohol_illegal'));
+                                if (c.satisfaction) Families.updateSatisfaction(order.familyId, c.satisfaction + (quality === 2 ? 10 : 0), I18n.T('cafe.denied_alcohol'));
                                 s.alcoholServedToday++;
                             } else {
-                                Engine.showToast("You spilled the evidence!", 'warning');
-                                Engine.addReputation(-5, 'Spilled alcohol / Mess');
+                                Engine.showToast(I18n.T('cafe.alcohol_spill'), 'warning');
+                                Engine.addReputation(-5, I18n.T('room.alcohol_spill'));
+                                Families.updateSatisfaction(order.familyId, -15, I18n.T('room.alcohol_spill'));
                             }
                             
-                            order.served = true;
                             const fam = Families.getById(order.familyId);
                             if (fam) {
                                 const cafeName = I18n.T('nav.cafeteria');
@@ -768,6 +771,7 @@ const Rooms = (() => {
                         if (c.rep) Engine.addReputation(c.rep, I18n.T('cafe.denied_alcohol'));
                         if (c.satisfaction) Families.updateSatisfaction(order.familyId, c.satisfaction, I18n.T('cafe.denied_alcohol'));
                         order.served = true;
+                        order.quality = 1;
                         showCafeteria();
                     }
                 }
@@ -797,9 +801,20 @@ const Rooms = (() => {
 
     function updateCafeSatisfaction() {
         const s = Engine.getState();
-        const served = s.cafeOrders.filter(o => o.served).length;
-        const total = s.cafeOrders.length || 1;
-        const pct = Math.round((served / total) * 100);
+        if (s.cafeOrders.length === 0) {
+            document.getElementById('cafe-sat-fill').style.width = '0%';
+            return;
+        }
+        let totalScore = 0;
+        s.cafeOrders.forEach(o => {
+            if (!o.served) return;
+            const q = o.quality !== undefined ? o.quality : 1;
+            if (q >= 2) totalScore += 100;
+            else if (q === 1) totalScore += 75;
+            else if (q === 0) totalScore += 40;
+            else totalScore += 10;
+        });
+        const pct = Math.round(totalScore / s.cafeOrders.length);
         document.getElementById('cafe-sat-fill').style.width = pct + '%';
     }
 
@@ -1014,7 +1029,7 @@ const Rooms = (() => {
                 return;
             }
             Audio8Bit.SFX.click();
-            Families.updateSatisfaction(viewingFamily.id, 8, 'Brought water');
+            Families.updateSatisfaction(viewingFamily.id, 8, I18n.T('room.water'));
             viewingFamily.services.push(I18n.T('view.water'));
             Engine.showToast(I18n.T('view.water_served'), 'success');
             viewingFamily.activeRequests = viewingFamily.activeRequests.filter(r => r !== 'water');
@@ -1027,14 +1042,14 @@ const Rooms = (() => {
                 return;
             }
             if (Engine.hasUpgrade('ac_system')) {
-                Families.updateSatisfaction(viewingFamily.id, 8, 'Temperature adjusted');
+                Families.updateSatisfaction(viewingFamily.id, 8, I18n.T('room.temp_adj'));
                 viewingFamily.services.push(I18n.T('view.temp'));
                 Engine.showToast(I18n.T('view.temp_adjusted'), 'success');
                 viewingFamily.activeRequests = viewingFamily.activeRequests.filter(r => r !== 'temperature');
                 updateViewingUI();
             } else {
                 Engine.showToast(I18n.T('view.no_ac'), 'warning');
-                Families.updateSatisfaction(viewingFamily.id, -5, 'No A/C');
+                Families.updateSatisfaction(viewingFamily.id, -5, I18n.T('room.no_ac'));
                 updateViewingMood();
             }
         };
@@ -1046,21 +1061,21 @@ const Rooms = (() => {
             }
             if (Engine.hasUpgrade('firstaid')) {
                 Audio8Bit.SFX.success();
-                Families.updateSatisfaction(viewingFamily.id, 12, 'First aid administered');
+                Families.updateSatisfaction(viewingFamily.id, 12, I18n.T('room.first_aid'));
                 viewingFamily.services.push(I18n.T('view.firstaid'));
                 Engine.showToast(I18n.T('view.firstaid_done'), 'success');
                 viewingFamily.activeRequests = viewingFamily.activeRequests.filter(r => r !== 'faint');
                 updateViewingUI();
             } else {
                 Engine.showToast(I18n.T('view.no_firstaid'), 'danger');
-                Families.updateSatisfaction(viewingFamily.id, -10, 'No first aid available');
+                Families.updateSatisfaction(viewingFamily.id, -10, I18n.T('room.no_first_aid'));
                 updateViewingMood();
             }
         };
 
         btnPrivacy.onclick = () => {
             if (!viewingFamily.activeRequests.includes('privacy')) return;
-            Families.updateSatisfaction(viewingFamily.id, 10, 'Left alone as requested');
+            Families.updateSatisfaction(viewingFamily.id, 10, I18n.T('room.left_alone'));
             viewingFamily.services.push(I18n.T('view.leave_alone'));
             viewingFamily.activeRequests = viewingFamily.activeRequests.filter(r => r !== 'privacy');
             updateViewingUI();
@@ -1108,10 +1123,10 @@ const Rooms = (() => {
         const satMap = { excellent: 15, good: 8, mediocre: 0, bad: -20, catastrophic: -35 };
         let finalSat = satMap[q];
         if (Engine.hasItem('returned_ring')) finalSat += 10;
-        Families.updateSatisfaction(viewingFamily.id, finalSat, `Saw body (${q})`);
+        Families.updateSatisfaction(viewingFamily.id, finalSat, `${I18n.T('room.embalming_quality')} (${q})`);
         
         const repMap = { excellent: 8, good: 4, mediocre: 0, bad: -10, catastrophic: -20 };
-        Engine.addReputation(repMap[q], `Saw body (${q})`);
+        Engine.addReputation(repMap[q], `${I18n.T('room.embalming_quality')} (${q})`);
 
         Dialogue.show(I18n.T('view.body_title', viewingFamily.deceasedName), reaction, [
             { text: q === 'bad' || q === 'catastrophic' ? I18n.T('view.sorry') : I18n.T('view.glad_goodbye'), action: () => {
@@ -1190,8 +1205,8 @@ const Rooms = (() => {
             const sermons = DATA.sermons[religionId].correct;
             const sermon = sermons[Math.floor(Math.random() * sermons.length)].replace(/\{name\}/g, chapelFamily.deceasedName);
 
-            Families.updateSatisfaction(chapelFamily.id, 15, 'Correct ceremony');
-            Engine.addReputation(3, 'Beautiful ceremony');
+            Families.updateSatisfaction(chapelFamily.id, 15, I18n.T('room.ceremony_ok'));
+            Engine.addReputation(3, I18n.T('room.ceremony_beautiful'));
             Audio8Bit.SFX.success();
 
             Dialogue.show(I18n.T('chapel.ivan_speaks'), sermon, [
@@ -1205,8 +1220,8 @@ const Rooms = (() => {
             const sermonKey = sermons[Math.floor(Math.random() * sermons.length)];
             const sermon = I18n.T(sermonKey).replace(/\{name\}/g, chapelFamily.deceasedName);
 
-            Families.updateSatisfaction(chapelFamily.id, -25, 'Wrong religion ceremony!');
-            Engine.addReputation(-10, 'Wrong ceremony type!'); // -10 points penalty
+            Families.updateSatisfaction(chapelFamily.id, -25, I18n.T('room.ceremony_wrong'));
+            Engine.addReputation(-10, I18n.T('room.wrong_religion')); // -10 points penalty
             Audio8Bit.SFX.fail();
 
             const choices = [];
@@ -1243,8 +1258,8 @@ const Rooms = (() => {
                 { text: I18n.T('chapel.violin_offer_yes'), action: () => {
                     if (familyAccepts) {
                         Engine.addMoney(40, I18n.T('chapel.violin_income'));
-                        Families.updateSatisfaction(family.id, 10, 'Beautiful violin music');
-                        Engine.addReputation(1, 'Violin accompaniment');
+                        Families.updateSatisfaction(family.id, 10, I18n.T('room.violin_music'));
+                        Engine.addReputation(1, I18n.T('room.violin_music'));
                         if (!family.services.includes('violin')) family.services.push('violin');
 
                         const quotes = [

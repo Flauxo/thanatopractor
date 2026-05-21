@@ -695,6 +695,7 @@ const Rooms = (() => {
 
         CafeGames.start(order, (quality) => {
             order.served = true;
+            order.quality = quality;
             // Reward based on quality: -1=fail, 0=weak, 1=good, 2+=perfect
             let rewardMult = quality >= 2 ? 1.5 : (quality === 1 ? 1 : (quality === 0 ? 0.7 : 0.2));
             let finalPrice = Math.ceil(order.item.price * rewardMult);
@@ -709,7 +710,7 @@ const Rooms = (() => {
             if (Engine.hasItem('choc_coin')) finalPrice += 2;
             Engine.addMoney(finalPrice, I18n.T('cafe.sold_reason', itemName, qualityStr));
             
-            let satBonus = quality >= 2 ? 10 : (quality === 1 ? 5 : (quality === 0 ? 0 : -15));
+            let satBonus = quality >= 2 ? 10 : (quality === 1 ? 5 : (quality === 0 ? -5 : -15));
             if (Engine.hasItem('pizza_letter')) satBonus += 2;
             Families.updateSatisfaction(order.familyId, satBonus, `${I18n.T('nav.cafeteria')}: ${itemName}`);
             
@@ -738,6 +739,8 @@ const Rooms = (() => {
                     // If they decide to serve (c.rep < 0 is the check for illegal serving in current logic)
                     if (c.rep < 0 || c.isBribe) {
                         CafeGames.start({ type: 'alcohol', item: { item: 'Alcohol' } }, (quality) => {
+                            order.served = true;
+                            order.quality = quality;
                             if (quality >= 1) {
                                 if (c.isBribe) {
                                     Engine.addMoney(bribe, I18n.T('room.alcohol_bribe'));
@@ -751,9 +754,9 @@ const Rooms = (() => {
                             } else {
                                 Engine.showToast(I18n.T('cafe.alcohol_spill'), 'warning');
                                 Engine.addReputation(-5, I18n.T('room.alcohol_spill'));
+                                Families.updateSatisfaction(order.familyId, -15, I18n.T('room.alcohol_spill'));
                             }
                             
-                            order.served = true;
                             const fam = Families.getById(order.familyId);
                             if (fam) {
                                 const cafeName = I18n.T('nav.cafeteria');
@@ -768,6 +771,7 @@ const Rooms = (() => {
                         if (c.rep) Engine.addReputation(c.rep, I18n.T('cafe.denied_alcohol'));
                         if (c.satisfaction) Families.updateSatisfaction(order.familyId, c.satisfaction, I18n.T('cafe.denied_alcohol'));
                         order.served = true;
+                        order.quality = 1;
                         showCafeteria();
                     }
                 }
@@ -797,9 +801,20 @@ const Rooms = (() => {
 
     function updateCafeSatisfaction() {
         const s = Engine.getState();
-        const served = s.cafeOrders.filter(o => o.served).length;
-        const total = s.cafeOrders.length || 1;
-        const pct = Math.round((served / total) * 100);
+        if (s.cafeOrders.length === 0) {
+            document.getElementById('cafe-sat-fill').style.width = '0%';
+            return;
+        }
+        let totalScore = 0;
+        s.cafeOrders.forEach(o => {
+            if (!o.served) return;
+            const q = o.quality !== undefined ? o.quality : 1;
+            if (q >= 2) totalScore += 100;
+            else if (q === 1) totalScore += 75;
+            else if (q === 0) totalScore += 40;
+            else totalScore += 10;
+        });
+        const pct = Math.round(totalScore / s.cafeOrders.length);
         document.getElementById('cafe-sat-fill').style.width = pct + '%';
     }
 

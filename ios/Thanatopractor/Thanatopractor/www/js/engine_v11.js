@@ -481,7 +481,7 @@ const Engine = (() => {
                 if (f.services.includes('chapel')) total += DATA.serviceBasePrices.chapelService;
                 if (!f.wantsCremation && (!state.upgrades || !state.upgrades.includes('hearse'))) {
                     total -= DATA.serviceBasePrices.hearseRental;
-                    addMoney(-DATA.serviceBasePrices.hearseRental, 'External hearse rental', true);
+                    addMoney(-DATA.serviceBasePrices.hearseRental, I18n.T('fam.hearse_rental'), true);
                 }
 
                 let rating = Math.round(f.satisfaction / 10);
@@ -496,8 +496,8 @@ const Engine = (() => {
                 const repChange = (rating - 5) + satBonus;
                 const xpGain = 100 + rating * 20;
 
-                addMoney(total, `Service for ${f.deceasedName}`, true);
-                addReputation(repChange, `${f.deceasedName}'s family rated you ${rating}/10`, true);
+                addMoney(total, I18n.T('fam.service_for', f.deceasedName), true);
+                addReputation(repChange, I18n.T('fam.family_rating', f.deceasedName, rating), true);
                 addXP(xpGain);
 
                 gusEarnings += total;
@@ -508,8 +508,8 @@ const Engine = (() => {
             // 2. Process active paperwork
             if (state.activePaperwork) {
                 const pw = state.activePaperwork;
-                addMoney(pw.reward, 'Gus completed paperwork', true);
-                if (pw.repReward) addReputation(pw.repReward, 'Gus completed paperwork', true);
+                addMoney(pw.reward, I18n.T('eng.paperwork_success'), true);
+                if (pw.repReward) addReputation(pw.repReward, I18n.T('eng.paperwork_success'), true);
 
                 if (pw.id === 'pw_niece') {
                     state.temporaryHearseAvailable = true;
@@ -725,8 +725,8 @@ const Engine = (() => {
                                 effectText.style.display = 'block';
                                 
                                 // Immediate effects
-                                if (newsItem.effect.rep) addReputation(newsItem.effect.rep, "News: " + newsItem.id);
-                                if (newsItem.effect.money) addMoney(newsItem.effect.money, "News: " + newsItem.id);
+                                if (newsItem.effect.rep) addReputation(newsItem.effect.rep, I18n.T('hub.newspaper') + ': ' + newsItem.id);
+                                if (newsItem.effect.money) addMoney(newsItem.effect.money, I18n.T('hub.newspaper') + ': ' + newsItem.id);
                                 
                                 // Day-long effects
                                 if (newsItem.effect.priceMod) state.priceMod = newsItem.effect.priceMod;
@@ -817,7 +817,7 @@ const Engine = (() => {
                         }
 
                         showToast(msg, fam.cremationTempFailure ? 'danger' : 'success');
-                        if (typeof Families !== 'undefined') Families.updateSatisfaction(fam.id, satChange, 'Cremation quality');
+                        if (typeof Families !== 'undefined') Families.updateSatisfaction(fam.id, satChange, I18n.T('room.cremation_quality'));
                         
                         // Ensure the family is ready for transport
                         if (typeof Rooms !== 'undefined') Rooms.checkServiceComplete(fam);
@@ -896,7 +896,24 @@ const Engine = (() => {
         state.lastRandomEventTime = state.time;
         if (!DATA.randomEvents) return;
         state.lastActivityTime = state.time;
-        const event = DATA.randomEvents[Math.floor(Math.random() * DATA.randomEvents.length)];
+        
+        let event;
+        let attempts = 0;
+        const isPositive = (evt) => {
+            if (evt.effect) return evt.effect === 'supplies';
+            if (evt.choices) return evt.choices.some(c => (c.rep || 0) > 0 || (c.money || 0) > 0);
+            return false;
+        };
+        
+        do {
+            event = DATA.randomEvents[Math.floor(Math.random() * DATA.randomEvents.length)];
+            attempts++;
+            if (hasItem('ghost_key') && !isPositive(event) && Math.random() < 0.10 && attempts < 5) {
+                continue;
+            }
+            break;
+        } while (true);
+
         if (state.dayEvents.includes(event.type)) return;
         state.dayEvents.push(event.type);
         
@@ -1004,7 +1021,7 @@ const Engine = (() => {
         const closeBtn = document.getElementById('btn-dice-close');
 
         overlay.style.display = 'flex';
-        resultEl.textContent = I18n.T('dice.modifier', modifier >= 0 ? '+' + modifier : modifier);
+        resultEl.textContent = I18n.T('dice.modifier', finalModifier >= 0 ? '+' + finalModifier : finalModifier);
         resultEl.className = 'dice-result';
         rollBtn.style.display = 'block';
         closeBtn.style.display = 'none';
@@ -1092,7 +1109,7 @@ const Engine = (() => {
                     clearInterval(rollAnim);
                     die.classList.remove('rolling');
                     const roll = Math.floor(Math.random() * 20) + 1;
-                    const total = Math.max(1, Math.min(25, roll + modifier));
+                    const total = Math.max(1, Math.min(25, roll + finalModifier));
                     valueEl.textContent = roll;
                     if (roll > state.stats.bestRoll) state.stats.bestRoll = roll;
 
@@ -1108,7 +1125,7 @@ const Engine = (() => {
                     if (roll === 20) Notifications.unlockAchievement('nat_20');
                     if (roll === 1) Notifications.unlockAchievement('nat_1');
 
-                    resultEl.textContent = I18n.T('dice.result', roll + (modifier ? (modifier > 0 ? ' + ' + modifier : ' ' + modifier) : ''), total, result);
+                    resultEl.textContent = I18n.T('dice.result', roll + (finalModifier ? (finalModifier > 0 ? ' + ' + finalModifier : ' ' + finalModifier) : ''), total, result);
                     resultEl.className = `dice-result ${cls}`;
                     Audio8Bit.SFX.diceResult(total > 12);
 

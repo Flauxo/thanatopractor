@@ -896,7 +896,24 @@ const Engine = (() => {
         state.lastRandomEventTime = state.time;
         if (!DATA.randomEvents) return;
         state.lastActivityTime = state.time;
-        const event = DATA.randomEvents[Math.floor(Math.random() * DATA.randomEvents.length)];
+        
+        let event;
+        let attempts = 0;
+        const isPositive = (evt) => {
+            if (evt.effect) return evt.effect === 'supplies';
+            if (evt.choices) return evt.choices.some(c => (c.rep || 0) > 0 || (c.money || 0) > 0);
+            return false;
+        };
+        
+        do {
+            event = DATA.randomEvents[Math.floor(Math.random() * DATA.randomEvents.length)];
+            attempts++;
+            if (hasItem('ghost_key') && !isPositive(event) && Math.random() < 0.10 && attempts < 5) {
+                continue;
+            }
+            break;
+        } while (true);
+
         if (state.dayEvents.includes(event.type)) return;
         state.dayEvents.push(event.type);
         
@@ -1004,7 +1021,7 @@ const Engine = (() => {
         const closeBtn = document.getElementById('btn-dice-close');
 
         overlay.style.display = 'flex';
-        resultEl.textContent = I18n.T('dice.modifier', modifier >= 0 ? '+' + modifier : modifier);
+        resultEl.textContent = I18n.T('dice.modifier', finalModifier >= 0 ? '+' + finalModifier : finalModifier);
         resultEl.className = 'dice-result';
         rollBtn.style.display = 'block';
         closeBtn.style.display = 'none';
@@ -1092,7 +1109,7 @@ const Engine = (() => {
                     clearInterval(rollAnim);
                     die.classList.remove('rolling');
                     const roll = Math.floor(Math.random() * 20) + 1;
-                    const total = Math.max(1, Math.min(25, roll + modifier));
+                    const total = Math.max(1, Math.min(25, roll + finalModifier));
                     valueEl.textContent = roll;
                     if (roll > state.stats.bestRoll) state.stats.bestRoll = roll;
 
@@ -1108,7 +1125,7 @@ const Engine = (() => {
                     if (roll === 20) Notifications.unlockAchievement('nat_20');
                     if (roll === 1) Notifications.unlockAchievement('nat_1');
 
-                    resultEl.textContent = I18n.T('dice.result', roll + (modifier ? (modifier > 0 ? ' + ' + modifier : ' ' + modifier) : ''), total, result);
+                    resultEl.textContent = I18n.T('dice.result', roll + (finalModifier ? (finalModifier > 0 ? ' + ' + finalModifier : ' ' + finalModifier) : ''), total, result);
                     resultEl.className = `dice-result ${cls}`;
                     Audio8Bit.SFX.diceResult(total > 12);
 

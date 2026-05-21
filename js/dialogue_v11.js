@@ -228,7 +228,7 @@ const Dialogue = (() => {
                 family.arrived = true;
                 // Satisfaction impact
                 const bonus = Math.floor((family.interviewSatisfaction - 50) / 2);
-                Families.updateSatisfaction(family.id, bonus, 'Family Interview');
+                Families.updateSatisfaction(family.id, bonus, I18n.T('dlg.interview_title'));
                 
                 Engine.Notifications.addBadge('embalming');
                 Families.updateFamiliesLog();
@@ -277,7 +277,7 @@ const Dialogue = (() => {
                                 const successData = (liveC || c).success;
                                 if (successData) {
                                     if (successData.rep) Families.updateSatisfaction(family.id, successData.rep * 5, I18n.T('dlg.good_impression'));
-                                    if (successData.money) Engine.addMoney(successData.money, 'Dialogue success');
+                                    if (successData.money) Engine.addMoney(successData.money, I18n.T('eng.success'));
                                     Engine.showToast(successData.text || I18n.T('eng.success'), 'success');
                                 } else {
                                     Families.updateSatisfaction(family.id, 10, I18n.T('dlg.good_impression'));

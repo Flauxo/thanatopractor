@@ -481,7 +481,7 @@ const Engine = (() => {
                 if (f.services.includes('chapel')) total += DATA.serviceBasePrices.chapelService;
                 if (!f.wantsCremation && (!state.upgrades || !state.upgrades.includes('hearse'))) {
                     total -= DATA.serviceBasePrices.hearseRental;
-                    addMoney(-DATA.serviceBasePrices.hearseRental, 'External hearse rental', true);
+                    addMoney(-DATA.serviceBasePrices.hearseRental, I18n.T('fam.hearse_rental'), true);
                 }
 
                 let rating = Math.round(f.satisfaction / 10);
@@ -496,8 +496,8 @@ const Engine = (() => {
                 const repChange = (rating - 5) + satBonus;
                 const xpGain = 100 + rating * 20;
 
-                addMoney(total, `Service for ${f.deceasedName}`, true);
-                addReputation(repChange, `${f.deceasedName}'s family rated you ${rating}/10`, true);
+                addMoney(total, I18n.T('fam.service_for', f.deceasedName), true);
+                addReputation(repChange, I18n.T('fam.family_rating', f.deceasedName, rating), true);
                 addXP(xpGain);
 
                 gusEarnings += total;
@@ -508,8 +508,8 @@ const Engine = (() => {
             // 2. Process active paperwork
             if (state.activePaperwork) {
                 const pw = state.activePaperwork;
-                addMoney(pw.reward, 'Gus completed paperwork', true);
-                if (pw.repReward) addReputation(pw.repReward, 'Gus completed paperwork', true);
+                addMoney(pw.reward, I18n.T('eng.paperwork_success'), true);
+                if (pw.repReward) addReputation(pw.repReward, I18n.T('eng.paperwork_success'), true);
 
                 if (pw.id === 'pw_niece') {
                     state.temporaryHearseAvailable = true;
@@ -725,8 +725,8 @@ const Engine = (() => {
                                 effectText.style.display = 'block';
                                 
                                 // Immediate effects
-                                if (newsItem.effect.rep) addReputation(newsItem.effect.rep, "News: " + newsItem.id);
-                                if (newsItem.effect.money) addMoney(newsItem.effect.money, "News: " + newsItem.id);
+                                if (newsItem.effect.rep) addReputation(newsItem.effect.rep, I18n.T('hub.newspaper') + ': ' + newsItem.id);
+                                if (newsItem.effect.money) addMoney(newsItem.effect.money, I18n.T('hub.newspaper') + ': ' + newsItem.id);
                                 
                                 // Day-long effects
                                 if (newsItem.effect.priceMod) state.priceMod = newsItem.effect.priceMod;
@@ -817,7 +817,7 @@ const Engine = (() => {
                         }
 
                         showToast(msg, fam.cremationTempFailure ? 'danger' : 'success');
-                        if (typeof Families !== 'undefined') Families.updateSatisfaction(fam.id, satChange, 'Cremation quality');
+                        if (typeof Families !== 'undefined') Families.updateSatisfaction(fam.id, satChange, I18n.T('room.cremation_quality'));
                         
                         // Ensure the family is ready for transport
                         if (typeof Rooms !== 'undefined') Rooms.checkServiceComplete(fam);

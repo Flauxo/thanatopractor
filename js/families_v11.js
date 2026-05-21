@@ -119,7 +119,7 @@ const Families = (() => {
         }
         if (!f.wantsCremation && !Engine.hasUpgrade('hearse')) {
             total -= DATA.serviceBasePrices.hearseRental; // hearse rental cost
-            Engine.addMoney(-DATA.serviceBasePrices.hearseRental, 'External hearse rental', true);
+            Engine.addMoney(-DATA.serviceBasePrices.hearseRental, I18n.T('fam.hearse_rental'), true);
             const quote = DATA.hearseDriverQuotes[Math.floor(Math.random() * DATA.hearseDriverQuotes.length)];
         }
         
@@ -156,9 +156,9 @@ const Families = (() => {
             document.getElementById('completion-overlay').style.display = 'none';
 
             // Process rewards AFTER dismissal
-            Engine.addReputation(repChange, `${f.deceasedName}'s family rated you ${rating}/10`, true);
+            Engine.addReputation(repChange, I18n.T('fam.family_rating', f.deceasedName, rating), true);
             Engine.addXP(100 + rating * 20);
-            Engine.addMoney(total, `Service for ${f.deceasedName}`, true);
+            Engine.addMoney(total, I18n.T('fam.service_for', f.deceasedName), true);
             
             updateFamiliesLog();
         };

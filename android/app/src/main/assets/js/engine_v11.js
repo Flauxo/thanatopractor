@@ -537,6 +537,7 @@ const Engine = (() => {
         } else {
             activeFamsAtEnd.forEach(f => {
                 f.active = false;
+                f.cremationStarted = false;
                 if (f.wantsCremation && !f.cremated) {
                     f.discardedOvernight = true;
                     showDisposalWarning = true;
@@ -578,11 +579,9 @@ const Engine = (() => {
         state.dayEnding = false;
         state.badLuckEventsToday = 0;
         
-        if (state.cremaRepairing) {
-            state.cremaRepairing = false;
-            state.cremaBroken = false;
-            state.cremaRepairFinishTime = 0;
-        }
+        state.cremaRepairing = false;
+        state.cremaBroken = false;
+        state.cremaRepairFinishTime = 0;
         
         // Daily costs
         const dailyCost = 100 + (state.upgrades.length * 20);

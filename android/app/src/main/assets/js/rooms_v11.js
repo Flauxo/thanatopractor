@@ -837,6 +837,7 @@ const Rooms = (() => {
 
         document.getElementById('btn-add-fuel').onclick = () => {
             const s = Engine.getState();
+            if (s.cremaBroken || s.cremaRepairing) { Engine.showToast(I18n.T('crema.broken_title'), 'danger'); return; }
             if (s.money < 50) { Engine.showToast(I18n.T('crema.no_money_fuel'), 'danger'); return; }
             if (s.cremaFuel >= 10) { Engine.showToast(I18n.T('crema.fuel_full'), 'warning'); return; }
             Engine.addMoney(-50, 'Crematorium fuel');
@@ -847,6 +848,7 @@ const Rooms = (() => {
 
         document.getElementById('btn-ignite').onclick = () => {
             const s = Engine.getState();
+            if (s.cremaBroken || s.cremaRepairing) { Engine.showToast(I18n.T('crema.broken_title'), 'danger'); return; }
             if (!s.cremaIgnited) {
                 if (s.cremaFuel <= 0) { Engine.showToast(I18n.T('crema.add_fuel_first'), 'warning'); return; }
                 s.cremaIgnited = true;

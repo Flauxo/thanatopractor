@@ -1167,17 +1167,22 @@ const Rooms = (() => {
         }
 
         const sourceData = (typeof DATA_ES !== 'undefined' && I18n.getLanguage() === 'es') ? DATA_ES : DATA;
-        const ivanQuote = sourceData.ivanQuotes[Math.floor(Math.random() * sourceData.ivanQuotes.length)];
-        document.getElementById('ivan-speech').textContent = ivanQuote;
 
         const active = Families.getActive().filter(f => f.embalmed && f.wantsChapel && !f.chapelDone && (f.viewed || f.cooldownDone));
         if (active.length === 0) {
             document.getElementById('chapel-service-info').innerHTML = `<p class="dim-text">${I18n.T('chapel.no_service')}</p>`;
             document.getElementById('chapel-sermon-select').style.display = 'none';
+            if (!document.getElementById('ivan-speech').textContent) {
+                document.getElementById('ivan-speech').textContent = sourceData.ivanQuotes[0];
+            }
             return;
         }
 
         chapelFamily = active[0];
+        if (chapelFamily.ivanQuoteIndex === undefined) {
+            chapelFamily.ivanQuoteIndex = Math.floor(Math.random() * sourceData.ivanQuotes.length);
+        }
+        document.getElementById('ivan-speech').textContent = sourceData.ivanQuotes[chapelFamily.ivanQuoteIndex];
         document.getElementById('chapel-service-info').innerHTML = `
             <div>${I18n.T('chapel.ceremony_for')} <strong>${chapelFamily.deceasedName}</strong></div>
             <div style="margin-top:8px"><button class="action-btn pink-btn" onclick="Rooms.startSermon()"><span class="custom-icon" data-icon="music"></span> ${I18n.T('chapel.begin')}</button></div>

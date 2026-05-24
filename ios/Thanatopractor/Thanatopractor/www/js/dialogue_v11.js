@@ -101,7 +101,7 @@ const Dialogue = (() => {
     function startInterview(family) {
         const state = Engine.getState();
         let satisfaction = 50;
-        let steps = 3 + Math.floor(Math.random() * 3); // 3-5 steps
+        let steps = 3; // 3 steps
         let currentStep = 0;
 
         // Setup the pool if it doesn't exist

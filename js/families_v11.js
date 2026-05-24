@@ -29,8 +29,10 @@ const Families = (() => {
         
         const budget = ['low','medium','high','unlimited'][Math.floor(Math.random() * 4)];
 
+        const s = Engine.getState();
+        const maxId = s.families.reduce((max, f) => Math.max(max, f.id || 0), 0);
         const family = {
-            id: nextId++,
+            id: maxId + 1,
             deceasedName: `${firstName} ${lastName}`,
             firstName, lastName, age, sex,
             religion, mood, cause,

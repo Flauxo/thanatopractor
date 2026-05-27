@@ -200,19 +200,13 @@ const Rooms = (() => {
             const hasTempHearse = s.temporaryHearseAvailable;
             const cooldownOver = s.time >= (s.personalHearseCooldown || 0);
 
-            if (hasPermanentHearse || hasTempHearse) {
-                let text = '';
+            if (hasPermanentHearse) {
+                let text = I18n.T('rec.personal_hearse');
                 let canUse = true;
-
-                if (hasPermanentHearse) {
-                    text = I18n.T('rec.personal_hearse');
-                    if (!cooldownOver) {
-                        const remaining = Math.ceil((s.personalHearseCooldown - s.time) / 60);
-                        text = I18n.T('rec.car_cooldown', remaining);
-                        canUse = false;
-                    }
-                } else {
-                    text = I18n.T('rec.niece_car');
+                if (!cooldownOver) {
+                    const remaining = Math.ceil((s.personalHearseCooldown - s.time) / 60);
+                    text = I18n.T('rec.car_cooldown', remaining);
+                    canUse = false;
                 }
 
                 if (s.families.filter(f => f.active && f.waitingForTransport && !f.transportOrdered).length > 0 && canUse) {
@@ -222,7 +216,7 @@ const Rooms = (() => {
                 phoneChoices.push({
                     text: text,
                     action: () => {
-                        if (hasPermanentHearse && !canUse) {
+                        if (!canUse) {
                             Engine.showToast(I18n.T('rec.car_busy'), 'warning');
                             return;
                         }
@@ -236,39 +230,56 @@ const Rooms = (() => {
                         // Use the car for ONE family
                         const f = waitingFams[0];
                         
-                        if (hasPermanentHearse) {
-                            // Permanent Hearse - Randomized behavior (1-3h wait + extra cooldown)
-                            const hours = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3h
-                            f.transportOrdered = true;
-                            s.personalHearseCooldown = s.time + (hours * 60) + 60; // cooldown = travel time + 1h extra
+                        // Permanent Hearse - Randomized behavior (1-3h wait + extra cooldown)
+                        const hours = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3h
+                        f.transportOrdered = true;
+                        s.personalHearseCooldown = s.time + (hours * 60) + 60; // cooldown = travel time + 1h extra
 
-                            const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
-                            if (task) {
-                                task.completed = true;
-                                task.desc = I18n.T('rec.personal_enroute', f.deceasedName);
-                            }
-                            
-                            const arrivalTime = Math.round(s.time + (hours * 60));
-                            s.schedule.push({
-                                time: arrivalTime,
-                                type: 'hearse_arrival',
-                                familyId: f.id,
-                                desc: I18n.T('rec.personal_pickup', f.deceasedName, Engine.getTimeString(arrivalTime)),
-                                triggered: false,
-                                completed: false
-                            });
-                            Engine.showToast(I18n.T('rec.car_dispatched', f.deceasedName, hours), 'success');
-                        } else {
-                            // Niece's Car - IMMEDIATE & SINGLE USE
-                            s.temporaryHearseAvailable = false;
-                            const nieceTask = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
-                            if (nieceTask) nieceTask.completed = true;
-                            Families.completeFamily(f.id);
-                            Engine.showToast(I18n.T('rec.niece_arrived', f.deceasedName), 'success');
-                            if (typeof Main !== 'undefined') Main.showScreen('hub');
+                        const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
+                        if (task) {
+                            task.completed = true;
+                            task.desc = I18n.T('rec.personal_enroute', f.deceasedName);
                         }
-
+                        
+                        const arrivalTime = Math.round(s.time + (hours * 60));
+                        s.schedule.push({
+                            time: arrivalTime,
+                            type: 'hearse_arrival',
+                            familyId: f.id,
+                            desc: I18n.T('rec.personal_pickup', f.deceasedName, Engine.getTimeString(arrivalTime)),
+                            triggered: false,
+                            completed: false
+                        });
+                        Engine.showToast(I18n.T('rec.car_dispatched', f.deceasedName, hours), 'success');
                         Engine.Notifications.clearBadge('reception');
+                        if (typeof Main !== 'undefined') Main.showScreen('hub');
+                    }
+                });
+            }
+
+            if (hasTempHearse) {
+                let text = I18n.T('rec.niece_car');
+                if (s.families.filter(f => f.active && f.waitingForTransport && !f.transportOrdered).length > 0) {
+                    text += ' ❗';
+                }
+                phoneChoices.push({
+                    text: text,
+                    action: () => {
+                        const waitingFams = s.families.filter(f => f.active && f.waitingForTransport && !f.transportOrdered);
+                        if (waitingFams.length === 0) {
+                            Engine.showToast(I18n.T('rec.no_family_transport'), 'warning');
+                            return;
+                        }
+                        const f = waitingFams[0];
+                        
+                        // Niece's Car - IMMEDIATE & SINGLE USE
+                        s.temporaryHearseAvailable = false;
+                        const nieceTask = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
+                        if (nieceTask) nieceTask.completed = true;
+                        Families.completeFamily(f.id);
+                        Engine.showToast(I18n.T('rec.niece_arrived', f.deceasedName), 'success');
+                        Engine.Notifications.clearBadge('reception');
+                        if (typeof Main !== 'undefined') Main.showScreen('hub');
                     }
                 });
             }
@@ -306,6 +317,7 @@ const Rooms = (() => {
                             // Check if this was the niece's car paperwork
                             if (task.id === 'pw_niece') {
                                 s.temporaryHearseAvailable = true;
+                                s.nieceUnlocked = true;
                                 Engine.showToast(I18n.T('rec.niece_desc'), 'success');
                             }
 

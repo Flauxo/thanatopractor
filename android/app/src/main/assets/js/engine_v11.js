@@ -513,6 +513,7 @@ const Engine = (() => {
 
                 if (pw.id === 'pw_niece') {
                     state.temporaryHearseAvailable = true;
+                    state.nieceUnlocked = true;
                 }
                 state.consecutivePaperwork = (state.consecutivePaperwork || 0) + 1;
                 if (state.consecutivePaperwork >= 10) Notifications.unlockAchievement('paperwork_ninja');
@@ -578,6 +579,10 @@ const Engine = (() => {
         state.cremaLock = null;
         state.dayEnding = false;
         state.badLuckEventsToday = 0;
+        state.personalHearseCooldown = 0;
+        if (state.nieceUnlocked) {
+            state.temporaryHearseAvailable = true;
+        }
         
         state.cremaRepairing = false;
         state.cremaBroken = false;

@@ -182,8 +182,7 @@ const HearseGame = (() => {
             document.body.removeChild(overlay);
             document.removeEventListener('keydown', keydownHandler);
             if (typeof Audio8Bit !== 'undefined') {
-                Audio8Bit.playTrack('midnightDig');
-                Audio8Bit.startAmbience();
+                Audio8Bit.resume();
             }
             if (typeof Engine !== 'undefined') Engine.restoreSpeed(); // Resume simulation
             if(onGameComplete) onGameComplete(success);
@@ -539,8 +538,7 @@ const HearseGame = (() => {
         btn.onclick = () => {
             startScreen.style.display = 'none';
             if (typeof Audio8Bit !== 'undefined') {
-                Audio8Bit.stopMusic();
-                Audio8Bit.stopAmbience();
+                Audio8Bit.suspend();
             }
             if (typeof Engine !== 'undefined') Engine.setSpeed(0); // Pause simulation
             AudioEngine.init();

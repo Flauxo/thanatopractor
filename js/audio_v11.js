@@ -747,8 +747,8 @@ const Audio8Bit = (() => {
             currentGainNode.trackBeatOffset = currentBeat;
             scheduleTrack(currentTrackName, currentGainNode, t);
         },
-        suspend() { if (ctx && ctx.state === 'running') ctx.suspend(); },
-        resume() { if (ctx && ctx.state === 'suspended') ctx.resume(); },
+        suspend() { if (ctx) ctx.suspend(); },
+        resume() { if (ctx) ctx.resume(); },
         get initialized() { return initialized; },
         get muted() { return muted; },
         toggleMute() {

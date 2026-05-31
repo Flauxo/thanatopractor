@@ -181,7 +181,8 @@ const HearseGame = (() => {
         setTimeout(() => {
             document.body.removeChild(overlay);
             document.removeEventListener('keydown', keydownHandler);
-            if (typeof Audio8Bit !== 'undefined') Audio8Bit.playTrack('midnightDig'); // Resume main game music
+            if (typeof Audio8Bit !== 'undefined') Audio8Bit.resume(); // Resume main game audio
+            if (typeof Engine !== 'undefined') Engine.restoreSpeed(); // Resume simulation
             if(onGameComplete) onGameComplete(success);
         }, success ? 500 : 3500); // Dar 3.5s para escuchar el crash y la musiquilla menor
     }
@@ -521,7 +522,8 @@ const HearseGame = (() => {
         
         btn.onclick = () => {
             startScreen.style.display = 'none';
-            if (typeof Audio8Bit !== 'undefined') Audio8Bit.stopMusic(); // Stop main game music
+            if (typeof Audio8Bit !== 'undefined') Audio8Bit.suspend(); // Silence main game
+            if (typeof Engine !== 'undefined') Engine.setSpeed(0); // Pause simulation
             AudioEngine.init();
             AudioEngine.startMusic();
             GameState.isRunning = true;

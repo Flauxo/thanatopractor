@@ -131,14 +131,14 @@ const HearseGame = (() => {
                     init();
                     playNoise(1.5, 1.0); // Explosión enorme
                     playTone(80, 'sawtooth', 1.5, 0.8);
-                    // Melodía menor descendente tras 1 segundo
+                    // Melodía menor descendente a la vez que el crash
                     setTimeout(() => {
                         playTone(523.25, 'square', 0.4, 0.5); // C5
                         setTimeout(() => playTone(466.16, 'square', 0.4, 0.5), 400); // Bb4
                         setTimeout(() => playTone(415.30, 'square', 0.4, 0.5), 800); // Ab4
                         setTimeout(() => playTone(392.00, 'square', 0.4, 0.5), 1200); // G4
                         setTimeout(() => playTone(349.23, 'square', 1.0, 0.5), 1600); // F4 larga
-                    }, 1000);
+                    }, 0);
                 }
             }
         };
@@ -186,7 +186,7 @@ const HearseGame = (() => {
             }
             if (typeof Engine !== 'undefined') Engine.restoreSpeed(); // Resume simulation
             if(onGameComplete) onGameComplete(success);
-        }, success ? 500 : 3500); // Dar 3.5s para escuchar el crash y la musiquilla menor
+        }, success ? 500 : 2000); // 2s de pantalla roja
     }
 
     function zToY(z, H) {

@@ -181,7 +181,10 @@ const HearseGame = (() => {
         setTimeout(() => {
             document.body.removeChild(overlay);
             document.removeEventListener('keydown', keydownHandler);
-            if (typeof Audio8Bit !== 'undefined') Audio8Bit.resume(); // Resume main game audio
+            if (typeof Audio8Bit !== 'undefined') {
+                Audio8Bit.playTrack('midnightDig');
+                Audio8Bit.startAmbience();
+            }
             if (typeof Engine !== 'undefined') Engine.restoreSpeed(); // Resume simulation
             if(onGameComplete) onGameComplete(success);
         }, success ? 500 : 3500); // Dar 3.5s para escuchar el crash y la musiquilla menor
@@ -205,12 +208,24 @@ const HearseGame = (() => {
         GameState.playerLane += (GameState.targetLane - GameState.playerLane) * 15 * dt;
         
         if(Math.random() < 0.020) {
-            GameState.entities.push({
-                lane: Math.floor(Math.random() * 3) - 1,
-                z: 8000,
-                type: Math.floor(Math.random() * 3), 
-                active: true
+            let proposedLane = Math.floor(Math.random() * 3) - 1;
+            
+            let occupiedLanes = new Set();
+            GameState.entities.forEach(e => {
+                if (e.active && e.z > 6500) { 
+                    occupiedLanes.add(e.lane);
+                }
             });
+            
+            // Avoid creating a wall
+            if (!(occupiedLanes.size === 2 && !occupiedLanes.has(proposedLane))) {
+                GameState.entities.push({
+                    lane: proposedLane,
+                    z: 8000,
+                    type: Math.floor(Math.random() * 3), 
+                    active: true
+                });
+            }
         }
         
         GameState.entities.forEach(e => {
@@ -523,7 +538,10 @@ const HearseGame = (() => {
         
         btn.onclick = () => {
             startScreen.style.display = 'none';
-            if (typeof Audio8Bit !== 'undefined') Audio8Bit.suspend(); // Silence main game
+            if (typeof Audio8Bit !== 'undefined') {
+                Audio8Bit.stopMusic();
+                Audio8Bit.stopAmbience();
+            }
             if (typeof Engine !== 'undefined') Engine.setSpeed(0); // Pause simulation
             AudioEngine.init();
             AudioEngine.startMusic();

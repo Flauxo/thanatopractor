@@ -497,7 +497,8 @@ const HearseGame = (() => {
         btn.innerText = "EMPEZAR CARRERA";
         btn.className = 'action-btn';
         btn.style.display = 'none';
-        btn.style.marginTop = '20px';
+        btn.style.width = 'fit-content';
+        btn.style.margin = '20px auto 0';
         
         startScreen.appendChild(h2);
         startScreen.appendChild(btn);

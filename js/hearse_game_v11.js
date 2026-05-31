@@ -202,7 +202,7 @@ const HearseGame = (() => {
         
         GameState.playerLane += (GameState.targetLane - GameState.playerLane) * 15 * dt;
         
-        if(Math.random() < 0.035) {
+        if(Math.random() < 0.020) {
             GameState.entities.push({
                 lane: Math.floor(Math.random() * 3) - 1,
                 z: 8000,

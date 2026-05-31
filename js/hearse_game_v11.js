@@ -181,6 +181,7 @@ const HearseGame = (() => {
         setTimeout(() => {
             document.body.removeChild(overlay);
             document.removeEventListener('keydown', keydownHandler);
+            if (typeof Audio8Bit !== 'undefined') Audio8Bit.playTrack('midnightDig'); // Resume main game music
             if(onGameComplete) onGameComplete(success);
         }, success ? 500 : 3500); // Dar 3.5s para escuchar el crash y la musiquilla menor
     }
@@ -488,17 +489,14 @@ const HearseGame = (() => {
         startScreen.style.fontFamily = '"Press Start 2P", monospace';
         
         const h2 = document.createElement('h2');
+        h2.style.fontSize = '18px';
+        h2.style.textAlign = 'center';
         h2.innerText = "CARGANDO ASSETS...";
         const btn = document.createElement('button');
         btn.innerText = "EMPEZAR CARRERA";
+        btn.className = 'action-btn';
         btn.style.display = 'none';
-        btn.style.background = '#ff6eb4';
-        btn.style.color = 'white';
-        btn.style.border = '4px solid #fff';
-        btn.style.padding = '15px 20px';
         btn.style.marginTop = '20px';
-        btn.style.cursor = 'pointer';
-        btn.style.fontFamily = '"Press Start 2P", monospace';
         
         startScreen.appendChild(h2);
         startScreen.appendChild(btn);
@@ -523,6 +521,7 @@ const HearseGame = (() => {
         
         btn.onclick = () => {
             startScreen.style.display = 'none';
+            if (typeof Audio8Bit !== 'undefined') Audio8Bit.stopMusic(); // Stop main game music
             AudioEngine.init();
             AudioEngine.startMusic();
             GameState.isRunning = true;

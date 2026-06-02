@@ -14,7 +14,99 @@ const Rooms = (() => {
         }
     }
 
-    function orderSingleHearse(f) {
+    const martaExcuses = [
+        "Marta dice que el coche fúnebre está infestado de abejas asesinas.",
+        "Marta se ha dejado las llaves dentro y ha activado el cierre centralizado.",
+        "Marta cree que el GPS le está insultando en latín.",
+        "Marta dice que el volante quema y huele a azufre.",
+        "Marta ha pinchado una rueda al atropellar una corona de flores.",
+        "Marta está discutiendo acaloradamente con un cura en un paso de cebra.",
+        "Marta jura que el coche no arranca porque Mercurio está retrógrado.",
+        "Marta dice que el coche está rodeado de gatos negros y no se atreve a salir.",
+        "Marta se ha manchado el uniforme de kétchup y dice que así no puede llevar un muerto.",
+        "Marta está teniendo una crisis existencial en la gasolinera.",
+        "Marta dice que le ha entrado fobia a los ataúdes repentinamente.",
+        "Marta afirma que el coche fue abducido por un OVNI durante 5 minutos y no arranca.",
+        "Marta dice que el espejo retrovisor le devuelve la mirada.",
+        "Marta se ha olvidado de cómo se conduce y está leyendo el manual de autoescuela.",
+        "Marta dice que un fantasma le ha robado el bocadillo del almuerzo.",
+        "Marta se ha quedado encerrada en el maletero probando la comodidad.",
+        "Marta dice que el semáforo lleva en rojo tres días.",
+        "Marta se ha parado a comprar lotería porque soñó con el número 4.",
+        "Marta está convencida de que el coche está embrujado y exige un exorcismo.",
+        "Marta dice que las luces largas parpadean en código Morse.",
+        "Marta se ha encontrado un billete de 500 euros y ha ido a comprobar si es falso.",
+        "Marta dice que el coche fúnebre suena a mariachis cuando acelera.",
+        "Marta asegura que una anciana le ha echado una maldición de lentitud.",
+        "Marta está ayudando a parir a una gata callejera en el asiento del copiloto.",
+        "Marta dice que el tubo de escape está escupiendo purpurina negra.",
+        "Marta se ha parado en un Auto-Mac y no avanza la cola.",
+        "Marta dice que el parabrisas está lleno de murciélagos.",
+        "Marta cree que el coche funciona a pedales hoy.",
+        "Marta dice que hay un zombi en el asiento de atrás, pero que ya le ha puesto el cinturón.",
+        "Marta se ha quedado sin gasolina a 50 metros del cementerio.",
+        "Marta dice que el volante se ha derretido por el calor.",
+        "Marta está haciendo flexiones para prepararse mentalmente para el viaje.",
+        "Marta dice que el coche fúnebre se niega a moverse sin música de saxofón.",
+        "Marta se ha confundido de pedal y ha metido el coche en una fuente.",
+        "Marta jura que el asiento del conductor está lleno de chinchetas.",
+        "Marta dice que el motor suena como un gato tosiendo.",
+        "Marta se ha quedado atrapada en un bucle temporal en una rotonda.",
+        "Marta dice que el coche ha desarrollado inteligencia artificial y no quiere trabajar hoy.",
+        "Marta está rezando un rosario para que el coche arranque.",
+        "Marta dice que el coche fúnebre ha encogido en el lavadero automático.",
+        "Marta asegura que el coche fue embargado por un pirata.",
+        "Marta dice que el freno de mano está atascado con chicle.",
+        "Marta se ha parado a reflexionar sobre la muerte frente a un puesto de churros.",
+        "Marta dice que el coche fúnebre exige un sacrificio de aceite premium.",
+        "Marta cree que el coche se ofendió porque le llamó 'trasto'.",
+        "Marta dice que el volante le ha mordido.",
+        "Marta está viendo un tutorial de YouTube sobre cómo arrancar un coche fúnebre.",
+        "Marta dice que el coche está en huelga de neumáticos caídos.",
+        "Marta asegura que un perro le ha robado las llaves y se las ha comido.",
+        "Marta dice que el coche tiene alergia al polen de cementerio."
+    ];
+
+    function handleHearseDispatch(family, originalAction) {
+        if (Math.random() < 0.90) { // 90% chance
+            const excuse = martaExcuses[Math.floor(Math.random() * martaExcuses.length)];
+            Dialogue.show('¡Problema con el Traslado!', `¡Vaya! Marta la conductora tiene un problema:<br><br><i>"${excuse}"</i>`, [
+                { text: 'Conducir tú el coche (+100$, +5 rep)', action: () => {
+                    document.getElementById('hub-screen').style.display = 'none'; // hide main UI
+                    HearseGame.start((win) => {
+                        document.getElementById('hub-screen').style.display = 'block'; // show main UI
+                        if (win) {
+                            Dialogue.show('Has llegado al cementerio', 'Lo has hecho en tiempo record, así que tienes una recompensa de +5 REP y 100 monedas.', [
+                                { text: 'Continuar', action: () => {
+                                    Engine.addMoney(100, 'Bono por conducción extrema');
+                                    Engine.addReputation(5, 'Conducción heroica');
+                                    originalAction(); 
+                                }}
+                            ], null, { showReaper: true });
+                        } else {
+                            Dialogue.show('Accidente mortal', 'El fallecido ha fallecido y la familia no tiene nada que enterrar. Has perdido el servicio.', [
+                                { text: 'Aceptar la desgracia', action: () => {
+                                    family.active = false;
+                                    family.completed = true;
+                                    family.satisfaction = -100;
+                                    Engine.showToast('Familia perdida en accidente de tráfico', 'danger');
+                                    if (typeof Main !== 'undefined') Main.showScreen('hub');
+                                }}
+                            ], null, { showReaper: true });
+                        }
+                    });
+                }},
+                { text: 'Contratar a otro conductor (-100$)', action: () => {
+                    Engine.addMoney(-100, 'Conductor de reemplazo');
+                    originalAction();
+                }}
+            ], null, { showReaper: true });
+        } else {
+            originalAction();
+        }
+    }
+
+    function executeOrderSingleHearse(f) {
         const s = Engine.getState();
         // Removed money check to allow bankruptcy
         
@@ -45,6 +137,10 @@ const Rooms = (() => {
         // Don't clear reception badge - let updateReceptionBadge handle it
         Engine.Notifications.updateReceptionBadge();
         if (typeof Main !== 'undefined') Main.showScreen('hub');
+    }
+
+    function orderSingleHearse(f) {
+        handleHearseDispatch(f, () => executeOrderSingleHearse(f));
     }
 
     // ===== RECEPTION =====
@@ -230,29 +326,31 @@ const Rooms = (() => {
                         // Use the car for ONE family
                         const f = waitingFams[0];
                         
-                        // Permanent Hearse - Randomized behavior (1-3h wait + extra cooldown)
-                        const hours = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3h
-                        f.transportOrdered = true;
-                        s.personalHearseCooldown = s.time + (hours * 60) + 60; // cooldown = travel time + 1h extra
+                        handleHearseDispatch(f, () => {
+                            // Permanent Hearse - Randomized behavior (1-3h wait + extra cooldown)
+                            const hours = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3h
+                            f.transportOrdered = true;
+                            s.personalHearseCooldown = s.time + (hours * 60) + 60; // cooldown = travel time + 1h extra
 
-                        const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
-                        if (task) {
-                            task.completed = true;
-                            task.desc = I18n.T('rec.personal_enroute', f.deceasedName);
-                        }
-                        
-                        const arrivalTime = Math.round(s.time + (hours * 60));
-                        s.schedule.push({
-                            time: arrivalTime,
-                            type: 'hearse_arrival',
-                            familyId: f.id,
-                            desc: I18n.T('rec.personal_pickup', f.deceasedName, Engine.getTimeString(arrivalTime)),
-                            triggered: false,
-                            completed: false
+                            const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
+                            if (task) {
+                                task.completed = true;
+                                task.desc = I18n.T('rec.personal_enroute', f.deceasedName);
+                            }
+                            
+                            const arrivalTime = Math.round(s.time + (hours * 60));
+                            s.schedule.push({
+                                time: arrivalTime,
+                                type: 'hearse_arrival',
+                                familyId: f.id,
+                                desc: I18n.T('rec.personal_pickup', f.deceasedName, Engine.getTimeString(arrivalTime)),
+                                triggered: false,
+                                completed: false
+                            });
+                            Engine.showToast(I18n.T('rec.car_dispatched', f.deceasedName, hours), 'success');
+                            Engine.Notifications.clearBadge('reception');
+                            if (typeof Main !== 'undefined') Main.showScreen('hub');
                         });
-                        Engine.showToast(I18n.T('rec.car_dispatched', f.deceasedName, hours), 'success');
-                        Engine.Notifications.clearBadge('reception');
-                        if (typeof Main !== 'undefined') Main.showScreen('hub');
                     }
                 });
             }
@@ -272,14 +370,16 @@ const Rooms = (() => {
                         }
                         const f = waitingFams[0];
                         
-                        // Niece's Car - IMMEDIATE & SINGLE USE
-                        s.temporaryHearseAvailable = false;
-                        const nieceTask = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
-                        if (nieceTask) nieceTask.completed = true;
-                        Families.completeFamily(f.id);
-                        Engine.showToast(I18n.T('rec.niece_arrived', f.deceasedName), 'success');
-                        Engine.Notifications.clearBadge('reception');
-                        if (typeof Main !== 'undefined') Main.showScreen('hub');
+                        handleHearseDispatch(f, () => {
+                            // Niece's Car - IMMEDIATE & SINGLE USE
+                            s.temporaryHearseAvailable = false;
+                            const nieceTask = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
+                            if (nieceTask) nieceTask.completed = true;
+                            Families.completeFamily(f.id);
+                            Engine.showToast(I18n.T('rec.niece_arrived', f.deceasedName), 'success');
+                            Engine.Notifications.clearBadge('reception');
+                            if (typeof Main !== 'undefined') Main.showScreen('hub');
+                        });
                     }
                 });
             }

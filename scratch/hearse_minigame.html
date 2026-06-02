@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Marta's Blues Run</title>
+    <!-- Cargar fuente Pixel Art -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg-darkest: #000; }
+        body {
+            margin: 0; padding: 0;
+            background-color: #111;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; touch-action: none; overflow: hidden;
+            font-family: 'Press Start 2P', monospace;
+        }
+        #game-container {
+            position: relative; width: 100%; max-width: 500px;
+            height: 100%; max-height: 900px;
+            background-color: #111; box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            display: flex; flex-direction: column;
+        }
+        canvas {
+            display: block; width: 100%; height: 100%;
+            image-rendering: pixelated;
+        }
+        #start-screen {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.9);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 10; color: white; text-align: center; padding: 20px;
+        }
+        button {
+            background: #ff6eb4; color: white; border: 4px solid #fff;
+            padding: 15px 20px; margin-top: 20px; cursor: pointer;
+            text-transform: uppercase; font-size: 16px;
+            font-family: 'Press Start 2P', monospace;
+        }
+        button:hover { background: #ff3399; }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas" width="500" height="900"></canvas>
+        <div id="start-screen">
+            <h2 id="loading-text">CARGANDO ASSETS...</h2>
+            <button id="btn-start" style="display:none;">EMPEZAR CARRERA</button>
+        </div>
+    </div>
+
+<script>
+// --- Carga de Assets ---
+let imagesLoaded = 0;
+const totalImages = 2;
+
+function checkLoad() {
+    imagesLoaded++;
+    if(imagesLoaded >= totalImages) {
+        document.fonts.ready.then(() => {
+            document.getElementById('loading-text').innerText = "MARTA'S BLUES RUN";
+            document.getElementById('btn-start').style.display = 'block';
+        });
+    }
+}
+
+const bgImg = new Image();
+bgImg.src = 'fondo.jpg';
+bgImg.onload = checkLoad;
+
+const carImg = new Image();
+carImg.src = 'coche.png';
+carImg.onload = checkLoad;
+
+bgImg.onerror = () => { document.getElementById('loading-text').innerText = "ERROR: falta fondo.jpg"; document.getElementById('loading-text').style.color = "red"; };
+carImg.onerror = () => { document.getElementById('loading-text').innerText = "ERROR: falta coche.png"; document.getElementById('loading-text').style.color = "red"; };
+
+
+// --- Audio Engine (Blues Rápido con Melodía Pegadiza) ---
+const AudioEngine = (() => {
+    let ctx = null;
+    let masterGain = null;
+    let isPlaying = false;
+    let loopTimeout = null;
+
+    function init() {
+        if(ctx) return;
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        ctx = new AudioContext();
+        masterGain = ctx.createGain();
+        masterGain.gain.value = 0.4;
+        masterGain.connect(ctx.destination);
+    }
+
+    function playTone(freq, type, duration, vol=0.3) {
+        if(!ctx) return;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        const t = ctx.currentTime;
+        osc.frequency.setValueAtTime(freq, t);
+        gain.gain.setValueAtTime(vol, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + duration);
+        osc.connect(gain);
+        gain.connect(masterGain);
+        osc.start(t);
+        osc.stop(t + duration);
+    }
+
+    function playNoise(duration, vol=0.3) {
+        if(!ctx) return;
+        const bufferSize = ctx.sampleRate * duration;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for(let i=0; i<bufferSize; i++) data[i] = Math.random() * 2 - 1;
+        const noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'highpass';
+        filter.frequency.value = 1000;
+        const gain = ctx.createGain();
+        const t = ctx.currentTime;
+        gain.gain.setValueAtTime(vol, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + duration);
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(masterGain);
+        noise.start(t);
+        noise.stop(t + duration);
+    }
+
+    let beatCount = 0;
+    const bpm = 180; 
+    const beatLen = 60 / bpm;
+    
+    // Progresión de Blues Clásica (Bass)
+    const progression = [
+        [55.00, 69.30, 82.41, 69.30], // A
+        [55.00, 69.30, 82.41, 69.30], // A
+        [73.42, 92.50, 110.00, 92.50], // D
+        [55.00, 69.30, 82.41, 69.30], // A
+        [82.41, 103.83, 123.47, 103.83], // E
+        [73.42, 92.50, 110.00, 92.50], // D
+        [55.00, 69.30, 82.41, 69.30], // A
+        [55.00, 69.30, 82.41, 69.30]  // A
+    ];
+
+    // Melodía pegadiza y más aguda, notas largas (independiente del contrabajo)
+    const melodyPattern = new Array(32).fill(null);
+    
+    // Frase 1 (Compases 1-4)
+    melodyPattern[0]  = { n: 440.00, d: 1.5 }; // A (Larga)
+    melodyPattern[3]  = { n: 523.25, d: 1.0 }; // C
+    melodyPattern[4]  = { n: 587.33, d: 1.5 }; // D
+    melodyPattern[7]  = { n: 523.25, d: 1.0 }; // C
+    melodyPattern[8]  = { n: 659.25, d: 3.0 }; // E (Muy Larga)
+    // Silencio en compás 4
+    
+    // Frase 2 (Compases 5-8)
+    melodyPattern[16] = { n: 440.00, d: 1.5 }; // A (Larga)
+    melodyPattern[19] = { n: 523.25, d: 1.0 }; // C
+    melodyPattern[20] = { n: 783.99, d: 1.5 }; // G agudo
+    melodyPattern[23] = { n: 659.25, d: 3.0 }; // E (Muy Larga)
+
+    function scheduleBluesBeat() {
+        if(!isPlaying) return;
+        const totalBeats = progression.length * 4; // 32
+        const currentTotalBeat = beatCount % totalBeats;
+        
+        const bar = Math.floor(currentTotalBeat / 4);
+        const beatInBar = currentTotalBeat % 4;
+        
+        // Bajo
+        const bassNote = progression[bar][beatInBar];
+        playTone(bassNote, 'square', beatLen, 0.4);
+        
+        // Batería
+        if(beatInBar === 0 || beatInBar === 2) playTone(60, 'square', 0.1, 0.4); 
+        if(beatInBar === 1 || beatInBar === 3) playNoise(0.1, 0.4); 
+        playNoise(0.05, 0.1); 
+        
+        // Melodía Principal Pegadiza
+        const melodyNote = melodyPattern[currentTotalBeat];
+        if(melodyNote) {
+            playTone(melodyNote.n, 'sawtooth', beatLen * melodyNote.d, 0.25);
+        }
+        
+        beatCount++;
+        loopTimeout = setTimeout(scheduleBluesBeat, beatLen * 1000);
+    }
+
+    return {
+        init,
+        startMusic: () => {
+            if(isPlaying) return;
+            init();
+            if(ctx.state === 'suspended') ctx.resume();
+            isPlaying = true;
+            beatCount = 0;
+            scheduleBluesBeat();
+        },
+        stopMusic: () => {
+            isPlaying = false;
+            clearTimeout(loopTimeout);
+        },
+        SFX: {
+            shoot: () => playTone(880, 'square', 0.1, 0.2),
+            hit: () => playNoise(0.2, 0.5),
+            crash: () => {
+                playNoise(0.5, 0.6);
+                playTone(100, 'sawtooth', 0.5, 0.5);
+            }
+        }
+    };
+})();
+
+// --- Game Logic ---
+const canvas = document.getElementById('game-canvas');
+const ctx = canvas.getContext('2d');
+let gameLoopId;
+let lastTime = 0;
+
+const GameState = {
+    isRunning: false,
+    speed: 1200, 
+    lineOffset: 0,
+    playerLane: 0, 
+    targetLane: 0,
+    lives: 3,
+    crosses: 5,
+    distanceLeft: 4800, // Matemáticamente exacto para que dure 60 segundos (4800 / (1200/15) = 60s)
+    entities: [],
+    projectiles: [],
+    shakeAmount: 0
+};
+
+const horizonY = 220; 
+
+function takeDamage() {
+    GameState.lives--;
+    GameState.shakeAmount = 25;
+    AudioEngine.SFX.crash();
+    if(GameState.lives <= 0) {
+        GameState.isRunning = false;
+        alert("GAME OVER! Perdiste el coche fúnebre.");
+        location.reload();
+    }
+}
+
+function zToY(z, H) {
+    const scale = 500 / (z + 500); 
+    return horizonY + (H - horizonY) * scale;
+}
+
+function update(dt) {
+    GameState.lineOffset += GameState.speed * dt;
+    if(GameState.lineOffset > 400) GameState.lineOffset -= 400;
+    
+    GameState.distanceLeft -= (GameState.speed/15) * dt;
+    if(GameState.distanceLeft <= 0) {
+        GameState.isRunning = false;
+        alert("¡LLEGASTE AL CEMENTERIO!");
+        location.reload();
+    }
+    
+    GameState.playerLane += (GameState.targetLane - GameState.playerLane) * 15 * dt;
+    
+    // Generar enemigos (frecuencia aumentada mucho más: 0.035)
+    if(Math.random() < 0.035) {
+        GameState.entities.push({
+            lane: Math.floor(Math.random() * 3) - 1,
+            z: 8000,
+            type: Math.floor(Math.random() * 3), // 0, 1, 2
+            active: true
+        });
+    }
+    
+    GameState.entities.forEach(e => {
+        if(!e.active) return;
+        e.z -= (GameState.speed * 1.5) * dt; 
+        
+        if(e.z < 800 && e.z > 300 && Math.abs(e.lane - Math.round(GameState.playerLane)) < 0.5) {
+            takeDamage();
+            e.active = false;
+        }
+        if(e.z < 0) e.active = false;
+    });
+    
+    GameState.projectiles.forEach((p) => {
+        p.z += 6000 * dt; 
+        if(p.z > 8000) p.active = false;
+        
+        GameState.entities.forEach(e => {
+            if(e.active && p.active && Math.abs(e.lane - p.lane) < 0.5) {
+                if(Math.abs(e.z - p.z) < 1000) {
+                    AudioEngine.SFX.hit();
+                    e.active = false;
+                    p.active = false;
+                }
+            }
+        });
+    });
+    
+    GameState.entities = GameState.entities.filter(e => e.active);
+    GameState.projectiles = GameState.projectiles.filter(p => p.active);
+    if(GameState.shakeAmount > 0) GameState.shakeAmount *= 0.9;
+}
+
+// 3 tipos de Coches enemigos más grandes
+function drawEnemyCar(ctx, cx, cy, scale, type) {
+    const w = 130 * scale;
+    const h = (type === 2 ? 115 : 95) * scale; // La furgoneta (2) es más alta
+    const x = cx - w/2;
+    const y = cy - h;
+
+    ctx.save();
+    
+    if (type === 0) { // Sedán Oscuro original
+        ctx.fillStyle = '#1a1a2e'; ctx.fillRect(x, y + h*0.3, w, h*0.7);
+        ctx.fillStyle = '#10101b'; ctx.fillRect(x + w*0.1, y, w*0.8, h*0.4);
+        ctx.fillStyle = '#050505'; ctx.fillRect(x + w*0.15, y + h*0.1, w*0.7, h*0.2);
+    } else if (type === 1) { // Deportivo Blanco
+        ctx.fillStyle = '#e0e0e0'; ctx.fillRect(x, y + h*0.4, w, h*0.6);
+        ctx.fillStyle = '#b0b0b0'; ctx.fillRect(x + w*0.15, y + h*0.1, w*0.7, h*0.3);
+        ctx.fillStyle = '#111111'; ctx.fillRect(x + w*0.2, y + h*0.15, w*0.6, h*0.15);
+        // Raya deportiva roja cruzando
+        ctx.fillStyle = '#cc0000'; ctx.fillRect(cx - w*0.1, y, w*0.2, h);
+    } else { // Furgoneta Verde Oxidada
+        ctx.fillStyle = '#3e4a2e'; ctx.fillRect(x, y + h*0.2, w, h*0.8);
+        ctx.fillStyle = '#2c361e'; ctx.fillRect(x + w*0.05, y, w*0.9, h*0.4);
+        ctx.fillStyle = '#000000'; ctx.fillRect(x + w*0.1, y + h*0.05, w*0.8, h*0.25);
+        // Detalles de óxido
+        ctx.fillStyle = '#6e3b2e'; ctx.fillRect(x, y + h*0.5, w*0.2, h*0.3);
+        ctx.fillRect(x + w*0.7, y + h*0.8, w*0.3, h*0.2);
+    }
+
+    // Luces de freno
+    ctx.fillStyle = '#ff0000';
+    ctx.fillRect(x + w*0.05, y + h*0.5, w*0.15, h*0.15);
+    ctx.fillRect(x + w*0.8, y + h*0.5, w*0.15, h*0.15);
+    // Paragolpes
+    ctx.fillStyle = '#333';
+    ctx.fillRect(x - w*0.02, y + h*0.8, w*1.04, h*0.15);
+    ctx.restore();
+}
+
+function draw() {
+    const W = canvas.width;
+    const H = canvas.height;
+    
+    let shakeX = (Math.random()-0.5)*GameState.shakeAmount;
+    let shakeY = (Math.random()-0.5)*GameState.shakeAmount;
+    
+    ctx.save();
+    ctx.translate(shakeX, shakeY);
+    
+    // 1. DIBUJAR FONDO ESTÁTICO (fondo.jpg)
+    ctx.drawImage(bgImg, 0, 0, W, H);
+    
+    // 2. Líneas blancas
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 4;
+    for(let z = GameState.lineOffset; z < 8000; z += 400) {
+        const y1 = zToY(z, H);
+        const y2 = zToY(z + 200, H);
+        const scale1 = 500 / (z + 500);
+        const scale2 = 500 / (z + 200 + 500);
+        
+        ctx.beginPath(); ctx.moveTo(W/2 - 140 * scale1, y1); ctx.lineTo(W/2 - 140 * scale2, y2); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(W/2 + 140 * scale1, y1); ctx.lineTo(W/2 + 140 * scale2, y2); ctx.stroke();
+    }
+    
+    // 3. Enemigos
+    GameState.entities.forEach(e => {
+        const scale = 500 / (e.z + 500);
+        const y = zToY(e.z, H);
+        const laneOffset = e.lane * 300 * scale;
+        drawEnemyCar(ctx, W/2 + laneOffset, y, scale, e.type);
+    });
+    
+    // Proyectiles (Cruces Doradas Gigantes)
+    GameState.projectiles.forEach(p => {
+        const scale = 500 / (p.z + 500);
+        const y = zToY(p.z, H);
+        const laneOffset = p.lane * 300 * scale;
+        ctx.fillStyle = '#ffd700';
+        
+        // Hacemos las cruces unas 3 veces más grandes
+        const vw = 16 * scale; // ancho vertical
+        const vh = 50 * scale; // alto vertical
+        const hw = 40 * scale; // ancho horizontal
+        const hh = 12 * scale; // alto horizontal
+        
+        // Palo vertical
+        ctx.fillRect(W/2 + laneOffset - vw/2, y - vh, vw, vh);
+        // Palo horizontal
+        ctx.fillRect(W/2 + laneOffset - hw/2, y - vh*0.7, hw, hh);
+    });
+    
+    // 4. COCHE FÚNEBRE DEL USUARIO (coche.png)
+    const carY = H * 0.72; 
+    const maxLaneOffset = 130; 
+    const cx = W/2 + (GameState.playerLane * maxLaneOffset);
+    const drawW = 140;
+    const drawH = (carImg.height / carImg.width) * drawW; 
+    
+    // Inclinación dinámica del coche para alinear con las líneas de perspectiva.
+    // El usuario quiere el efecto invertido: Izq (-1) rota a la izquierda, Der (1) rota a la derecha.
+    const rotationAngle = -GameState.playerLane * (12 * Math.PI / 180);
+    
+    ctx.save();
+    
+    // Sombra (se mantiene recta)
+    ctx.fillStyle = 'rgba(0,0,0,0.5)';
+    ctx.beginPath(); ctx.ellipse(cx, carY, drawW*0.4, drawH*0.1, 0, 0, Math.PI*2); ctx.fill();
+    
+    // Trasladar al centro de la base del coche para rotar sobre sus ruedas
+    ctx.translate(cx, carY);
+    ctx.rotate(rotationAngle);
+    
+    // Dibujar el coche inclinado
+    ctx.drawImage(carImg, -drawW/2, -drawH, drawW, drawH);
+    
+    ctx.restore();
+    
+    // 5. REDIBUJAR EL VOLANTE/SALPICADERO para que tape las líneas y simule giro
+    // Asumimos que el volante está en el ~24% inferior de la imagen
+    const dashRatio = 0.24; 
+    const dashY = H * (1 - dashRatio);
+    
+    ctx.save();
+    // Giramos ligeramente todo el salpicadero al cambiar de carril
+    // Rota en el mismo sentido que te mueves
+    const dashRotation = GameState.playerLane * (4 * Math.PI / 180);
+    ctx.translate(W/2, H); // Pivote en la base inferior centro
+    ctx.rotate(dashRotation);
+    
+    // Lo dibujamos un poquito más ancho (W+40) para que al rotar no se vean las esquinas cortadas
+    ctx.drawImage(bgImg, 
+        0, bgImg.height * (1 - dashRatio), bgImg.width, bgImg.height * dashRatio, 
+        -W/2 - 20, dashY - H, W + 40, H - dashY + 20 
+    );
+    ctx.restore();
+    
+    ctx.restore(); // Restore global context translation/shake
+    
+    // --- HUD DINÁMICO (Español, más pequeño y sin parche negro feo) ---
+    // En lugar de rectángulos negros que tapan el fondo, usamos un degradado suave
+    const grd = ctx.createLinearGradient(0, 0, 0, 90);
+    grd.addColorStop(0, "rgba(0,0,0,0.8)");
+    grd.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, W, 90);
+    
+    // Función para dibujar texto con borde negro para que se lea siempre
+    function drawText(text, x, y, color, align='left', size=12) {
+        ctx.textAlign = align;
+        ctx.font = `${size}px "Press Start 2P", monospace`;
+        ctx.textBaseline = 'top';
+        ctx.lineWidth = size > 16 ? 6 : 4;
+        ctx.strokeStyle = '#000';
+        ctx.strokeText(text, x, y);
+        ctx.fillStyle = color;
+        ctx.fillText(text, x, y);
+    }
+    
+    // Textos en Español
+    drawText('VIDAS:', 20, 20, '#ffffff');
+    drawText('DISTANCIA AL CEMENTERIO:', W - 20, 20, '#ffffff', 'right');
+    
+    // Corazones
+    let hx = 20;
+    for(let i=0; i<3; i++) {
+        if(i < GameState.lives) {
+            ctx.fillStyle = '#ff6eb4';
+            ctx.fillRect(hx+4, 45, 8, 4); ctx.fillRect(hx+16, 45, 8, 4);
+            ctx.fillRect(hx, 49, 28, 12);
+            ctx.fillRect(hx+4, 61, 20, 4); ctx.fillRect(hx+8, 65, 12, 4); ctx.fillRect(hx+12, 69, 4, 4);
+        } else {
+            ctx.fillStyle = 'rgba(51,51,51,0.5)';
+            ctx.fillRect(hx, 49, 28, 12); ctx.fillRect(hx+12, 69, 4, 4);
+        }
+        hx += 40;
+    }
+    
+    // Distancia numérica
+    const dStr = (Math.max(0, GameState.distanceLeft) / 1000).toFixed(1);
+    drawText(`${dStr} KM`, W - 20, 45, '#ff6eb4', 'right');
+    
+    // --- HUD SALPICADERO (Munición de Cruces) ---
+    const ammoX = 30;
+    const ammoY = H - 110; // Subimos un poco para dar espacio a que sea grande
+    
+    // Dibujar icono de cruz dorada mucho más GRANDE
+    ctx.fillStyle = '#ffd700';
+    // Sombra para que destaque
+    ctx.shadowColor = '#000';
+    ctx.shadowBlur = 4;
+    ctx.fillRect(ammoX, ammoY, 16, 48); // vertical (doble alto/ancho)
+    ctx.fillRect(ammoX - 12, ammoY + 12, 40, 12); // horizontal (doble)
+    ctx.shadowBlur = 0; // restaurar
+    
+    // Texto de cruces restantes gigante (tamaño 20)
+    drawText(`x ${GameState.crosses}`, ammoX + 45, ammoY + 12, '#ffd700', 'left', 20);
+}
+
+function render(time) {
+    if(!lastTime) lastTime = time;
+    const dt = (time - lastTime) / 1000;
+    lastTime = time;
+    
+    if(GameState.isRunning) {
+        update(dt);
+        draw();
+    }
+    requestAnimationFrame(render);
+}
+
+// --- Input ---
+function move(dir) {
+    if(!GameState.isRunning) return;
+    let newLane = GameState.targetLane + dir;
+    if(newLane >= -1 && newLane <= 1) {
+        GameState.targetLane = newLane;
+        AudioEngine.SFX.shoot(); 
+    }
+}
+function fire() {
+    if(!GameState.isRunning || GameState.crosses <= 0) return;
+    GameState.crosses--;
+    AudioEngine.SFX.shoot();
+    GameState.projectiles.push({
+        lane: Math.round(GameState.playerLane),
+        z: 500,
+        active: true
+    });
+}
+
+document.addEventListener('keydown', (e) => {
+    if(e.key === 'ArrowLeft' || e.key === 'a') move(-1);
+    if(e.key === 'ArrowRight' || e.key === 'd') move(1);
+    if(e.key === ' ') fire(); 
+});
+
+canvas.addEventListener('mousedown', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+    const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+    const W = canvas.width;
+    const H = canvas.height;
+    
+    if(y > H * 0.7) {
+        if(x < W/2 - 40) move(-1);
+        else if(x > W/2 - 40 && x < W - 100) move(1);
+        else if(x > W - 100) fire();
+    }
+});
+
+// Start
+document.getElementById('btn-start').addEventListener('click', () => {
+    document.getElementById('start-screen').style.display = 'none';
+    AudioEngine.init();
+    AudioEngine.startMusic();
+    GameState.isRunning = true;
+    lastTime = performance.now();
+    requestAnimationFrame(render);
+});
+
+</script>
+</body>
+</html>

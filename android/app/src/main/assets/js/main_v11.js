@@ -562,8 +562,8 @@ window.Main = (() => {
                     Audio8Bit.suspend();
                 }
             } else {
-                // Resume music
-                if (typeof Audio8Bit !== 'undefined' && Audio8Bit.initialized) {
+                // Resume music ONLY if simulation is running (prevents resuming during minigames or pause)
+                if (typeof Audio8Bit !== 'undefined' && Audio8Bit.initialized && typeof Engine !== 'undefined' && Engine.getState().speed > 0) {
                     Audio8Bit.resume();
                 }
             }
@@ -614,7 +614,7 @@ window.Main = (() => {
             }
 
             setInterval(() => {
-                if (window.Audio8Bit && window.Audio8Bit.initialized && !window.Audio8Bit.muted && !document.hidden) {
+                if (window.Audio8Bit && window.Audio8Bit.initialized && !window.Audio8Bit.muted && !document.hidden && typeof Engine !== 'undefined' && Engine.getState().speed > 0) {
                     window.Audio8Bit.nextTrack();
                 }
             }, 60000);

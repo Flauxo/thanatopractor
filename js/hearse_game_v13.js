@@ -8,6 +8,8 @@ const HearseGame = (() => {
 
     let imgBg = new Image();
     let imgCar = new Image();
+    let imgExplosion = new Image();
+    let imgDedo = new Image();
     
     // --- Audio Engine ---
     const AudioEngine = (() => {
@@ -56,6 +58,29 @@ const HearseGame = (() => {
             const t = actx.currentTime;
             gain.gain.setValueAtTime(vol, t);
             gain.gain.exponentialRampToValueAtTime(0.01, t + duration);
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(masterGain);
+            noise.start(t);
+            noise.stop(t + duration);
+        }
+
+        function playPuff(duration, vol=0.5) {
+            if(!actx) return;
+            const bufferSize = actx.sampleRate * duration;
+            const buffer = actx.createBuffer(1, bufferSize, actx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for(let i=0; i<bufferSize; i++) data[i] = Math.random() * 2 - 1;
+            const noise = actx.createBufferSource();
+            noise.buffer = buffer;
+            const filter = actx.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.frequency.value = 3500;
+            const gain = actx.createGain();
+            const t = actx.currentTime;
+            gain.gain.setValueAtTime(vol, t);
+            gain.gain.setValueAtTime(vol, t + duration - 0.01);
+            gain.gain.linearRampToValueAtTime(0.01, t + duration);
             noise.connect(filter);
             filter.connect(gain);
             gain.connect(masterGain);
@@ -127,6 +152,11 @@ const HearseGame = (() => {
                     playNoise(0.5, 0.6);
                     playTone(100, 'sawtooth', 0.5, 0.5);
                 },
+                pickup: () => {
+                    playTone(880, 'sine', 0.1, 0.4);
+                    setTimeout(() => playTone(1760, 'sine', 0.15, 0.4), 100);
+                },
+                wind: () => playPuff(0.06, 0.6),
                 fatalCrash: () => {
                     init();
                     playNoise(1.5, 1.0); // Explosión enorme
@@ -144,6 +174,13 @@ const HearseGame = (() => {
         };
     })();
 
+    const stars = Array.from({length: 15}, () => ({
+        x: Math.random() < 0.5 ? Math.random() * 0.3 : 0.7 + Math.random() * 0.3, 
+        y: Math.random() * 0.4, 
+        blinkOffset: Math.random() * 1000,
+        blinkSpeed: Math.random() * 0.5 + 0.5
+    }));
+
     const GameState = {
         isRunning: false,
         speed: 1200, 
@@ -152,10 +189,14 @@ const HearseGame = (() => {
         targetLane: 0,
         lives: 3,
         crosses: 5,
+        crossesSpawned: 0,
         distanceLeft: 4800, // 60 segundos
         entities: [],
         projectiles: [],
-        shakeAmount: 0
+        shakeAmount: 0,
+        explosions: [],
+        hideFinger: false,
+        keys: { left: false, right: false }
     };
 
     const horizonY = 220; 
@@ -195,8 +236,8 @@ const HearseGame = (() => {
     }
 
     function update(dt) {
-        GameState.lineOffset += GameState.speed * dt;
-        if(GameState.lineOffset > 400) GameState.lineOffset -= 400;
+        GameState.lineOffset -= GameState.speed * dt;
+        if(GameState.lineOffset < 0) GameState.lineOffset += 400;
         
         GameState.distanceLeft -= (GameState.speed/15) * dt;
         if(GameState.distanceLeft <= 0) {
@@ -218,10 +259,15 @@ const HearseGame = (() => {
             
             // Avoid creating a wall
             if (!(occupiedLanes.size === 2 && !occupiedLanes.has(proposedLane))) {
+                let entityType = Math.floor(Math.random() * 3);
+                if (GameState.crossesSpawned < 5 && Math.random() < 0.15) {
+                    entityType = 'cross';
+                    GameState.crossesSpawned++;
+                }
                 GameState.entities.push({
                     lane: proposedLane,
                     z: 8000,
-                    type: Math.floor(Math.random() * 3), 
+                    type: entityType, 
                     active: true
                 });
             }
@@ -232,8 +278,15 @@ const HearseGame = (() => {
             e.z -= (GameState.speed * 1.5) * dt; 
             
             if(e.z < 800 && e.z > 300 && Math.abs(e.lane - Math.round(GameState.playerLane)) < 0.5) {
-                takeDamage();
-                e.active = false;
+                if (e.type === 'cross') {
+                    GameState.crosses++;
+                    AudioEngine.SFX.pickup();
+                    e.active = false;
+                } else {
+                    GameState.explosions.push({ isPlayer: true, lane: e.lane, time: 0 });
+                    takeDamage();
+                    e.active = false;
+                }
             }
             if(e.z < 0) e.active = false;
         });
@@ -245,9 +298,12 @@ const HearseGame = (() => {
             GameState.entities.forEach(e => {
                 if(e.active && p.active && Math.abs(e.lane - p.lane) < 0.5) {
                     if(Math.abs(e.z - p.z) < 1000) {
-                        AudioEngine.SFX.hit();
-                        e.active = false;
-                        p.active = false;
+                        if (e.type !== 'cross') {
+                            AudioEngine.SFX.hit();
+                            GameState.explosions.push({ lane: e.lane, z: e.z, time: 0 });
+                            e.active = false;
+                            p.active = false;
+                        }
                     }
                 }
             });
@@ -255,6 +311,13 @@ const HearseGame = (() => {
         
         GameState.entities = GameState.entities.filter(e => e.active);
         GameState.projectiles = GameState.projectiles.filter(p => p.active);
+        
+        GameState.explosions.forEach(exp => {
+            exp.time += dt;
+            if (exp.z !== undefined) exp.z -= (GameState.speed * 1.5) * dt;
+        });
+        GameState.explosions = GameState.explosions.filter(exp => exp.time < 0.5);
+
         if(GameState.shakeAmount > 0) GameState.shakeAmount *= 0.9;
     }
 
@@ -301,6 +364,18 @@ const HearseGame = (() => {
         ctx.translate(shakeX, shakeY);
         
         ctx.drawImage(imgBg, 0, 0, W, H);
+
+        stars.forEach(s => {
+            const time = performance.now();
+            const blink = Math.sin((time + s.blinkOffset) * 0.005 * s.blinkSpeed);
+            if(blink > 0.95) {
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(s.x * W, s.y * horizonY, 3, 3);
+            } else {
+                ctx.fillStyle = 'rgba(255,255,255,0.4)';
+                ctx.fillRect(s.x * W, s.y * horizonY, 1.5, 1.5);
+            }
+        });
         
         ctx.strokeStyle = '#ffffff';
         ctx.lineWidth = 4;
@@ -318,7 +393,20 @@ const HearseGame = (() => {
             const scale = 500 / (e.z + 500);
             const y = zToY(e.z, H);
             const laneOffset = e.lane * 300 * scale;
-            drawEnemyCar(ctx, W/2 + laneOffset, y, scale, e.type);
+            
+            if (e.type === 'cross') {
+                const cx = W/2 + laneOffset;
+                ctx.fillStyle = '#ffd700';
+                ctx.shadowColor = '#ffd700';
+                ctx.shadowBlur = 10;
+                const vw = 16 * scale; const vh = 50 * scale; const hw = 40 * scale; const hh = 12 * scale;
+                const floatY = y - 30 * scale + Math.sin(performance.now() * 0.005) * 10 * scale;
+                ctx.fillRect(cx - vw/2, floatY - vh, vw, vh);
+                ctx.fillRect(cx - hw/2, floatY - vh*0.7, hw, hh);
+                ctx.shadowBlur = 0;
+            } else {
+                drawEnemyCar(ctx, W/2 + laneOffset, y, scale, e.type);
+            }
         });
         
         GameState.projectiles.forEach(p => {
@@ -332,39 +420,73 @@ const HearseGame = (() => {
         });
         
         const carY = H * 0.72; 
-        const maxLaneOffset = 130; 
+        const maxLaneOffset = 135; 
         const cx = W/2 + (GameState.playerLane * maxLaneOffset);
         const drawW = 140;
         const drawH = (imgCar.height / imgCar.width) * drawW; 
-        const rotationAngle = -GameState.playerLane * (12 * Math.PI / 180);
+        const rotationAngle = -GameState.playerLane * (10 * Math.PI / 180);
         
         ctx.save();
         ctx.fillStyle = 'rgba(0,0,0,0.5)';
         ctx.beginPath(); ctx.ellipse(cx, carY, drawW*0.4, drawH*0.1, 0, 0, Math.PI*2); ctx.fill();
-        ctx.translate(cx, carY);
+        ctx.translate(cx, carY - drawH/2);
         ctx.rotate(rotationAngle);
-        ctx.drawImage(imgCar, -drawW/2, -drawH, drawW, drawH);
+        ctx.drawImage(imgCar, -drawW/2, -drawH/2, drawW, drawH);
         ctx.restore();
         
         const dashRatio = 0.24; 
         const dashY = H * (1 - dashRatio);
         ctx.save();
-        const dashRotation = GameState.playerLane * (4 * Math.PI / 180);
-        ctx.translate(W/2, H); 
-        ctx.rotate(dashRotation);
         ctx.drawImage(imgBg, 
             0, imgBg.height * (1 - dashRatio), imgBg.width, imgBg.height * dashRatio, 
-            -W/2 - 20, dashY - H, W + 40, H - dashY + 20 
+            0, dashY, W, H - dashY 
         );
         ctx.restore();
         
         ctx.restore(); 
         
+        if (GameState.keys.left) {
+            const grd = ctx.createRadialGradient(W * 0.28, H * 0.94, 10, W * 0.28, H * 0.94, 50);
+            grd.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
+            grd.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            ctx.fillStyle = grd;
+            ctx.beginPath(); ctx.arc(W * 0.28, H * 0.94, 50, 0, Math.PI*2); ctx.fill();
+        }
+        if (GameState.keys.right) {
+            const grd = ctx.createRadialGradient(W * 0.72, H * 0.94, 10, W * 0.72, H * 0.94, 50);
+            grd.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
+            grd.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            ctx.fillStyle = grd;
+            ctx.beginPath(); ctx.arc(W * 0.72, H * 0.94, 50, 0, Math.PI*2); ctx.fill();
+        }
+
+        GameState.explosions.forEach(exp => {
+            let x, y, scale = 1;
+            if (exp.isPlayer) {
+                x = W/2 + exp.lane * 135;
+                y = H * 0.65;
+            } else {
+                scale = 500 / (exp.z + 500);
+                y = zToY(exp.z, H);
+                x = W/2 + exp.lane * 300 * scale;
+            }
+            const size = 120 * scale * (1 + exp.time * 2);
+            ctx.globalAlpha = Math.max(0, 1 - exp.time * 2);
+            ctx.drawImage(imgExplosion, x - size/2, y - size/2, size, size);
+            ctx.globalAlpha = 1.0;
+        });
+
         const grd = ctx.createLinearGradient(0, 0, 0, 90);
         grd.addColorStop(0, "rgba(0,0,0,0.8)");
         grd.addColorStop(1, "rgba(0,0,0,0)");
         ctx.fillStyle = grd;
         ctx.fillRect(0, 0, W, 90);
+        
+        if (!GameState.hideFinger) {
+            const fingerY = H - 275 + Math.sin(performance.now() * 0.01) * 15;
+            const fingerX = W - 92;
+            ctx.drawImage(imgDedo, fingerX, fingerY, 40, 40);
+        }
         
         function drawText(text, x, y, color, align='left', size=12) {
             ctx.textAlign = align;
@@ -398,14 +520,14 @@ const HearseGame = (() => {
         drawText(`${dStr} KM`, W - 20, 45, '#ff6eb4', 'right');
         
         const ammoX = 30;
-        const ammoY = H - 110; 
+        const ammoY = H - 145; 
         ctx.fillStyle = '#ffd700';
         ctx.shadowColor = '#000';
         ctx.shadowBlur = 4;
-        ctx.fillRect(ammoX, ammoY, 16, 48); 
-        ctx.fillRect(ammoX - 12, ammoY + 12, 40, 12); 
+        ctx.fillRect(ammoX, ammoY, 10, 30); 
+        ctx.fillRect(ammoX - 8, ammoY + 8, 26, 8); 
         ctx.shadowBlur = 0; 
-        drawText(`x ${GameState.crosses}`, ammoX + 45, ammoY + 12, '#ffd700', 'left', 20);
+        drawText(`x ${GameState.crosses}`, ammoX + 30, ammoY + 22, '#ffd700', 'left', 14);
         
         if(!GameState.isRunning && GameState.lives <= 0) {
             ctx.fillStyle = 'rgba(255, 0, 0, 0.4)';
@@ -432,12 +554,14 @@ const HearseGame = (() => {
         let newLane = GameState.targetLane + dir;
         if(newLane >= -1 && newLane <= 1) {
             GameState.targetLane = newLane;
+            AudioEngine.SFX.wind();
             // Removed click sound for moving so it doesn't mask the music or crashes
         }
     }
     function fire() {
         if(!GameState.isRunning || GameState.crosses <= 0) return;
         GameState.crosses--;
+        GameState.hideFinger = true;
         AudioEngine.SFX.shoot();
         GameState.projectiles.push({
             lane: Math.round(GameState.playerLane),
@@ -447,9 +571,14 @@ const HearseGame = (() => {
     }
 
     const keydownHandler = (e) => {
-        if(e.key === 'ArrowLeft' || e.key === 'a') move(-1);
-        if(e.key === 'ArrowRight' || e.key === 'd') move(1);
-        if(e.key === ' ') { e.preventDefault(); fire(); }
+        if(e.key === 'ArrowLeft' || e.key === 'a') { move(-1); GameState.keys.left = true; }
+        if(e.key === 'ArrowRight' || e.key === 'd') { move(1); GameState.keys.right = true; }
+        if(e.key === ' ') { e.preventDefault(); fire(); GameState.hideFinger = true; }
+    };
+
+    const keyupHandler = (e) => {
+        if(e.key === 'ArrowLeft' || e.key === 'a') GameState.keys.left = false;
+        if(e.key === 'ArrowRight' || e.key === 'd') GameState.keys.right = false;
     };
 
     function start(callback) {
@@ -462,10 +591,14 @@ const HearseGame = (() => {
         GameState.lineOffset = 0;
         GameState.lives = 3;
         GameState.crosses = 5;
+        GameState.crossesSpawned = 0;
         GameState.distanceLeft = 4800;
         GameState.entities = [];
         GameState.projectiles = [];
         GameState.shakeAmount = 0;
+        GameState.explosions = [];
+        GameState.hideFinger = false;
+        GameState.keys = { left: false, right: false };
 
         overlay = document.createElement('div');
         overlay.style.position = 'fixed';
@@ -525,15 +658,19 @@ const HearseGame = (() => {
         let loaded = 0;
         const check = () => {
             loaded++;
-            if(loaded >= 2) {
+            if(loaded >= 4) {
                 h2.innerText = "MARTA'S BLUES RUN";
                 btn.style.display = 'block';
             }
         };
         imgBg.onload = check;
         imgCar.onload = check;
-        imgBg.src = 'assets/Fondo.jpg'; 
+        imgExplosion.onload = check;
+        imgDedo.onload = check;
+        imgBg.src = 'assets/mockup.jpg'; 
         imgCar.src = 'assets/coche.png';
+        imgExplosion.src = 'assets/explosion.png';
+        imgDedo.src = 'assets/dedo.png';
         
         btn.onclick = () => {
             startScreen.style.display = 'none';
@@ -549,19 +686,35 @@ const HearseGame = (() => {
         };
         
         document.addEventListener('keydown', keydownHandler);
+        document.addEventListener('keyup', keyupHandler);
         
-        canvas.addEventListener('mousedown', (e) => {
+        const handleTouchDown = (e) => {
             const rect = canvas.getBoundingClientRect();
-            const x = (e.clientX - rect.left) * (canvas.width / rect.width);
-            const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const x = (clientX - rect.left) * (canvas.width / rect.width);
+            const y = (clientY - rect.top) * (canvas.height / rect.height);
             const W = canvas.width;
             const H = canvas.height;
-            if(y > H * 0.7) {
-                if(x < W/2 - 40) move(-1);
-                else if(x > W/2 - 40 && x < W - 100) move(1);
-                else if(x > W - 100) fire();
+            
+            if (y > H * 0.88) {
+                if (x < W / 2) { move(-1); GameState.keys.left = true; }
+                else { move(1); GameState.keys.right = true; }
+            } else if (y > H * 0.75 && x > W * 0.75) {
+                fire(); 
             }
-        });
+        };
+
+        const handleTouchUp = () => {
+            GameState.keys.left = false;
+            GameState.keys.right = false;
+        };
+
+        canvas.addEventListener('mousedown', handleTouchDown);
+        canvas.addEventListener('mouseup', handleTouchUp);
+        canvas.addEventListener('mouseleave', handleTouchUp);
+        canvas.addEventListener('touchstart', (e) => { e.preventDefault(); handleTouchDown(e); }, {passive: false});
+        canvas.addEventListener('touchend', (e) => { e.preventDefault(); handleTouchUp(); }, {passive: false});
     }
 
     return {

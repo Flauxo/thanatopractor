@@ -52,7 +52,7 @@
 <script>
 // --- Carga de Assets ---
 let imagesLoaded = 0;
-const totalImages = 2;
+const totalImages = 3;
 
 function checkLoad() {
     imagesLoaded++;
@@ -72,8 +72,13 @@ const carImg = new Image();
 carImg.src = 'coche.png';
 carImg.onload = checkLoad;
 
+const finImg = new Image();
+finImg.src = 'fondofin.jpg';
+finImg.onload = checkLoad;
+
 bgImg.onerror = () => { document.getElementById('loading-text').innerText = "ERROR: falta fondo.jpg"; document.getElementById('loading-text').style.color = "red"; };
 carImg.onerror = () => { document.getElementById('loading-text').innerText = "ERROR: falta coche.png"; document.getElementById('loading-text').style.color = "red"; };
+finImg.onerror = () => { document.getElementById('loading-text').innerText = "ERROR: falta fondofin.jpg"; document.getElementById('loading-text').style.color = "red"; };
 
 
 // --- Audio Engine (Blues Rápido con Melodía Pegadiza) ---
@@ -92,12 +97,12 @@ const AudioEngine = (() => {
         masterGain.connect(ctx.destination);
     }
 
-    function playTone(freq, type, duration, vol=0.3) {
+    function playTone(freq, type, duration, vol=0.3, startTime) {
         if(!ctx) return;
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = type;
-        const t = ctx.currentTime;
+        const t = startTime !== undefined ? startTime : ctx.currentTime;
         osc.frequency.setValueAtTime(freq, t);
         gain.gain.setValueAtTime(vol, t);
         gain.gain.exponentialRampToValueAtTime(0.01, t + duration);
@@ -107,9 +112,9 @@ const AudioEngine = (() => {
         osc.stop(t + duration);
     }
 
-    function playNoise(duration, vol=0.3) {
+    function playNoise(duration, vol=0.3, startTime) {
         if(!ctx) return;
-        const bufferSize = ctx.sampleRate * duration;
+        const bufferSize = ctx.sampleRate * Math.max(0.1, duration);
         const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
         const data = buffer.getChannelData(0);
         for(let i=0; i<bufferSize; i++) data[i] = Math.random() * 2 - 1;
@@ -119,7 +124,7 @@ const AudioEngine = (() => {
         filter.type = 'highpass';
         filter.frequency.value = 1000;
         const gain = ctx.createGain();
-        const t = ctx.currentTime;
+        const t = startTime !== undefined ? startTime : ctx.currentTime;
         gain.gain.setValueAtTime(vol, t);
         gain.gain.exponentialRampToValueAtTime(0.01, t + duration);
         noise.connect(filter);
@@ -203,6 +208,25 @@ const AudioEngine = (() => {
             isPlaying = false;
             clearTimeout(loopTimeout);
         },
+        playCelebration: () => {
+            if(!ctx) return;
+            const t0 = ctx.currentTime;
+            const bassNotes = [130.81, 164.81, 196.00, 261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98];
+            bassNotes.forEach((freq, i) => {
+                playTone(freq, 'square', 0.25, 0.4, t0 + i * 0.25);
+            });
+            const melodyNotes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98, 2093.00, 2637.02, 3135.96];
+            melodyNotes.forEach((freq, i) => {
+                playTone(freq, 'sawtooth', 0.2, 0.2, t0 + i * 0.25);
+                playTone(freq * 1.5, 'sawtooth', 0.2, 0.1, t0 + i * 0.25 + 0.1);
+            });
+            for(let i=0; i<12; i++) {
+                playTone(60, 'square', 0.1, 0.5, t0 + i * 0.25);
+                if(i % 2 === 1) playNoise(0.1, 0.3, t0 + i * 0.25);
+            }
+            playNoise(1.5, 0.6, t0 + 3.0);
+            playTone(130.81, 'sawtooth', 2.0, 0.5, t0 + 3.0);
+        },
         SFX: {
             shoot: () => playTone(880, 'square', 0.1, 0.2),
             hit: () => playNoise(0.2, 0.5),
@@ -231,7 +255,8 @@ const GameState = {
     distanceLeft: 4800, // Matemáticamente exacto para que dure 60 segundos (4800 / (1200/15) = 60s)
     entities: [],
     projectiles: [],
-    shakeAmount: 0
+    shakeAmount: 0,
+    won: false
 };
 
 const horizonY = 220; 
@@ -242,7 +267,8 @@ function takeDamage() {
     AudioEngine.SFX.crash();
     if(GameState.lives <= 0) {
         GameState.isRunning = false;
-        alert("GAME OVER! Perdiste el coche fúnebre.");
+        const lang = localStorage.getItem('thanatopractor_lang') || 'es';
+        alert(lang === 'en' ? "GAME OVER! You lost the hearse." : "GAME OVER! Perdiste el coche fúnebre.");
         location.reload();
     }
 }
@@ -253,14 +279,23 @@ function zToY(z, H) {
 }
 
 function update(dt) {
+    if(GameState.won) return;
+
     GameState.lineOffset += GameState.speed * dt;
     if(GameState.lineOffset > 400) GameState.lineOffset -= 400;
     
     GameState.distanceLeft -= (GameState.speed/15) * dt;
     if(GameState.distanceLeft <= 0) {
-        GameState.isRunning = false;
-        alert("¡LLEGASTE AL CEMENTERIO!");
-        location.reload();
+        GameState.won = true;
+        AudioEngine.stopMusic();
+        AudioEngine.playCelebration();
+        setTimeout(() => {
+            GameState.isRunning = false;
+            const lang = localStorage.getItem('thanatopractor_lang') || 'es';
+            alert(lang === 'en' ? "YOU REACHED THE CEMETERY!" : "¡LLEGASTE AL CEMENTERIO!");
+            location.reload();
+        }, 3000);
+        return;
     }
     
     GameState.playerLane += (GameState.targetLane - GameState.playerLane) * 15 * dt;
@@ -464,9 +499,13 @@ function draw() {
         ctx.fillText(text, x, y);
     }
     
-    // Textos en Español
-    drawText('VIDAS:', 20, 20, '#ffffff');
-    drawText('DISTANCIA AL CEMENTERIO:', W - 20, 20, '#ffffff', 'right');
+    // Textos
+    const lang = localStorage.getItem('thanatopractor_lang') || 'es';
+    const livesText = lang === 'en' ? 'LIVES:' : 'VIDAS:';
+    const distText = lang === 'en' ? 'DISTANCE TO CEMETERY:' : 'DISTANCIA AL CEMENTERIO:';
+    
+    drawText(livesText, 20, 20, '#ffffff');
+    drawText(distText, W - 20, 20, '#ffffff', 'right');
     
     // Corazones
     let hx = 20;
@@ -502,6 +541,29 @@ function draw() {
     
     // Texto de cruces restantes gigante (tamaño 20)
     drawText(`x ${GameState.crosses}`, ammoX + 45, ammoY + 12, '#ffd700', 'left', 20);
+
+    if (GameState.won) {
+        ctx.drawImage(finImg, 0, 0, W, H);
+        
+        const boxW = W * 0.8;
+        const boxH = 100;
+        const boxX = W/2 - boxW/2;
+        const boxY = H/2 - boxH/2;
+        ctx.fillStyle = '#000';
+        ctx.fillRect(boxX, boxY, boxW, boxH);
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 4;
+        ctx.strokeRect(boxX, boxY, boxW, boxH);
+        
+        const lang = localStorage.getItem('thanatopractor_lang') || 'es';
+        const msg = lang === 'en' ? 'Arrival at Cemetery' : 'Llegada a Cementerio';
+        
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#fff';
+        ctx.font = '16px "Press Start 2P", monospace';
+        ctx.fillText(msg, W/2, H/2);
+    }
 }
 
 function render(time) {

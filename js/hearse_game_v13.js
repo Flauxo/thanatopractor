@@ -10,6 +10,7 @@ const HearseGame = (() => {
     let imgCar = new Image();
     let imgExplosion = new Image();
     let imgDedo = new Image();
+    let imgFin = new Image();
     
     // --- Audio Engine ---
     const AudioEngine = (() => {
@@ -28,12 +29,12 @@ const HearseGame = (() => {
             masterGain.connect(actx.destination);
         }
 
-        function playTone(freq, type, duration, vol=0.3) {
+        function playTone(freq, type, duration, vol=0.3, startTime) {
             if(!actx) return;
             const osc = actx.createOscillator();
             const gain = actx.createGain();
             osc.type = type;
-            const t = actx.currentTime;
+            const t = startTime !== undefined ? startTime : actx.currentTime;
             osc.frequency.setValueAtTime(freq, t);
             gain.gain.setValueAtTime(vol, t);
             gain.gain.exponentialRampToValueAtTime(0.01, t + duration);
@@ -43,9 +44,9 @@ const HearseGame = (() => {
             osc.stop(t + duration);
         }
 
-        function playNoise(duration, vol=0.3) {
+        function playNoise(duration, vol=0.3, startTime) {
             if(!actx) return;
-            const bufferSize = actx.sampleRate * duration;
+            const bufferSize = actx.sampleRate * Math.max(0.1, duration);
             const buffer = actx.createBuffer(1, bufferSize, actx.sampleRate);
             const data = buffer.getChannelData(0);
             for(let i=0; i<bufferSize; i++) data[i] = Math.random() * 2 - 1;
@@ -55,7 +56,7 @@ const HearseGame = (() => {
             filter.type = 'lowpass';
             filter.frequency.value = 800;
             const gain = actx.createGain();
-            const t = actx.currentTime;
+            const t = startTime !== undefined ? startTime : actx.currentTime;
             gain.gain.setValueAtTime(vol, t);
             gain.gain.exponentialRampToValueAtTime(0.01, t + duration);
             noise.connect(filter);
@@ -88,8 +89,8 @@ const HearseGame = (() => {
             noise.stop(t + duration);
         }
 
-        const bpm = 180; 
-        const beatLen = 60 / bpm;
+        let bpm = 180; 
+        let beatLen = 60 / bpm;
         const progression = [
             [55.00, 69.30, 82.41, 69.30], [55.00, 69.30, 82.41, 69.30], 
             [73.42, 92.50, 110.00, 92.50], [55.00, 69.30, 82.41, 69.30], 
@@ -133,6 +134,10 @@ const HearseGame = (() => {
 
         return {
             init,
+            setSpeed: (multiplier) => {
+                bpm *= multiplier;
+                beatLen = 60 / bpm;
+            },
             startMusic: () => {
                 if(isPlaying) return;
                 init();
@@ -144,6 +149,25 @@ const HearseGame = (() => {
             stopMusic: () => {
                 isPlaying = false;
                 clearTimeout(loopTimeout);
+            },
+            playCelebration: () => {
+                if(!actx) return;
+                const t0 = actx.currentTime;
+                const bassNotes = [130.81, 164.81, 196.00, 261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98];
+                bassNotes.forEach((freq, i) => {
+                    playTone(freq, 'square', 0.25, 0.4, t0 + i * 0.25);
+                });
+                const melodyNotes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98, 2093.00, 2637.02, 3135.96];
+                melodyNotes.forEach((freq, i) => {
+                    playTone(freq, 'sawtooth', 0.2, 0.2, t0 + i * 0.25);
+                    playTone(freq * 1.5, 'sawtooth', 0.2, 0.1, t0 + i * 0.25 + 0.1);
+                });
+                for(let i=0; i<12; i++) {
+                    playTone(60, 'square', 0.1, 0.5, t0 + i * 0.25);
+                    if(i % 2 === 1) playNoise(0.1, 0.3, t0 + i * 0.25);
+                }
+                playNoise(1.5, 0.6, t0 + 3.0);
+                playTone(130.81, 'sawtooth', 2.0, 0.5, t0 + 3.0);
             },
             SFX: {
                 shoot: () => playTone(880, 'sawtooth', 0.3, 0.6), // Más fuerte y largo
@@ -196,7 +220,12 @@ const HearseGame = (() => {
         shakeAmount: 0,
         explosions: [],
         hideFinger: false,
-        keys: { left: false, right: false }
+        keys: { left: false, right: false },
+        won: false,
+        halfwayTriggered: false,
+        finalTriggered: false,
+        showHalfwayMessageTime: 0,
+        showFinalMessageTime: 0
     };
 
     const horizonY = 220; 
@@ -216,6 +245,9 @@ const HearseGame = (() => {
         
         if(!success) {
             AudioEngine.SFX.fatalCrash();
+        } else {
+            GameState.won = true;
+            AudioEngine.playCelebration();
         }
         
         // Retrasar cierre si hay música de final
@@ -227,7 +259,7 @@ const HearseGame = (() => {
             }
             if (typeof Engine !== 'undefined') Engine.restoreSpeed(); // Resume simulation
             if(onGameComplete) onGameComplete(success);
-        }, success ? 500 : 2000); // 2s de pantalla roja
+        }, success ? 4000 : 2000); // 4s de celebración o 2s de pantalla roja
     }
 
     function zToY(z, H) {
@@ -240,14 +272,39 @@ const HearseGame = (() => {
         if(GameState.lineOffset < 0) GameState.lineOffset += 400;
         
         GameState.distanceLeft -= (GameState.speed/15) * dt;
+        
+        if (!GameState.halfwayTriggered && GameState.distanceLeft <= 2400 && GameState.distanceLeft > 1200) {
+            GameState.halfwayTriggered = true;
+            GameState.speed = 1200 * 1.3;
+            AudioEngine.setSpeed(1.3);
+            GameState.showHalfwayMessageTime = 3.0; // Mostrar 3 segundos
+        }
+        
+        if (!GameState.finalTriggered && GameState.distanceLeft <= 1200) {
+            GameState.finalTriggered = true;
+            GameState.speed = 1200 * 1.6;
+            AudioEngine.setSpeed(1.6 / (GameState.halfwayTriggered ? 1.3 : 1.0)); 
+            GameState.showFinalMessageTime = 3.0;
+        }
+        
+        if (GameState.showHalfwayMessageTime > 0) {
+            GameState.showHalfwayMessageTime -= dt;
+        }
+
+        if (GameState.showFinalMessageTime > 0) {
+            GameState.showFinalMessageTime -= dt;
+        }
+
         if(GameState.distanceLeft <= 0) {
+            GameState.won = true;
             gameOver(true); // Win
             return;
         }
         
         GameState.playerLane += (GameState.targetLane - GameState.playerLane) * 15 * dt;
         
-        if(Math.random() < 0.020) {
+        let currentSpawnRate = GameState.distanceLeft <= 1440 ? 0.035 : 0.020;
+        if(Math.random() < currentSpawnRate) {
             let proposedLane = Math.floor(Math.random() * 3) - 1;
             
             let occupiedLanes = new Set();
@@ -476,6 +533,21 @@ const HearseGame = (() => {
             ctx.globalAlpha = 1.0;
         });
 
+        if (GameState.won) {
+            ctx.drawImage(imgFin, 0, 0, W, H);
+            
+            const lang = localStorage.getItem('thanatopractor_lang') || 'es';
+            const msg = lang === 'en' ? 'Arrival at Cemetery' : 'Llegada a Cementerio';
+            
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = '#ff6eb4'; // Rosas
+            ctx.font = '14px "Press Start 2P", monospace';
+            
+            // Encajado en el recuadro negro debajo del retrovisor (aprox 26-28% de la altura total)
+            ctx.fillText(msg, W/2, H * 0.27);
+        }
+
         const grd = ctx.createLinearGradient(0, 0, 0, 90);
         grd.addColorStop(0, "rgba(0,0,0,0.8)");
         grd.addColorStop(1, "rgba(0,0,0,0)");
@@ -533,6 +605,29 @@ const HearseGame = (() => {
             ctx.fillStyle = 'rgba(255, 0, 0, 0.4)';
             ctx.fillRect(0, 0, W, H);
         }
+
+        if (!GameState.won && (GameState.showHalfwayMessageTime > 0 || GameState.showFinalMessageTime > 0)) {
+            const lang = localStorage.getItem('thanatopractor_lang') || 'es';
+            let msg = '';
+            if (GameState.showFinalMessageTime > 0) {
+                msg = lang === 'en' ? "RUN! SPEED UP MORE!" : "¡CORRE! ¡ACELERA MÁS!";
+            } else {
+                msg = lang === 'en' ? "SPEED UP, WE'RE LATE!" : "¡ACELERA, LLEGAMOS TARDE!";
+            }
+            
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = '#ff6eb4'; 
+            // Titileo leve
+            if (Math.floor(performance.now() / 150) % 2 === 0) {
+                ctx.fillStyle = '#ffffff';
+            }
+            ctx.font = (W < 400 ? '14px' : '18px') + ' "Press Start 2P", monospace';
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 6;
+            ctx.strokeText(msg, W/2, H * 0.35);
+            ctx.fillText(msg, W/2, H * 0.35);
+        }
     }
 
     function render(time) {
@@ -544,8 +639,8 @@ const HearseGame = (() => {
             update(dt);
             draw();
             requestAnimationFrame(render);
-        } else if (GameState.lives <= 0) {
-            draw(); // draw the red death screen one last time
+        } else if (GameState.lives <= 0 || GameState.won) {
+            draw(); // draw the red death screen or win screen one last time
         }
     }
 
@@ -599,6 +694,14 @@ const HearseGame = (() => {
         GameState.explosions = [];
         GameState.hideFinger = false;
         GameState.keys = { left: false, right: false };
+        GameState.won = false;
+        GameState.halfwayTriggered = false;
+        GameState.finalTriggered = false;
+        GameState.showHalfwayMessageTime = 0;
+        GameState.showFinalMessageTime = 0;
+        // resetear velocidad al inicio
+        AudioEngine.setSpeed(1 / (GameState.speed / 1200)); 
+        GameState.speed = 1200;
 
         overlay = document.createElement('div');
         overlay.style.position = 'fixed';
@@ -658,7 +761,7 @@ const HearseGame = (() => {
         let loaded = 0;
         const check = () => {
             loaded++;
-            if(loaded >= 4) {
+            if(loaded >= 5) {
                 h2.innerText = "MARTA'S BLUES RUN";
                 btn.style.display = 'block';
             }
@@ -667,10 +770,12 @@ const HearseGame = (() => {
         imgCar.onload = check;
         imgExplosion.onload = check;
         imgDedo.onload = check;
+        imgFin.onload = check;
         imgBg.src = 'assets/mockup.jpg'; 
         imgCar.src = 'assets/coche.png';
         imgExplosion.src = 'assets/explosion.png';
         imgDedo.src = 'assets/dedo.png';
+        imgFin.src = 'scratch/fondofin.jpg';
         
         btn.onclick = () => {
             startScreen.style.display = 'none';

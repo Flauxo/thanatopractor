@@ -67,37 +67,61 @@ const Rooms = (() => {
         "Marta dice que el coche tiene alergia al polen de cementerio."
     ];
 
+    const martaExcusesEn = [
+        "Marta says the hearse is infested with killer bees.", "Marta left the keys inside and activated the central locking.", "Marta thinks the GPS is insulting her in Latin.", "Marta says the steering wheel burns and smells of sulfur.", "Marta got a flat tire running over a flower wreath.", "Marta is arguing heatedly with a priest at a crosswalk.", "Marta swears the car won't start because Mercury is in retrograde.", "Marta says the car is surrounded by black cats and she's afraid to step out.", "Marta stained her uniform with ketchup and says she can't transport a dead body like this.", "Marta is having an existential crisis at the gas station.", "Marta says she suddenly developed a phobia of coffins.", "Marta claims the car was abducted by a UFO for 5 minutes and won't start.", "Marta says the rearview mirror is staring back at her.", "Marta forgot how to drive and is reading the driving school manual.", "Marta says a ghost stole her lunch sandwich.", "Marta got locked in the trunk testing its comfort.", "Marta says the traffic light has been red for three days.", "Marta stopped to buy a lottery ticket because she dreamt of the number 4.", "Marta is convinced the car is haunted and demands an exorcism.", "Marta says the high beams are blinking in Morse code.", "Marta found a 500 euro bill and went to check if it's fake.", "Marta says the hearse sounds like mariachis when she accelerates.", "Marta claims an old lady cursed her with slowness.", "Marta is helping a stray cat give birth in the passenger seat.", "Marta says the exhaust pipe is spitting black glitter.", "Marta stopped at an Auto-Mac and the line isn't moving.", "Marta says the windshield is full of bats.", "Marta thinks the car runs on pedals today.", "Marta says there's a zombie in the back seat, but she already buckled him up.", "Marta ran out of gas 50 meters from the cemetery.", "Marta says the steering wheel melted from the heat.", "Marta is doing push-ups to mentally prepare for the trip.", "Marta says the hearse refuses to move without saxophone music.", "Marta confused the pedals and drove the car into a fountain.", "Marta swears the driver's seat is full of thumbtacks.", "Marta says the engine sounds like a coughing cat.", "Marta got stuck in a time loop in a roundabout.", "Marta says the car developed artificial intelligence and doesn't want to work today.", "Marta is praying a rosary for the car to start.", "Marta says the hearse shrunk in the automatic car wash.", "Marta claims the car was repossessed by a pirate.", "Marta says the handbrake is stuck with chewing gum.", "Marta stopped to reflect on death in front of a churro stand.", "Marta says the hearse demands a sacrifice of premium oil.", "Marta thinks the car got offended because she called it a 'junker'.", "Marta says the steering wheel bit her.", "Marta is watching a YouTube tutorial on how to start a hearse.", "Marta says the car is on a flat-tire strike.", "Marta claims a dog stole the keys and ate them.", "Marta says the car is allergic to cemetery pollen."
+    ];
+
     function handleHearseDispatch(family, originalAction) {
         if (Math.random() < 0.90) { // 90% chance
-            const excuse = martaExcuses[Math.floor(Math.random() * martaExcuses.length)];
-            Dialogue.show('¡Problema con el Traslado!', `¡Vaya! Marta la conductora tiene un problema:<br><br><i>"${excuse}"</i>`, [
-                { text: 'Conducir tú el coche (+100$, +5 rep)', action: () => {
+            const isEn = (localStorage.getItem('thanatopractor_lang') || 'es') === 'en';
+            const excuseList = isEn ? martaExcusesEn : martaExcuses;
+            const excuse = excuseList[Math.floor(Math.random() * excuseList.length)];
+            
+            const titleStr = isEn ? 'Transport Problem!' : '¡Problema con el Traslado!';
+            const descStr = isEn ? `Oops! Driver Marta has a problem:<br><br><i>"${excuse}"</i>` : `¡Vaya! Marta la conductora tiene un problema:<br><br><i>"${excuse}"</i>`;
+            const opt1Str = isEn ? 'Drive the car yourself (+$100, +5 rep)' : 'Conducir tú el coche (+100$, +5 rep)';
+            const opt2Str = isEn ? 'Hire another driver (-$100)' : 'Contratar a otro conductor (-100$)';
+            
+            Dialogue.show(titleStr, descStr, [
+                { text: opt1Str, action: () => {
                     document.getElementById('hub-screen').style.display = 'none'; // hide main UI
                     HearseGame.start((win) => {
                         document.getElementById('hub-screen').style.display = 'block'; // show main UI
                         if (win) {
-                            Dialogue.show('Has llegado al cementerio', 'Lo has hecho en tiempo record, así que tienes una recompensa de +5 REP y 100 monedas.', [
-                                { text: 'Continuar', action: () => {
-                                    Engine.addMoney(100, 'Bono por conducción extrema');
-                                    Engine.addReputation(5, 'Conducción heroica');
-                                    originalAction(); 
+                            const winTitle = isEn ? 'Arrived at the cemetery' : 'Has llegado al cementerio';
+                            const winDesc = isEn ? 'You did it in record time, so you get a reward of +5 REP and 100 coins.' : 'Lo has hecho en tiempo record, así que tienes una recompensa de +5 REP y 100 monedas.';
+                            const continueStr = isEn ? 'Continue' : 'Continuar';
+                            Dialogue.show(winTitle, winDesc, [
+                                { text: continueStr, action: () => {
+                                    Engine.addMoney(100, isEn ? 'Extreme driving bonus' : 'Bono por conducción extrema');
+                                    Engine.addReputation(5, isEn ? 'Heroic driving' : 'Conducción heroica');
+                                    const s = Engine.getState();
+                                    const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === family.id);
+                                    if (task) task.completed = true;
+                                    family.transportOrdered = true;
+                                    if (typeof Families !== 'undefined') Families.completeFamily(family.id);
+                                    Engine.Notifications.updateReceptionBadge();
+                                    if (typeof Main !== 'undefined') Main.showScreen('hub');
                                 }}
                             ], null, { showReaper: true });
                         } else {
-                            Dialogue.show('Accidente mortal', 'El fallecido ha fallecido y la familia no tiene nada que enterrar. Has perdido el servicio.', [
-                                { text: 'Aceptar la desgracia', action: () => {
+                            const failTitle = isEn ? 'Fatal accident' : 'Accidente mortal';
+                            const failDesc = isEn ? 'The deceased has passed away again and the family has nothing to bury. You lost the service.' : 'El fallecido ha fallecido y la familia no tiene nada que enterrar. Has perdido el servicio.';
+                            const failOpt = isEn ? 'Accept the misfortune' : 'Aceptar la desgracia';
+                            Dialogue.show(failTitle, failDesc, [
+                                { text: failOpt, action: () => {
                                     family.active = false;
                                     family.completed = true;
                                     family.satisfaction = -100;
-                                    Engine.showToast('Familia perdida en accidente de tráfico', 'danger');
+                                    Engine.showToast(isEn ? 'Family lost in a traffic accident' : 'Familia perdida en accidente de tráfico', 'danger');
                                     if (typeof Main !== 'undefined') Main.showScreen('hub');
                                 }}
                             ], null, { showReaper: true });
                         }
                     });
                 }},
-                { text: 'Contratar a otro conductor (-100$)', action: () => {
-                    Engine.addMoney(-100, 'Conductor de reemplazo');
+                { text: opt2Str, action: () => {
+                    Engine.addMoney(-100, isEn ? 'Replacement driver' : 'Conductor de reemplazo');
                     originalAction();
                 }}
             ], null, { showReaper: true });

@@ -571,8 +571,12 @@ const HearseGame = (() => {
             ctx.fillText(text, x, y);
         }
         
-        drawText('VIDAS:', 20, 20, '#ffffff');
-        drawText('DISTANCIA AL CEMENTERIO:', W - 20, 20, '#ffffff', 'right');
+        const langHud = localStorage.getItem('thanatopractor_lang') || 'es';
+        const vidasText = langHud === 'en' ? 'LIVES:' : 'VIDAS:';
+        const distText = langHud === 'en' ? 'DISTANCE TO CEMETERY:' : 'DISTANCIA AL CEMENTERIO:';
+        
+        drawText(vidasText, 20, 20, '#ffffff');
+        drawText(distText, W - 20, 20, '#ffffff', 'right');
         
         let hx = 20;
         for(let i=0; i<3; i++) {
@@ -775,7 +779,7 @@ const HearseGame = (() => {
         imgCar.src = 'assets/coche.png';
         imgExplosion.src = 'assets/explosion.png';
         imgDedo.src = 'assets/dedo.png';
-        imgFin.src = 'scratch/fondofin.jpg';
+        imgFin.src = 'assets/fondofin.jpg';
         
         btn.onclick = () => {
             startScreen.style.display = 'none';

@@ -746,9 +746,10 @@ const HearseGame = (() => {
         const h2 = document.createElement('h2');
         h2.style.fontSize = '18px';
         h2.style.textAlign = 'center';
-        h2.innerText = "CARGANDO ASSETS...";
+        const langStart = localStorage.getItem('thanatopractor_lang') || 'es';
+        h2.innerText = langStart === 'en' ? "LOADING ASSETS..." : "CARGANDO ASSETS...";
         const btn = document.createElement('button');
-        btn.innerText = "EMPEZAR CARRERA";
+        btn.innerText = langStart === 'en' ? "START RACE" : "EMPEZAR CARRERA";
         btn.className = 'action-btn';
         btn.style.display = 'none';
         btn.style.width = 'fit-content';

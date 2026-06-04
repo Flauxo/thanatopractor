@@ -591,6 +591,7 @@ I18n.register('en', {
 'rec.nevermind': 'Nevermind',
 'crema.disposal_warning': '⚠️ Some bodies were discarded because they were not cremated on time.',
 'dlg.bad_luck': 'UNEXPECTED MISHAP!',
+'dlg.random_event': '❓ RANDOM EVENT',
 'bad.roof_rats': '🏚️ The chapel roof has collapsed under the weight of rat nests made of human hair.',
 'bad.broken_lighter': '🔥 The oven lighter is broken. You had to use a kitchen blowtorch and burned the curtains.',
 'bad.coffee_explosion': '☕ The coffee machine exploded, splashing boiling "coffee" on a mourning family.',

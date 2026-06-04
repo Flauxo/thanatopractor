@@ -96,8 +96,11 @@ const Rooms = (() => {
                                     Engine.addMoney(100, isEn ? 'Extreme driving bonus' : 'Bono por conducción extrema');
                                     Engine.addReputation(5, isEn ? 'Heroic driving' : 'Conducción heroica');
                                     const s = Engine.getState();
-                                    const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === family.id);
-                                    if (task) task.completed = true;
+                                    s.schedule.forEach(t => {
+                                        if ((t.type === 'transport_ready' || t.type === 'cooldown_done' || t.type === 'arrival') && t.familyId === family.id) {
+                                            t.completed = true;
+                                        }
+                                    });
                                     family.transportOrdered = true;
                                     if (typeof Families !== 'undefined') Families.completeFamily(family.id);
                                     Engine.Notifications.updateReceptionBadge();
@@ -137,15 +140,13 @@ const Rooms = (() => {
         Engine.addMoney(-150, I18n.T('eng.ordered_hearse'));
         f.transportOrdered = true;
         
-        // Mark the transport_ready task as completed in the schedule
-        const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
-        if (task) {
-            task.completed = true;
-            task.desc = `${I18n.T('rec.car_ordered', f.deceasedName)}`;
-        }
-        // Also mark the original arrival event as completed
-        const arrivalTask = s.schedule.find(t => t.type === 'arrival' && t.familyId === f.id);
-        if (arrivalTask) arrivalTask.completed = true;
+        // Mark the transport_ready, cooldown_done, and arrival tasks as completed in the schedule
+        s.schedule.forEach(t => {
+            if ((t.type === 'transport_ready' || t.type === 'cooldown_done' || t.type === 'arrival') && t.familyId === f.id) {
+                t.completed = true;
+                if (t.type === 'cooldown_done' || t.type === 'transport_ready') t.desc = `${I18n.T('rec.car_ordered', f.deceasedName)}`;
+            }
+        });
         
         const arrivalTime = Math.round(s.time + 60);
         s.schedule.push({
@@ -356,11 +357,12 @@ const Rooms = (() => {
                             f.transportOrdered = true;
                             s.personalHearseCooldown = s.time + (hours * 60) + 60; // cooldown = travel time + 1h extra
 
-                            const task = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
-                            if (task) {
-                                task.completed = true;
-                                task.desc = I18n.T('rec.personal_enroute', f.deceasedName);
-                            }
+                            s.schedule.forEach(t => {
+                                if ((t.type === 'transport_ready' || t.type === 'cooldown_done' || t.type === 'arrival') && t.familyId === f.id) {
+                                    t.completed = true;
+                                    if (t.type === 'cooldown_done' || t.type === 'transport_ready') t.desc = I18n.T('rec.personal_enroute', f.deceasedName);
+                                }
+                            });
                             
                             const arrivalTime = Math.round(s.time + (hours * 60));
                             s.schedule.push({
@@ -397,8 +399,11 @@ const Rooms = (() => {
                         handleHearseDispatch(f, () => {
                             // Niece's Car - IMMEDIATE & SINGLE USE
                             s.temporaryHearseAvailable = false;
-                            const nieceTask = s.schedule.find(t => t.type === 'transport_ready' && t.familyId === f.id);
-                            if (nieceTask) nieceTask.completed = true;
+                            s.schedule.forEach(t => {
+                                if ((t.type === 'transport_ready' || t.type === 'cooldown_done' || t.type === 'arrival') && t.familyId === f.id) {
+                                    t.completed = true;
+                                }
+                            });
                             Families.completeFamily(f.id);
                             Engine.showToast(I18n.T('rec.niece_arrived', f.deceasedName), 'success');
                             Engine.Notifications.clearBadge('reception');

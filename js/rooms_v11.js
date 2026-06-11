@@ -102,9 +102,14 @@ const Rooms = (() => {
                                         }
                                     });
                                     family.transportOrdered = true;
-                                    if (typeof Families !== 'undefined') Families.completeFamily(family.id);
                                     Engine.Notifications.updateReceptionBadge();
-                                    if (typeof Main !== 'undefined') Main.showScreen('hub');
+                                    if (typeof Families !== 'undefined') {
+                                        Families.completeFamily(family.id, () => {
+                                            if (typeof Main !== 'undefined') Main.showScreen('hub');
+                                        });
+                                    } else {
+                                        if (typeof Main !== 'undefined') Main.showScreen('hub');
+                                    }
                                 }}
                             ], null, { showReaper: true });
                         } else {
@@ -404,10 +409,11 @@ const Rooms = (() => {
                                     t.completed = true;
                                 }
                             });
-                            Families.completeFamily(f.id);
                             Engine.showToast(I18n.T('rec.niece_arrived', f.deceasedName), 'success');
                             Engine.Notifications.clearBadge('reception');
-                            if (typeof Main !== 'undefined') Main.showScreen('hub');
+                            Families.completeFamily(f.id, () => {
+                                if (typeof Main !== 'undefined') Main.showScreen('hub');
+                            });
                         });
                     }
                 });

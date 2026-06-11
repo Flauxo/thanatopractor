@@ -98,7 +98,7 @@ const Families = (() => {
         Engine.updateHUD();
     }
 
-    function completeFamily(id) {
+    function completeFamily(id, onClose) {
         const f = getById(id);
         if (!f) return;
         f.active = false;
@@ -162,6 +162,7 @@ const Families = (() => {
             Engine.addMoney(total, I18n.T('fam.service_for', f.deceasedName), true);
             
             updateFamiliesLog();
+            if (typeof onClose === 'function') onClose();
         };
     }
 

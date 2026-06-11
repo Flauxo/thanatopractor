@@ -86,7 +86,7 @@ const Rooms = (() => {
                 { text: opt1Str, action: () => {
                     document.getElementById('hub-screen').style.display = 'none'; // hide main UI
                     HearseGame.start((win) => {
-                        document.getElementById('hub-screen').style.display = 'block'; // show main UI
+                        document.getElementById('hub-screen').style.display = ''; // show main UI
                         if (win) {
                             const winTitle = isEn ? 'Arrived at the cemetery' : 'Has llegado al cementerio';
                             const winDesc = isEn ? 'You did it in record time, so you get a reward of +5 REP and 100 coins.' : 'Lo has hecho en tiempo record, así que tienes una recompensa de +5 REP y 100 monedas.';

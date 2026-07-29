@@ -3,19 +3,29 @@ plugins {
 }
 
 android {
-    namespace 'com.flauxo.thanatopractor'
+    namespace 'com.thanato.practor'
     compileSdk 36
 
     defaultConfig {
-        applicationId "com.flauxo.thanatopractor"
+        applicationId "com.thanato.practor"
         minSdk 24
         targetSdk 36
         versionCode 1
         versionName "1.0"
     }
 
+    signingConfigs {
+        release {
+            storeFile file("release-key.keystore")
+            storePassword "android"
+            keyAlias "my-key-alias"
+            keyPassword "android"
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

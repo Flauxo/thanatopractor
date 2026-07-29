@@ -1,4 +1,4 @@
-package com.flauxo.thanatopractor;
+package com.thanato.practor;
 
 import android.app.Activity;
 import android.content.Intent;

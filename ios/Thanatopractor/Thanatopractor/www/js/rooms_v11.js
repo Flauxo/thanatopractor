@@ -86,7 +86,7 @@ const Rooms = (() => {
                 { text: opt1Str, action: () => {
                     document.getElementById('hub-screen').style.display = 'none'; // hide main UI
                     HearseGame.start((win) => {
-                        document.getElementById('hub-screen').style.display = 'block'; // show main UI
+                        document.getElementById('hub-screen').style.display = ''; // show main UI
                         if (win) {
                             const winTitle = isEn ? 'Arrived at the cemetery' : 'Has llegado al cementerio';
                             const winDesc = isEn ? 'You did it in record time, so you get a reward of +5 REP and 100 coins.' : 'Lo has hecho en tiempo record, así que tienes una recompensa de +5 REP y 100 monedas.';
@@ -102,9 +102,14 @@ const Rooms = (() => {
                                         }
                                     });
                                     family.transportOrdered = true;
-                                    if (typeof Families !== 'undefined') Families.completeFamily(family.id);
                                     Engine.Notifications.updateReceptionBadge();
-                                    if (typeof Main !== 'undefined') Main.showScreen('hub');
+                                    if (typeof Families !== 'undefined') {
+                                        Families.completeFamily(family.id, () => {
+                                            if (typeof Main !== 'undefined') Main.showScreen('hub');
+                                        });
+                                    } else {
+                                        if (typeof Main !== 'undefined') Main.showScreen('hub');
+                                    }
                                 }}
                             ], null, { showReaper: true });
                         } else {
@@ -404,10 +409,11 @@ const Rooms = (() => {
                                     t.completed = true;
                                 }
                             });
-                            Families.completeFamily(f.id);
                             Engine.showToast(I18n.T('rec.niece_arrived', f.deceasedName), 'success');
                             Engine.Notifications.clearBadge('reception');
-                            if (typeof Main !== 'undefined') Main.showScreen('hub');
+                            Families.completeFamily(f.id, () => {
+                                if (typeof Main !== 'undefined') Main.showScreen('hub');
+                            });
                         });
                     }
                 });

@@ -104,15 +104,15 @@
         <div class="status-bar">
             <div class="status-group status-left">
                 <div class="status-item"><span class="custom-icon" data-icon="calendar"></span> <span data-i18n="hub.day">DAY</span> <span id="hud-day">1</span></div>
-                <div class="status-item"><span class="custom-icon" data-icon="clock"></span> <span id="hud-time">08:00</span></div>
+                <div class="status-item" id="hud-time-container"><span class="custom-icon" data-icon="clock"></span> <span id="hud-time">08:00</span></div>
             </div>
             <div class="status-group status-right">
                 <div class="status-item"><span class="custom-icon" data-icon="star"></span> LV.<span id="hud-level">1</span></div>
-                <div class="status-item"><span class="custom-icon" data-icon="money"></span>$<span id="hud-money">5000</span></div>
+                <div class="status-item" id="hud-money-container"><span class="custom-icon" data-icon="money"></span>$<span id="hud-money">5000</span></div>
             </div>
         </div>
         <!-- Reputation Bar -->
-        <div class="rep-bar">
+        <div class="rep-bar" id="hud-rep-container">
             <span class="rep-label"><span class="custom-icon" data-icon="star" style="width:10px;height:10px"></span> <span data-i18n="hub.reputation">REPUTATION</span></span>
             <div class="rep-meter"><div class="rep-fill" id="hud-rep-fill" style="width:50%"></div></div>
             <span class="rep-value" id="hud-rep">50</span>
@@ -656,6 +656,7 @@
     <script src="js/families_v11.js"></script>
     <script src="js/dialogue_v11.js"></script>
     <script src="js/rooms_v11.js"></script>
+    <script src="js/tutorial_v11.js"></script>
     <script src="js/main_v11.js"></script>
     <!-- Collection Overlay -->
     <div id="collection-overlay" class="overlay" style="display:none">

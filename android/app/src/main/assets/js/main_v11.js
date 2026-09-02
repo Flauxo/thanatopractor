@@ -620,6 +620,12 @@ window.Main = (() => {
             }, 60000);
 
             Engine.showToast(I18n.T('hub.welcome', s.playerName), '');
+
+            setTimeout(() => {
+                if (typeof Tutorial !== 'undefined') {
+                    Tutorial.startInitialTutorial();
+                }
+            }, 400);
         } catch (fatalError) {
             console.error("FATAL ERROR IN STARTGAMEPLAY:", fatalError);
             alert("Error: " + fatalError.message);

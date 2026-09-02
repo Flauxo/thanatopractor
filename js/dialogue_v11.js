@@ -184,6 +184,12 @@ const Dialogue = (() => {
                 showSatBar: true, 
                 currentSat: satisfaction 
             });
+
+            if (!state.interviewTutorialDone && typeof Tutorial !== 'undefined') {
+                setTimeout(() => {
+                    Tutorial.startInterviewTutorial();
+                }, 150);
+            }
         }
 
         nextStep();

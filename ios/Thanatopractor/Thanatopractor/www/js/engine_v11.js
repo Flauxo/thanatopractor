@@ -44,6 +44,8 @@ const Engine = (() => {
             cremaTutorialShown: false,
             embalmTutorialShown: false,
             viewingTutorialShown: false,
+            initialTutorialDone: false,
+            interviewTutorialDone: false,
             cremaBroken: false,
             cremaRepairing: false,
             cremaRepairFinishTime: 0,
